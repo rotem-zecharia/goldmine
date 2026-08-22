@@ -108,14 +108,28 @@ def test_a_failed_write_leaves_the_previous_catalog_intact(tmp_path):
     assert len((tmp_path / "tools.jsonl").read_text().strip().splitlines()) == 100
 
 
-def test_stale_detail_files_are_removed(tmp_path):
+def test_detail_files_are_removed_when_a_tool_leaves_the_catalog(tmp_path):
     write_catalog([make_tool("a/b")], tmp_path, today="2026-08-22", details={"a/b": {"features": "x"}})
+
     write_catalog(
-        [make_tool("c/d")] * 1, tmp_path, today="2026-08-23", details={"c/d": {"features": "y"}},
+        [make_tool("c/d")], tmp_path, today="2026-08-23", details={"c/d": {"features": "y"}},
         allow_shrink=True,
     )
 
     assert not (tmp_path / "details" / "a__b.md").exists()
+    assert (tmp_path / "details" / "c__d.md").exists()
+
+
+def test_detail_files_survive_a_run_that_did_not_re_enrich_them(tmp_path):
+    # Enrichment reaches a fraction of the catalog each night. Deleting the
+    # detail file of every tool not enriched this run wiped 751 files down to
+    # 58 on a small-budget crawl.
+    write_catalog([make_tool("a/b")], tmp_path, today="2026-08-22", details={"a/b": {"features": "x"}})
+
+    write_catalog([make_tool("a/b"), make_tool("c/d")], tmp_path, today="2026-08-23",
+                  details={"c/d": {"features": "y"}})
+
+    assert (tmp_path / "details" / "a__b.md").exists()
     assert (tmp_path / "details" / "c__d.md").exists()
 
 

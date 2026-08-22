@@ -117,10 +117,10 @@ def write_catalog(
     )
 
     details_dir = directory / "details"
+    by_repo = {tool.repo: tool for tool in tools}
+
     if details:
         details_dir.mkdir(exist_ok=True)
-        by_repo = {tool.repo: tool for tool in tools}
-        written = set()
         for repo, sections in details.items():
             tool = by_repo.get(repo)
             if not tool:
@@ -128,10 +128,12 @@ def write_catalog(
             (details_dir / tool.detail_filename).write_text(
                 _detail_body(repo, tool.summary, sections)
             )
-            written.add(tool.detail_filename)
 
-        # A detail file for a tool no longer in the catalog is a lie the skill
-        # would happily read.
+    # A detail file for a tool no longer in the catalog is a lie the skill would
+    # happily read. One for a tool that simply was not re-enriched this run is
+    # still true, and rewriting it would cost four requests to learn nothing.
+    if details_dir.exists():
+        current = {tool.detail_filename for tool in tools}
         for path in details_dir.glob("*.md"):
-            if path.name not in written:
+            if path.name not in current:
                 path.unlink()
