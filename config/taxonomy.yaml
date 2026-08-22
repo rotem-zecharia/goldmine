@@ -1,0 +1,20 @@
+# Repository topics mapped onto catalog categories. Categories drive
+# per-category percentile tiering, so a niche tool competes against its peers
+# rather than against every MCP server on GitHub.
+mcp: [mcp, mcp-server, mcp-servers, model-context-protocol, modelcontextprotocol]
+claude-code: [claude-code, claude-code-plugin, claude-code-skills, claudecode]
+skill: [claude-skills, agent-skills, agent-skill, skills]
+plugin: [claude-plugin, claude-code-plugin, plugin, plugins]
+agent: [ai-agent, ai-agents, agents, agentic, autonomous-agents, llm-agent]
+video: [video, video-analysis, video-processing, ffmpeg, multimodal, vision, computer-vision]
+audio: [audio, speech-to-text, whisper, tts, transcription, speech-recognition]
+image: [image, image-processing, ocr, diffusion, image-generation]
+scraping: [scraper, scraping, web-scraping, crawler, crawling, spider]
+browser: [browser-automation, playwright, puppeteer, selenium, headless-chrome]
+data: [database, sql, postgres, analytics, etl, dataframe, duckdb]
+devops: [devops, kubernetes, docker, terraform, ci-cd, deployment, observability]
+testing: [testing, test-automation, e2e-testing, unit-testing]
+docs: [documentation, docs, knowledge-base, rag, embeddings, vector-database]
+security: [security, secrets, sast, vulnerability, pentesting]
+search: [search, full-text-search, semantic-search]
+productivity: [cli, terminal, tui, developer-tools, automation, workflow]
