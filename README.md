@@ -10,7 +10,7 @@ what is left to build.
 ## Install
 
 ```bash
-/plugin marketplace add rotemzecharia/goldmine
+/plugin marketplace add rotem-zecharia/goldmine
 /plugin install goldmine
 ```
 
