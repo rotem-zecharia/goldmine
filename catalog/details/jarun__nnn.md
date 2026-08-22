@@ -1,0 +1,79 @@
+# jarun/nnn
+
+n³ The unorthodox terminal file manager
+
+## features
+
+- Quality
+  - Privacy-aware (no unconfirmed user data collection)
+  - POSIX-compliant, follows Linux kernel coding style
+  - Highly optimized, static analysis integrated code
+- Frugal
+  - Typically needs less than 3.5MB resident memory
+  - Works with 8 colors (and xterm 256 colors)
+  - Disk-IO sensitive (few disk reads and writes)
+  - No FPU usage (all integer maths, even for file size)
+  - Minimizes screen refresh with fast line redraws
+  - Tiny binary (typically around 100KB)
+  - 1-column mode for smaller terminals and form factors
+  - Hackable - compile in/out features and dependencies
+- Portable
+  - Language-agnostic plugins
+  - Static binary available (no need to install)
+  - Minimal library deps, easy to compile
+  - No config file, minimal config with sensible defaults
+  - Plugin to backup configuration
+  - Widely available on many packagers
+  - Touch enabled, handheld-friendly shortcuts
+  - Unicode support
+- Modes
+  - Light (default), detail
+  - Disk usage analyzer (block/apparent)
+  - File picker, (neo)vim plugin
+- Navigation
+  - Filter with automatic dir entry on unique match
+  - *Type-to-nav* (turbo navigation/always filter) mode
+  - Jump to an entry with visible relative offset
+  - Contexts (_aka_ tabs/workspaces) with custom colors
+  - Sessions, bookmarks, mark and visit a dir
+  - Remote mounts (needs `sshfs`, `rclone`)
+  - Familiar shortcuts (arrows, <kbd>~</kbd>, <kbd>-</kbd>, <kbd>@</kbd>), quick look-up
+  - `cd` on quit (*easy* shell integration)
+  - Proceed to next file on file open and selection
+- Search
+  - Instant filtering with *search-as-you-type*
+  - Fuzzy, regex (POSIX/PCRE2) and string (default) filters
+  - Subtree search plugin to open or edit files
+- Sort
+  - Ordered pure numeric names by default (visit `/proc`)
+  - Case-insensitive version (_aka_ natural) sort
+  - By name, access/change/mod (default) time, size, extn
+  - Reverse sort
+  - Directory-specific ordering
+- Mimes
+  - Built-in previewer for directory and text files
+  - FIFO-based previewer plugins with extensive mime support
+  - Open with desktop opener or specify a custom opener
+  - File-specific colors (or minimal _dirs in context color_)
+  - Icons and Emojis support (customize and compile-in)
+  - Plugin for image, video and audio thumbnails
+  - Create, list, extract (to), mount (FUSE based) archives
+  - Option to open all text files in `$EDITOR`
+- Convenience
+  - Detailed file stats and mime information
+  - Run plugins and custom commands with hotkeys
+  - FreeDesktop compliant trash utility integration
+  - Cross-dir file/all/range selection
+  - Create (with parents), rename, duplicate files and dirs
+  - Create new file or directory (tree) on startup
+  - Batch renamer for selection or dir
+  - List input stream of file paths from stdin or plugin
+  - Copy (as), move (as), delete, archive, link selection
+  - Easily copy, move paths in system clipboard to current dir
+  - Dir updates, notification on `cp`, `mv`, `rm` completion
+  - Copy file paths to system clipboard on select
+  - Launch apps, run commands, spawn a shell, toggle exe
+  - Access context paths/files at prompt or spawned shell
+  - Lock terminal after configurable idle timeout
+  - Capture and show output of a program in help screen
+  - Basic support for screen readers and braille displays

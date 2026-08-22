@@ -118,3 +118,30 @@ def test_collect_searches_both_topic_tiers():
 
     assert any("topic:mcp-server" in url for url in searched)
     assert any("topic:instagram-scraper" in url for url in searched)
+
+
+def test_from_catalog_reuses_the_existing_rows_instead_of_crawling(tmp_path):
+    # Re-enriching what is already known should not spend a thousand requests
+    # re-collecting it.
+    crawl(tmp_path, "2026-08-22")
+
+    def exploding_collect(_c, _f, _t):
+        raise AssertionError("collect must not run in from-catalog mode")
+
+    crawl(tmp_path, "2026-08-23", collect=exploding_collect, from_catalog=True)
+
+    assert len(rows_of(tmp_path)) == 2
+
+
+def test_from_catalog_on_an_empty_directory_is_a_no_op(tmp_path):
+    crawl(tmp_path, "2026-08-22", collect=lambda c, f, t: [], from_catalog=True)
+
+    assert not (tmp_path / "tools.jsonl").exists()
+
+
+def test_from_catalog_still_rescores_and_retiers(tmp_path):
+    crawl(tmp_path, "2026-08-22")
+
+    crawl(tmp_path, "2026-08-23", collect=lambda c, f, t: [], from_catalog=True)
+
+    assert all(row["tier"] is not None for row in rows_of(tmp_path))

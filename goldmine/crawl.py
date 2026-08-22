@@ -6,10 +6,11 @@ import argparse
 import dataclasses
 import os
 from datetime import date
+from pathlib import Path
 
 import yaml
 
-from goldmine.catalog import load_previous, prune_low_signal, write_catalog
+from goldmine.catalog import load_catalog, load_previous, prune_low_signal, write_catalog
 from goldmine.enrich import enrich_tools, select_for_enrichment
 from goldmine.http import Fetcher
 from goldmine.merge import attach_velocity, carry_forward_enrichment, merge_tools
@@ -84,6 +85,7 @@ def run_crawl(
     per_category: int = 40,
     min_stars: int = 25,
     allow_shrink: bool = False,
+    from_catalog: bool = False,
 ):
     with open(sources_path) as handle:
         sources = yaml.safe_load(handle)
@@ -91,7 +93,15 @@ def run_crawl(
         taxonomy = yaml.safe_load(handle)
     weights = load_weights(scoring_path)
 
-    tools = merge_tools(collect(sources, fetcher, taxonomy))
+    if from_catalog:
+        # Deepen what we already have instead of re-collecting it. Collection
+        # costs roughly a thousand requests that teach us nothing new when the
+        # goal is to backfill enrichment.
+        tools = load_catalog(catalog_dir)
+        print(f"loaded {len(tools)} tools from the existing catalog")
+    else:
+        tools = merge_tools(collect(sources, fetcher, taxonomy))
+
     if not tools:
         print("no tools collected; leaving the existing catalog untouched")
         return
@@ -110,7 +120,18 @@ def run_crawl(
     tools = rescore(tools)
     tools.sort(key=lambda tool: tool.score, reverse=True)
 
-    selected = select_for_enrichment(tools, limit=enrich_limit, per_category=per_category)
+    # In backfill mode, spend the budget on tools with no detail file yet.
+    covered = set()
+    if from_catalog:
+        details_dir = Path(catalog_dir) / "details"
+        if details_dir.exists():
+            on_disk = {path.name for path in details_dir.glob("*.md")}
+            covered = {tool.repo for tool in tools if tool.detail_filename in on_disk}
+            print(f"{len(covered)} tools already have a detail file")
+
+    selected = select_for_enrichment(
+        tools, limit=enrich_limit, per_category=per_category, exclude=covered
+    )
     print(f"enriching {len(selected)} of {len(tools)} tools")
     details, tools = enrich(tools, fetcher, enrich_limit, min_remaining, selected)
 
@@ -141,6 +162,11 @@ def main() -> None:
     parser.add_argument("--per-category", type=int, default=40)
     parser.add_argument("--min-stars", type=int, default=25)
     parser.add_argument("--allow-shrink", action="store_true")
+    parser.add_argument(
+        "--from-catalog",
+        action="store_true",
+        help="skip collection and re-enrich the existing catalog",
+    )
     args = parser.parse_args()
 
     token = os.environ.get("GITHUB_TOKEN")
@@ -159,6 +185,7 @@ def main() -> None:
         per_category=args.per_category,
         min_stars=args.min_stars,
         allow_shrink=args.allow_shrink,
+        from_catalog=args.from_catalog,
     )
 
 

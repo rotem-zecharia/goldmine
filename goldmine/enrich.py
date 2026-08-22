@@ -42,7 +42,9 @@ def contributor_count(fetcher, repo: str) -> int:
     return len(body) if isinstance(body, list) else 0
 
 
-def select_for_enrichment(tools: list, limit: int, per_category: int) -> list:
+def select_for_enrichment(
+    tools: list, limit: int, per_category: int, exclude: set | None = None
+) -> list:
     """Pick which repositories are worth spending requests on, in priority order.
 
     Taking the global top N starves every small category: 3,400 MCP servers
@@ -54,8 +56,11 @@ def select_for_enrichment(tools: list, limit: int, per_category: int) -> list:
     leader, then every category's runner-up - rather than running in global
     score order, which drains the budget on the largest category first.
     """
+    exclude = exclude or set()
+    candidates = [tool for tool in tools if tool.repo not in exclude]
+
     by_category: dict[str, list] = {}
-    for tool in tools:
+    for tool in candidates:
         for category in tool.categories or ["_uncategorised"]:
             by_category.setdefault(category, []).append(tool)
 
@@ -82,7 +87,7 @@ def select_for_enrichment(tools: list, limit: int, per_category: int) -> list:
                 take(items[rank].repo)
 
     # Spend whatever is left on the highest scorers overall.
-    for tool in sorted(tools, key=lambda tool: tool.score or 0.0, reverse=True):
+    for tool in sorted(candidates, key=lambda tool: tool.score or 0.0, reverse=True):
         if len(chosen) >= limit:
             break
         take(tool.repo)

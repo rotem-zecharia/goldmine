@@ -151,3 +151,50 @@ def test_an_underline_that_is_not_a_heading_is_ignored():
 
 def test_install_command_is_found_in_an_rst_code_block():
     assert extract_install_command(RST) == "pip install gallery-dl"
+
+
+NESTED = """gallery-dl
+==========
+
+Downloads galleries.
+
+Installation
+============
+
+Pip
+---
+
+.. code:: bash
+
+    pip install gallery-dl
+
+Homebrew
+--------
+
+.. code:: bash
+
+    brew install gallery-dl
+
+Usage
+=====
+
+Run it.
+"""
+
+
+def test_a_section_body_runs_to_the_next_recognised_heading():
+    # gallery-dl puts nothing directly under "Installation"; the commands live
+    # under Pip/Homebrew subheadings. Stopping at the next heading of any kind
+    # produced an empty body, so the section was dropped entirely.
+    sections = extract_sections(NESTED)
+
+    assert "installation" in sections
+    assert "pip install gallery-dl" in sections["installation"]
+
+
+def test_nested_install_command_is_extracted():
+    assert extract_install_command(NESTED) == "pip install gallery-dl"
+
+
+def test_a_later_recognised_section_still_ends_the_previous_one():
+    assert "Run it." not in extract_sections(NESTED)["installation"]

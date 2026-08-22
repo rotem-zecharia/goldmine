@@ -14,6 +14,25 @@ INDEX_HEADER = (
 )
 
 
+def load_catalog(directory) -> list:
+    """Every tool in the committed catalog, as Tool records."""
+    from goldmine.models import Tool
+
+    path = Path(directory) / "tools.jsonl"
+    if not path.exists():
+        return []
+
+    tools = []
+    for line in path.read_text().splitlines():
+        if not line.strip():
+            continue
+        try:
+            tools.append(Tool.from_json(json.loads(line)))
+        except json.JSONDecodeError:
+            continue
+    return tools
+
+
 def prune_low_signal(tools: list, min_stars: int) -> list:
     """Drop watch-tier rows nobody would ever be shown.
 

@@ -76,12 +76,24 @@ def extract_sections(markdown: str) -> dict[str, str]:
     matches = _headings(markdown)
     sections: dict[str, str] = {}
 
-    for index, (_, heading_end, title) in enumerate(matches):
-        canonical = _canonical(title)
+    canonicals = [_canonical(title) for _, _, title in matches]
+
+    for index, (_, heading_end, _title) in enumerate(matches):
+        canonical = canonicals[index]
         if not canonical or canonical in sections:
             continue
+
         start = heading_end
-        end = matches[index + 1][0] if index + 1 < len(matches) else len(markdown)
+        # Run to the next RECOGNISED heading, not merely the next heading.
+        # Projects routinely put nothing directly under "Installation" and
+        # place the actual commands under Pip/Homebrew/Docker subheadings;
+        # stopping at the next heading of any kind left an empty body and the
+        # section was dropped along with its install command.
+        end = len(markdown)
+        for later in range(index + 1, len(matches)):
+            if canonicals[later] and canonicals[later] != canonical:
+                end = matches[later][0]
+                break
         body = markdown[start:end].strip()
         if body:
             sections[canonical] = body[:MAX_SECTION]

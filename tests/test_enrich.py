@@ -279,3 +279,27 @@ def test_enrich_follows_the_given_order_under_a_tight_budget():
     enrich_tools(tools, fetcher, limit=3, min_remaining=200, selected=["c/third", "a/first"])
 
     assert any("c/third" in call for call in fetcher.calls)
+
+
+def test_selection_can_exclude_repos_already_covered():
+    from goldmine.enrich import select_for_enrichment
+
+    # A backfill should spend its budget on what is missing, not redo what is
+    # already on disk.
+    tools = [
+        dataclasses.replace(make_tool(f"o/r{i}", categories=["mcp"]), score=float(100 - i))
+        for i in range(5)
+    ]
+
+    order = select_for_enrichment(tools, limit=5, per_category=5, exclude={"o/r0", "o/r1"})
+
+    assert "o/r0" not in order and "o/r1" not in order
+    assert "o/r2" in order
+
+
+def test_excluding_everything_selects_nothing():
+    from goldmine.enrich import select_for_enrichment
+
+    tools = [dataclasses.replace(make_tool("o/r0"), score=1.0)]
+
+    assert select_for_enrichment(tools, limit=5, per_category=5, exclude={"o/r0"}) == []
