@@ -1,4 +1,6 @@
 __pycache__/
-.env
 *.pyc
+*.egg-info/
+.env
 .venv/
+.claude/scheduled_tasks.lock

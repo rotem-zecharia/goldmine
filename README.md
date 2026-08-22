@@ -63,6 +63,17 @@ rather than the specific tool you need on a Tuesday. This ecosystem is around ei
 10k stars means famous, not proven. Percentile within a category surfaces the leader of a niche as
 readily as the leader of a crowded field.
 
+## What is in the catalog today
+
+10,383 tools across 19 categories, of which 617 are established. Roughly 1,100 carry a full
+enrichment pass: real contributor counts, release history, and a README digest under
+`catalog/details/`, which is what coverage analysis reads.
+
+The **rising** tier stays empty until the catalog has a few days of history behind it. Star velocity
+is measured by diffing against the previous committed catalog, so it needs at least a three-day gap
+before it will call anything a breakout. That is deliberate: extrapolating one day of noise to a
+month makes every repository look explosive.
+
 ## Freshness
 
 A GitHub Action regenerates the catalog nightly and commits it, so you get current data by updating
