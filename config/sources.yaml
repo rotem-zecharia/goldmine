@@ -1,0 +1,26 @@
+github_topics:
+  - {topic: mcp-server, categories: [mcp]}
+  - {topic: model-context-protocol, categories: [mcp]}
+  - {topic: mcp, categories: [mcp]}
+  - {topic: claude-code, categories: [claude-code]}
+  - {topic: claude-code-plugin, categories: [plugin]}
+  - {topic: claude-skills, categories: [skill]}
+  - {topic: claude-plugin, categories: [plugin]}
+  - {topic: agent-skills, categories: [skill]}
+  - {topic: ai-agent-tools, categories: [agent]}
+  - {topic: ai-agents, categories: [agent]}
+
+# Verified reachable 2026-08-22. api.mcp.so returned 502 and is excluded.
+registries:
+  - name: mcp-official
+    url: https://registry.modelcontextprotocol.io/v0/servers?limit=100
+    style: cursor_token
+  - name: smithery
+    url: https://registry.smithery.ai/servers?page=1&pageSize=100
+    style: page
+  - name: glama
+    url: https://glama.ai/api/mcp/v1/servers?first=100
+    style: cursor
+
+max_pages_per_topic: 10
+registry_max_pages: 30
