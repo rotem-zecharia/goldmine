@@ -1,0 +1,4 @@
+catalog/details/
+__pycache__/
+.env
+*.pyc
