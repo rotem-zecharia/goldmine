@@ -24,7 +24,8 @@ class Fetcher:
         self._now = now
         self._max_retries = max_retries
         self._token = token
-        self._cache: dict[str, tuple[str, dict]] = {}
+        self._cache: dict[str, tuple[str, object, dict]] = {}
+        self.remaining: int | None = None
 
     def _headers(self, url: str) -> dict:
         headers = {"Accept": "application/vnd.github+json", "User-Agent": "goldmine"}
@@ -36,21 +37,29 @@ class Fetcher:
         return headers
 
     def _request(self, url: str, want: str):
+        body, _ = self._request_meta(url, want)
+        return body
+
+    def _request_meta(self, url: str, want: str):
         for attempt in range(self._max_retries):
             response = self._transport.get(url, headers=self._headers(url), timeout=30)
 
             if response.status_code == 304:
-                return self._cache[url][1]
+                etag, body, headers = self._cache[url]
+                return body, headers
 
             if response.status_code == 404:
-                return None
+                return None, {}
 
             if response.status_code == 200:
                 body = response.json() if want == "json" else response.text
-                etag = response.headers.get("ETag")
+                headers = dict(response.headers)
+                if "X-RateLimit-Remaining" in headers:
+                    self.remaining = int(headers["X-RateLimit-Remaining"])
+                etag = headers.get("ETag")
                 if etag:
-                    self._cache[url] = (etag, body)
-                return body
+                    self._cache[url] = (etag, body, headers)
+                return body, headers
 
             wait = self._throttle_seconds(response)
             if wait is not None:
@@ -71,6 +80,10 @@ class Fetcher:
 
     def get_json(self, url: str):
         return self._request(url, want="json")
+
+    def get_json_meta(self, url: str):
+        """(body, response headers) - needed for pagination Link headers."""
+        return self._request_meta(url, want="json")
 
     def get_text(self, url: str):
         return self._request(url, want="text")

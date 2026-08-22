@@ -44,7 +44,7 @@ def normalize_repo(raw: dict, categories: list[str], source: str, taxonomy: dict
         summary=clean_summary(raw.get("description")),
         categories=merged,
         stars=raw.get("stargazers_count", 0),
-        contributors=raw.get("_contributors", 0),
+        contributors=raw.get("_contributors"),
         last_push=(raw.get("pushed_at") or "1970-01-01")[:10],
         created_at=(raw.get("created_at") or "1970-01-01")[:10],
         open_issues=raw.get("open_issues_count", 0),

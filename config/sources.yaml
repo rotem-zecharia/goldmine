@@ -22,5 +22,35 @@ registries:
     url: https://glama.ai/api/mcp/v1/servers?first=100
     style: cursor
 
+# Fallback tier: general open-source developer tools. The ecosystem topics
+# above do not reach these - gallery-dl, instaloader, and firecrawl carry none
+# of them - so without this section a query outside the Claude ecosystem finds
+# nothing. Fewer pages each, because these topics are enormous and only the
+# leaders matter.
+oss_topics:
+  - {topic: web-scraping, categories: [scraping]}
+  - {topic: scraper, categories: [scraping]}
+  - {topic: crawler, categories: [scraping]}
+  - {topic: downloader, categories: [media-download]}
+  - {topic: youtube-dl, categories: [media-download]}
+  - {topic: instagram, categories: [media-download, scraping]}
+  - {topic: instagram-scraper, categories: [scraping, media-download]}
+  - {topic: video-processing, categories: [video]}
+  - {topic: computer-vision, categories: [vision]}
+  - {topic: speech-to-text, categories: [audio]}
+  - {topic: ocr, categories: [image]}
+  - {topic: browser-automation, categories: [browser]}
+  - {topic: cli, categories: [productivity]}
+  - {topic: developer-tools, categories: [productivity]}
+  - {topic: automation, categories: [productivity]}
+  - {topic: rag, categories: [docs]}
+  - {topic: vector-database, categories: [docs]}
+  - {topic: observability, categories: [devops]}
+  - {topic: kubernetes, categories: [devops]}
+  - {topic: testing, categories: [testing]}
+  - {topic: security-tools, categories: [security]}
+  - {topic: llm, categories: [agent]}
+
 max_pages_per_topic: 10
+max_pages_per_oss_topic: 3
 registry_max_pages: 30

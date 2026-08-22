@@ -66,3 +66,22 @@ def test_a_missing_velocity_does_not_lower_the_score():
 
 def test_weights_file_sums_to_one():
     assert round(sum(WEIGHTS["weights"].values()), 6) == 1.0
+
+
+def test_unknown_contributors_do_not_depress_the_score():
+    unknown = make_tool(contributors=None)
+    solo = make_tool(contributors=1)
+
+    assert score_tool(unknown, WEIGHTS, today=TODAY) > score_tool(solo, WEIGHTS, today=TODAY)
+
+
+def test_a_popular_unenriched_tool_outranks_an_obscure_enriched_one():
+    # gallery-dl at 19k stars must not sit below a 200-star tool merely
+    # because the budget never reached it.
+    popular_unenriched = make_tool(stars=19_000, contributors=None, has_releases=False,
+                                   has_install_section=False, has_license=False)
+    obscure_enriched = make_tool(stars=200, contributors=4)
+
+    assert score_tool(popular_unenriched, WEIGHTS, today=TODAY) > score_tool(
+        obscure_enriched, WEIGHTS, today=TODAY
+    )

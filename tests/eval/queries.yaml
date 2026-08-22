@@ -1,0 +1,21 @@
+# Each case: the ask, the domain vocabularies a correct expansion should produce,
+# repositories that must be in the catalog, and repositories that must not be
+# allowed to win on stars alone.
+- ask: analyze an Instagram reel frame by frame
+  vocabularies: [video understanding, frame extraction, vision, multimodal, transcription]
+  must_contain: [jordanrendric/claude-video-vision]
+  must_not_rank_top: [netease-youdao/LobsterAI]
+
+- ask: download every image of an Instagram carousel post
+  vocabularies: [instagram downloader, gallery downloader, media scraper, private api]
+  must_contain: [mikf/gallery-dl, instaloader/instaloader]
+  # 42k stars but video-oriented: the star-first trap this ranking must avoid.
+  must_not_rank_top: [imputnet/cobalt]
+
+- ask: scrape a website into clean markdown for an LLM
+  vocabularies: [web scraping, crawler, markdown extraction, content extraction]
+  must_contain: [firecrawl/firecrawl]
+
+- ask: browser automation driven by an agent
+  vocabularies: [browser automation, playwright, headless browser, mcp]
+  must_contain: []

@@ -37,7 +37,12 @@ def recency_signal(last_push: str, today: str) -> float:
     return round(1.0 - days / RECENCY_FLOOR_DAYS, 6)
 
 
-def contributor_signal(contributors: int) -> float:
+def contributor_signal(contributors: int | None) -> float | None:
+    # None means the enrichment pass never reached this repository. Scoring it
+    # as zero contributors is what kept popular-but-unenriched tools out of the
+    # budget that would have enriched them.
+    if contributors is None:
+        return None
     if contributors <= 0:
         return 0.0
     return round(

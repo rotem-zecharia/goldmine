@@ -62,3 +62,14 @@ def test_velocity_signal_rewards_growth():
 
 def test_velocity_signal_treats_star_loss_as_zero():
     assert velocity_signal(-10.0) == 0.0
+
+
+def test_contributor_signal_is_none_when_the_count_is_unknown():
+    # Unenriched rows have no contributor data. Reading that as "zero
+    # contributors" depressed their score, which kept them out of the
+    # enrichment budget, which kept the count unknown. Circular.
+    assert contributor_signal(None) is None
+
+
+def test_contributor_signal_of_a_genuinely_empty_repo_is_zero():
+    assert contributor_signal(0) == 0.0

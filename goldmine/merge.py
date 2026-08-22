@@ -33,7 +33,10 @@ def merge_tools(tools: list) -> list:
             existing,
             categories=sorted(set(existing.categories) | set(tool.categories)),
             stars=max(existing.stars, tool.stars),
-            contributors=max(existing.contributors, tool.contributors),
+            contributors=max(
+                (c for c in (existing.contributors, tool.contributors) if c is not None),
+                default=None,
+            ),
             open_issues=max(existing.open_issues, tool.open_issues),
             closed_issues=max(existing.closed_issues, tool.closed_issues),
             summary=max(existing.summary, tool.summary, key=len),

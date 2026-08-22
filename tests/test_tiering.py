@@ -76,3 +76,11 @@ def test_every_tool_gets_a_tier():
     tiered = assign_tiers([make_tool(f"o/r{i}", score=float(i)) for i in range(37)], today=TODAY)
 
     assert all(tool.tier is not None for tool in tiered)
+
+
+def test_unknown_contributors_cannot_reach_established():
+    # Established is a claim about a real team; we cannot make it without data.
+    tools = [make_tool(f"o/r{i}", score=float(i)) for i in range(99)]
+    tools.append(make_tool("o/unknown", score=200.0, contributors=None))
+
+    assert tiers_of(tools)["o/unknown"] != "established"

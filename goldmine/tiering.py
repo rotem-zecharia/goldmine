@@ -33,7 +33,7 @@ def _is_established(tool, threshold: float, today: str) -> bool:
     return (
         tool.score >= threshold
         and _days_between(tool.last_push, today) <= ESTABLISHED_MAX_PUSH_AGE_DAYS
-        and tool.contributors >= ESTABLISHED_MIN_CONTRIBUTORS
+        and (tool.contributors or 0) >= ESTABLISHED_MIN_CONTRIBUTORS
     )
 
 

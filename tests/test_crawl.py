@@ -32,7 +32,7 @@ def crawl(tmp_path, today, collect=fake_collect, **kwargs):
         today=today,
         collect=collect,
         fetcher=None,
-        enrich=lambda tools, fetcher, limit: ({}, tools),
+        enrich=lambda tools, fetcher, limit, min_remaining=0, selected=None: ({}, tools),
         **kwargs,
     )
 
@@ -87,3 +87,34 @@ def test_duplicates_from_two_sources_collapse(tmp_path):
     crawl(tmp_path, "2026-08-22", collect=dupes)
 
     assert len(rows_of(tmp_path)) == 1
+
+
+def test_the_configured_sources_include_a_general_oss_tier():
+    # Without it, anything outside the Claude ecosystem is unreachable:
+    # gallery-dl, instaloader, and firecrawl carry none of the ecosystem topics.
+    import yaml
+
+    config = yaml.safe_load(open("config/sources.yaml"))
+
+    assert config.get("oss_topics"), "no general OSS fallback tier configured"
+    assert config["max_pages_per_oss_topic"] < config["max_pages_per_topic"]
+
+
+def test_collect_searches_both_topic_tiers():
+    import yaml
+
+    from goldmine.crawl import collect
+
+    searched = []
+
+    class RecordingFetcher:
+        def get_json(self, url):
+            searched.append(url)
+            return {"items": []}
+
+    config = yaml.safe_load(open("config/sources.yaml"))
+    config["registries"] = []
+    collect(config, RecordingFetcher(), {})
+
+    assert any("topic:mcp-server" in url for url in searched)
+    assert any("topic:instagram-scraper" in url for url in searched)

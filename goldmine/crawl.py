@@ -10,7 +10,7 @@ from datetime import date
 import yaml
 
 from goldmine.catalog import load_previous, write_catalog
-from goldmine.enrich import enrich_tools
+from goldmine.enrich import enrich_tools, select_for_enrichment
 from goldmine.http import Fetcher
 from goldmine.merge import attach_velocity, merge_tools
 from goldmine.scoring import load_weights, score_tool
@@ -26,16 +26,22 @@ def collect(config: dict, fetcher, taxonomy: dict) -> list:
 
     tools = []
 
-    for entry in config["github_topics"]:
-        found = search_topic(
-            fetcher,
-            topic=entry["topic"],
-            categories=entry["categories"],
-            max_pages=config["max_pages_per_topic"],
-            taxonomy=taxonomy,
-        )
-        print(f"topic:{entry['topic']}: {len(found)} repos")
-        tools.extend(found)
+    topic_groups = (
+        (config["github_topics"], config["max_pages_per_topic"], "ecosystem"),
+        (config.get("oss_topics", []), config.get("max_pages_per_oss_topic", 3), "oss"),
+    )
+
+    for entries, max_pages, label in topic_groups:
+        for entry in entries:
+            found = search_topic(
+                fetcher,
+                topic=entry["topic"],
+                categories=entry["categories"],
+                max_pages=max_pages,
+                taxonomy=taxonomy,
+            )
+            print(f"{label} topic:{entry['topic']}: {len(found)} repos")
+            tools.extend(found)
 
     known = {tool.repo.lower() for tool in tools}
 
@@ -74,6 +80,8 @@ def run_crawl(
     fetcher=None,
     enrich=enrich_tools,
     enrich_limit: int = 400,
+    min_remaining: int = 200,
+    per_category: int = 40,
 ):
     with open(sources_path) as handle:
         sources = yaml.safe_load(handle)
@@ -99,7 +107,9 @@ def run_crawl(
     tools = rescore(tools)
     tools.sort(key=lambda tool: tool.score, reverse=True)
 
-    details, tools = enrich(tools, fetcher, enrich_limit)
+    selected = select_for_enrichment(tools, limit=enrich_limit, per_category=per_category)
+    print(f"enriching {len(selected)} of {len(tools)} tools")
+    details, tools = enrich(tools, fetcher, enrich_limit, min_remaining, selected)
 
     tools = rescore(tools)
     tools = assign_tiers(tools, today=today)
@@ -115,7 +125,12 @@ def main() -> None:
     parser.add_argument("--scoring", default="config/scoring.yaml")
     parser.add_argument("--sources", default="config/sources.yaml")
     parser.add_argument("--taxonomy", default="config/taxonomy.yaml")
+    # 4 requests per enriched tool. GitHub Actions' GITHUB_TOKEN allows roughly
+    # 1000 requests/hour, so the nightly default has to stay modest; a personal
+    # token allows 5000 and can afford much more.
     parser.add_argument("--enrich-limit", type=int, default=400)
+    parser.add_argument("--min-remaining", type=int, default=200)
+    parser.add_argument("--per-category", type=int, default=40)
     args = parser.parse_args()
 
     token = os.environ.get("GITHUB_TOKEN")
@@ -130,6 +145,8 @@ def main() -> None:
         today=date.today().isoformat(),
         fetcher=Fetcher(token=token),
         enrich_limit=args.enrich_limit,
+        min_remaining=args.min_remaining,
+        per_category=args.per_category,
     )
 
 

@@ -7,12 +7,13 @@ from dataclasses import dataclass, field
 
 TIERS = ("established", "rising", "watch")
 
+# contributors is deliberately absent: None means "not enriched yet", which is
+# a legitimate state, not a malformed row.
 REQUIRED_FIELDS = (
     "repo",
     "summary",
     "categories",
     "stars",
-    "contributors",
     "last_push",
     "created_at",
     "source",
@@ -29,10 +30,10 @@ class Tool:
     summary: str
     categories: list[str]
     stars: int
-    contributors: int
     last_push: str
     created_at: str
     source: str
+    contributors: int | None = None
     install: str = ""
     open_issues: int = 0
     closed_issues: int = 0

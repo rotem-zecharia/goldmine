@@ -121,3 +121,37 @@ def test_get_text_returns_none_for_a_missing_file():
     fetcher = Fetcher(transport=FakeTransport([FakeResponse(404)]), sleep=lambda s: None)
 
     assert fetcher.get_text("https://raw.example/none") is None
+
+
+def test_get_json_meta_returns_response_headers():
+    transport = FakeTransport([FakeResponse(200, {"ok": True}, headers={"Link": '<x>; rel="last"'})])
+    fetcher = Fetcher(transport=transport, sleep=lambda s: None)
+
+    body, headers = fetcher.get_json_meta("https://api.example/x")
+
+    assert body == {"ok": True} and 'rel="last"' in headers["Link"]
+
+
+def test_a_cached_304_replays_the_headers_too():
+    transport = FakeTransport(
+        [FakeResponse(200, {"v": 1}, headers={"ETag": "abc", "Link": "L"}), FakeResponse(304)]
+    )
+    fetcher = Fetcher(transport=transport, sleep=lambda s: None)
+    fetcher.get_json_meta("https://api.example/x")
+
+    _, headers = fetcher.get_json_meta("https://api.example/x")
+
+    assert headers["Link"] == "L"
+
+
+def test_tracks_remaining_requests_from_the_rate_limit_header():
+    transport = FakeTransport([FakeResponse(200, {}, headers={"X-RateLimit-Remaining": "4321"})])
+    fetcher = Fetcher(transport=transport, sleep=lambda s: None)
+
+    fetcher.get_json("https://api.example/x")
+
+    assert fetcher.remaining == 4321
+
+
+def test_remaining_is_unknown_before_any_request():
+    assert Fetcher(transport=FakeTransport([]), sleep=lambda s: None).remaining is None

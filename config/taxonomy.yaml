@@ -6,9 +6,14 @@ claude-code: [claude-code, claude-code-plugin, claude-code-skills, claudecode]
 skill: [claude-skills, agent-skills, agent-skill, skills]
 plugin: [claude-plugin, claude-code-plugin, plugin, plugins]
 agent: [ai-agent, ai-agents, agents, agentic, autonomous-agents, llm-agent]
-video: [video, video-analysis, video-processing, ffmpeg, multimodal, vision, computer-vision]
+# Kept separate from `vision` on purpose: mixing video tooling with computer
+# vision research put 50k-star ML repositories in the same percentile pool as
+# ffmpeg wrappers, and no practical video tool could ever clear that bar.
+video: [video, video-analysis, video-processing, ffmpeg, video-editing, transcoding]
+vision: [computer-vision, vision, multimodal, vlm, object-detection, image-recognition]
 audio: [audio, speech-to-text, whisper, tts, transcription, speech-recognition]
 image: [image, image-processing, ocr, diffusion, image-generation]
+media-download: [downloader, yt-dlp, youtube-dl, gallery, media-downloader]
 scraping: [scraper, scraping, web-scraping, crawler, crawling, spider]
 browser: [browser-automation, playwright, puppeteer, selenium, headless-chrome]
 data: [database, sql, postgres, analytics, etl, dataframe, duckdb]
