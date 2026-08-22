@@ -32,8 +32,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # GITHUB_TOKEN in Actions allows ~1000 requests/hour and collection
         # alone spends most of that, so enrichment gets a small nightly budget
-        # and the guard stops it before the crawl stalls on a reset.
-        run: python -m goldmine.crawl --catalog-dir catalog --enrich-limit 120 --min-remaining 80
+        # and the guard stops it before the crawl stalls on a reset. A small
+        # budget is fine because enrichment carries forward: each night deepens
+        # the catalog rather than re-learning it.
+        run: python -m goldmine.crawl --catalog-dir catalog --enrich-limit 150 --min-remaining 80
 
       # Runs before the commit, so a crawl that quietly breaks ranking fails the
       # run instead of publishing a worse catalog. The shrink guard in

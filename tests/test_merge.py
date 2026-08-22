@@ -89,3 +89,44 @@ def test_a_very_short_window_does_not_manufacture_a_huge_velocity():
     tool = attach_velocity(make_tool("a/b", stars=110), previous, today="2026-08-22")
 
     assert tool.star_velocity_90d is None
+
+
+def test_previous_enrichment_is_carried_forward():
+    from goldmine.merge import carry_forward_enrichment
+
+    # The nightly budget only reaches a fraction of the catalog. Without this
+    # the catalog forgets everything it learned the night before.
+    previous = {
+        "a/b": {
+            "stars": 100,
+            "generated_at": "2026-07-23",
+            "contributors": 42,
+            "install": "pip install thing",
+            "has_releases": True,
+            "has_install_section": True,
+        }
+    }
+
+    tool = carry_forward_enrichment(make_tool("a/b", contributors=None), previous)
+
+    assert tool.contributors == 42
+    assert tool.install == "pip install thing"
+    assert tool.has_releases is True
+
+
+def test_a_fresh_enrichment_wins_over_the_carried_value():
+    from goldmine.merge import carry_forward_enrichment
+
+    previous = {"a/b": {"stars": 1, "generated_at": "2026-07-23", "contributors": 5}}
+
+    tool = carry_forward_enrichment(make_tool("a/b", contributors=9), previous)
+
+    assert tool.contributors == 9
+
+
+def test_carry_forward_is_a_no_op_without_a_previous_row():
+    from goldmine.merge import carry_forward_enrichment
+
+    tool = make_tool("a/b", contributors=None)
+
+    assert carry_forward_enrichment(tool, {}).contributors is None

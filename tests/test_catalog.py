@@ -136,3 +136,56 @@ def test_load_previous_survives_a_corrupt_line(tmp_path):
     path.write_text(path.read_text() + "{not json\n")
 
     assert "a/b" in load_previous(tmp_path)
+
+
+def test_prune_drops_low_signal_watch_rows():
+    from goldmine.catalog import prune_low_signal
+
+    tools = [make_tool("a/keep", stars=500), make_tool("b/drop", stars=2, tier="watch")]
+
+    kept = prune_low_signal(tools, min_stars=25)
+
+    assert [tool.repo for tool in kept] == ["a/keep"]
+
+
+def test_prune_never_drops_an_established_tool():
+    from goldmine.catalog import prune_low_signal
+
+    # A niche leader can be established on maintenance and team alone.
+    tools = [make_tool("a/niche", stars=3, tier="established")]
+
+    assert prune_low_signal(tools, min_stars=25) == tools
+
+
+def test_prune_never_drops_a_rising_tool():
+    from goldmine.catalog import prune_low_signal
+
+    tools = [make_tool("a/new", stars=8, tier="rising")]
+
+    assert prune_low_signal(tools, min_stars=25) == tools
+
+
+def test_prune_keeps_a_watch_tool_at_the_threshold():
+    from goldmine.catalog import prune_low_signal
+
+    assert prune_low_signal([make_tool("a/b", stars=25, tier="watch")], min_stars=25)
+
+
+def test_prune_with_no_floor_keeps_everything():
+    from goldmine.catalog import prune_low_signal
+
+    tools = [make_tool("a/b", stars=0, tier="watch")]
+
+    assert prune_low_signal(tools, min_stars=0) == tools
+
+
+def test_load_previous_carries_enrichment_fields(tmp_path):
+    from goldmine.catalog import load_previous
+
+    tool = make_tool("a/b", contributors=42, install="pip install x", has_releases=True)
+    write_catalog([tool], tmp_path, today="2026-08-22")
+
+    previous = load_previous(tmp_path)
+
+    assert previous["a/b"]["contributors"] == 42
+    assert previous["a/b"]["install"] == "pip install x"

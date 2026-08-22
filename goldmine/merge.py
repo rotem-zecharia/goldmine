@@ -52,6 +52,33 @@ def merge_tools(tools: list) -> list:
     return list(by_repo.values())
 
 
+def carry_forward_enrichment(tool, previous: dict):
+    """Keep yesterday's enrichment for a tool today's budget did not reach.
+
+    Enrichment costs four requests per repository and a nightly run reaches only
+    a fraction of the catalog. Without this, every night discards the previous
+    night's contributor counts and install commands, and the catalog degrades
+    instead of improving.
+    """
+    snapshot = previous.get(_key(tool.repo)) or previous.get(tool.repo)
+    if not snapshot:
+        return tool
+
+    updates = {}
+    if tool.contributors is None and snapshot.get("contributors") is not None:
+        updates["contributors"] = snapshot["contributors"]
+    if not tool.install and snapshot.get("install"):
+        updates["install"] = snapshot["install"]
+    if not tool.has_releases and snapshot.get("has_releases"):
+        updates["has_releases"] = True
+    if not tool.has_install_section and snapshot.get("has_install_section"):
+        updates["has_install_section"] = True
+    if not tool.closed_issues and snapshot.get("closed_issues"):
+        updates["closed_issues"] = snapshot["closed_issues"]
+
+    return dataclasses.replace(tool, **updates) if updates else tool
+
+
 def attach_velocity(tool, previous: dict, today: str):
     snapshot = previous.get(_key(tool.repo)) or previous.get(tool.repo)
     if not snapshot:

@@ -14,6 +14,23 @@ INDEX_HEADER = (
 )
 
 
+def prune_low_signal(tools: list, min_stars: int) -> list:
+    """Drop watch-tier rows nobody would ever be shown.
+
+    The catalog exists to surface proven tools, not to be exhaustive. A
+    two-star watch-tier repository will never be recommended, but it still
+    costs bytes in a file the skill greps on every query. Established and
+    rising rows are never pruned: a niche leader can earn its tier on
+    maintenance and team size without many stars.
+    """
+    if not min_stars:
+        return tools
+
+    return [
+        tool for tool in tools if tool.tier != "watch" or tool.stars >= min_stars
+    ]
+
+
 class CatalogShrank(RuntimeError):
     """The new catalog is far smaller than the last one; likely a partial crawl."""
 
@@ -42,6 +59,13 @@ def load_previous(directory) -> dict:
         previous[row["repo"].lower()] = {
             "stars": row["stars"],
             "generated_at": generated_at,
+            # Carried forward so a nightly crawl that only enriches a fraction
+            # of the catalog does not forget what it learned yesterday.
+            "contributors": row.get("contributors"),
+            "install": row.get("install") or "",
+            "has_releases": bool(row.get("has_releases")),
+            "has_install_section": bool(row.get("has_install_section")),
+            "closed_issues": row.get("closed_issues") or 0,
         }
     return previous
 

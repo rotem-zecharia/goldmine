@@ -9,10 +9,10 @@ from datetime import date
 
 import yaml
 
-from goldmine.catalog import load_previous, write_catalog
+from goldmine.catalog import load_previous, prune_low_signal, write_catalog
 from goldmine.enrich import enrich_tools, select_for_enrichment
 from goldmine.http import Fetcher
-from goldmine.merge import attach_velocity, merge_tools
+from goldmine.merge import attach_velocity, carry_forward_enrichment, merge_tools
 from goldmine.scoring import load_weights, score_tool
 from goldmine.sources.github import search_topic
 from goldmine.sources.registries import fetch_registry
@@ -82,6 +82,8 @@ def run_crawl(
     enrich_limit: int = 400,
     min_remaining: int = 200,
     per_category: int = 40,
+    min_stars: int = 25,
+    allow_shrink: bool = False,
 ):
     with open(sources_path) as handle:
         sources = yaml.safe_load(handle)
@@ -96,6 +98,7 @@ def run_crawl(
 
     previous = load_previous(catalog_dir)
     tools = [attach_velocity(tool, previous, today=today) for tool in tools]
+    tools = [carry_forward_enrichment(tool, previous) for tool in tools]
 
     def rescore(items):
         return [
@@ -115,7 +118,12 @@ def run_crawl(
     tools = assign_tiers(tools, today=today)
     tools.sort(key=lambda tool: tool.score, reverse=True)
 
-    write_catalog(tools, catalog_dir, today=today, details=details)
+    before = len(tools)
+    tools = prune_low_signal(tools, min_stars=min_stars)
+    if before != len(tools):
+        print(f"pruned {before - len(tools)} low-signal watch rows (min_stars={min_stars})")
+
+    write_catalog(tools, catalog_dir, today=today, details=details, allow_shrink=allow_shrink)
     print(f"wrote {len(tools)} tools to {catalog_dir}")
 
 
@@ -131,6 +139,8 @@ def main() -> None:
     parser.add_argument("--enrich-limit", type=int, default=400)
     parser.add_argument("--min-remaining", type=int, default=200)
     parser.add_argument("--per-category", type=int, default=40)
+    parser.add_argument("--min-stars", type=int, default=25)
+    parser.add_argument("--allow-shrink", action="store_true")
     args = parser.parse_args()
 
     token = os.environ.get("GITHUB_TOKEN")
@@ -147,6 +157,8 @@ def main() -> None:
         enrich_limit=args.enrich_limit,
         min_remaining=args.min_remaining,
         per_category=args.per_category,
+        min_stars=args.min_stars,
+        allow_shrink=args.allow_shrink,
     )
 
 
