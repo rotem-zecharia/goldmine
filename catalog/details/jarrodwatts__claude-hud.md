@@ -72,6 +72,28 @@ Done! Claude Code reloads settings automatically — the HUD appears after your 
 
 ---
 
+## What is Claude HUD?
+
+Claude HUD gives you better insights into what's happening in your Claude Code session.
+
+| What You See | Why It Matters |
+|--------------|----------------|
+| **Project path** | Know which project you're in (configurable 1-3 directory levels) |
+| **Context health** | Know exactly how full your context window is before it's too late |
+| **Tool activity** | Watch Claude read, edit, and search files as it happens |
+| **Agent tracking** | See which subagents are running and what they're doing |
+| **Todo progress** | Track task completion in real-time |
+
+## What You See
+
+### Default (2 lines)
+```
+[Opus] │ my-project git:(main*)
+Context █████░░░░░ 45% │ Usage ██░░░░░░░░ 25% (1h 30m / 5h)
+```
+- **Line 1** — Model, provider label when positively identified (for example `Bedrock`, `Vertex`, `MiniMax`), project path, git branch
+- **Line 2** — Context bar (green → yellow → red) and usage rate limits
+
 ## configuration
 
 ```
@@ -81,6 +103,79 @@ Done! Claude Code reloads settings automatically — the HUD appears after your 
 ```
 
 ---
+
+## How It Works
+
+Claude HUD uses Claude Code's native **statusline API** — no separate window, no tmux required, works in any terminal.
+
+```
+Claude Code → stdin JSON → claude-hud → stdout → displayed in your terminal
+           ↘ transcript JSONL (tools, agents, todos)
+```
+
+**Key features:**
+- Native token data from Claude Code (not estimated)
+- Scales with Claude Code's reported context window size, including newer 1M-context sessions
+- Parses the transcript for tool/agent activity
+- Re-renders after each interaction (new assistant messages, `/compact`, permission changes, vim-mode toggles), debounced at 300ms
+
+---
+
+## Configuration
+
+Customize your HUD anytime:
+
+```
+/claude-hud:configure
+```
+
+The guided flow handles layout, language, and common display toggles. Advanced overrides such as
+custom colors and thresholds are preserved there, but you set them by editing the config file directly:
+
+- **First time setup**: Choose a preset (Full/Essential/Minimal), pick a label language, then fine-tune individual elements
+- **Customize anytime**: Toggle items on/off, adjust git display style, switch layouts, or change label language
+- **Preview before saving**: See exactly how your HUD will look before committing changes
+
+### Presets
+
+| Preset | What's Shown |
+|--------|--------------|
+| **Full** | Everything enabled — tools, agents, todos, git, usage, duration |
+| **Essential** | Activity lines + git status, minimal info clutter |
+| **Minimal** | Core only — just model name and context bar |
+
+After choosing a preset, you can turn individual elements on or off.
+
+### Manual Configuration
+
+Edit `~/.claude/plugins/claude-hud/config.json` directly for advanced settings such as `colors.*`,
+`pathLevels`, `maxWidth`, threshold overrides, `display.timeFormat`, `display.hourCycle`, and `display.promptCacheTtlSeconds`. Running `/claude-hud:configure`
+preserves those manual settings while still letting you change `language`, layout, and the common
+guided toggles.
+
+If you run several Claude config directories via `CLAUDE_CONFIG_DIR` and symlink `plugins/` to a
+shared location, `plugins/claude-hud/config.json` is the same physical file for all of them. Put
+per-directory settings in `$CLAUDE_CONFIG_DIR/claude-hud.json` instead - it uses the same shape,
+only needs the keys it changes, and is layered on top of the shared config at load time:
+
+For example, put this in `~/.config/claude/work/claude-hud.json`:
+
+```json
+{ "display": { "customLine": "Work Team" } }
+```
+
+Simplified and Traditional Chinese HUD labels are available as explicit opt-ins. English stays the default unless you choose a Chinese locale in `/claude-hud:configure` or set `language` in config. The `zh` alias maps to Simplified Chinese, and `zh-TW` maps to Traditional Chinese. Guided config writes the canonical `zh-Hans` or `zh-Hant` value.
+
+### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `language` | `en` \| `zh` \| `zh-Hans` \| `zh-Hant` \| `zh-TW` | `en` | HUD label language. Use `zh` or `zh-Hans` for Simplified Chinese and `zh-Hant` or `zh-TW` for Traditional Chinese. |
+| `lineLayout` | string | `expanded` | Layout: `expanded` (multi-line) or `compact` (single line) |
+| `pathLevels` | 1-3 \| `full` | 1 | Directory levels to show in project path, or `full` to show the entire absolute path |
+| `maxWidth` | number \| `null` | `null` | Optional fallback width used only when terminal width detection fails completely |
+| `forceMaxWidth` | boolean | false | Always use `maxWidth` when it is set, even if terminal width detection returns a smaller value |
+| `elementOrder` | string[] | `["project","addedDirs","context","usage","promptCache","memory","environment","tools","skills","mcp","agents","todos","sessionTime"]` | Expanded-mode elemen
 
 ## tools
 
@@ -100,6 +195,40 @@ The snapshot may also carry `model_scoped` windows using the same shape Claude C
   "model_scoped": [
     { "display_name": "Fable", "utilization": 89, "resets_at": "2026-07-27T11:00:00Z" }
   ]
+}
+```
+
+One zero-credential way to produce such a snapshot is Claude Code's own `get_usage` control request, which returns `rate_limits.model_scoped` without spending tokens; a scheduled job can pipe it through `jq` into the snapshot file. The HUD itself never fetches anything: it only reads the file.
+
+Set `display.externalUsageWritePath` if you want ClaudeHUD to write the official stdin `rate_limits` into a local snapshot for other tools. The path must be absolute, end in `.json`, and live in an existing directory. ClaudeHUD writes the file with private permissions and ignores invalid paths quietly.
+
+Free/weekly-only accounts render the weekly window by itself instead of showing a ghost `5h: --` placeholder.
+
+The 7-day percentage appears when above the `display.sevenDayThreshold` (default 80%):
+
+```
+Context █████░░░░░ 45% │ Usage ██░░░░░░░░ 25% (1h 30m / 5h) | ██████████ 85% (2d / 7d)
+```
+
+To disable, set `display.showUsage` to `false`.
+
+Reset times use relative countdowns by default. Set `display.timeFormat` to `absolute` for wall-clock
+times, `both` to show both forms, `elapsed` to show how far through each usage window you are, or
+`elapsedAndAbsolute` to show elapsed window progress plus the wall-clock reset time. This setting is
+manual-only today; `/claude-hud:configure` preserves it without editing it.
+
+Wall-clock reset times (`absolute`/`both`/`elapsedAndAbsolute`) default to your system locale for 12-
+vs 24-hour formatting. Set `display.hourCycle` to `h23` to force 24-hour time regardless of locale, or
+to `h12`/`h11` to force 12-hour time with AM/PM. Set `display.showClockSeconds` to `true` to include
+seconds in the wall-clock time, e.g. `at 14:30:07`.
+
+Set `display.showResetLabel` to `false` if you want shorter usage countdowns such as `(3h 17m)` instead of `(resets in 3h 17m)`.
+
+Set `display.usageCompact` to `true` if you want the shorter usage-only form, for example `5h: 25% (1h 30m)`. Compact usage takes precedence over `display.usageBarEnabled`.
+
+### Security Notes
+
+ClaudeHUD is local-only by design. It does not make network requests, scrape credentials, or call undocumented Claude APIs. It reads the statusline JSON from stdin, the current session transcript path supplied by Claude Code, selected Claude configuration files under `~/.clau
 
 ## requirements
 
@@ -108,3 +237,26 @@ The snapshot may also carry `model_scoped` windows using the same shape Claude C
 - Windows: Node.js 18+
 
 ---
+
+## Development
+
+```bash
+git clone https://github.com/jarrodwatts/claude-hud
+cd claude-hud
+npm ci && npm run build
+npm test
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE)
+
+---
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=jarrodwatts/claude-hud&type=Date)](https://star-history.com/#jarrodwatts/claude-hud&Date)

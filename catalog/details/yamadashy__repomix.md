@@ -14,13 +14,238 @@
 
 ## installation
 
+### Using the CLI Tool `>_`
+
+You can try Repomix instantly in your project directory without installation:
+
+```bash
+npx repomix@latest
+```
+
+Or install globally for repeated use:
+
+```bash
+# Install using npm
 npm install -g repomix
+
+# Alternatively using yarn
+yarn global add repomix
+
+# Alternatively using bun
+bun add -g repomix
+
+# Alternatively using Homebrew (macOS/Linux)
+brew install repomix
+
+# Then run in any project directory
+repomix
+```
+
+That's it! Repomix will generate a `repomix-output.xml` file in your current directory, containing your entire
+repository in an AI-friendly format.
+
+You can then send this file to an AI assistant with a prompt like:
+
+```
+This file contains all the files in the repository combined into one.
+I want to refactor the code, so please review it first.
+```
+
+![Repomix File Usage 1](website/client/src/public/images/docs/repomix-file-usage-1.png)
+
+When you propose specific changes, the AI might be able to generate code accordingly. With features like Claude's
+Artifacts, you could potentially output multiple files, allowing for the generation of multiple interdependent pieces of
+code.
+
+![Repomix File Usage 2](website/client/src/public/images/docs/repomix-file-usage-2.png)
+
+Happy coding! 🚀
+
+### Using The Website 🌐
+
+Want to try it quickly? Visit the official website at [repomix.com](https://repomix.com). Simply enter your repository
+name, fill in any optional details, and click the **Pack** button to see your generated output.
+
+#### Available Options
+
+The website offers several convenient features:
+
+- Customizable output format (XML, Markdown, or Plain Text)
+- Instant token count estimation
+- Much more!
+
+### Using The Browser Extension 🧩
+
+Get instant access to Repomix directly from any GitHub repository! Our Chrome extension adds a convenient "Repomix" button to GitHub repository pages.
+
+![Repomix Browser Extension](website/client/src/public/images/docs/browser-extension.png)
+
+#### Install
+- Chrome Extension: [Repomix - Chrome Web Store](https://chromewebstore.google.com/detail/repomix/fimfamikepjgchehkohedilpdigcpkoa)
+- Firefox Add-on: [Repomix - Firefox Add-ons](https://addons.mozilla.org/firefox/addon/repomix/)
+
+#### Features
+- One-click access to Repomix for any GitHub repository
+- More exciting features coming soon!
+
+### Using The VSCode Extension ⚡️
+
+A community-maintained VSCode extension called [Repomix Runner](https://marketplace.visualstudio.com/items?itemName=DorianMassoulier.repomix-runner) (created by [massdo](https://github.com/massdo)) lets you run Repomix right inside your editor with just a few clicks. Run it on any folder, manage outputs seamlessly, and control everything through VSCode's intuitive interface. 
+
+Want your output as a file or just the content? Need automatic cleanup? This extension has you covered. Plus, it works smoothly with your existing repomix.config.json.
+
+Try it now on the [VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=DorianMassoulier.repomix-runner)!
+Source code is available on [GitHub](https://github.com/massdo/repomix-runner).
 
 ## tools
 
 If you're using Python, you might want to check out `Gitingest`, which is better suited for Python ecosystem and data
 science workflows:
 https://github.com/cyclotruc/gitingest
+
+## 📊 Usage
+
+To pack your entire repository:
+
+```bash
+repomix
+```
+
+To pack a specific directory:
+
+```bash
+repomix path/to/directory
+```
+
+To pack specific files or directories
+using [glob patterns](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax):
+
+```bash
+repomix --include "src/**/*.ts,**/*.md"
+```
+
+To exclude specific files or directories:
+
+```bash
+repomix --ignore "**/*.log,tmp/"
+```
+
+To pack a remote repository:
+
+```bash
+repomix --remote https://github.com/yamadashy/repomix
+
+# You can also use GitHub shorthand:
+repomix --remote yamadashy/repomix
+
+# You can specify the branch name, tag, or commit hash:
+repomix --remote https://github.com/yamadashy/repomix --remote-branch main
+
+# Or use a specific commit hash:
+repomix --remote https://github.com/yamadashy/repomix --remote-branch 935b695
+
+# Another convenient way is specifying the branch's URL
+repomix --remote https://github.com/yamadashy/repomix/tree/main
+
+# Commit's URL is also supported
+repomix --remote https://github.com/yamadashy/repomix/commit/836abcd7335137228ad77feb28655d85712680f1
+
+```
+
+To pack files from a file list (pipe via stdin):
+
+```bash
+# Using find command
+find src -name "*.ts" -type f | repomix --stdin
+
+# Using git to get tracked files
+git ls-files "*.ts" | repomix --stdin
+
+# Using grep to find files containing specific content
+grep -l "TODO" **/*.ts | repomix --stdin
+
+# Using ripgrep to find files with specific content
+rg -l "TODO|FIXME" --type ts | repomix --stdin
+
+# Using ripgrep (rg) to find files
+rg --files --type ts | repomix --stdin
+
+# Using sharkdp/fd to find files
+fd -e ts | repomix --stdin
+
+# Using fzf to select from all files
+fzf -m | repomix --stdin
+
+# Interactive file selection with fzf
+find . -name "*.ts" -type f | fzf -m | repomix --stdin
+
+# Using ls with glob patterns
+ls src/**/*.ts | repomix --stdin
+
+# From a file containing file paths
+cat file-list.txt | repomix --stdin
+
+# Direct input with echo
+echo -e "src/index.ts\nsrc/utils.ts" | repomix --stdin
+```
+
+The `--stdin` option allows you to pipe a list of file paths to Repomix, giving you ultimate flexibility in selecting which files to pack.
+
+When using `--stdin`, the specified files are effectively added to the include patterns. This means that the normal include and ignore behavior still applies - files specified via stdin will still be excluded if they match ignore patterns.
+
+> [!NOTE]
+> When using `--stdin`, file paths can be relative or absolute, and Repomix will automatically handle path resolution and deduplication.
+
+To include git logs in the output:
+
+```bash
+# Include git logs with default count (50 commits)
+repomix --include-logs
+
+# Include git logs with specific commit count
+repomix --include-logs --include-logs-count 10
+
+# Combine with diffs for comprehensive git context
+repomix --include-logs --include-diffs
+```
+
+The git logs include commit dates, messages, and file paths for each commit, providing valuable context for AI analysis of code evolution and development patterns.
+
+To compress the output:
+
+```bash
+repomix --compress
+
+# You can also use it with remote repositories:
+repomix --remote yamadashy/repomix --compress
+```
+
+To initialize a new configuration file (`repomix.config.json`):
+
+```bash
+repomix --init
+```
+
+Once you have generated the packed file, you can use it with Generative AI tools like ChatGPT, DeepSeek, Perplexity, Gemini, Gemma, Llama, Grok, and more.
+
+### Docker Usage 🐳
+
+You can also run Repomix using Docker.  
+This is useful if you want to run Repomix in an isolated environment or prefer using containers.
+
+Basic usage (current directory):
+
+```bash
+docker run -v .:/app -it --rm ghcr.io/yamadashy/repomix
+```
+
+To pack a specific directory:
+
+```bash
+docker run -v .:/app -it --rm ghcr.io/yamadashy/repomix path/to/directory
+```
+
+Process a remote repository and output to a `
 
 ## configuration
 

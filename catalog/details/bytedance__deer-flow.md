@@ -12,6 +12,8 @@ Help me clone DeerFlow if needed, then bootstrap it for local development by fol
 
 That prompt is intended for coding agents. It tells the agent to clone the repo if needed, choose Docker when available, and stop with the exact next command plus any missing config the user still needs to provide.
 
+## Quick Start
+
 ## configuration
 
 1. **Clone the DeerFlow repository**

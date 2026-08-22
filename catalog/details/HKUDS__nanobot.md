@@ -101,3 +101,13 @@ nanobot --version
 ```
 
 If `nanobot` is not on `PATH`, invoke it through the method that installed it: reuse the recommended installer's command, use `uv tool run --from nanobot-ai nanobot ...` or `pipx run --spec nanobot-ai nanobot ...`, or use the Python executable from the environment where pip installed the package.
+
+## 🚀 Quick Start
+
+**Open nanobot in your browser**
+
+```bash
+nanobot webui
+```
+
+This is the recommended first run. Th

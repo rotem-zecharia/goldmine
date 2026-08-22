@@ -16,13 +16,75 @@ Kubescape is an open-source Kubernetes security platform for your IDE, CI/CD pip
 
 ---
 
+## 🎬 Demo
+
+<img src="docs/img/demo-v3.gif" alt="Kubescape CLI demo">
+
+---
+
 ## installation
+
+### 1. Install Kubescape
 
 ```sh
 curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
 ```
 
 > 💡 See [Installation](#-installation) for more options (Homebrew, Krew, Windows, etc.)
+
+### 2. Run Your First Scan
+
+```sh
+# Scan your current cluster
+kubescape scan
+
+# Scan a specific YAML file or directory
+kubescape scan /path/to/manifests/
+
+# Scan a container image for vulnerabilities
+kubescape scan image nginx:latest
+```
+
+### 3. Explore the Results
+
+Kubescape provides a detailed security posture overview including:
+- Control plane security status
+- Access control risks
+- Workload misconfigurations
+- Network policy gaps
+- Compliance scores (MITRE, NSA)
+
+---
+
+## 📦 Installation
+
+### One-Line Install (Linux/macOS)
+
+```bash
+curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
+```
+
+### Package Managers
+
+| Platform | Command |
+|----------|---------|
+| **Homebrew** | `brew install kubescape` |
+| **Krew** | `kubectl krew install kubescape` |
+| **Arch Linux** | `yay -S kubescape` |
+| **Ubuntu** | `sudo add-apt-repository ppa:kubescape/kubescape && sudo apt install kubescape` |
+| **NixOS** | `nix-shell -p kubescape` |
+| **Chocolatey** | `choco install kubescape` |
+| **Scoop** | `scoop install kubescape` |
+
+### Windows (PowerShell)
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/kubescape/kubescape/master/install.ps1 | iex
+```
+
+📖 **[Full Installation Guide →](docs/installation.md)**
+
+---
 
 ## tools
 
@@ -45,6 +107,50 @@ Kubescape provides a comprehensive CLI with the following commands:
 
 ---
 
+## 📖 Usage Examples
+
+### Scanning
+
+#### Scan a Running Cluster
+
+```bash
+# Default scan (all frameworks)
+kubescape scan
+
+# Scan with a specific framework
+kubescape scan framework nsa
+kubescape scan framework mitre
+kubescape scan framework cis-v1.23-t1.0.1
+
+# Scan a specific control
+kubescape scan control C-0005 -v
+```
+
+#### Scan Files and Repositories
+
+```bash
+# Scan local YAML files
+kubescape scan /path/to/manifests/
+
+# Scan a Helm chart
+kubescape scan /path/to/helm/chart/
+
+# Scan a Git repository
+kubescape scan https://github.com/kubescape/kubescape
+
+# Scan with Kustomize
+kubescape scan /path/to/kustomize/directory/
+```
+
+#### Scan Options
+
+```bash
+# Include/exclude namespaces
+kubescape scan --include-namespaces production,staging
+kubescape scan --exclude-namespaces kube-system,kube-public
+
 ## configuration
 
 kubescape scan --kubeconfig /path/to/kubeconfig
+
+# Set compliance threshold (exit code 1 if below threshold).

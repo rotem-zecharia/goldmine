@@ -72,9 +72,13 @@ curl -fsSL https://raw.githubusercontent.com/maxritter/pilot-shell/main/uninstal
 Over time, accumulated session logs and Pilot Shell's caches can slow things down. A periodic reset gives you a clean baseline:
 
 ```bash
+# 1. If using Claude Code, log out first
+/logout
 
 ## configuration
 
+# Using CLAUDE_CONFIG_DIR? Substitute it for ~/.claude, and back up
+# "$CLAUDE_CONFIG_DIR/.claude.json" instead of ~/.claude.json.
 mv ~/.claude.json ~/.claude.json.bak
 mv ~/.claude       ~/.claude.bak
 mv ~/.codex        ~/.codex.bak
@@ -83,3 +87,45 @@ mv ~/.pilot        ~/.pilot.bak
 ## tools
 
 Daily token costs, model routing breakdown, and usage trends across sessions for both Claude Code and Codex sessions. Correlates costs to commits and show savings via CLI proxy integration.
+
+### Settings
+
+Configure spec workflow toggles, reviewer settings, and Console preferences. Toggle labels show which review agents run on Claude Code + Codex, and which Codex Companion Reviewers require the Claude Code Codex plugin.
+
+### Documentation
+
+Documentation, guides, and quick-start resources to explain the concepts in detail.
+
+---
+
+## Documentation
+
+For full details on every component, see the **[Documentation](https://pilot-shell.com/docs/)**.
+
+---
+
+## Changelog
+
+See the full changelog at [GitHub Releases](https://github.com/maxritter/pilot-shell/releases).
+
+---
+
+## Contributing
+
+Found a bug or missing a feature? [Open an issue](https://github.com/maxritter/pilot-shell/issues) on GitHub.
+
+---
+
+## License
+
+See [LICENSE](LICENSE).
+
+---
+
+<div align="center">
+
+**How real engineers run Claude Code and Codex**
+
+</div>
+
+[osai-verify: 8d67182dee08d42091c5]: #

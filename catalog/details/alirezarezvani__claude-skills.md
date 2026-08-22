@@ -4,7 +4,85 @@
 
 ## installation
 
+### Gemini CLI (New)
+
+```bash
+# Clone the repository
+git clone https://github.com/alirezarezvani/claude-skills.git
+cd claude-skills
+
+# Run the setup script
 ./scripts/gemini-install.sh
+
+# Start using skills
+> activate_skill(name="senior-architect")
+```
+
+### Claude Code (Recommended)
+
+```bash
+# Add the marketplace
+/plugin marketplace add alirezarezvani/claude-skills
+
+# Install by domain
+/plugin install engineering-skills@claude-code-skills          # 24 core engineering
+/plugin install engineering-advanced-skills@claude-code-skills  # 25 POWERFUL-tier
+/plugin install product-skills@claude-code-skills               # 12 product skills
+/plugin install marketing-skills@claude-code-skills             # 43 marketing skills
+/plugin install ra-qm-skills@claude-code-skills                 # 12 regulatory/quality
+/plugin install pm-skills@claude-code-skills                    # 6 project management
+/plugin install c-level-skills@claude-code-skills               # 28 C-level advisory (full C-suite)
+/plugin install business-growth-skills@claude-code-skills       # 4 business & growth
+/plugin install finance-skills@claude-code-skills               # 2 finance (analyst + SaaS metrics)
+
+# Or install individual skills
+/plugin install skill-security-auditor@claude-code-skills       # Security scanner
+/plugin install playwright-pro@claude-code-skills                  # Playwright testing toolkit
+/plugin install self-improving-agent@claude-code-skills         # Auto-memory curation
+/plugin install content-creator@claude-code-skills              # Single skill
+```
+
+### OpenAI Codex
+
+```bash
+npx agent-skills-cli add alirezarezvani/claude-skills --agent codex
+# Or: git clone + ./scripts/codex-install.sh
+```
+
+### OpenClaw
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/alirezarezvani/claude-skills/main/scripts/openclaw-install.sh)
+```
+
+### Manual Installation
+
+```bash
+git clone https://github.com/alirezarezvani/claude-skills.git
+# Copy any skill folder to ~/.claude/skills/ (Claude Code) or ~/.codex/skills/ (Codex)
+```
+
+---
+
+## Multi-Tool Support (New)
+
+**Convert all 345 skills to 9 AI coding tools** with a single script:
+
+| Tool | Format | Install |
+|------|--------|---------|
+| **Cursor** | `.mdc` rules | `./scripts/install.sh --tool cursor --target .` |
+| **Aider** | `CONVENTIONS.md` | `./scripts/install.sh --tool aider --target .` |
+| **Kilo Code** | `.kilocode/rules/` | `./scripts/install.sh --tool kilocode --target .` |
+| **Windsurf** | `.windsurf/skills/` | `./scripts/install.sh --tool windsurf --target .` |
+| **OpenCode** | `.opencode/skills/` | `./scripts/install.sh --tool opencode --target .` |
+| **Augment** | `.augment/rules/` | `./scripts/install.sh --tool augment --target .` |
+| **Antigravity** | `~/.gemini/antigravity/skills/` | `./scripts/install.sh --tool antigravity` |
+| **Hermes Agent** | `~/.hermes/skills/` | `python scripts/sync-hermes-skills.py --verbose` |
+| **Mistral Vibe** | `~/.vibe/skills/` | `./scripts/vibe-install.sh` |
+
+**How it works:**
+
+```bash
 
 ## tools
 

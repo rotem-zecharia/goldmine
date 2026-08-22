@@ -34,3 +34,32 @@ Initialize agent-qa and install the runtime support you need:
 ```sh
 npx agent-qa init
 npx agent-qa install-browsers --chromium
+# Mobile projects:
+npx agent-qa install-mobile-drivers --all
+```
+
+Start the dashboard, complete auth, and run tests from the UI:
+
+```sh
+npx agent-qa dashboard --open
+```
+
+For the full setup flow, use the [quickstart](https://vostride.com/docs/agent-qa/quickstart).
+
+## CLI
+
+Run tests from the CLI:
+
+```sh
+npx agent-qa run tests/hacker-news-top-story.yaml
+```
+
+## Docs
+
+- [Full docs](https://vostride.com/docs/agent-qa)
+- [Quickstart](https://vostride.com/docs/agent-qa/quickstart)
+- [CLI reference](https://vostride.com/docs/agent-qa/cli)
+- [Dashboard](https://vostride.com/docs/agent-qa/dashboard)
+- [Configuration](https://vostride.com/docs/agent-qa/configuration)
+- [License](LICENSE.md)
+- [Notice](NOTICE.md)

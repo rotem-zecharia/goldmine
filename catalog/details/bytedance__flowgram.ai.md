@@ -1,0 +1,60 @@
+# bytedance/flowgram.ai
+
+FlowGram is an extensible workflow development framework with built-in canvas, form, variable, and materials that helps developers build AI workflow platforms faster and simpler.
+
+## installation
+
+1. Create a new FlowGram project:
+
+```sh
+npx @flowgram.ai/create-app@latest
+```
+
+> We recommend choosing the `Free Layout Demo ⭐️` template.
+
+2. Start the project:
+
+```sh
+cd demo-free-layout
+npm install
+npm start
+```
+
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## features
+
+| Feature                                                                                      | Description                                                                                                                                                                                               | Demo                                                                                         |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [Free Layout Canvas](https://flowgram.ai/examples/free-layout/free-feature-overview.html)    | Free layout canvas where nodes can be placed anywhere and connected using free-form lines.                                                                                                                | ![Free Layout Demo](./apps/docs/src/public/free-layout/free-layout-demo.gif)                 |
+| [Fixed Layout Canvas](https://flowgram.ai/examples/fixed-layout/fixed-feature-overview.html) | Fixed layout canvas where nodes can be dragged to specified positions, with support for compound nodes like branches and loops.                                                                           | ![Fixed Layout Demo](./apps/docs/src/public/fixed-layout/fixed-layout-demo.gif)              |
+| [Form](https://flowgram.ai/examples/node-form/basic.html)                                    | The form engine manages the CRUD operations of node data and provides rendering, validation, side effects, linkage, and error-capturing capabilities, simplifying the development of node configurations. | ![Form](https://github.com/user-attachments/assets/13e9b4cd-e993-4d21-901c-fb6cf106de78)     |
+| [Variable](https://flowgram.ai/guide/variable/basic.html)                                    | The variable engine supports scope constraints, variable structure inspection, and type inference, making it easy to manage data flow within the workflow.                                                | ![Variable](https://github.com/user-attachments/assets/442006db-25e3-4fb5-972c-7a0545638ff5) |
+
+
+## 📖 Documentation
+
+You can find the FlowGram documentation [on the website](https://flowgram.ai).
+
+The documentation is divided into several sections:
+
+- [Quick Start](https://flowgram.ai/guide/getting-started/introduction.html)
+- [Canvas](https://flowgram.ai/guide/free-layout/load.html)
+- [Form](https://flowgram.ai/guide/form/form.html)
+- [Variable](https://flowgram.ai/guide/variable/basic.html)
+- [Material](https://flowgram.ai/materials/introduction.html)
+- [Runtime](https://flowgram.ai/guide/runtime/introduction.html)
+- [Advanced Guides](https://flowgram.ai/guide/advanced/zoom-scroll.html)
+- [API Reference](https://flowgram.ai/api/index.html)
+- [Where to get Support](https://flowgram.ai/guide/contact-us.html)
+- [Contributing Guide](https://flowgram.ai/guide/contributing.html)
+
+## 🙌 Contributors
+
+[![FlowGram.AI Contributors](https://contrib.rocks/image?repo=bytedance/flowgram.ai)](https://github.com/bytedance/flowgram.ai/graphs/contributors)
+
+## 🌍 Adoption
+
+- [Coze Studio](https://github.com/coze-dev/coze-studio) is an all-in-one AI agent development tool. Providing the latest large models and tools, various development modes and frameworks, Coze Studio offers the most convenient AI agent development environment, from development to deployment.
+- [NNDeploy](https://github.com/NNDeploy/nndeploy) is a workflow-based multi-platform ai deployment tool.
+- [Certimate](https://github.com/certimate-go/certimate)  is an open-source SSL certificate management tool that helps you automatically apply for and deploy SSL certificates with a visual workflow. It is one of the ACME client options listed in th

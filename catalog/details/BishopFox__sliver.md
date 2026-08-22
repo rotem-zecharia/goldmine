@@ -26,3 +26,15 @@ Download the latest [release](https://github.com/BishopFox/sliver/releases) and 
 #### Linux One Liner
 
 `curl https://sliver.sh/install|sudo bash` and then run `sliver`
+
+### Help!
+
+Please checkout the [wiki](https://sliver.sh/), or start a [GitHub discussion](https://github.com/BishopFox/sliver/discussions).
+
+### Compile From Source
+
+See the [wiki](https://sliver.sh/docs?name=Compile+from+Source).
+
+### License - GPLv3
+
+Sliver is licensed under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html), some sub-components may have separate licenses. See their respective subdirectories in this project for details.

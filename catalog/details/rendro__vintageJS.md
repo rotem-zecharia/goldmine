@@ -8,6 +8,29 @@ Add a retro/vintage effect to images using the HTML5 canvas element
 $ npm install vintagejs
 ```
 
+## How to use
+
+`vintagejs` is a function that takes a source (URL, ImageElement or CanvasElement) and an effect (object with all the options) and returns a Promise that resolves to a result object.
+
+```javascript
+vintagejs('./path/to/picture.jpg', { brightness: 0.2 })
+  .then(res => res.genImage())
+  .then(img => document.body.appendChild(img));
+```
+
+The result object provides the following methods to access the modified image data:
+
+```javascript
+// returns the data url of the updated image. Use it to update the source of an existing image
+getDataURL(mimeType?: string, quality?: number): string;
+// returns the canvas with the updated image. Use it to draw your changes onto another canvas
+getCanvas(): HTMLCanvasElement;
+// returns a promise that resolves to an HTMLImageElement of the updated image
+genImage(mimeType?: string, quality?: number): Promise<HTMLImageElement>;
+```
+
+If not provided, mimeType defaults to `image/jpeg` and quality defaults to `1`.
+
 ## tools
 
 ```javascript
@@ -55,3 +78,5 @@ type TRGBAColor = {
   g: Uint8,  // int between 0 and 255
   b: Uint8,  // int between 0 and 255
   a: number, // float between 0 and 1
+};
+```

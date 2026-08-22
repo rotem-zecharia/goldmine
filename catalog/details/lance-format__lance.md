@@ -49,6 +49,100 @@ assert isinstance(dataset, pa.dataset.Dataset)
 **Pandas**
 ```python
 df = dataset.to_table().to_pandas()
+df
+```
+
+**DuckDB**
+```python
+import duckdb
+
+# If this segfaults, make sure you have duckdb v0.7+ installed
+duckdb.query("SELECT * FROM dataset LIMIT 10").to_df()
+```
+
+**Vector search**
+
+Download the sift1m subset
+
+```shell
+wget ftp://ftp.irisa.fr/local/texmex/corpus/sift.tar.gz
+tar -xzf sift.tar.gz
+```
+
+Convert it to Lance
+
+```python
+import lance
+from lance.vector import vec_to_table
+import numpy as np
+import struct
+
+nvecs = 1000000
+ndims = 128
+with open("sift/sift_base.fvecs", mode="rb") as fobj:
+    buf = fobj.read()
+    data = np.array(struct.unpack("<128000000f", buf[4 : 4 + 4 * nvecs * ndims])).reshape((nvecs, ndims))
+    dd = dict(zip(range(nvecs), data))
+
+table = vec_to_table(dd)
+uri = "vec_data.lance"
+sift1m = lance.write_dataset(table, uri, max_rows_per_group=8192, max_rows_per_file=1024*1024)
+```
+
+Build the index
+
+```python
+sift1m.create_index("vector",
+                    index_type="IVF_PQ",
+                    num_partitions=256,  # IVF
+                    num_sub_vectors=16)  # PQ
+```
+
+Search the dataset
+
+```python
+# Get top 10 similar vectors
+import duckdb
+
+dataset = lance.dataset(uri)
+
+# Sample 100 query vectors. If this segfaults, make sure you have duckdb v0.7+ installed
+sample = duckdb.query("SELECT vector FROM dataset USING SAMPLE 100").to_df()
+query_vectors = np.array([np.array(x) for x in sample.vector])
+
+# Get nearest neighbors for all of them
+rs = [dataset.to_table(nearest={"column": "vector", "k": 10, "q": q})
+      for q in query_vectors]
+```
+
+## Directory structure
+
+| Directory          | Description              |
+|--------------------|--------------------------|
+| [rust](./rust)     | Core Rust implementation |
+| [python](./python) | Python bindings (PyO3)   |
+| [java](./java)     | Java bindings (JNI)      |
+| [docs](./docs)     | Documentation source     |
+
+## Benchmarks
+
+### Vector search
+
+We used the SIFT dataset to benchmark our results with 1M vectors of 128D
+
+1. For 100 randomly sampled query vectors, we get <1ms average response time (on a 2023 m2 MacBook Air)
+
+![avg_latency.png](docs/src/images/avg_latency.png)
+
+2. ANNs are always a trade-off between recall and performance
+
+![avg_latency.png](docs/src/images/recall_vs_latency.png)
+
+### Vs. parquet
+
+We create a Lance dataset using the Oxford Pet dataset to do some preliminary performance testing of Lance as compared to Parquet and raw image/XMLs. For analytics queries, Lance is 50-100x better than reading the raw metadata. For batched random access, Lance is 100x better than both parquet and raw files.
+
+![](docs/src/images/lance_perf.png)
 
 ## features
 

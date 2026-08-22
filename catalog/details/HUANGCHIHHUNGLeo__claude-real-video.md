@@ -74,6 +74,20 @@ Works on **macOS, Windows, and Linux** — Python 3.10+.
 ## tools
 
 ```bash
+# A YouTube / Instagram / TikTok / ... link
+crv "https://www.instagram.com/reel/XXXX/"
+
+# A local file, English transcript, output to ./out
+crv lecture.mp4 -o out --lang en
+
+# Frames only, no transcription
+crv clip.mp4 --no-transcribe
+
+# A login-gated video (your own / authorised use): pass a Netscape cookie file
+crv "https://..." --cookies cookies.txt
+```
+
+`python -m claude_real_video ...` works as an alias for `crv` too.
 
 ## configuration
 
@@ -104,3 +118,18 @@ Works on **macOS, Windows, and Linux** — Python 3.10+.
 | `--cookies-from-browser` | – | read login cookies straight from your own browser — `chrome`, `safari`, `firefox` or `edge` (your own account only) |
 
 ---
+
+### What `--grid` output looks like
+
+One contact sheet = nine consecutive keyframes, in order, filenames on each cell — the model reads a sequence, not scattered stills:
+
+![contact sheet example](https://raw.githubusercontent.com/HUANGCHIHHUNGLeo/claude-real-video/master/docs/grid_example.jpg)
+
+
+## Memory — ask across everything you've watched
+
+Every analysis is indexed locally (transcript lines + on-screen text, with timestamps),
+so a question can span your whole library instead of one output folder:
+
+```bash
+crv-ask "pricing strategy"   # → which video, which second, the ex

@@ -39,6 +39,55 @@ Tyk runs natively on _Kubernetes_, if you prefer, thanks to the _[Tyk Kubernetes
 
 ---
 
+## Get Started
+
+We’ll install Tyk, add auth, analytics, quotas and rate limiting to your API in under 5 minutes.
+
+We recommend [Tyk Gateway Docker](https://github.com/TykTechnologies/tyk-gateway-docker#start-up-the-deployment) as the quickest way to get started now. Later, you can move to one of our other [supported distributions](https://tyk.io/docs/apim/open-source/installation/) if you prefer.
+
+#### Step 1 - Clone the docker-compose repository
+```console
+git clone https://github.com/TykTechnologies/tyk-gateway-docker
+```
+
+#### Step 2 - Change to the new directory
+```console
+cd tyk-gateway-docker
+```
+
+#### Step 3 - Deploy Tyk Gateway and Redis
+```console
+docker-compose up
+```
+
+You can run this in detach mode using the `-d` flag: `docker-compose up -d`
+
+**Congratulations, you’re done!**
+
+Your Tyk Gateway is now configured and ready to use. Confirm this by checking against the ‘hello’ endpoint:
+```console
+curl localhost:8080/hello
+```
+Output:
+```json
+{"status": "pass", "version": "v3.2.1", "description": "Tyk GW"}
+```
+
+Next, visit [adding your first API](https://tyk.io/docs/getting-started/create-api/) to Tyk and follow the Open Source instructions.
+
+---
+
+Other Installations are available:
+
+1. [Docker](https://tyk.io/docs/tyk-oss/ce-docker/)
+2. [Kubernetes-Native ](https://github.com/TykTechnologies/tyk-oss-k8s-deployment)
+3. [Kubernetes-Helm](https://github.com/TykTechnologies/tyk-helm-chart#install-tyk-community-edition)
+4. [Ansible](https://tyk.io/docs/tyk-oss/ce-ansible/)
+5. [Red Hat](https://tyk.io/docs/tyk-oss/ce-redhat/)
+6. [Ubuntu](https://tyk.io/docs/tyk-oss/ce-ubuntu/)
+7. [CentOS](https://tyk.io/docs/tyk-oss/ce-centos/)
+8. [Compile Tyk from Source](#compiling-tyk-gateway)
+
 ## features
 
 Use any protocol: REST, SOAP, [GraphQL](https://tyk.io/docs/tyk-apis/tyk-gateway-api/api-definition-objects/graphql/), [gRPC](https://tyk.io/docs/key-concepts/grpc-proxy/), and [TCP](https://tyk.io/docs/key-concepts/tcp-proxy/).
@@ -75,3 +124,8 @@ Analytics logging - Record detailed usage data on who is using your APIs (raw da
 ![OpenSourceAPIGateway-Diagram](https://github.com/TykTechnologies/tyk/assets/8012032/7466be3f-fb81-4a95-88ac-3b09254c815d)
 
 Tyk Technologies uses the same API Gateway for all it’s applications. Protecting, securing, and processing APIs for thousands of organizations and businesses around the world. Ideal for Open Banking, building software in the clouds as well as exposing APIs to teams, partners & consumers.
+
+
+## Tyk OSS Integrations
+
+Tyk Technologies maintains other Open Source Software which can be

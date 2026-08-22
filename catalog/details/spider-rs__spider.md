@@ -33,3 +33,27 @@ let mut website = Website::new("https://example.com")
 Full reference in the [`Configuration` docs](https://docs.rs/spider/latest/spider/configuration/struct.Configuration.html).
 
 For JavaScript-heavy sites, enable `features = ["chrome"]` and call `crawl_smart()`. Spider tries HTTP first and only launches Chrome on pages that need it.
+
+## Use cases
+
+Teams use Spider to feed the open web into vector stores for LLM and RAG pipelines, monitor sites for SEO and price changes, export pages as Markdown, JSON, or WARC, and drive headless Chrome for AI browsing agents. There are [50+ runnable examples](./examples/) to start from.
+
+## Learn more
+
+- [Guides](https://spider.cloud/guides?utm_source=github&utm_medium=readme&utm_campaign=spider_rs) for recipes and integrations
+- [API docs](https://docs.rs/spider) for every option and method
+- [Discord](https://discord.spider.cloud) for questions and ideas
+- [Issues](https://github.com/spider-rs/spider/issues) for bugs and feature requests
+
+## Contributing
+
+PRs welcome. See [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+```bash
+cargo test -p spider                  # unit tests
+RUN_LIVE_TESTS=1 cargo test           # live network tests
+```
+
+## License
+
+[MIT](./LICENSE).

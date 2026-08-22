@@ -37,6 +37,35 @@ container init
 
 Choose your coding harnesses, development tools, runtime, and mounts, then accept the initial image build.
 
+### Run
+
+Navigate to a project and start its workspace:
+
+```bash
+cd /path/to/project
+container
+```
+
+Your project is mounted at `/root/<project-name>`. The container and anything installed inside it persist between sessions.
+
+Start your preferred coding agent and work normally:
+
+```bash
+opencode
+npm install <package>
+```
+
+## Agent Skill
+
+Want an agent to configure Container for you? Install the portable [Container skill](skills/container/SKILL.md) on the host, then ask your agent to set up packages, harnesses, tools, mounts, permissions, or migrations.
+
+```bash
+npx skills add aerovato/container --skill container
+npx skills add aerovato/container --skill container --global  # All projects
+```
+
+The skill is host-side because agents inside managed containers cannot access Container's host configuration.
+
 ## tools
 
 ```bash
@@ -58,3 +87,42 @@ container build tools
 container build harness
 container build user
 ```
+
+## Customization
+
+Add packages and setup commands to:
+
+```text
+~/.code-container/Dockerfile.User
+```
+
+Then rebuild the user layer:
+
+```bash
+container build user
+```
+
+Harnesses, tools, runtime flags, mounts, and base-image settings are configured through `~/.code-container/settings.json`.
+
+See [Configuration](skills/container/references/configuration.md) for settings details and [Permissions](skills/container/references/permissions.md) for hands-off harness permissions.
+
+## Security
+
+`container` limits what an agent can access, but it does not make the agent trusted.
+
+The current project is mounted read-write and can be changed or deleted. Enabled configurations and optional credentials may also be available inside the container. Containers retain network access, and `container` does not protect against prompt injection or agent misalignment.
+
+Keep important work under version control and only mount resources the agent needs.
+
+## Built with Operator
+
+This repository is maintained with [Operator Memory](https://github.com/aerovato/operator-memory) — durable, agent-maintained documentation that lets AI agents work on the project with full context across sessions. The published brain lives in [`.operator-shared/`](.operator-shared/).
+
+To work on Container with the same context, install Operator Memory:
+
+```bash
+# With NPM
+npm install --global @aerovato/operator-helper
+
+# With Bun
+bun add --global --minimum-release-age 0 @aerovato/operator-helper@latest

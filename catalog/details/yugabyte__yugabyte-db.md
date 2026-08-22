@@ -20,6 +20,19 @@ YugabyteDB - the cloud native distributed SQL database for mission-critical appl
 
 YugabyteDB was created with several key design goals in mind, aiming to address the challenges faced by modern, cloud-native applications while maintaining the familiarity and power of traditional relational databases. Read more about these in our [Design goals](https://docs.yugabyte.com/stable/architecture/design-goals/).
 
+# Get Started
+
+* [Quick Start](https://docs.yugabyte.com/stable/quick-start/)
+* Try running a real-world demo application:
+  * [Microservices-oriented e-commerce app](https://github.com/yugabyte/yugastore-java)
+  * [Lodging Recommendation Service With OpenAI and pgvector](https://github.com/YugabyteDB-Samples/openai-pgvector-lodging-service/)
+
+Can't find what you're looking for? Have a question? Post your questions or comments on our Community [Slack](https://communityinviter.com/apps/yugabyte-db/register) or [Forum](https://forum.yugabyte.com).
+
+# Build Applications
+
+YugabyteDB supports many languages and client drivers,
+
 ## limitations
 
 The following is a list of some of the key features being worked on for upcoming releases.
@@ -39,6 +52,10 @@ Refer to [roadmap tracker](https://github.com/yugabyte/yugabyte-db/issues?q=is:i
 ## configuration
 
 Time synchronization across nodes has been enhanced through the use of the [ClockBound](https://github.com/aws/clock-bound) library, which is an open source daemon that allows you to compare timestamps to determine order for events and transactions, independent of an instance's geographic location; it improves clock accuracy by several orders of magnitude.
+
+## v2025.1 (Stable) - July 2025
+
+For the full list of features and improvements in this release, see [Release notes - v2025.1](https://docs.yugabyte.com/stable/releases/ybdb-releases/v2025.1/). Here are some of the prominent features.
 
 ## installation
 

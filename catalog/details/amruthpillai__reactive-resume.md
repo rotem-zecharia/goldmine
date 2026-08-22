@@ -35,8 +35,169 @@ A one-of-a-kind resume builder that keeps your privacy in mind. Completely secur
 - Dark mode support
 - Passkey and two-factor authentication
 
+## Templates
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/azurill.jpg" alt="Azurill" width="150" />
+      <br /><sub><b>Azurill</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/bronzor.jpg" alt="Bronzor" width="150" />
+      <br /><sub><b>Bronzor</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/chikorita.jpg" alt="Chikorita" width="150" />
+      <br /><sub><b>Chikorita</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/ditto.jpg" alt="Ditto" width="150" />
+      <br /><sub><b>Ditto</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/gengar.jpg" alt="Gengar" width="150" />
+      <br /><sub><b>Gengar</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/glalie.jpg" alt="Glalie" width="150" />
+      <br /><sub><b>Glalie</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/kakuna.jpg" alt="Kakuna" width="150" />
+      <br /><sub><b>Kakuna</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/lapras.jpg" alt="Lapras" width="150" />
+      <br /><sub><b>Lapras</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/leafish.jpg" alt="Leafish" width="150" />
+      <br /><sub><b>Leafish</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/onyx.jpg" alt="Onyx" width="150" />
+      <br /><sub><b>Onyx</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/pikachu.jpg" alt="Pikachu" width="150" />
+      <br /><sub><b>Pikachu</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/rhyhorn.jpg" alt="Rhyhorn" width="150" />
+      <br /><sub><b>Rhyhorn</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/ditgar.jpg" alt="Ditgar" width="150" />
+      <br /><sub><b>Ditgar</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/meowth.jpg" alt="Meowth" width="150" />
+      <br /><sub><b>Meowth</b></sub>
+    </td>
+    <td align="center">
+      <img src="apps/web/public/templates/jpg/scizor.jpg" alt="Scizor" width="150" />
+      <br /><sub><b>Scizor</b></sub>
+    </td>
+  </tr>
+</table>
+
 ## installation
 
 The quickest way to run Reactive Resume locally:
 
 ```bash
+# Clone the repository
+git clone --depth=1  https://github.com/amruthpillai/reactive-resume.git
+cd reactive-resume
+
+# Start all services
+docker compose up -d
+
+# Access the app
+open http://localhost:3000
+```
+
+[![Build with Ona](https://ona.com/build-with-ona.svg)](https://app.ona.com/#https://github.com/amruthpillai/reactive-resume)
+
+For detailed setup instructions, environment configuration, and self-hosting guides, see the [documentation](https://docs.rxresu.me).
+
+## Tech Stack
+
+| Category         | Technology                      |
+| ---------------- | ------------------------------- |
+| Framework        | TanStack Start (React 19, Vite) |
+| Runtime          | Node.js                         |
+| Language         | TypeScript                      |
+| Database         | PostgreSQL with Drizzle ORM     |
+| API              | ORPC (Type-safe RPC)            |
+| Auth             | Better Auth                     |
+| Styling          | Tailwind CSS                    |
+| UI Components    | Base UI + shadcn-style package  |
+| State Management | Zustand + TanStack Query        |
+
+## Documentation
+
+Comprehensive guides are available at [docs.rxresu.me](https://docs.rxresu.me):
+
+| Guide                                                                        | Description                      |
+| ---------------------------------------------------------------------------- | -------------------------------- |
+| [Getting Started](https://docs.rxresu.me/getting-started)                    | First-time setup and basic usage |
+| [Self-Hosting](https://docs.rxresu.me/self-hosting/docker)                   | Deploy on your own server        |
+| [Development Setup](https://docs.rxresu.me/contributing/development)         | Local development environment    |
+| [Project Architecture](https://docs.rxresu.me/contributing/architecture)     | Codebase structure and patterns  |
+| [Exporting Your Resume](https://docs.rxresu.me/guides/exporting-your-resume) | PDF and JSON export options      |
+
+## Self-Hosting
+
+Reactive Resume can be self-hosted using Docker. The stack includes:
+
+- **PostgreSQL** — Database for storing user data and resumes
+- **SeaweedFS** (optional) — S3-compatible storage for file uploads
+
+> **From v5.1.0 onwards** — PDF generation now runs entirely client-side via `@react-pdf/renderer`. New deployments no longer require Browserless, Chromium, or any external print service as a dependency. The `PRINTER_*` and `BROWSERLESS_*` environment variables are no longer read and can be removed from your `.env`.
+
+Pull the latest image from Docker Hub or GitHub Container Registry:
+
+```bash
+# Docker Hub
+docker pull amruthpillai/reactive-resume:latest
+
+# GitHub Container Registry
+docker pull ghcr.io/amruthpillai/reactive-resume:latest
+```
+
+See the [self-hosting guide](https://docs.rxresu.me/self-hosting/docker) for complete instructions.
+
+## Support
+
+Reactive Resume is and always will be free and open-source. If it has helped you land a job or saved you time, please consider supporting continued development:
+
+<p>
+  <a href="https://github.com/sponsors/AmruthPillai">
+    <img src="https://img.shields.io/badge/GitHub%20Sponsors-Support-ea4aaa?style=flat-square&logo=github-sponsors" alt="GitHub Sponsors" />
+  </a>
+  <a href="https://opencollective.com/reactive-resume/donate">
+    <img src="https://img.shields.io/badge/Open%20Collective-Contribute-7FADF2?style=flat-square&logo=open-collective" alt="Open Collective" />
+  </a>
+</p>
+
+Other ways to support:
+
+- Star this repository
+- Report reproducible bugs and suggest actionable features
+- Help other users in [GitHub Discussions](https://github.com/amruthpillai/reactive-resume/discussions/categories/q-a)
+- Improve documentation
+- Help with translations
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=amruthpillai%2Freactive-resume&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://ap

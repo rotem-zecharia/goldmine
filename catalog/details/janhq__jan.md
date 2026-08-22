@@ -72,6 +72,10 @@ Download from [jan.ai](https://jan.ai/) or [GitHub Releases](https://github.com/
 - **Model Context Protocol**: MCP integration for agentic capabilities
 - **Privacy First**: Everything runs locally when you want it to
 
+## Build from Source
+
+For those who enjoy the scenic route:
+
 ## requirements
 
 - Node.js ≥ 20.0.0
@@ -79,6 +83,22 @@ Download from [jan.ai](https://jan.ai/) or [GitHub Releases](https://github.com/
 - Make ≥ 3.81
 - Rust (for Tauri)
 - (macOS Apple Silicon only) MetalToolchain `xcodebuild -downloadComponent MetalToolchain`
+
+### Run with Make
+
+```bash
+git clone https://github.com/janhq/jan
+cd jan
+make dev
+```
+
+This handles everything: installs dependencies, builds core components, and launches the app.
+
+**Available make targets:**
+- `make dev` - Full development setup and launch
+- `make build` - Production build
+- `make test` - Run tests and linting
+- `make clean` - Delete everything and start fresh
 
 ## tools
 

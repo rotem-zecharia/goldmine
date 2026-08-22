@@ -30,7 +30,27 @@ FENCE = re.compile(r"```[a-zA-Z]*\n(.*?)```", re.DOTALL)
 RST_BLOCK = re.compile(r"::[^\n]*\n\n((?:[ \t]+[^\n]*\n?)+)")
 MAX_SECTION = 4_000
 
+# A command only counts as an install command when it looks like one. The old
+# fallback returned the first line of the first code block, which offered
+# "from firecrawl import Firecrawl" and "cd dify" as installation steps. The
+# skill is told to read the detail file when this field is empty, so an empty
+# field degrades gracefully while a wrong one misleads.
 INSTALL_MARKERS = (
+    "docker compose up",
+    "apt install",
+    "apt-get install",
+    "dnf install",
+    "pacman -S",
+    "winget install",
+    "choco install",
+    "scoop install",
+    "gem install",
+    "composer require",
+    "curl -fsSL",
+    "curl -sSL",
+    "wget -qO-",
+    "bun add",
+    "deno install",
     "plugin marketplace add",
     "plugin install",
     "npm install",
@@ -122,4 +142,4 @@ def extract_install_command(markdown: str) -> str:
         if any(marker in line for marker in INSTALL_MARKERS):
             return line[:200]
 
-    return lines[0][:200] if lines else ""
+    return ""

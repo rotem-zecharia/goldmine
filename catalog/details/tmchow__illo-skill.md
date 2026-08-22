@@ -21,3 +21,40 @@ doesn't have a native lane yet.
 | **OpenClaw** | `openclaw skills install illo` | reinstall with the same command |
 | **Cursor** | `npx skills add tmchow/illo-skill --skill illo` (Cursor Marketplace listing pending review) | re-run the installer |
 | **Other agents / last resort** | `npx skills add tmchow/illo-skill --skill illo` | `npx skills update` |
+
+### Grok Bot
+
+Paste this into Grok Bot; it is not a terminal command for you to run yourself.
+
+```text
+Install the illo skill and all community characters.
+
+npx skills add tmchow/illo-skill --skill illo -g -y
+```
+
+Every lane installs the same skill; releases are tagged `v<version>` and
+the version in every manifest is kept in lockstep with
+`skills/illo/SKILL.md` by Release Please and CI.
+
+## Repo layout
+
+The skill sits in `skills/illo/`, following the layout of the canonical
+skill repos (anthropics/skills, openai/skills): a top-level `skills/`
+folder, one directory per skill. It is deliberately not at the repo root —
+installers copy the entire skill directory verbatim, so the skill dir holds
+only what every install should ship. Docs-only images live in
+`_assets/illo/` (linked by raw URL), and repo meta stays at the root —
+including the plugin manifests (`.claude-plugin/`, `.codex-plugin/`,
+`.cursor-plugin/`, `.grok-plugin/`, `gemini-extension.json`) that make the
+repo installable as a native plugin on each platform.
+
+## Companion repos
+
+- [tmchow/illo-characters](https://github.com/tmchow/illo-characters) —
+  community character packs ("install the blip character").
+
+## License
+
+MIT © Trevin Chow — see [`LICENSE`](LICENSE) and
+[`skills/illo/NOTICE`](skills/illo/NOTICE) for attribution of the Blot character and
+bundled artwork.

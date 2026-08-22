@@ -18,6 +18,20 @@ An open-source, AI-integrated, cross-platform terminal for seamless workflows
 - Powerful `wsh` command system for managing your workspace from the CLI and sharing data between terminal sessions
 - Connected file management with `wsh file` - seamlessly copy and sync files between local and remote SSH hosts
 
+## Wave AI
+
+Wave AI is your context-aware terminal assistant with access to your workspace:
+
+- **Terminal Context**: Reads terminal output and scrollback for debugging and analysis
+- **File Operations**: Read, write, and edit files with automatic backups and user approval
+- **CLI Integration**: Use `wsh ai` to pipe output or attach files directly from the command line
+- **BYOK Support**: Bring your own API keys for OpenAI, Claude, Gemini, Azure, and other providers
+- **Local Models**: Run local models with Ollama, LM Studio, and other OpenAI-compatible providers
+- **Free Beta**: Included AI credits while we refine the experience
+- **Coming Soon**: Command execution (with approval)
+
+Learn more in our [Wave AI documentation](https://docs.waveterm.dev/waveai) and [Wave AI Modes documentation](https://docs.waveterm.dev/waveai-modes).
+
 ## installation
 
 Wave Terminal works on macOS, Linux, and Windows.
@@ -45,3 +59,36 @@ The WSH helper runs on the following platforms:
 Wave is constantly improving! Our roadmap will be continuously updated with our goals for each release. You can find it [here](./ROADMAP.md).
 
 Want to provide input to our future releases? Connect with us on [Discord](https://discord.gg/XfvZ334gwU) or open a [Feature Request](https://github.com/wavetermdev/waveterm/issues/new/choose)!
+
+## Links
+
+- Homepage &mdash; https://www.waveterm.dev
+- Download Page &mdash; https://www.waveterm.dev/download
+- Documentation &mdash; https://docs.waveterm.dev
+- X &mdash; https://x.com/wavetermdev
+- Discord Community &mdash; https://discord.gg/XfvZ334gwU
+
+## Building from Source
+
+See [Building Wave Terminal](BUILD.md).
+
+## Contributing
+
+Wave uses GitHub Issues for issue tracking.
+
+Find more information in our [Contributions Guide](CONTRIBUTING.md), which includes:
+
+- [Ways to contribute](CONTRIBUTING.md#contributing-to-wave-terminal)
+- [Contribution guidelines](CONTRIBUTING.md#before-you-start)
+
+### Sponsoring Wave ❤️
+
+If Wave Terminal is useful to you or your company, consider sponsoring development.
+
+Sponsorship helps support the time spent building and maintaining the project.
+
+- https://github.com/sponsors/wavetermdev
+
+## License
+
+Wave Terminal is licensed under the Apache-2.0 License. For more information on our dependencies, see [here](./ACKNOWLEDGEMENTS.md).

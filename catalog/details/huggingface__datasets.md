@@ -21,17 +21,45 @@
 | 🔎 **Search & index** | Built-in FAISS and Elasticsearch index support for similarity search |
 | 📦 **JSON type** | Flexible JSON/structured data support with `Json()` feature type |
 
+## installation
+
+## With pip
+
+🤗 Datasets can be installed from PyPi and should be installed in a virtual environment (venv or conda for instance):
+
+```bash
+pip install datasets
+```
+
+For the latest development version:
+
+```bash
+pip install "datasets @ git+https://github.com/huggingface/datasets.git"
+```
+
+## With conda
+
+```bash
+conda install -c huggingface -c conda-forge datasets
+```
+
 ## requirements
 
 🤗 Datasets supports various optional features via extras:
 
 ```bash
+# For audio (torchcodec)
+pip install datasets[audio]
 
-## installation
+# For image/video (Pillow, torchcodec)
+pip install datasets[vision]
 
-🤗 Datasets is made to be very simple to use — the API is centered around a single function, `datasets.load_dataset(dataset_name, **kwargs)`, that instantiates a dataset.
+# For PDFs/NIfTI (pdfplumber, nibabel)
+pip install datasets[pdfs,nibabel]
 
-Here is a quick example:
+# For PyTorch/TensorFlow/JAX integration
+pip install datasets[torch,tensorflow,jax]
 
-```python
-from datasets import load_dataset
+```
+
+For more details on installation, check the [installation page](https://huggingface.co/docs/datasets/installation).

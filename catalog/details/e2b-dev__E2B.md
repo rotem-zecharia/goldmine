@@ -22,3 +22,56 @@ pip install e2b
 ```
 E2B_API_KEY=e2b_***
 ```
+
+### 3. Start a sandbox and run commands
+
+JavaScript / TypeScript
+```ts
+import Sandbox from 'e2b'
+
+const sandbox = await Sandbox.create()
+const result = await sandbox.commands.run('echo "Hello from E2B!"')
+console.log(result.stdout) // Hello from E2B!
+```
+
+Python
+```py
+from e2b import Sandbox
+
+with Sandbox.create() as sandbox:
+    result = sandbox.commands.run('echo "Hello from E2B!"')
+    print(result.stdout)  # Hello from E2B!
+```
+
+### 4. Code execution with Code Interpreter
+
+If you need to execute code with [`runCode()`](https://e2b.dev/docs/code-interpreting?utm_source=github&utm_medium=referral&utm_campaign=readme&utm_content=E2B)/[`run_code()`](https://e2b.dev/docs/code-interpreting?utm_source=github&utm_medium=referral&utm_campaign=readme&utm_content=E2B), install the [Code Interpreter SDK](https://github.com/e2b-dev/code-interpreter):
+
+```
+npm i @e2b/code-interpreter  # JavaScript/TypeScript
+pip install e2b-code-interpreter  # Python
+```
+
+```ts
+import { Sandbox } from '@e2b/code-interpreter'
+
+const sandbox = await Sandbox.create()
+const execution = await sandbox.runCode('x = 1; x += 1; x')
+console.log(execution.text)  // outputs 2
+```
+
+### 5. Check docs
+Visit [E2B documentation](https://e2b.dev/docs?utm_source=github&utm_medium=referral&utm_campaign=readme&utm_content=E2B).
+
+### 6. E2B cookbook
+Visit our [Cookbook](https://github.com/e2b-dev/e2b-cookbook/tree/main) to get inspired by examples with different LLMs and AI frameworks.
+
+## Self-hosting
+
+Read the [self-hosting guide](https://github.com/e2b-dev/infra/blob/main/self-host.md) to learn how to set up the [E2B infrastructure](https://github.com/e2b-dev/infra) on your own. The infrastructure is deployed using Terraform. 
+
+Supported cloud providers:
+- 🟢 AWS
+- 🟢 Google Cloud (GCP)
+- [ ] Azure
+- [ ] General Linux machine

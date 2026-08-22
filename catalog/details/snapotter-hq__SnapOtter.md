@@ -31,3 +31,47 @@ For the production Compose stack, NVIDIA GPU acceleration, and configuration, se
 - **Self-hosted:** one `docker run` for a single-container quick start (embedded Postgres 17 + Redis 8), or the same Postgres 17 + Redis 8 as a Compose stack for production. No external SaaS dependencies
 - **Multi-arch:** Runs on AMD64 and ARM64 (Intel, Apple Silicon, Raspberry Pi)
 - **Privacy first:** Your files never leave your network. Basic analytics help us catch bugs and improve tools. Disable them at build time with `SNAPOTTER_ANALYTICS=off` or at runtime with the in-app admin opt-out ([Here's how to do it](https://docs.snapotter.com/guide/deployment.html#analytics))
+
+## Deployment
+
+The [Quick Start](#quick-start) one-liner above is all most people need. For production, run the 3-container Compose stack (app + Postgres 17 + Redis 8). Save this as `compose.yaml`:
+
+```yaml
+services:
+  snapotter:
+    image: snapotter/snapotter:latest
+    ports: ["1349:1349"]
+    environment:
+      DATABASE_URL: postgres://snapotter:snapotter@postgres:5432/snapotter
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - SnapOtter-data:/data
+    depends_on: [postgres, redis]
+    restart: unless-stopped
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: snapotter
+      # Change this for any non-local deployment.
+      POSTGRES_PASSWORD: snapotter
+      POSTGRES_DB: snapotter
+    volumes: ["SnapOtter-pgdata:/var/lib/postgresql/data"]
+    restart: unless-stopped
+  redis:
+    image: redis:8-alpine
+    volumes: ["SnapOtter-redisdata:/data"]
+    restart: unless-stopped
+volumes:
+  SnapOtter-data:
+  SnapOtter-pgdata:
+  SnapOtter-redisdata:
+```
+
+Then start the stack:
+
+```bash
+docker compose up -d
+```
+
+<details>
+<summary><sub>Have an NVIDIA GPU? Click here for CUDA acceleration.</sub></sum

@@ -4,6 +4,8 @@ TradingAgents: Multi-Agents LLM Financial Trading Framework
 
 ## installation
 
+### Installation
+
 Clone TradingAgents:
 ```bash
 git clone https://github.com/TauricResearch/TradingAgents.git
@@ -19,6 +21,19 @@ conda activate tradingagents
 Install the package and its dependencies:
 ```bash
 pip install .
+```
+
+### Docker
+
+Alternatively, run with Docker:
+```bash
+cp .env.example .env  # add your API keys
+docker compose run --rm tradingagents
+```
+
+For local models with Ollama:
+```bash
+docker compose --profile ollama run --rm tradingagents-ollama
 ```
 
 ## tools
@@ -53,3 +68,49 @@ Alternatively, copy `.env.example` to `.env` and fill in your keys:
 ```bash
 cp .env.example .env
 ```
+
+### CLI Usage
+
+Launch the interactive CLI:
+```bash
+tradingagents          # installed command
+python -m cli.main     # alternative: run directly from source
+```
+You will see a screen where you can select your desired tickers, analysis date, LLM provider, research depth, and more.
+
+### Markets and tickers
+
+TradingAgents works with any market Yahoo Finance covers, using the exchange-suffixed ticker. Company identity and the alpha benchmark resolve automatically per market.
+
+- US: `AAPL`, `SPY`
+- Hong Kong: `0700.HK` · Tokyo: `7203.T` · London: `AZN.L`
+- India: `RELIANCE.NS`, `.BO` · Canada: `.TO` · Australia: `.AX`
+- China A-shares: Shanghai `.SS`, Shenzhen `.SZ` (e.g. `600519.SS` for Kweichow Moutai)
+- Crypto: `BTC-USD`, `ETH-USD`
+
+<p align="center">
+  <img src="assets/cli/cli_init.png" width="100%" style="display: inline-block; margin: 0 2%;">
+</p>
+
+An interface will appear showing results as they load, letting you track the agent's progress as it runs.
+
+<p align="center">
+  <img src="assets/cli/cli_news.png" width="100%" style="display: inline-block; margin: 0 2%;">
+</p>
+
+<p align="center">
+  <img src="assets/cli/cli_transaction.png" width="100%" style="display: inline-block; margin: 0 2%;">
+</p>
+
+## TradingAgents Package
+
+### Implementation Details
+
+We built TradingAgents with LangGraph to ensure flexibility and modularity. The framework supports multiple LLM providers: OpenAI, Google, Anthropic, xAI, DeepSeek, Qwen (Alibaba DashScope, international and China endpoints), GLM (Zhipu), MiniMax (global + China), OpenRouter, Ollama for local models, and Azure OpenAI for enterprise.
+
+### Python Usage
+
+To use TradingAgents inside your code, you can import the `tradingagents` module and initialize a `TradingAgentsGraph()` object. The `.propagate()` function will return a decision. You can run `main.py`, here's also a quick example:
+
+```python
+from trad

@@ -32,6 +32,10 @@ The Gateway is now available on the following ports on localhost:
 Next, follow the [quick start guide](https://docs.konghq.com/gateway-oss/latest/getting-started/configuring-a-service/
 ) to tour the Gateway features.
 
+### Getting started with AI Gateway for LLM and MCP
+
+If you would like to get started with Kong AI Gateway capabilities including LLM and MCP features, please refer to the [official AI documentation](https://developer.konghq.com/ai-gateway/).
+
 ## features
 
 By centralizing common API, AI and MCP functionality across all your organization's services, Kong Gateway creates more freedom for engineering teams to focus on the challenges that matter most.
@@ -49,3 +53,39 @@ The top Kong features include:
 - Native [ingress controller](https://github.com/Kong/kubernetes-ingress-controller) support for serving Kubernetes.
 
 [![][kong-benefits]][kong-url]
+
+### Plugin Hub
+
+Plugins provide advanced functionality that extends the use of the Gateway. Many of the Kong Inc. and community-developed plugins like AWS Lambda, Correlation ID, and Response Transformer are showcased at the [Plugin Hub](https://docs.konghq.com/hub/).
+
+Contribute to the Plugin Hub and ensure your next innovative idea is published and available to the broader community!
+
+## Contributing
+
+We ❤️ pull requests, and we’re continually working hard to make it as easy as possible for developers to contribute. Before beginning development with the Kong Gateway, please familiarize yourself with the following developer resources:
+
+- Community Pledge ([COMMUNITY_PLEDGE.md](COMMUNITY_PLEDGE.md)) for our pledge to interact with you, the open source community.
+- Contributor Guide ([CONTRIBUTING.md](CONTRIBUTING.md)) to learn about how to contribute to Kong.
+- Development Guide ([DEVELOPER.md](DEVELOPER.md)): Setting up your development environment.
+- [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) and [COPYRIGHT](COPYRIGHT)
+
+Use the [Plugin Development Guide](https://docs.konghq.com/latest/plugin-development/) for building new and creative plugins, or browse the online version of Kong's source code documentation in the [Plugin Development Kit (PDK) Reference](https://docs.konghq.com/latest/pdk/). Developers can build plugins in [Lua](https://docs.konghq.com/gateway/latest/plugin-development/), [Go](https://docs.konghq.com/gateway-oss/latest/external-plugins/#developing-go-plugins) or [JavaScript](https://docs.konghq.com/gateway-oss/latest/external-plugins/#developing-javascript-plugins).
+
+## Releases
+
+Please see the [Changelog](CHANGELOG.md) for more details about a given release. The [SemVer Specification](https://semver.org) is followed when versioning Gateway releases.
+
+## Join the Community
+
+- Check out the [docs](https://docs.konghq.com/)
+- Join the [Kong discussions forum](https://github.com/Kong/kong/discussions)
+- Join the Kong discussions at the Kong Nation forum: [https://discuss.konghq.com/](https://discuss.konghq.com/)
+- Join our [Community Slack](http://kongcommunity.slack.com/)
+- Read up on the latest happenings at our [blog](https://konghq.com/blog/)
+- Follow us on [X](https://x.com/thekonginc)
+- Subscribe to our [YouTube channel](https://www.youtube.com/c/KongInc/videos)
+- Visit our [homepage](https://konghq.com/) to learn more
+
+## Konnect Cloud
+
+Kong Inc. offers commercial subscriptions that enhance the Kong Gateway in a variety of ways. Customers of Kong's [Konnect Cloud](https://konghq.com/kong-konnect/) subscription take advantage of additional gateway functionality, commercial suppo

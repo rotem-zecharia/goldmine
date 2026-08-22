@@ -20,6 +20,12 @@ And now, some example screenshots.  Below them are instructions to get you start
 
 ## installation
 
+### Docker
+
+The quickest and easiest way to check out Huginn is to use the official Docker image. Have a look at the [documentation](https://github.com/huginn/huginn/blob/master/doc/docker/install.md).
+
+### Local Installation
+
 If you just want to play around, you can simply fork this repository, then perform the following steps:
 
 * Run `git remote add upstream https://github.com/huginn/huginn.git` to add the main repository as a remote for your fork.
@@ -41,3 +47,43 @@ If you need more detailed instructions, see the [Novice setup guide][novice-setu
 [localhost]: http://localhost:3000/
 [wiki]: https://github.com/huginn/huginn/wiki
 [novice-setup-guide]: https://github.com/huginn/huginn/wiki/Novice-setup-guide
+
+### Develop
+
+All agents have specs! And there's also acceptance tests that simulate running Huginn in a headless browser.
+
+* Install Google Chrome and ChromeDriver for local feature specs
+* Or use the Docker-based test environment in [`docker/test/README.md`](docker/test/README.md)
+* Run all specs with `bundle exec rspec`
+* Run a specific spec with `bundle exec rspec path/to/specific/test_spec.rb`.
+* Read more about rspec for rails [here](https://github.com/rspec/rspec-rails).
+
+## Using Huginn Agent gems
+
+Huginn Agents can now be written as external gems and be added to your Huginn installation with the `ADDITIONAL_GEMS` environment variable. See the `Additional Agent gems` section of `.env.example` for more information.
+
+If you'd like to write your own Huginn Agent Gem, please see [huginn_agent](https://github.com/huginn/huginn_agent).
+
+Our general intention is to encourage complex and specific Agents to be written as Gems, while continuing to add new general-purpose Agents to the core Huginn repository.
+
+## Deployment
+
+Please see [the Huginn Wiki](https://github.com/huginn/huginn/wiki#deploying-huginn) for detailed deployment strategies for different providers.
+
+### Heroku
+
+Try Huginn on Heroku: [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy) (Takes a few minutes to setup. Read the [documentation](https://github.com/huginn/huginn/blob/master/doc/heroku/install.md) while you are waiting and be sure to click 'View it' after launch!) Huginn launches only on a paid subscription plan for Heroku. For non-experimental use, we strongly recommend Heroku's 1GB paid plan or our Docker container.
+
+### OpenShift
+
+#### OpenShift Online
+
+Try Huginn on OpenShift Online
+
+Create a new app with either `mysql` or `postgres`:
+```bash
+oc new-app -f https://raw.githubusercontent.com/huginn/huginn/master/openshift/templates/huginn-mysql.json
+```
+or
+```bash
+oc new-app -f https://raw.githubusercontent.com/huginn/huginn/master/openshif

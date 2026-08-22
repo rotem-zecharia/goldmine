@@ -23,3 +23,35 @@ Some highlights include:
 - [**MCP servers**](https://mastra.ai/docs/tools-mcp/mcp-overview) - Author Model Context Protocol servers, exposing agents, tools, and other structured resources via the MCP interface. These can then be accessed by any system or agent that supports the protocol.
 
 - **Production essentials** - Shipping reliable agents takes ongoing insight, evaluation, and iteration. With built-in [evals](https://mastra.ai/docs/evals/overview) and [observability](https://mastra.ai/docs/observability/overview), Mastra gives you the tools to observe, measure, and refine continuously.
+
+## Get started
+
+The **recommended** way to get started with Mastra is by running the command below:
+
+```shell
+npm create mastra@latest
+```
+
+Follow the [Installation guide](https://mastra.ai/guides/getting-started/quickstart) for step-by-step setup with the CLI or a manual install.
+
+If you're new to AI agents, check out our [templates](https://mastra.ai/docs/getting-started/templates), [course](https://mastra.ai/course), and [YouTube videos](https://youtube.com/@mastra-ai) to start building with Mastra today.
+
+<details>
+
+<summary><strong>Alternative:</strong> Use this pre-built prompt to get started</summary>
+
+```md
+Create a new Mastra project. Mastra is a framework for AI applications and agents on a modern TypeScript stack. Before running the command, ask these questions one at a time and wait for each answer unless it was already provided:
+
+Project name? (default: "my-mastra-app")
+Provider? (required; options: "openai", "anthropic", "google", "xai")
+
+If the provider isn't supported, ask again and list the supported values.
+
+Run: npm create mastra@latest <project-name> -- --llm <provider>
+
+The command creates a default Mastra project, installs Mastra skills for detected coding assistants, and initializes Git when appropriate.
+
+After creation, enter the project directory and start the dev server: npx bgproc start -n <project-name> -w -- npm run dev
+
+Open Mastra Studio at http://localhost:4111. Studio is the interface for building, testing, and managing agents, workflows, and tools

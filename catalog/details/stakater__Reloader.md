@@ -10,9 +10,78 @@ A Kubernetes controller to watch changes in ConfigMap and Secrets and do rolling
 - ⚡ **Fast feedback loop**: Ideal for CI/CD pipelines where secrets/configs change frequently.
 - 🔄 **Out-of-the-box integration**: Just label your workloads and let Reloader do the rest.
 
+## 🔧 How It Works?
+
+```mermaid
+flowchart LR
+  ExternalSecret -->|Creates| Secret
+  SealedSecret -->|Creates| Secret
+  Certificate -->|Creates| Secret
+  Secret -->|Watched by| Reloader
+  ConfigMap -->|Watched by| Reloader
+
+  Reloader -->|Triggers Rollout| Deployment
+  Reloader -->|Triggers Rollout| DeploymentConfig
+  Reloader -->|Triggers Rollout| Daemonset
+  Reloader -->|Triggers Rollout| Statefulset
+  Reloader -->|Triggers Rollout| ArgoRollout
+  Reloader -->|Triggers Job| CronJob
+  Reloader -->|Sends Notification| Slack,Teams,Webhook
+```
+
+- Sources like `ExternalSecret`, `SealedSecret`, or `Certificate` from `cert-manager` can create or manage Kubernetes `Secrets` — but they can also be created manually or delivered through GitOps workflows.
+- `Secrets` and `ConfigMaps` are watched by Reloader.
+- When changes are detected, Reloader automatically triggers a rollout of the associated workloads, ensuring your app always runs with the latest configuration.
+
+## 🏢 Reloader Enterprise
+
+Reloader OSS is free and production-proven with 24B+ downloads.
+
+For teams with stricter requirements:
+
+| Need | Enterprise |
+|------|-----------|
+| CVE-free, signed images with SBOM | ✅ |
+| SLA-backed support from Kubernetes experts | ✅ |
+| Artifact provenance for compliance audits | ✅ |
+| Dedicated escalation path | ✅ |
+
+→ [Contact Sales](mailto:sales@stakater.com) for info about Reloader Enterprise.
+
 ## installation
 
+### 1. Install Reloader
+
 Follow any of this [installation options](#-installation).
+
+### 2. Annotate Your Workload
+
+To enable automatic reload for a Deployment:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: app
+          image: your-image
+          envFrom:
+            - configMapRef:
+                name: my-config
+            - secretRef:
+                name: my-secret
+```
+
+This tells Reloader to watch the `ConfigMap` and `Secret` referenced in this deployment. When either is updated, it will trigger a rollout.
 
 ## tools
 
@@ -25,6 +94,59 @@ Kubernetes does not trigger pod restarts when a referenced `Secret` or `ConfigMa
 - Watch only **specific resources**
 - Use **opt-in via tagging** (`search` + `match`)
 - Exclude workloads you don’t want to reload
+
+### 1. 🔁 Automatic Reload (Default)
+
+Use these annotations to automatically restart the workload when referenced `Secrets` or `ConfigMaps` change.
+
+| Annotation                                 | Description                                                          |
+|--------------------------------------------|----------------------------------------------------------------------|
+| `reloader.stakater.com/auto: "true"`       | Reloads workload when any referenced ConfigMap or Secret changes     |
+| `secret.reloader.stakater.com/auto: "true"`| Reloads only when referenced Secret(s) change                        |
+| `configmap.reloader.stakater.com/auto: "true"`| Reloads only when referenced ConfigMap(s) change                  |
+
+### 2. 📛 Named Resource Reload (Specific Resource Annotations)
+
+These annotations allow you to manually define which ConfigMaps or Secrets should trigger a reload, regardless of whether they're used in the pod spec.
+
+| Annotation                                          | Description                                                                          |
+|-----------------------------------------------------|--------------------------------------------------------------------------------------|
+| `secret.reloader.stakater.com/reload: "my-secret"`  | Reloads when specific Secret(s) change, regardless of how they're used              |
+| `configmap.reloader.stakater.com/reload: "my-config"`| Reloads when specific ConfigMap(s) change, regardless of how they're used         |
+
+#### Use when
+
+1. ✅ This is useful in tightly scoped scenarios where config is shared but reloads are only relevant in certain cases.
+1. ✅ Use this when you know exactly which resource(s) matter and want to avoid auto-discovery or searching altogether.
+
+### 3. 🎯 Targeted Reload (Match + Search Annotations)
+
+This pattern allows fine-grained reload control — workloads only restart if the Secret/ConfigMap is both:
+
+1. Referenced by the workload
+1. Explicitly annotated with `match: true`
+
+| Annotation                                | Applies To   | Description                                                                 |
+|-------------------------------------------|--------------|-----------------------------------------------------------------------------|
+| `reloader.stakater.com/search: "true"`    | Workload     | Enables search mode (only reloads if matching secrets/configMaps are found) |
+| `reloader.stakater.com/match: "true"`     | ConfigMap/Secret | Marks the config/secret as eligible for reload in search mode              |
+
+#### How it works
+
+1. The workload must have: `reloader.stakater.com/search: "true"`
+1. The ConfigMap or Secret must have: `reloader.stakater.com/match: "true"`
+1. The resource (ConfigMap or Secret) must also be referenced in the workload (via env, `volumeMount`, etc.)
+
+#### Use when
+
+1. ✅ You want to reload a workload only if it references a ConfigMap or Secret that has been explicitly tagged with `reloader.stakater.com/match: "true"`.
+1. ✅ Use this when you want full control over which shared or system-wide resources trigger reloads. Great in multi-tenant clusters or shared configs.
+
+### ⛔ Resource-Level Ignore Annotation
+
+When you need to prevent specific ConfigMaps or Secrets from triggering any reloads, use the ignore annotation on the resource itself:
+
+```y
 
 ## configuration
 
@@ -71,3 +193,36 @@ Reloader supports multiple strategies for triggering rolling updates when a watc
 **💡 Workload Type Examples:**
 
 ```bash
+# Ignore only Jobs
+--ignored-workload-types=jobs
+
+# Ignore only CronJobs
+--ignored-workload-types=cronjobs
+
+# Ignore both (comma-separated)
+--ignored-workload-types=jobs,cronjobs
+```
+
+> **🔧 Use Case:** Ignoring workload types is useful when you don't want certain types of workloads to be automatically reloaded.
+
+#### 3. 🧩 Namespace Filtering
+
+| Flag | Description |
+|------|-------------|
+| `--namespace-selector='key=value'` <br /> <br />`--namespace-selector='key1=value1,key2=value2'` <br /> <br />`--namespace-selector='key in (value1,value2)'`| Watch only namespaces with matching labels. See [LIST and WATCH filtering](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#list-and-watch-filtering) for more details on label selectors |
+| `--namespaces-to-ignore=ns1,ns2` | Skip specific namespaces from being watched |
+
+#### 4. 📝 Annotation Key Overrides
+
+These flags allow you to redefine annotation keys used in your workloads or resources:
+
+| Flag | Overrides |
+|------|-----------|
+| `--auto-annotation` | Overrides `reloader.stakater.com/auto` |
+| `--secret-auto-annotation` | Overrides `secret.reloader.stakater.com/auto` |
+| `--configmap-auto-annotation` | Overrides `configmap.reloader.stakater.com/auto` |
+| `--auto-search-annotation` | Overrides `reloader.stakater.com/search` |
+| `--search-match-annotation` | Overrides `reloader.stakater.com/match` |
+| `--secret-annotation` | Overrides `secret.reloader.stakater.com/reload` |
+| `--configmap-annotation` | Overrides `configmap.reloader.stakater.com/reload` |
+| `--ignore-annotation` | Ove

@@ -60,6 +60,8 @@ Full walkthrough in [docs/USAGE.md](docs/USAGE.md).
 
 ## installation
 
+### 1. Install the draw.io desktop CLI
+
 | Platform | Command |
 |----------|---------|
 | **macOS** | `brew install --cask drawio` |
@@ -67,3 +69,78 @@ Full walkthrough in [docs/USAGE.md](docs/USAGE.md).
 | **Linux** | `.deb`/`.rpm` from [releases](https://github.com/jgraph/drawio-desktop/releases); `sudo apt install xvfb` for headless |
 
 Verify with `drawio --version`. **Version ≥ 30 recommended** — it unlocks Mermaid → `.drawio` conversion and the ELK `--layout` pass (both unavailable on ≤ 29). On **WSL2** the CLI is the Windows desktop exe reached via `/mnt/c` — the skill detects this automatically (see [troubleshooting](skills/drawio-skill/references/troubleshooting.md)). Full recipes in [docs/INSTALL_CLI.md](docs/INSTALL_CLI.md).
+
+### 2. Install the skill
+
+```bash
+# Any agent (Claude Code, Cursor, Copilot, ...)
+npx skills add Agents365-ai/365-skills -g
+```
+
+```text
+# Claude Code plugin marketplace
+> /plugin marketplace add Agents365-ai/365-skills
+> /plugin install drawio
+```
+
+```bash
+# Manual install
+git clone https://github.com/Agents365-ai/drawio-skill.git \
+  ~/.claude/skills/drawio-skill
+
+# Autohand Code global install
+git clone https://github.com/Agents365-ai/drawio-skill.git \
+  ~/.autohand/skills/drawio-skill
+
+# Autohand Code project-level install
+git clone https://github.com/Agents365-ai/drawio-skill.git \
+  .autohand/skills/drawio-skill
+```
+
+Autohand Code also supports `autohand --skill-install` for cataloged skills, with `--project` for workspace-level installs. Until this skill is listed there, use the direct clone path above.
+
+Also indexed on [SkillsMP](https://skillsmp.com/skills/agents365-ai-drawio-skill-skills-drawio-skill-skill-md) and [ClawHub](https://clawhub.ai/agents365-ai/drawio-pro-skill).
+
+**Updating:** `/plugin update drawio` (Claude Code), `skills update drawio-skill` (SkillsMP), `clawhub update drawio-pro-skill` (OpenClaw), or `git pull` for manual installs — see [docs/INSTALL_SKILL.md#updates](docs/INSTALL_SKILL.md#updates). Release history in [CHANGELOG.md](CHANGELOG.md).
+
+## ⚡ Quick Start
+
+After installation, just describe what you want. For example, an ML model:
+
+```
+Draw a Transformer encoder-decoder for machine translation: 6-layer encoder
+with self-attention, 6-layer decoder with cross-attention, input embeddings
+(batch × 512 × 768), positional encoding, and a final output projection.
+Annotate tensor shapes between layers and color-code by layer type.
+```
+
+The skill plans the layout, generates the `.drawio` XML, exports to your chosen format, self-checks the result, and lets you iterate.
+
+## 🗺️ Visualize Code & Infrastructure
+
+Beyond hand-authored diagrams, the skill turns **existing code, infrastructure, and schemas into diagrams** — no manual coordinates. Just ask:
+
+> *"Visualize the module structure of this Python project"* · *"Draw the class hierarchy of `mypackage`"*
+
+<p align="center">
+  <img src="assets/code-structure-example.png" width="900" alt="Auto-generated class hierarchy of Python's logging package — modules boxed, inheritance arrows resolved">
+</p>
+
+<sub>↑ Python's <code>logging</code> package as a class hierarchy — one command, modules auto-boxed, every inheritance edge resolved.</sub>
+
+Under the hood it runs a bundled extractor → auto-layout → validate pipeline:
+
+```bash
+# Import graph — Python / JS-TS / Go / Rust
+python3 scripts/pyimports.py   myproject --group -o graph.json
+python3 scripts/jsimports.py   ./src     --group -o graph.json
+python3 scripts/goimports.py   ./module  --group -o graph.json
+python3 scripts/rustimports.py ./crate   --group -o graph.json
+
+# Python class-inheritance hierarchy
+python3 scripts/pyclasses.py   mypackage --group -o graph.json
+
+# Infrastructure as Code — official cloud icons resolved automatically
+python3 scripts/tfimports.py   ./infra      -o graph.json   # Terraform → AWS/Azure/GCP icons
+python3 scripts/k8simports.py  ./manifests  -o graph.json   # K8s YAML/JSON → kind icons
+python3 scripts/composeimports.py compose.yml -

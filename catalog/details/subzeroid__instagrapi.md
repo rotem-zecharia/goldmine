@@ -73,6 +73,18 @@ MoviePy `2.2.1` currently declares `Pillow<12`, but instagrapi keeps `Pillow>=12
 
 Android users should see [Pydroid and ffmpeg](docs/usage-guide/pydroid.md) and [Termux](docs/usage-guide/termux.md).
 
+## Quick Start
+
+``` python
+from instagrapi import Client
+
+cl = Client()
+cl.login(ACCOUNT_USERNAME, ACCOUNT_PASSWORD)
+
+user_id = cl.user_id_from_username(ACCOUNT_USERNAME)
+medias = cl.user_medias(user_id, 20)
+```
+
 ## features
 
 * Uses [Web API](https://subzeroid.github.io/instagrapi/usage-guide/fundamentals.html) and [Mobile API](https://subzeroid.github.io/instagrapi/usage-guide/fundamentals.html) flows where available
@@ -90,3 +102,31 @@ Android users should see [Pydroid and ffmpeg](docs/usage-guide/pydroid.md) and [
 * Experimental Realtime MQTT helpers for live events, Direct message sync, lightweight Direct actions, and FBNS push callbacks
 
 Anonymous/public web paths are best treated as opportunistic rather than guaranteed. Instagram can change or restrict them independently of the library, so production-grade workflows should prefer authenticated sessions.
+
+## Documentation And Support
+
+API reference and full usage guide live at [subzeroid.github.io/instagrapi](https://subzeroid.github.io/instagrapi/):
+
+* [Documentation index](https://subzeroid.github.io/instagrapi/)
+* [Getting Started](https://subzeroid.github.io/instagrapi/getting-started.html)
+* [Usage Guide](https://subzeroid.github.io/instagrapi/usage-guide/fundamentals.html)
+* [Interactions reference](https://subzeroid.github.io/instagrapi/usage-guide/interactions.html)
+* [Best Practices](https://subzeroid.github.io/instagrapi/usage-guide/best-practices.html) for sessions, proxies, and anti-abuse handling
+* [Handle Exceptions](https://subzeroid.github.io/instagrapi/usage-guide/handle_exception.html) for centralizing `429`, challenge, and relogin logic
+* [GitHub Discussions](https://github.com/subzeroid/instagrapi/discussions)
+* Support chat in Telegram: [aiograpi_support](https://t.me/aiograpi_support) — the previous `@instagrapi` group was restricted by Meta and is no longer maintained
+
+For other languages, consider [instagrapi-rest](https://github.com/subzeroid/instagrapi-rest). For async Python, see [aiograpi](https://github.com/subzeroid/aiograpi).
+
+## Tutorials
+
+Hands-on guides for real instagrapi work — login flows, sessions, proxies, scraping, posting, error handling — live at [instagrapi.com/guides](https://instagrapi.com/guides/):
+
+* [Instagram Private API in Python](https://instagrapi.com/guides/instagram-private-api-python/) — pillar walkthrough: login, sessions, fetching, posting
+* [2FA and `challenge_required`](https://instagrapi.com/guides/instagrapi-2fa-challenge/)
+* [Session persistence: file, Redis, and Postgres patterns](https://instagrapi.com/guides/instagrapi-session-persistence/)
+* [Configuring proxies (HTTP, SOCKS5, residential)](https://instagrapi.com/guides/instagrapi-proxy-setup/)
+* [Instagram scraper in Python: a working setup](https://instagrapi.com/guides/instagram-scraper-python/)
+* [Upload a photo from Python](https://instagrapi.com/guides/instagrapi-upload-photo-python/)
+* [Download Instagram stories](https://instagrapi.com/guides/instagrapi-download-stories-python/)
+* [Common errors reference](https://instagrapi.co

@@ -14,3 +14,31 @@ Build, run, and manage agent platforms.
 - [Interfaces](https://docs.agno.com/runtime/interfaces). Expose your agents via Slack, Telegram, WhatsApp, Discord, AG-UI, A2A.
 - [Scheduling](https://docs.agno.com/runtime/scheduling). Cron-based scheduling and background jobs with no external infrastructure.
 - [Deploy anywhere](https://docs.agno.com/runtime/deploy). Run on any cloud platform that runs containers. Docker, Railway, AWS, GCP.
+
+## Use Agno with your coding agent
+
+Two options:
+
+1. Recommended: Add Agno docs as an MCP server. Add [docs.agno.com/mcp](https://docs.agno.com/mcp) to your favourite coding agent.
+2. Add Agno docs as an indexed source. In Cursor: Settings → Indexing & Docs → Add `https://docs.agno.com/llms-full.txt`. Also works in VSCode, Windsurf, and similar tools.
+
+Read the full guide [here](https://docs.agno.com/coding-agents).
+
+## Community
+
+- [X](https://x.com/AgnoAgi): follow for releases and demos
+- [Newsletter](https://www.agno.com/the-agno-loop-newsletter): monthly updates on what's shipping
+
+## Contributing
+
+See the [contributing guide](https://github.com/agno-agi/agno/blob/main/CONTRIBUTING.md).
+
+## License
+
+Agno is distributed under the [Apache-2.0 license](LICENSE).
+
+## Telemetry
+
+Agno sends a telemetry event per agent run so we know which model providers to prioritize. Prompts, messages, and outputs are never sent. Disable by setting `AGNO_TELEMETRY=false`.
+
+<p align="right"><a href="#top">↑ Back to top</a></p>

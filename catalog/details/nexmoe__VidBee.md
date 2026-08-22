@@ -20,6 +20,47 @@ If VidBee is useful to you, sharing it is one of the best ways to support the pr
 > - X: [@nexmoe](https://x.com/nexmoe)
 > - Threads: [@nexmoe](https://www.threads.com/@nexmoe)
 
+## features
+
+### 📝 Transcribe locally with the model that fits your computer
+
+Create a transcript from a finished download, or import a local audio or video file. Speech recognition runs on your computer, so the media does not need to be uploaded to a transcription service.
+
+- Choose from local **Whisper**, **SenseVoice**, **Parakeet**, and **Qwen3-ASR** model families. VidBee can recommend a model for your computer and language, and you can download or switch models from Settings.
+- Start transcription automatically after a download and set how many transcript jobs may run at once.
+- Use source captions when available, or run local speech recognition when you need a new transcript.
+- Detect speakers automatically, or set a fixed speaker count and re-label the conversation without changing the recognized words.
+- Search spoken text or speaker names, click a timestamp, and continue playback from that exact moment.
+- Copy the transcript, export plain text or Markdown, or create a new video with selectable or burned-in captions.
+
+![VidBee searchable transcript with four identified speakers](screenshots/transcript-framed.webp)
+
+> [!NOTE]
+>
+> **Local transcription, provider-controlled AI.** Speech recognition runs on your computer. When you run an AI prompt, the prompt and transcript content go to the provider you selected. Choose Ollama, LM Studio, or another local endpoint to keep the AI step on your computer too.
+
+### 🧠 Ask AI with the provider and prompts you choose
+
+Run AI prompts against the transcript without leaving VidBee. Built-in prompts can create bullet summaries, clean up grammar, generate FAQs, extract statistics, build mind maps, paraphrase text, or translate the transcript.
+
+- Connect OpenAI, Anthropic, Google, DeepSeek, Groq, Azure, Hugging Face, OpenRouter, xAI, Ollama, or LM Studio.
+- Add a custom provider with your own name, Base URL, model ID, and API key, then test the connection before using it.
+- Create your own prompts with a title, icon, and instructions. Edit the built-in prompts, test them with a sample transcript, or restore the defaults.
+- Switch the active provider without changing your prompt library. API keys are stored on your computer.
+
+![VidBee AI-generated transcript summary](screenshots/ai-summary-framed.webp)
+
+### 📥 Download and organize video or audio
+
+Save video, audio, playlists, and channels from 1000+ supported sites. Paste one link or add a batch, then manage everything from the same desktop queue.
+
+- Track active, completed, and failed downloads in one place.
+- See live progress, speed, file size, and the format being saved.
+- Pause, resume, retry, or remove tasks without rebuilding the queue.
+- Use one-click defaults when you want a fast download, or choose formats for a specific item.
+
+![VidBee download queue with active and completed media](screenshots/downloads-framed.webp)
+
 ## configuration
 
 Subscribe to RSS feeds and let VidBee check for new items and add them to your download queue. Each subscription can use its own rules, so regular releases do not need the same manual setup every time.
@@ -30,6 +71,30 @@ Subscribe to RSS feeds and let VidBee check for new items and add them to your d
 - See whether each feed item is queued, downloading, completed, failed, or still waiting.
 
 ![VidBee RSS subscriptions and queued feed items](screenshots/rss-framed.webp)
+
+### 🏷️ Control formats, filenames, and metadata
+
+Choose **Auto (MP4/MKV)**, **MP4**, **MKV**, **WebM**, or **Original** for video downloads, or save audio separately. VidBee also lets you control what is written into the finished file.
+
+- Embed the source title, artist, and other available metadata.
+- Add the thumbnail as cover art, keep chapter markers, and include source or automatically generated subtitles when available.
+- Choose a filename style, decide whether to use channel subfolders, and set the default download location.
+- Keep simple defaults for everyday downloads while using custom filename templates for playlists or RSS subscriptions.
+
+See [Formats & Containers](https://vidbee.org/docs/formats/) for details.
+
+## 🎬 Built for real media workflows
+
+| Working with | VidBee helps you |
+| --- | --- |
+| Interviews | Separate speakers, find a quote, jump back to its timestamp, and export the transcript. |
+| Podcasts | Create a searchable episode transcript, summarize the discussion, and use RSS to keep new episodes organized. |
+| Lectures | Search for an explanation, translate the transcript, and turn a long recording into structured notes. |
+| YouTube and saved videos | Download from a supported page or import a local file, preserve available captions and metadata, and manage everything in one queue. |
+
+## 🌐 Supported Sites
+
+VidBee works with 1000+ supported video and audio sites. Browse the current list at [vidbee.org/supported-sites](https://vidbee.org/supported-sites/).
 
 ## tools
 
@@ -97,3 +162,32 @@ Optional env vars (via `.env`):
 ```bash
 VIDBEE_API_PORT=3100
 VIDBEE_WEB_PORT=3000
+# Optional host or NAS bind mount. The named volume remains the default.
+VIDBEE_DOWNLOAD_DIR_HOST=/path/on/your/NAS/downloads
+```
+
+## 🤝 Contributing
+
+You are welcome to join the open source community to build together. For more details, check out:
+
+- Monorepo apps:
+  - `apps/desktop`: VidBee desktop app
+  - `apps/extension`: Browser extension (WXT)
+  - Documentation: [vidbee.org/docs](https://vidbee.org/docs/)
+  - `apps/desktop/docs/glitchtip.md`: GlitchTip and `sentry-cli` setup for desktop monitoring
+- [Contributing Guide](./CONTRIBUTING.md)
+- [DeepWiki Documentation](https://deepwiki.com/nexmoe/VidBee)
+
+## 📄 License
+
+This project is distributed under the MIT License. See [`LICENSE`](LICENSE) for details.
+
+## 🙏 Thanks
+
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) - The powerful video downloader engine
+- [FFmpeg](https://ffmpeg.org/) - The multimedia framework for video and audio processing
+- [Electron](https://www.electronjs.org/) - Build cross-platform desktop apps
+- [React](https://react.dev/) - The UI library
+- [Vite](https://vitejs.dev/) - Next generation frontend tooling
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [shadcn/ui](https://ui.shadcn.com/) - Beautifully designed components

@@ -68,6 +68,37 @@ rm -rf "$tmp"
 **If `install.sh` fails with `$'\r': command not found`** (a clone made before LF line endings were enforced converted the script to CRLF), strip the carriage returns once and re-run — the repo now ships a `.gitattributes` that prevents this on fresh clones:
 ```bash
 sed -i 's/\r$//' ~/.claude/token-optimizer/install.sh
+# already have the repo? re-normalize line endings in place:
+git -C ~/.claude/token-optimizer add --renormalize . && git -C ~/.claude/token-optimizer checkout -- .
+```
+
+</details>
+
+<details>
+<summary>Uninstall</summary>
+
+Token Optimizer is additive and reversible. Every runtime has a clean uninstall
+that removes only what we installed, leaving your own hooks, config, and session
+data intact. Full per-runtime steps live in **[docs/uninstall.md](docs/uninstall.md)**.
+
+Quickest path (Claude Code plugin install):
+
+```
+/plugin uninstall token-optimizer@alexgreensh-token-optimizer
+```
+
+</details>
+
+## What You Get
+
+**Runs automatically, every session, you do nothing:**
+
+- 🔄 **Smart Compaction**: checkpoints before auto-compact, restores after
+- 🗄️ **Session Continuity**: cross-session hints, cold-resume, checkpoint scoring
+- 📦 **Active Compression**: 9 features, all on by default (delta diffs, skeletons, bash/search compression, lean-output nudges, quality nudges, loop detection, activity mode, decision extraction)
+- 📊 **Quality Scoring**: 7 signals, real-time, letter grades S–F
+- 🗃️ **Session Database**: SQLite, 15 tables, full audit trail, zero network
+- 🔍 **Progressive Disclosure**: large outputs archived, expand on 
 
 ## tools
 
@@ -97,3 +128,23 @@ sed -i 's/\r$//' ~/.claude/token-optimizer/install.sh
 [Full CLI reference →](https://alexgreensh.github.io/token-optimizer/reference/cli/)
 
 </details>
+
+## License
+
+**PolyForm Noncommercial 1.0.0**. Source-available. Personal, research, educational, and non-commercial use requires no license purchase.
+
+### Personal / hobby / research / education?
+Go for it. Full source, runs locally, no license purchase needed.
+
+### Small team (under 5 people OR under $20k/month revenue)?
+Small teams get a no-cost commercial license automatically. Just use it.
+
+### Started personal, now it's turning into a business?
+Your past use is totally fine. The license has a built-in 32-day grace period after any written notice. Reach out for a commercial license when you're ready.
+
+### Larger company / commercial use?
+Contact [Alex Greenshpun](https://linkedin.com/in/alexgreensh) or me@alexgreenshpun.com.
+
+---
+
+Created by [Alex Greenshpun](https://linkedin.com/in/alexgreensh).

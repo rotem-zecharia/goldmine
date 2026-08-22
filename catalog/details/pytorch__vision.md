@@ -54,3 +54,40 @@ versions.
 | `<=1.0` | `0.2`             | `==2.7`, `>=3.5`, `<=3.7` |
 
 </details>
+
+## Image Backends
+
+Torchvision currently supports the following image backends:
+
+- torch tensors
+- PIL images:
+    - [Pillow](https://python-pillow.org/)
+    - [Pillow-SIMD](https://github.com/uploadcare/pillow-simd) - a **much faster** drop-in replacement for Pillow with SIMD.
+
+Read more in in our [docs](https://pytorch.org/vision/stable/transforms.html).
+
+## Documentation
+
+You can find the API documentation on the pytorch website: <https://pytorch.org/vision/stable/index.html>
+
+## Contributing
+
+See the [CONTRIBUTING](CONTRIBUTING.md) file for how to help out.
+
+## Disclaimer on Datasets
+
+This is a utility library that downloads and prepares public datasets. We do not host or distribute these datasets,
+vouch for their quality or fairness, or claim that you have license to use the dataset. It is your responsibility to
+determine whether you have permission to use the dataset under the dataset's license.
+
+If you're a dataset owner and wish to update any part of it (description, citation, etc.), or do not want your dataset
+to be included in this library, please get in touch through a GitHub issue. Thanks for your contribution to the ML
+community!
+
+## Pre-trained Model License
+
+The pre-trained models provided in this library may have their own licenses or terms and conditions derived from the
+dataset used for training. It is your responsibility to determine whether you have permission to use the models for your
+use case.
+
+More specifically, SWA

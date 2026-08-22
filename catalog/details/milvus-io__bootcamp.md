@@ -55,3 +55,23 @@ Here is a selection of demos and tutorials to show how to build various types of
 | [Contextual Retrieval with Milvus](https://milvus.io/docs/contextual_retrieval_with_milvus.md) | Quickstart | vector search |
 | [Vector Visualization](https://milvus.io/docs/vector_visualization.md) | Quickstart | vector search |
 | [HDBSCAN Clustering with Milvus](https://milvus.io/docs/hdbscan_clustering_with_milvus.md) | Quickstart | vector search |
+
+
+## :fire: Community
+
+Join the Milvus community on [Discord](https://discord.gg/8uyFbECzPX) to share your suggestions, advice, and questions with our engineering team.
+
+To learn latest news about Milvus, follow us on social media:
+
+- [X](https://twitter.com/milvusio)
+- [LinkedIn](https://www.linkedin.com/company/the-milvus-project)
+- [Youtube](https://www.youtube.com/channel/UCMCo_F7pKjMHBlfyxwOPw-g)
+- [Medium](https://medium.com/@milvusio)
+
+You can also check out our [FAQ page](https://milvus.io/docs/performance_faq.md) to discover solutions or answers to your issues or questions, and subscribe to Milvus mailing lists:
+
+- [Technical Steering Committee](https://lists.lfai.foundation/g/milvus-tsc)
+- [Technical Discussions](https://lists.lfai.foundation/g/milvus-technical-discuss)
+- [Announcement](https://lists.lfai.foundation/g/milvus-announce)
+
+Let's accelerate your Milvus journey together!

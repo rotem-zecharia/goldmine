@@ -19,6 +19,18 @@ plus extra credits via the Maker Program.
 
 Follow the [quickstart guide](https://visionagents.ai/introduction/quickstart) to build your first agent.
 
+## See It In Action
+
+https://github.com/user-attachments/assets/d1258ac2-ca98-4019-80e4-41ec5530117e
+
+This example shows you how to build golf coaching AI with YOLO and Gemini Live.
+Combining a fast object detection model (like YOLO) with a full realtime AI is useful for many different video AI use
+cases.
+For example: Drone fire detection, sports/video game coaching, physical therapy, workout coaching, just dance style
+games etc.
+
+```python
+
 ## tools
 
 agent = Agent(
@@ -27,6 +39,8 @@ agent = Agent(
     instructions="Read @golf_coach.md",
     llm=gemini.Realtime(fps=10),
     processors=[ultralytics.YOLOPoseProcessor(model_path="yolo11n-pose.pt", device="cuda")],
+)
+```
 
 ## features
 
@@ -42,9 +56,31 @@ agent = Agent(
 | **Text Back-channel**    | Message the agent silently during a call — coaching overlays, silent instructions, etc.                 |
 | **Production Ready**     | Built-in HTTP server, Prometheus metrics, horizontal scaling, and Kubernetes deployment.                |
 
+## Out-of-the-Box Integrations
+
+**LLMs:** [OpenAI](https://visionagents.ai/integrations/openai) · [Gemini](https://visionagents.ai/integrations/gemini) · [xAI](https://visionagents.ai/integrations/xai) · [OpenRouter](https://visionagents.ai/integrations/openrouter) · [Hugging Face](https://visionagents.ai/integrations/huggingface) · [Kimi AI](https://visionagents.ai/integrations/kimi) · [MiniMax](https://visionagents.ai/integrations/minimax) · [Telnyx](https://github.com/GetStream/Vision-Agents/tree/main/plugins/telnyx)
+
+**Realtime:** [OpenAI Realtime](https://visionagents.ai/integrations/openai) · [Gemini Live](https://visionagents.ai/integrations/gemini) · [AWS Nova Sonic](https://visionagents.ai/integrations/aws-bedrock) · [Qwen](https://visionagents.ai/integrations/qwen) · [Inworld](https://visionagents.ai/integrations/inworld)
+
+**STT:** [Deepgram](https://visionagents.ai/integrations/deepgram) · [AssemblyAI](https://www.assemblyai.com/docs/streaming/universal-3-pro) · [Fast-Whisper](https://visionagents.ai/integrations/fast-whisper) · [Fish Audio](https://visionagents.ai/integrations/fish) · [Wizper](https://visionagents.ai/integrations/wizper) · [Mistral Voxtral](https://visionagents.ai/integrations/mistral) · [Telnyx](https://github.com/GetStream/Vision-Agents/tree/main/plugins/telnyx)
+
+**TTS:** [ElevenLabs](https://visionagents.ai/integrations/elevenlabs) · [Cartesia](https://visionagents.ai/integrations/cartesia) · [Deepgram](https://visionagents.ai/integrations/deepgram) · [AWS Polly](https://visionagents.ai/integrations/aws-polly) · [Pocket](https://visionagents.ai/integrations/pocket) · [Kokoro](https://visionagents.ai/integrations/kokoro) · [Inworld](https://visionagents.ai/integrations/inworld) · [Fish Audio](https://visionagents.ai/integrations/fish) · [Telnyx](https://github.com/GetStream/Vision-Agents/tree/main/plugins/telnyx)
+
+**Vision:** [Ultralytics](https://visionagents.ai/integrations/ultralytics) · [Roboflow](https://visionagents.ai/integrations/roboflow) · [Moondream](https://visionagents.ai/integrations/moondream) · [TwelveLabs](https://github.com/GetStream/Vision-Agents/tree/main/plugins/twelvelabs) · [NVIDIA](https://visionagents.ai/integrations/nvidia) · [Decart](https://visionagents.ai/integrations/decart)
+
+**Avatars:** [LemonSlice](https://visionagents.ai/integrations/lemonslice)
+
+**Turn Detection:** [Vogent](https://visionagents.ai/integrations/vogent) · [Smart Turn](https://visionagents.ai/integrations/smart-turn)
+
+**Other:** [Twili
+
 ## limitations
 
 - Video AI struggles with small text — models may hallucinate scores, signs, etc.
 - Context degrades on longer sessions (~30s+) for continuous video understanding
 - Most use cases need a mix of specialized models (YOLO, Roboflow) with larger LLMs
 - Real-time models require audio/text to trigger responses — video alone won't prompt output
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=GetStream/vision-agents&type=timeline&legend=top-left)](https://www.star-history.com/#GetStream/vision-agents&type=timeline&legend=top-left)

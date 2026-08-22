@@ -13,3 +13,9 @@ Downloads videos and playlists from YouTube
 - Automatically embed subtitles
 - Automatically inject media tags
 - Log in with a YouTube account to access private content
+
+## Screenshots
+
+![list](.assets/list.png)
+![single](.assets/single.png)
+![multiple](.assets/multiple.png)

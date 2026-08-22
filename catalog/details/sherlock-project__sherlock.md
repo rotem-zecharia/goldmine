@@ -77,3 +77,29 @@ options:
   --txt                 Enable creation of a txt file
   --ignore-exclusions   Ignore upstream exclusions (may return more false positives)
 ```
+
+## Credits
+
+Thank you to everyone who has contributed to Sherlock! ❤️
+
+<a href="https://github.com/sherlock-project/sherlock/graphs/contributors">
+  <img src="https://contrib.rocks/image?&columns=25&max=10000&&repo=sherlock-project/sherlock" alt="contributors"/>
+</a>
+
+## Star History
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=sherlock-project/sherlock&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=sherlock-project/sherlock&type=Date" />
+  <img alt="Sherlock Project Star History Chart" src="https://api.star-history.com/svg?repos=sherlock-project/sherlock&type=Date" />
+</picture>
+
+## License
+
+MIT © Sherlock Project<br/>
+Creator - [Siddharth Dushantha](https://github.com/sdushantha)
+
+<!-- Reference Links -->
+
+[ext_pypi]: https://pypi.org/project/sherlock-project/
+[ext_brew]: https://formulae.brew.sh/formula/sherlock

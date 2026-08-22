@@ -6,6 +6,12 @@ The free and open-source Download Manager written in pure Python
 
 pyLoad is a lightweight, pure-Python download manager with a modern web UI and rich plugin ecosystem. It automates downloads from one-click hosters, cloud drives, and many other sources; supports premium accounts, captcha-solving services, and link decryption; and can run headless on servers, NAS devices, or desktops. Designed for extensibility and low resource usage.
 
+## Introduction
+
+- Cross-platform: works on Linux, macOS, and Windows (Python 3.9+)
+- Web interface: manage downloads from your browser
+- Plugin-driven: hundreds of hosters, decrypters, and addons (notifications, schedulers, extractors, etc.)
+
 ## installation
 
 Open a terminal window and install pyLoad typing:
@@ -53,6 +59,22 @@ This will create the following directories (if they don't exist already):
 > **Note**:
 > On Windows, user data and configuration files are stored in the directory `~\AppData\Roaming\pyLoad`.
 
+### Help
+
+To show an overview of the available options, type:
+
+    pyload --help
+
+### Web Interface
+
+Open your web browser and visit the url http://localhost:8000 to have access to
+the pyLoad's web interface.
+
+-   Default username: `pyload`.
+-   Default password: `pyload`.
+
+**It's highly recommended to change the default access credentials on first start**.
+
 ## requirements
 
 Extra dependencies are non-essential packages that enable additional features of pyLoad.
@@ -72,6 +94,20 @@ You can use a tag in this way:
 Or group more together:
 
     pip install pyload-ng[plugins][build]
+
+### Build Translations
+
+Use the command `build_locale` to retrieve and build the latest locale files (translations):
+
+    python setup.py build_locale
+
+Invoke `build_locale` before building the package (eg. `bdist_wheel`).
+
+> **Note**:
+>
+> You don't need to build the translations if you installed pyLoad through `pip`, they're already included.
+
+## Development
 
 ## configuration
 

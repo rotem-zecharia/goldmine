@@ -58,6 +58,36 @@ For a full list of available tools and their capabilities across all supported d
 
 ---
 
+## Quick Start: Custom Tools
+
+Toolbox can also be used as a framework for customized tools.
+The primary way to configure Toolbox is through the `tools.yaml` file. If you
+have multiple files, you can tell Toolbox which to load with the `--config
+tools.yaml` flag.
+
+You can find more detailed reference documentation to all resource types in the
+[Resources](https://mcp-toolbox.dev/documentation/configuration/).
+
+### Sources
+
+The `sources` section of your `tools.yaml` defines what data sources your
+Toolbox should have access to. Most tools will have at least one source to
+execute against.
+
+```yaml
+kind: source
+name: my-pg-source
+type: postgres
+host: 127.0.0.1
+port: 5432
+database: toolbox_db
+user: toolbox_user
+password: my-password
+```
+
+For more details on configuring different types of sources, see the
+[Sources](https://mcp-toolbox.dev/documentation/configuration/sources/).
+
 ## tools
 
 The `tools` section of a `tools.yaml` define the actions an agent can take: what
@@ -78,3 +108,46 @@ statement: SELECT * FROM hotels WHERE name ILIKE '%' || $1 || '%';
 
 For more details on configuring different types of tools, see the
 [Tools](https://mcp-toolbox.dev/documentation/configuration/tools/).
+
+### Toolsets
+
+The `toolsets` section of your `tools.yaml` allows you to define groups of tools
+that you want to be able to load together. This can be useful for defining
+different groups based on agent or application.
+
+```yaml
+kind: toolset
+name: my_first_toolset
+tools:
+    - my_first_tool
+    - my_second_tool
+---
+kind: toolset
+name: my_second_toolset
+tools:
+    - my_second_tool
+    - my_third_tool
+```
+
+### Prompts
+
+The `prompts` section of a `tools.yaml` defines prompts that can be used for
+interactions with LLMs.
+
+```yaml
+kind: prompt
+name: code_review
+description: "Asks the LLM to analyze code quality and suggest improvements."
+messages:
+  - content: >
+         Please review the following code for quality, correctness,
+         and potential improvements: \n\n{{.code}}
+arguments:
+  - name: "code"
+    description: "The code to review"
+```
+
+For more details on configuring prompts, see the
+[Prompts](https://mcp-toolbox.dev/documentation/configuration/prompts/).
+
+---

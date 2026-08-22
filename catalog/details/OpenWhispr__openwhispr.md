@@ -27,3 +27,60 @@ npm run dev
 ```
 
 Requires Node.js 24+. See the [full documentation](https://docs.openwhispr.com/quickstart) for setup guides, platform-specific instructions, and build details.
+
+## Documentation
+
+Visit **[docs.openwhispr.com](https://docs.openwhispr.com)** for:
+
+- [Getting started](https://docs.openwhispr.com/quickstart)
+- [Platform guides](https://docs.openwhispr.com/platform/macos) (macOS, Windows, Linux)
+- [API reference](https://docs.openwhispr.com/api/overview)
+- [MCP server setup](https://docs.openwhispr.com/integrations/mcp)
+- [Troubleshooting](https://docs.openwhispr.com/troubleshooting)
+
+Repo examples:
+
+- [Custom ASR shim](examples/custom-asr-shim/) for Self-Hosted transcription against non-OpenAI-compatible ASR APIs
+
+## Tech stack
+
+React 19, TypeScript, Tailwind CSS v4, Electron 41, better-sqlite3, whisper.cpp, sherpa-onnx, shadcn/ui
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=OpenWhispr/openwhispr&type=date&legend=top-left)](https://www.star-history.com/#OpenWhispr/openwhispr&type=date&legend=top-left)
+
+## Sponsors
+
+<p align="center">
+  <a href="https://console.neon.tech/app/?promo=openwhispr">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://neon.com/brand/neon-logo-dark-color.svg">
+      <source media="(prefers-color-scheme: light)" srcset="https://neon.com/brand/neon-logo-light-color.svg">
+      <img width="250" alt="Neon" src="https://neon.com/brand/neon-logo-light-color.svg">
+    </picture>
+  </a>
+</p>
+
+<p align="center"><a href="https://console.neon.tech/app/?promo=openwhispr">Neon</a> is the serverless Postgres platform powering OpenWhispr Cloud.</p>
+
+## Contributing
+
+We welcome contributions. Fork the repo, create a feature branch, and open a pull request. See the [contributing guide](https://docs.openwhispr.com/contributing) for development setup and guidelines.
+
+## License
+
+[MIT](LICENSE) — free for personal and commercial use.
+
+## Acknowledgments
+
+- **[OpenAI Whisper](https://github.com/openai/whisper)** — speech recognition model powering local and cloud transcription
+- **[whisper.cpp](https://github.com/ggerganov/whisper.cpp)** — high-performance C++ implementation for local processing
+- **[NVIDIA Parakeet](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3)** — fast multilingual ASR model
+- **[sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)** — cross-platform ONNX runtime for Parakeet inference
+- **[Hugging Face](https://huggingface.co/)** — model hub hosting Whisper, Parakeet, and embedding model weights
+- **[llama.cpp](https://github.com/ggerganov/llama.cpp)** — local LLM inference for AI text processing
+- **[Electron](https://www.electronjs.org/)** — cross-platform desktop framework
+- **[React](https://react.dev/)** — UI component library
+- **[shadcn/ui](https://ui.shadcn.com/)** — accessible components built on Radix primitives
+- **[Neon](https://console.neon.tech/app/?promo=openwhispr)** — serverless Postgres powering OpenWhispr Cloud

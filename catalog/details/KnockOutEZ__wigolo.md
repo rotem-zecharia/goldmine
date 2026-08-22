@@ -25,6 +25,38 @@ npx wigolo doctor
 
 To remove everything cleanly, run `npx wigolo config --uninstall --yes`. You can also paste the [installation guide](docs/installation.md) into any AI assistant and let it do the setup; it's written to be self-contained.
 
+### Recommended — a free key for `research` & `agent`
+
+Search, fetch, crawl, extract, cache, and find-similar are **fully keyless**. `research`, `agent`, and `search format=answer` use an LLM to write the synthesized, cited answer. Without one they hand back a raw brief and evidence for your agent to assemble. A free Gemini key turns that into a finished answer:
+
+```bash
+export WIGOLO_LLM_PROVIDER=gemini
+export GEMINI_API_KEY=<free-key>      # grab one at aistudio.google.com/apikey — the free tier is plenty
+```
+
+Any provider works (`anthropic` · `openai` · `groq`), or stay fully local and keyless with `WIGOLO_LLM_PROVIDER=ollama` (or any OpenAI-compatible URL). Set it in your shell or your agent's MCP `env` block. Providers, models, and the keyless local-model ladder are in the [configuration guide](docs/configuration.md).
+
+## What your agent gets back
+
+Every search result is evidence the agent can act on. It carries a verbatim excerpt pinned to its exact position in the source, a citation ID the agent can quote, and a score it can inspect (abridged real shape):
+
+```jsonc
+{
+  "results": [{
+    "title": "Logical replication - PostgreSQL docs",
+    "url": "https://www.postgresql.org/docs/current/logical-replication.html",
+    "excerpt": "Logical replication is a method of replicating data objects…",
+    "citation_id": "src-1",
+    "source_span": { "start": 1042, "end": 1305 },          // byte-exact provenance
+    "evidence_score": { "final": 0.86, "semantic": 0.91, "lexical": 0.78, "engine_consensus": 3 }
+  }],
+  "citations": [{ "id": "src-1", "url": "…" }],
+  "freshness_signal": { "published": "2026-05-12", "confidence": "high" }
+}
+```
+
+Weak results get flagged as junk by wigolo's own scorer. Failed engines are reported and stale cache is labeled, so the agent always knows what it's standing on. Full response contracts per tool are in the [tools reference](docs/tools.md).
+
 ## tools
 
 | Tool | What it does |
@@ -61,8 +93,64 @@ Here's what one real result looks like, dissected. It includes the failed engine
 
 </div>
 
+## Sponsors
+
+Thank you to the sponsors below, who help keep wigolo maintained and free for everyone to use. Their support goes straight into the work.
+
+<div align="center">
+
+<a href="https://knockoutez.github.io/wigolo/go/testmu/?ref=readme">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="assets/sponsors/testmu-ai-dark.svg">
+<img alt="TestMu AI" src="assets/sponsors/testmu-ai.svg" width="240">
+</picture>
+</a>
+
+<sub>**[TestMu AI](https://knockoutez.github.io/wigolo/go/testmu/?ref=readme)** (formerly LambdaTest) is the world's first full-stack agentic AI quality engineering platform, trusted by 18,000+ enterprises.</sub>
+
+</div>
+
+**wigolo is free for all and is meant to stay that way.** If you or your company would like to help keep it maintained, there's room for more sponsors — reach out at **[ktowhid20@gmail.com](mailto:ktowhid20@gmail.com)**, or see [SPONSORS.md](SPONSORS.md) for the terms. A one-off via [Buy Me a Coffee](https://buymeacoffee.com/knockoutez) is welcome too.
+
+## Benchmark
+
+> **All four tools converged on the same core answer, and only one of them handed back verbatim, byte-pinned evidence while doing it.**
+
+One cold query ran live inside a single **Claude Fable 5** session, fanned out to four web tools on equal footing (built-in **WebSearch**, **wigolo**, **Tavily**, **Exa**), and was judged by the agent on the evidence alone. All four converged on the same answer and the same top source, so the parity is demonstrated on-screen. wigolo alone returned verbatim excerpts pinned to byte-offset source spans, an explainable score decomposition, and live per-engine telemetry, and its own scorer flagged two weak results as junk. The cloud tools earn their place too: Exa rendered the official docs' comparison matrix in full. Run your own query and you'll see the same shape.
+
+<div align="center">
+
+<img alt="wigolo vs built-in WebSearch, Tavily, and Exa on one real query, driven by Claude Fable 5" src="assets/wigolo-vs.gif" width="900">
+
+</div>
+
+### How it compares
+
+| | wigolo | Firecrawl | Exa | Tavily |
+|---|:---:|:---:|:---:|:---:|
+| Multi-engine web search | ✅ | ✅ | ✅ | ✅ |
+| Fetch & structured extraction | ✅ | ✅ | ✅ | ✅ |
+| Whole-site crawl & map | ✅ | ✅ | — | ✅ |
+| Verbatim excerpts pinned to byte-offset source spans | ✅ | — | — | — |
+| Explainable per-result score decomposition | ✅ | — | — | — |
+| Persistent local memory — re-qu
+
 ## configuration
 
 A clean install works out of the box. Three settings raise output quality:
 
 ```bash
+# 1. Synthesis — the biggest lever (research / agent / search-answer write real prose)
+export WIGOLO_LLM_PROVIDER=gemini                   # or anthropic / openai / groq / ollama (keyless)
+export GEMINI_API_KEY=<your-key>
+
+# 2. Wider retrieval funnel
+export WIGOLO_SEARCH=hybrid                         # core engines + aggregator fallback
+export WIGOLO_GITHUB_TOKEN=...                      # GitHub code search 10 → 30 req/min
+
+# 3. Land more fetches, stay warm
+export WIGOLO_TLS_TIER=auto                         # per-domain learned fetch hardening
+export WIGOLO_EAGER_WARMUP=1                        # pay the ~1s model load up front
+```
+
+**Per-call habits that pay off:** query **arrays** (`["a","b","c"]`) for parallel breadth · `search_depth: "deep"` for queries that matter · `include_domains` as a hard filter for docs lookups. The full reference covers every environment variable, config-file key, search backend, cache TTL, and serve limit; it's in the [configuration guide](docs/configuration.md).

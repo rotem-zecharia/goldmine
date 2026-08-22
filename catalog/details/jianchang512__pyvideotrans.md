@@ -36,6 +36,10 @@ We provide a pre-packaged `.exe` version for Windows 10/11 users, requiring no P
 
 ---
 
+## ️ Source Deployment (macOS / Linux / Windows Developers)
+
+We recommend using **[`uv`](https://docs.astral.sh/uv/)** for package management for faster speed and better environment isolation.
+
 ## requirements
 
 * **Python**: Recommended version 3.10
@@ -62,3 +66,9 @@ docker run -d -p 7860:7860 \
 ```
 
 > [WebUI documentation](docs/webui.md)
+
+### 5. (Optional) GPU Acceleration Configuration
+
+If you have an NVIDIA graphics card, execute the following commands to install the CUDA-supported PyTorch version:
+
+```bash

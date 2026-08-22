@@ -23,6 +23,11 @@ against external threats, provide additional integrity checks, or limit the
 scope of access for a service. One should always be careful about what data is
 made available to a container.
 
+## Documentation
+
+User documentation and technical architecture, including quick start guides, can
+be found at [gvisor.dev][gvisor-dev].
+
 ## installation
 
 gVisor builds on x86_64 and ARM64. Other architectures may become available in
@@ -38,3 +43,113 @@ Make sure the following dependencies are installed:
 
 *   Linux 5.6+
 *   [Docker version 17.09.0 or greater][docker]
+
+### Building
+
+Build a release tarball containing `runsc`, the `containerd-shim-runsc-v1`
+containerd shim, and a few sidecar binaries that `runsc` expects to find in a
+`gvisor-bin/` directory next to itself, then extract it to `/usr/local/bin`:
+
+```sh
+make release-tarball DESTINATION=bin/
+sudo tar -C /usr/local/bin -xf bin/gvisor.tar.bz2
+```
+
+To build specific libraries or binaries, you can specify the target:
+
+```sh
+make build TARGETS="//pkg/tcpip:tcpip"
+```
+
+### Building directly with Bazel (without Docker)
+
+Using Bazel directly isn't recommended due to the extra overhead, but in order
+to get started:
+
+-   Look at the [build dockerfile](images/default/Dockerfile) for the canonical
+    list of needed dependencies.
+-   Install and use [bazelisk][bazelisk]. Otherwise, make sure your bazel
+    version matches the one listed in the [.bazelversion](.bazelversion) file.
+
+After setting up dependencies, using Bazel is similar to the Makefile:
+
+```sh
+bazel build -c opt //debian:gvisor-release-tar
+```
+
+### Testing
+
+To run standard test suites, you can use:
+
+```sh
+make unit-tests
+make tests
+```
+
+To run specific tests, you can specify the target:
+
+```sh
+# Makefile
+make test TARGETS="//runsc:version_test"
+# Bazel
+bazel test //runsc:version_test
+```
+
+### Mac OS
+
+Some packages support running tests directly on macOS. At the time of this
+writing, gVisor requires bazel 8, which you can install via homebrew:
+
+```sh
+brew install bazel@8
+
+# You can then run the tests, e.g.:
+$(brew --prefix bazel@8)/bin/bazel test --macos_sdk_version=$(xcrun --show-sdk-version) -- //tools/nogo/... //tools/check{aligned,const,escape,linkname,locks,unsafe}/...
+```
+
+### Using `go get`
+
+This project uses [bazel][bazel] to build and manage dependencies. A synthetic
+`go` branch is maintained that is compatible with standard `go` tooling for
+convenience. This is useful for external packages and libraries that depend on
+gVisor subpackages (e.g. userspace networking via Netstack) to import gVisor Go
+code into their Go projects.
+
+Select this branch explicitly with the `go` branch query. `@latest` resolves
+`master`, which requires Bazel and is not compatible with standard Go tooling:
+
+```sh
+go get gvisor.dev/gvisor/pkg/tcpip/transport/tcp@go
+```
+
+**NOTE**: **`runsc` builds from this branch are not supported**. gVisor and
+`runsc` require several binaries (some of which are not even written in Go) in
+order to function. The `go` branch is supported in a best effort capacity, and
+direct development on this branch is not supported. Development should occur on
+the `master` branch, which is then reflected into the `go` branch.
+
+## Community & Governance
+
+See [GOVERNANCE.md](GOVERNANCE.md) for project governance information.
+
+The [gvisor-users mailing list][gvisor-users-list] and
+[gvisor-dev mailing list][gvisor-dev-list] are good starting points for
+questions and discussion.
+
+## Security Policy
+
+See [SECURITY.md](SECURITY.md).
+
+## Contributing
+
+See [Contributing.md](CONTRIBUTING.md).
+
+[bazel]: https://bazel.build
+[docker]: https://www.docker.com
+[gvisor-users-list]: https://groups.google.com/forum/#!forum/gvisor-users
+[gvisor-dev]: https://gvisor.dev
+[gvisor-dev-list]: https://groups.google.com/forum/#!forum/gvisor-dev
+[linux]: https://en.wikipedia.org/wiki/Linux_kernel_interfaces
+[oci]: https://www.opencontainers.org
+[sandbox]: https://en.wikipedia.org/wiki/Sandbox_(computer_security)
+[bazelisk]: https://github.com/bazelbuild/bazelisk

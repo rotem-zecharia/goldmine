@@ -12,11 +12,178 @@ AI-powered cross-platform e-book reader with semantic search, RAG chat, local ve
 | Knowledge management | Scattered notes | **Unified management**, multi-format export |
 | Privacy | Upload to cloud | **Local vector store**, fully offline capable |
 
+### Comparison with Alternatives
+
+| Feature | ReadAny | Calibre | KOReader | Apple Books |
+|---------|---------|---------|----------|-------------|
+| AI Chat | ✅ | ❌ | ❌ | ❌ |
+| Semantic Search (RAG) | ✅ | ❌ | ❌ | ❌ |
+| Local Vector Store | ✅ | - | - | ❌ |
+| TTS (Text-to-Speech) | ✅ | ❌ | Limited | Limited |
+| Reading Stats | ✅ | ❌ | ❌ | Limited |
+| WebDAV Sync | ✅ | ❌ | ❌ | ❌ |
+| Skills System | ✅ | ❌ | ❌ | ❌ |
+| Format Support | 10+ | 15+ | 10+ | 2 |
+| Note Export | 5 formats | Limited | Limited | Limited |
+| Open Source | ✅ | ✅ | ✅ | ❌ |
+
+---
+
+## Screenshots
+
+### Hero
+
+<div align="center">
+  <img src="assets/hero-screenshot.png" width="80%" alt="ReadAny Hero">
+</div>
+
+### AI-Powered Chat
+
+<div align="center">
+  <img src="assets/ai-chat-desktop.png" width="60%" alt="AI Chat - Desktop">
+  <img src="assets/ai-chat-mobile.png" width="20%" alt="AI Chat - Mobile">
+</div>
+
+### Notes & Highlights
+
+<div align="center">
+  <img src="assets/notes-desktop.png" width="60%" alt="Notes - Desktop">
+  <img src="assets/notes-mobile.png" width="20%" alt="Notes - Mobile">
+</div>
+
+### Text-to-Speech
+
+<div align="center">
+  <img src="assets/tts-desktop.png" width="60%" alt="TTS - Desktop">
+  <img src="assets/tts-mobile.png" width="20%" alt="TTS - Mobile">
+</div>
+
+### Reading Statistics
+
+<div align="center">
+  <img src="assets/stats-desktop.png" width="60%" alt="Stats - Desktop">
+  <img src="assets/stats-mobile.png" width="20%" alt="Stats - Mobile">
+</div>
+
+### Cross-Device Sync
+
+<div align="center">
+  <img src="assets/sync-desktop.png" width="60%" alt="Sync - Desktop">
+  <img src="assets/sync-mobile.png" width="20%" alt="Sync - Mobile">
+</div>
+
+---
+
+## Core Features
+
+### 🤖 AI-Powered Reading
+
+- **Intelligent Chat** - Ask questions about your books, AI knows your position, selected text, and highlights
+- **Semantic Search** - Beyond keywords, vector retrieval + BM25 hybrid search
+- **Instant Translation** - AI translation or DeepL, 19 languages supported
+- **Multiple AI Providers** - OpenAI, Claude, Gemini, Ollama, DeepSeek
+- **Skills System** - Built-in skills (summarizer, concept explainer, character tracker, etc.) + create custom skills
+
+### 📝 Annotation & Knowledge Management
+
+- **5-Color Highlights** - Yellow/Green/Blue/Pink/Purple, hover to preview notes
+- **Markdown Notes** - Rich text editor with toolbar, WYSIWYG
+- **Multi-format Export** - Markdown, HTML, JSON, Obsidian, Notion
+
+### 🔊 Text-to-Speech (TTS)
+
+- **Multiple Engines** - Edge TTS, Browser TTS, DashScope (通义千问)
+- **Voice Selection** - 100+ voices in multiple languages
+- **Speed Control** - Adjustable playback speed
+- **Background Playback** - Listen while doing other things
+
+### 📊 Reading Statistics
+
+- **Reading Heatmap** - Visualize your reading habits like GitHub contributions
+- **Trend Charts** - Track daily/weekly/monthly reading time
+- **Streak Tracking** - Longest consecutive reading days
+- **Book Statistics** - Time spent per book, completion rate
+
+### ☁️ Cross-Device Sync
+
+- **WebDAV Support** - Sync your library, highlights, and notes across devices
+- **Auto Sync** - Automatic background synchronization
+- **Conflict Resolution** - Smart merge for concurrent edits
+
+### 📚 Multi-Format Support
+
+**EPUB** · **PDF** · **MOBI** · **AZW** · **AZW3** · **FB2** · **FBZ** · **CBZ** · **TXT** · **UMD**
+
+TXT and UMD are imported by converting them to EPUB for reading, notes, search, and sync.
+
+### 🎨 Customizable Experience
+
+- 5 font themes (CJK optimized)
+- Light/Dark mode
+- Paginated/C
+
 ## installation
 
+### Download
+
+| Platform | Download |
+|----------|----------|
+| macOS (Apple Silicon) | [Download .dmg](https://github.com/codedogQBY/ReadAny/releases/latest) |
+| macOS (Intel) | [Download .dmg](https://github.com/codedogQBY/ReadAny/releases/latest) |
+| Windows | [Download .msi](https://github.com/codedogQBY/ReadAny/releases/latest) |
+| Linux | [Download .AppImage](https://github.com/codedogQBY/ReadAny/releases/latest) |
+| iOS | [Join TestFlight](https://testflight.apple.com/join/qNdvNv2p) |
+| Android | [Download .apk](https://github.com/codedogQBY/ReadAny/releases/latest) |
+
+#### Homebrew (macOS)
+
+```bash
+brew tap codedogQBY/readany
+brew install --cask readany
+```
+
+### 3 Steps to Get Started
+
+1. **Import Books** - Drag and drop files into library
+2. **Start Reading** - Double-click to open, immersive experience
+3. **Configure AI** (Optional) - Settings → AI → Enter API Key
+
+### Mobile Apps
+
+ReadAny is now available on mobile devices!
+
+**Expo (React Native) Version:**
+```bash
+# Clone and setup
 git clone https://github.com/codedogQBY/ReadAny.git
 cd ReadAny
 pnpm install
+
+# Install/run the development build on iOS
+pnpm expo:ios
+
+# Install/run the development build on iOS Simulator
+pnpm expo:ios:simulator
+
+# Install/run the development build on Android
+# Start an Android emulator first, or connect a device.
+pnpm expo:android
+
+# Start Metro for the installed development build
+pnpm expo:start
+```
+
+Mobile development uses an Expo development build with `expo-dev-client`, not
+Expo Go. Expo Go cannot load ReadAny's native modules and app configuration. Use
+`pnpm expo:ios`, `pnpm expo:ios:simulator`, or `pnpm expo:android` the first
+time, or whenever native dependencies/configuration change, then use
+`pnpm expo:start` for daily JS debugging in the installed ReadAny development
+app.
+
+For simulators, use `pnpm expo:ios:simulator` on iOS. For Android, start an
+Android emulator first, then run `pnpm expo:android`.
+
+Mobile app source lives in [`packages/app-expo`](packages/app-expo).
 
 ## configuration
 
@@ -28,6 +195,30 @@ pnpm install
 | Ollama / DeepSeek | Local or custom endpoint |
 
 ---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Desktop | [Tauri 2](https://tauri.app/) (Rust) |
+| Mobile | [Expo](https://expo.dev/) (React Native) + Tauri Mobile |
+| Frontend | [React 19](https://react.dev/) + TypeScript |
+| Build | [Vite 7](https://vite.dev/) |
+| Styling | [Tailwind CSS 4](https://tailwindcss.com/) + [Radix UI](https://www.radix-ui.com/) |
+| State | [Zustand](https://zustand.docs.pmnd.rs/) |
+| Database | SQLite |
+| E-Book | [foliate-js](https://github.com/johnfactotum/foliate-js) |
+| AI/LLM | [LangChain.js](https://js.langchain.com/) + [LangGraph](https://langchain-ai.github.io/langgraphjs/) |
+| Embeddings | [Transformers.js](https://huggingface.co/docs/transformers.js) |
+
+---
+
+## Development
+
+```bash
+# Clone
+git clone https://github.com/codedogQBY/ReadAny.git
+cd ReadAny
 
 ## limitations
 
@@ -42,3 +233,77 @@ pnpm install
 - [ ] Cloud sync (official service)
 
 ---
+
+## Contributing
+
+Contributions welcome! Bug reports, feature requests, pull requests all appreciated.
+
+1. Fork → 2. Branch → 3. PR
+
+Please run `pnpm lint` before submitting to ensure code style consistency.
+
+---
+
+## License
+
+[GPL-3.0](LICENSE) © 2024 ReadAny Team
+
+This project is open source under the GNU General Public License v3.0. You are free to use, modify, and distribute the code, but any derivative works must also be open source under the same license.
+
+**Note:** While the source code is freely available, the official app store versions may be offered for a fee to support ongoing development and cover certificate costs. You can always build the app yourself at no cost.
+
+---
+
+## Acknowledgments
+
+- [foliate-js](https://github.com/johnfactotum/foliate-js) - E-book rendering engine
+- [Tauri](https://tauri.app/) - Cross-platform desktop framework
+- [Expo](https://expo.dev/) - React Native development platform
+- [LangChain.js](https://js.langchain.com/) - AI orchestration framework
+- [Radix UI](https://www.radix-ui.com/) - Accessible UI components
+- [Lucide](https://lucide.dev/) - Icon library
+
+---
+
+## Community
+
+Thanks to [linux.do](https://linux.do/) — a vibrant Chinese tech community where you can learn about AI, development, and more.
+
+---
+
+<p align="center">
+  Made with ❤️ by the ReadAny Team
+</p>
+
+<p align="center">
+  <a href="https://github.com/codedogQBY/ReadAny/discussions">💬 Discussions</a> •
+  <a href="https://github.com/codedogQBY/ReadAny/issues">🐛 Issues</a>
+</p>
+
+<p align="center">
+  <img src="assets/小红书群.jpg" width="200" alt="小红书群">
+  <img src="assets/微信群.jpg" width="200" alt="微信群">
+</p>
+
+## ☕ Support the Project
+
+If you find ReadAny helpful, consider buying me a coffee to support ongoing development!
+
+<p align="center">
+  <img src="assets/微信赞赏码.jpg" width="200" alt="微信赞赏码">
+  <img src="assets/支付宝收款码.jpg" width="200" alt="支付宝收款码">
+</p>
+
+<p align="center">
+  <a href="https://ifdian.net/a/codedogQBY">Dining Table on Afdian</a>
+</p>
+
+---
+
+## Star History
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=codedogQBY/ReadAny&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=codedogQBY/ReadAny&type=Date" />
+  <img alt="Star History Chart" src="https://api.star-history.com/image?repos=codedogQBY/ReadAny&type=Date" />
+</picture>

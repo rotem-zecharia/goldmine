@@ -21,6 +21,20 @@ OCRmyPDF adds an OCR text layer to scanned PDF files, allowing them to be search
 
 For details: please consult the [documentation](https://ocrmypdf.readthedocs.io/en/latest/).
 
+## Motivation
+
+I searched the web for a free command line tool to OCR PDF files: I found many, but none of them were really satisfying:
+
+- Either they produced PDF files with misplaced text under the image (making copy/paste impossible)
+- Or they did not handle accents and multilingual characters
+- Or they changed the resolution of the embedded images
+- Or they generated ridiculously large PDF files
+- Or they crashed when trying to OCR
+- Or they did not produce valid PDF files
+- On top of that none of them produced PDF/A files (format dedicated for long time storage)
+
+...so I decided to develop my own tool.
+
 ## installation
 
 Linux, Windows, macOS and FreeBSD are supported. Docker images are also available, for both x64 and ARM.
@@ -40,6 +54,85 @@ Linux, Windows, macOS and FreeBSD are supported. Docker images are also availabl
 
 For everyone else, [see our documentation](https://ocrmypdf.readthedocs.io/en/latest/installation.html) for installation steps.
 
+## Languages
+
+OCRmyPDF uses Tesseract for OCR, and relies on its language packs. For Linux users, you can often find packages that provide language packs:
+
+```bash
+
+# Debian/Ubuntu users
+apt-cache search tesseract-ocr # Display a list of all Tesseract language packs
+apt-get install tesseract-ocr-chi-sim  # Example: Install Chinese Simplified language pack
+
+
+# Arch Linux users
+pacman -S tesseract-data-eng tesseract-data-deu # Example: Install the English and German language packs
+
+# OpenBSD users
+pkg_info -aQ tesseract  # Display a list of all Tesseract language packs
+pkg_add tesseract-cym  # Example: Install the Welsh language pack
+
+# brew macOS users
+brew install tesseract-lang
+
+# Fedora users
+dnf search tesseract-langpack # Display a list of all Tesseract language packs 
+dnf install tesseract-langpack-ita # Example: Install the Italian language pack
+
+
+```
+
+You can then pass the `-l LANG` argument to OCRmyPDF to give a hint as to what languages it should search for. Multiple languages can be requested.
+
+OCRmyPDF supports Tesseract 4.1.1+. It will automatically use whichever version it finds first on the `PATH` environment variable. On Windows, if `PATH` does not provide a Tesseract binary, we use the highest version number that is installed according to the Windows Registry.
+
+## Documentation and support
+
+Once OCRmyPDF is installed, the built-in help which explains the command syntax and options can be accessed via:
+
+```bash
+ocrmypdf --help
+```
+
+Our [documentation is served on Read the Docs](https://ocrmypdf.readthedocs.io/en/latest/index.html).
+
+Please report issues on our [GitHub issues](https://github.com/ocrmypdf/OCRmyPDF/issues) page, and follow the issue template for quick response.
+
 ## requirements
 
 In addition to the required Python version, OCRmyPDF requires external program installations of Ghostscript and Tesseract OCR. OCRmyPDF is pure Python, and runs on pretty much everything: Linux, macOS, Windows and FreeBSD.
+
+## Plugins
+
+OCRmyPDF provides a plugin interface allowing its capabilities to be extended or replaced. Here are some plugins we are aware of:
+
+- [OCRmyPDF-AppleOCR](https://github.com/mkyt/ocrmypdf-AppleOCR): replaces the standard Tesseract OCR engine with Apple Vision Framework. Requires macOS.
+- [OCRmyPDF-EasyOCR](https://github.com/ocrmypdf/OCRmyPDF-EasyOCR): replaces the standard Tesseract OCR engine with EasyOCR, a newer OCR engine based on PyTorch. GPU strongly recommended.
+- [OCRmyPDF-PaddleOCR](https://github.com/clefru/ocrmypdf-paddleocr): replaces the standard Tesseract OCR engine with PaddleOCR, a powerful GPU accelerated OCR engine.
+
+[paperless-ngx](https://docs.paperless-ngx.com/) provides integration of OCRmyPDF into a searchable document management system.
+
+## Press & Media
+
+- [Going paperless with OCRmyPDF](https://medium.com/@ikirichenko/going-paperless-with-ocrmypdf-e2f36143f46a)
+- [Converting a scanned document into a compressed searchable PDF with redactions](https://medium.com/@treyharris/converting-a-scanned-document-into-a-compressed-searchable-pdf-with-redactions-63f61c34fe4c)
+- [c't 1-2014, page 59](https://heise.de/-2279695): Detailed presentation of OCRmyPDF v1.0 in the leading German IT magazine c't
+- [heise Open Source, 09/2014: Texterkennung mit OCRmyPDF](https://heise.de/-2356670)
+- [heise Durchsuchbare PDF-Dokumente mit OCRmyPDF erstellen](https://www.heise.de/ratgeber/Durchsuchbare-PDF-Dokumente-mit-OCRmyPDF-erstellen-4607592.html)
+- [Excellent Utilities: OCRmyPDF](https://www.linuxlinks.com/excellent-utilities-ocrmypdf-add-ocr-text-layer-scanned-pdfs/)
+- [LinuxUser Texterkennung mit OCRmyPDF und Scanbd automatisieren](https://www.linux-community.de/ausgaben/linuxuser/2021/06/texterkennung-mit-ocrmypdf-und-scanbd-automatisieren/)
+- [Y Combinator discussion](https://news.ycombinator.com/item?id=32028752)
+
+## Business enquiries
+
+OCRmyPDF would not be the software that it is today without companies and users choosing to provide support for feature development and consulting enquiries. We are happy to discuss all enquiries, whether for extending the existing feature set, or integrating OCRmyPDF into a larger system.
+
+## License
+
+The OCRmyPDF software is licensed under the Mozilla Public License 2.0 (MPL-2.0). This license permits integration of OCRmyPDF with other code, included commercial and closed source, but asks you to publish source-level modifications you make to OCRmyPDF.
+
+Some components of OCRmyPDF have other licenses, as indicated by standard SPDX license identifiers or the DEP5 copyright and licensing information file. Generally speaking, non-core code is licensed under MIT, and the documentation and test files are licensed under Creative Commons ShareAlike 4.0 (CC-BY-SA 4.0).
+
+## Disclaimer
+
+The software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

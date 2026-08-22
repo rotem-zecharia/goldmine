@@ -8,6 +8,76 @@ We recommend visiting the [Introduction tutorial](https://crawlee.dev/js/docs/in
 
 > Crawlee requires **Node.js 16 or higher**.
 
+### With Crawlee CLI
+
+The fastest way to try Crawlee out is to use the **Crawlee CLI** and choose the **Getting started example**. The CLI will install all the necessary dependencies and add boilerplate code for you to play with.
+
+```bash
+npx crawlee create my-crawler
+```
+
+```bash
+cd my-crawler
+npm start
+```
+
+### Manual installation
+If you prefer adding Crawlee **into your own project**, try the example below. Because it uses `PlaywrightCrawler` we also need to install [Playwright](https://playwright.dev). It's not bundled with Crawlee to reduce install size.
+
+```bash
+npm install crawlee playwright
+```
+
+```js
+import { PlaywrightCrawler, Dataset } from 'crawlee';
+
+// PlaywrightCrawler crawls the web using a headless
+// browser controlled by the Playwright library.
+const crawler = new PlaywrightCrawler({
+    // Use the requestHandler to process each of the crawled pages.
+    async requestHandler({ request, page, enqueueLinks, log }) {
+        const title = await page.title();
+        log.info(`Title of ${request.loadedUrl} is '${title}'`);
+
+        // Save results as JSON to ./storage/datasets/default
+        await Dataset.pushData({ title, url: request.loadedUrl });
+
+        // Extract links from the current page
+        // and add them to the crawling queue.
+        await enqueueLinks();
+    },
+    // Uncomment this option to see the browser window.
+    // headless: false,
+});
+
+// Add first URL to the queue and start the crawl.
+await crawler.run(['https://crawlee.dev']);
+```
+
+By default, Crawlee stores data to `./storage` in the current working directory. You can override this directory via Crawlee configuration. For details, see [Configuration guide](https://crawlee.dev/js/docs/guides/configuration), [Request storage](https://crawlee.dev/js/docs/guides/request-storage) and [Result storage](https://crawlee.dev/js/docs/guides/result-storage).
+
+### Installing pre-release versions
+
+We provide automated beta builds for every merged code change in Crawlee. You can find them in the npm [list of releases](https://www.npmjs.com/package/crawlee?activeTab=versions). If you want to test new features or bug fixes before we release them, feel free to install a beta build like this:
+
+```bash
+npm install crawlee@next
+```
+
+If you also use the [Apify SDK](https://github.com/apify/apify-sdk-js), you need to specify dependency overrides in your `package.json` file so that you don't end up with multiple versions of Crawlee installed:
+
+```json
+{
+    "overrides": {
+       "apify": {
+           "@crawlee/core": "$crawlee",
+           "@crawlee/types": "$crawlee",
+           "@crawlee/utils": "$crawlee"
+       }
+    }
+}
+```
+
 ## features
 
 - Single interface for **HTTP and headless browser** crawling
@@ -21,6 +91,35 @@ We recommend visiting the [Introduction tutorial](https://crawlee.dev/js/docs/in
 - **Dockerfiles** ready to deploy
 - Written in **TypeScript** with generics
 
+### 👾 HTTP crawling
+
+- Zero config **HTTP2 support**, even for proxies
+- Automatic generation of **browser-like headers**
+- Replication of browser **TLS fingerprints**
+- Integrated fast **HTML parsers**. Cheerio and JSDOM
+- Yes, you can scrape **JSON APIs** as well
+
+### 💻 Real browser crawling
+
+- JavaScript **rendering** and **screenshots**
+- **Headless** and **headful** support
+- Zero-config generation of **human-like fingerprints**
+- Automatic **browser management**
+- Use **Playwright** and **Puppeteer** with the same interface
+- **Chrome**, **Firefox**, **Webkit** and many others
+
 ## tools
 
 Crawlee is open-source and runs anywhere, but since it's developed by [Apify](https://apify.com), it's easy to set up on the Apify platform and run in the cloud. Visit the [Apify SDK website](https://sdk.apify.com) to learn more about deploying Crawlee to the Apify platform.
+
+## Support
+
+If you find any bug or issue with Crawlee, please [submit an issue on GitHub](https://github.com/apify/crawlee/issues). For questions, you can ask on [Stack Overflow](https://stackoverflow.com/questions/tagged/apify), in GitHub Discussions or you can join our [Discord server](https://discord.com/invite/jyEM2PRvMU).
+
+## Contributing
+
+Your code contributions are welcome, and you'll be praised to eternity! If you have any ideas for improvements, either submit an issue or create a pull request. For contribution guidelines and the code of conduct, see [CONTRIBUTING.md](https://github.com/apify/crawlee/blob/master/CONTRIBUTING.md).
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE.md](https://github.com/apify/crawlee/blob/master/LICENSE.md) file for details.

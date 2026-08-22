@@ -23,3 +23,111 @@ An object-oriented reverse engineered Instagram Private API in Java. Build bots,
 -   Supports **Fetching Post, liking and commening**
 -   Supports **Scrapping comments of a post**
 -   Supoorts **Fetching reels, stories & highlight**
+
+## 💻 Implimentation
+### Gradle
+Step 1. Add the JitPack repository to your build file
+
+```groovy
+	dependencyResolutionManagement {
+		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+		repositories {
+			mavenCentral()
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+  
+Step 2. Add the dependency
+
+```groovy
+	dependencies {
+	        implementation 'com.github.instagram4j.instagram4j:mobile:3.0'   // If you want to use mobile API
+          implementation 'com.github.instagram4j.instagram4j:web:3.0'   // If you want to use web API
+	}
+```
+
+### Maven
+Step 1. Add to pom.xml
+```xml
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+```
+Step 2. Add the dependency
+if you want `Mobile` API :
+```xml
+	<dependency>
+	    <groupId>com.github.instagram4j.instagram4j</groupId>
+	    <artifactId>mobile</artifactId>
+	    <version>3.0</version>
+	</dependency>
+```
+or if you want `Web` API :
+```xml
+	<dependency>
+	    <groupId>com.github.instagram4j.instagram4j</groupId>
+	    <artifactId>web</artifactId>
+	    <version>3.0</version>
+	</dependency>
+```
+[![](https://jitpack.io/v/instagram4j/instagram4j.svg)](https://jitpack.io/#Errorxcode/JxInsta)
+
+
+## 📖 Acknowledgements
+
+-   [Instagram usage limits](https://www.linkedin.com/pulse/stay-within-boundaries-complete-breakdown-instagrams-cmscc/)
+- [Instagram daily limit](https://socialpros.co/instagram-daily-limits/#:~:text=Instagram's%20Daily%20Limits%20%E2%80%93%20Like,than%2030%20likes%20per%20hour)
+-   [API Policies](https://developers.facebook.com/devpolicy/)
+-   [About Instagram checkpoints and challenges](https://github.com/ErrorxCode/JxInsta/blob/main/Instagram%20checkpoints.md)
+
+## ✅ Its easy :)
+
+```java
+Instagram4j insta = new Instagram4j("username", "password");  
+var profile = insta.getProfile("username");
+profile.follow();
+System.out.print("User Bio : " + profile.bio);
+```
+For detailed guide, check out [User guide](https://github.com/instagram4j/instagram4j/wiki)
+
+
+## ❓FAQs
+
+<details>
+  <summary>Can we use this library to make bots?</summary>
+
+  **Answer.** Yes. But Instagram doesn't allow them to make bots with their official graph APIs. Although this is not the official API, you should follow the usage limits to prevent detection.
+</details>
+
+<details>
+  <summary>Can we download stories or posts using this library?</summary>
+
+  **Answer.** Yes, and that too without login
+</details>
+
+<details>
+  <summary>Does the use of this library require any tokens or other keys?</summary>
+
+  **Answer.** No. You only need to have the username and password of the account. You can also log in using cookies and bearer tokens.
+</details>
+
+
+<details>
+  <summary>In Android, can we use Webview to log in?</summary>
+
+  **Answer.**  Yes, but only for web module. All you need to do is extract the crsf and session id from the cookie after login.
+</details>
+
+
+
+
+## 💌 Contributing
+
+Contributions are always welcome! There is a lot of scope for contribution in this library.
+
+Please refer to  [Contribution guide](/CONTRIBUTING.md). Also, see the  [code of conduct](/CODE_OF_CONDUCT.md).
+To get

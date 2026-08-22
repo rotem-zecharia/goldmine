@@ -25,3 +25,31 @@ Or, check out our [Github Releases](https://github.com/GoogleContainerTools/skaf
 * Lightweight
   * **client-side only** - Skaffold has no cluster-side component, so there is no overhead or maintenance burden
   * **minimal pipeline** - Skaffold provides an opinionated, minimal pipeline to keep things simple
+
+## tools
+
+## IDE integrations
+
+For a managed experience of Skaffold you can install the Google `Cloud Code` extensions:
+- for [Visual Studio Code](https://cloud.google.com/code/docs/vscode/quickstart-k8s#installing)
+- for [JetBrains IDEs](https://cloud.google.com/code/docs/intellij/quickstart-k8s#installing_the_plugin). 
+
+It can manage and keep Skaffold  up-to-date while providing a more guided startup experience, along with providing and managing other common dependencies, and works with any kubernetes cluster. 
+
+## Contributing to Skaffold
+
+We welcome any contributions from the community with open arms - Skaffold wouldn't be where it is today without contributions from the community! Have a look at our [contribution guide](./CONTRIBUTING.md) for more information on how to get started on sending your first PR.
+
+## Community
+
+* [#skaffold on Kubernetes Slack](https://kubernetes.slack.com/messages/CABQMSZA6/)
+* [skaffold-users mailing list](https://groups.google.com/forum/#!forum/skaffold-users)
+
+## Support 
+
+Skaffold is generally available and considered production ready.
+Detailed feature maturity information and how we deprecate features are described in our [Deprecation Policy](https://skaffold.dev/docs/references/deprecation).
+
+## Security Disclosures
+
+Please see our [security disclosure process](SECURITY.md).  All [security advisories](https://github.com/GoogleContainerTools/skaffold/security/advisories) are managed on Github.

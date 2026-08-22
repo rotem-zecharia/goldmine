@@ -48,3 +48,44 @@ IFRNet-ncnn-vulkan
 ![VideoSettings_EN](/Screenshot/VideoSettings_EN.jpg)
 
 ![Additional_Settings](/Screenshot/Additional_Settings_EN.jpg)
+
+# [Samples👀](https://github.com/AaronFeng753/Waifu2x-Extension-GUI/tree/master/Samples/)
+
+### [➡Comparison(3D Real-life)](https://imgsli.com/NjQ4NzY)
+#### [Photo by Jonatan Pie on Unsplash](https://unsplash.com/photos/Yv9WbjBgZXY)
+![Comparison](/Samples/image/Comparison_3D_Real-life.png)
+
+### [➡Comparison(2D Anime)](https://imgsli.com/MjUyNDAx)
+![Comparison](/Samples/image/Comparison.jpg)
+
+#### Original 2D Anime Image 480x300:
+![Original Imgae](/Samples/image/Original_[480x300].jpg)
+
+#### After 4x Upscale, Denoise and JPG compression 1920x1200: [🔗Comparison](https://imgsli.com/MjUyNDA0)
+![Scaled Imgae](/Samples/image/Waifu2x_4x_[1920x1200].jpg)
+
+#### Original GIF 500 x 372:
+![Original GIF](/Samples/gif/GIF_2_original.gif)
+
+#### After 2x Upscale, Denoise and GIF optimization 1000 x 744:
+![Original GIF](/Samples/gif/GIF_2_waifu2x.gif)
+
+#### `Github doesn't support online video playback, please check link below:`
+
+### **`Video`** : https://github.com/AaronFeng753/Waifu2x-Extension-GUI/tree/master/Samples/video
+
+# ❤ Donate ❤ (推荐使用 支付宝 或者 微信)
+
+<p align="left">
+<a href="https://www.patreon.com/aaronfeng"><img src="https://github.com/AaronFeng753/Waifu2x-Extension-GUI/blob/master/.github/BecomePatron.jpg?raw=true" alt="Patreon donate button" height="35"/> </a>
+</p>
+
+![donate_new](/donate_new.jpg)
+
+#### 如果捐赠二维码图片无法正常加载,请[打开此链接查看](https://gitee.com/aaronfeng0711/Waifu2x-Extension-GUI/raw/master/donate_new.jpg).
+
+# [📄License](https://github.com/AaronFeng753/Waifu2x-Extension-GUI/blob/master/LICENSE)
+
+#### Waifu2x-Extension-GUI is free for PERSONAL USE ONLY.
+
+#### If you wish to use Waifu2x-Extension-GUI commercially, please purchase the Premium version f

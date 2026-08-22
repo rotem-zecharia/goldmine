@@ -34,3 +34,96 @@ Open the chat sidebar from the ribbon icon or command palette. Select text and u
 - Obsidian v1.13.0+
 - Desktop only (macOS, Linux, Windows)
 - Collab Mode requires [Git](https://git-scm.com/install/)
+
+## installation
+
+### From Obsidian Community Plugins (recommended)
+
+1. Open Obsidian → Settings → Community plugins → Browse
+2. Search for "Claudian" and click Install
+3. Enable the plugin
+
+Or install directly from the [community plugin page](https://community.obsidian.md/plugins/realclaudian).
+
+### From source (development)
+
+1. Clone this repository into your vault's plugins folder:
+   ```bash
+   cd /path/to/vault/.obsidian/plugins
+   git clone https://github.com/YishenTu/claudian.git
+   cd claudian
+   ```
+
+2. Install dependencies and build:
+   ```bash
+   npm install
+   npm run build
+   ```
+
+3. Enable the plugin in Obsidian:
+   - Settings → Community plugins → Enable "Claudian"
+
+### Development
+
+```bash
+# Watch mode
+npm run dev
+
+# Production build
+npm run build
+```
+
+## Privacy & Data Use
+
+- **Sent to API**: Your input, attached files, images, and tool call outputs. Depending on the selected provider, data is sent to Anthropic (Claude), OpenAI (Codex), xAI (Grok), or the providers configured in OpenCode or Pi. The destination can be configured through provider settings and environment variables.
+- **Collab LAN traffic**: When you explicitly Host or synchronize a Collab Project, Project Git data and authenticated coordination metadata travel directly between invited teammates' devices on the local network. Collab Mode itself does not send Project data to a Claudian cloud service or any third party.
+- **No telemetry or unsolicited background activity**: Claudian does not run telemetry beacons. UI polling timers read local Obsidian/editor selection state only. Network activity is limited to explicit provider runtime work, configured MCP endpoints, provider SDK/CLI calls needed to answer your requests, and explicitly started Collab LAN work.
+
+## Troubleshooting
+
+The following sections use Claude Code as an example.
+
+### Provider CLI not found
+
+If Claudian cannot auto-detect a provider CLI, verify that the CLI is installed and available to GUI applications through PATH. Typical errors include `spawn claude ENOENT` and `Claude CLI not found`. This issue is common with Node version managers (nvm, fnm, volta).
+
+Leave the CLI path setting empty first so Claudian can auto-detect the CLI. If auto-detection fails, find the executable path and set it in Settings → Advanced → Claude CLI path.
+
+| Platform | Command | Example Path |
+|----------|---------|--------------|
+| macOS/Linux | `which claude` | `/Users/you/.volta/bin/claude` |
+| Windows (native) | `where.exe claude` | `C:\Users\you\AppData\Local\Claude\claude.exe` |
+| Windows (npm) | `npm root -g` | `{root}\@anthropic-ai\claude-code\cli-wrapper.cjs` |
+
+> **Note**: On Windows, avoid `.cmd` and `.ps1` wrappers. Use `claude.exe` for native installs, or `cli-wrapper.cjs` for package-manager installs. `cli.js` is only a legacy fallback for older Claude Code npm packages.
+
+**Alternative**: Add your Node.js bin directory to PATH in Settings → Environment → Custom variables.
+
+### npm CLI and Node.js not in the same directory
+
+When using an npm-installed provider CLI, make sure its executable and Node.js are available from the same environment. Check their paths:
+
+```bash
+dirname $(which claude)
+dirname $(which node)
+```
+
+If the paths differ, GUI apps like Obsidian may not find Node.js.
+
+Either:
+
+1. Install the native binary (recommended).
+2. Add the Node.js path in Settings → Environment: `PATH=/path/to/node/bin`.
+
+### More help
+
+For provider-specific installation and configuration guidance, refer to the provider documentation linked in the [Requirements](#requirements) section. If you have a feature request or run into a bug, please [submit a GitHub issue](https://github.com/YishenTu/claudian/issues).
+
+## Architecture
+
+```
+src/
+├── main.ts                      # Plugin entry point
+├── app/                         # Application services, storage, and lazy Collab infrastructure
+├── core/                        # Provider-neutral runtime, registry, and type contracts
+│   ├── runtime/                 # ChatRunti

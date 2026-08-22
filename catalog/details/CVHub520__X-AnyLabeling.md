@@ -15,6 +15,45 @@ X-AnyLabeling: A lightweight, efficient, and unified cross-platform desktop appl
 * Runs on Windows, Linux, and macOS, with interfaces available in English, Simplified Chinese, Japanese, and Korean.
 * Supports custom model integration, flexible extension, and secondary development.
 
+## Model library
+
+| **Task Category** | **Supported Models** |
+| :--- | :--- |
+| 🖼️ Image Classification | YOLOv5-Cls, YOLOv8-Cls, YOLO11-Cls, InternImage, PULC |
+| 🎯 Object Detection | YOLOv5/6/7/8/9/10, YOLO11/12/26, YOLOX, YOLO-NAS, D-FINE, DAMO-YOLO, Gold_YOLO, RT-DETR, RF-DETR, DEIMv2 |
+| 🖌️ Instance Segmentation | YOLOv5-Seg, YOLOv8-Seg, YOLO11-Seg, YOLO26-Seg, Hyper-YOLO-Seg, RF-DETR-Seg, D-FINE-seg |
+| 🏃 Pose Estimation | YOLOv8-Pose, YOLO11-Pose, YOLO26-Pose, DWPose, RTMO |
+| 😀 Face Estimation | SCRFD, YOLOv6Lite-Face |
+| 👣 Tracking | TrackTrack, Bot-SORT, ByteTrack, SAM2/3-Video |
+| 🔄 Rotated Object Detection | YOLOv5-Obb, YOLOv8-Obb, YOLO11-Obb, YOLO26-Obb, RT-DETRv2-OBB |
+| 📏 Depth Estimation | Depth Anything |
+| 🧩 Segment Anything | SAM 1/2/3, SAM-HQ, SAM-Med2D, EdgeSAM, EfficientViT-SAM, MobileSAM |
+| ✂️ Image Matting | RMBG 1.4/2.0 |
+| 💡 Proposal | UPN |
+| 🏷️ Tagging | RAM, RAM++ |
+| 📄 OCR | PP-OCRv4, PP-OCRv5, PP-OCRv6 |
+| 🧾 Layout Analysis | PP-DocLayoutV3 |
+| 📑 Document Parsing | PaddleOCR-VL, PaddleOCR-VL-1.6 |
+| 🗣️ Vision Foundation Models | Rex-Omni, Florence2 |
+| 👁️ Vision Language Models | Qwen3-VL, Gemini, ChatGPT, GLM |
+| 🛣️ Lane Detection | CLRNet |
+| 🔢 Object Counting | CountGD, GeCO, GeCo2 |
+| 📍 Grounding | Grounding DINO, YOLO-World, YOLOE, SAM 3, LocateAnything |
+| 📚 Other | 👉 [model_zoo](./docs/en/model_zoo.md) 👈 |
+
+## Docs
+
+0. [Remote Inference Service](https://github.com/CVHub520/X-AnyLabeling-Server)
+1. [Installation & Quickstart](./docs/en/get_started.md)
+2. [Usage](./docs/en/user_guide.md)
+3. [Command Line Interface](./docs/en/cli.md)
+4. [Customize a model](./docs/en/custom_model.md)
+5. [Chatbot](./docs/en/chatbot.md)
+6. [VQA](./docs/en/vqa.md)
+7. [Image Classifier](./docs/en/image_classifier.md)
+8. [Video Classifier](./docs/en/video_classifier.md)
+9. [Document Parsing and Intelligent Text Recognition](./docs/en/paddle_ocr.md)
+
 ## tools
 
 - [Classification](./examples/classification/)
@@ -59,3 +98,27 @@ X-AnyLabeling: A lightweight, efficient, and unified cross-platform desktop appl
   - [LocateAnything](./examples/grounding/locateanything/README.md)
 - [Training](./examples/training/)
   - [Ultralytics](./examples/training/ultralytics/README.md)
+
+## Contribute
+
+We believe in open collaboration! **X‑AnyLabeling** continues to grow with the support of the community. Whether you're fixing bugs, improving documentation, or adding new features, your contributions make a real impact.
+
+To get started, please read our [Contributing Guide](./CONTRIBUTING.md) and make sure to agree to the [Contributor License Agreement (CLA)](./CLA.md) before submitting a pull request.
+
+If you find this project helpful, please consider giving it a ⭐️ star! Have questions or suggestions? Open an [issue](https://github.com/CVHub520/X-AnyLabeling/issues) or email us at cv_hub@163.com.
+
+A huge thank you 🙏 to everyone helping to make X‑AnyLabeling better.
+
+## License
+
+This project is licensed under the [GNU General Public License v3.0](./LICENSE). You may use, modify, and redistribute the software, including for commercial purposes, provided that you comply with the terms of the license.
+
+## Sponsor
+
+X-AnyLabeling is an actively maintained open-source project. Your sponsorship helps support feature development, model integration, documentation, and community support.
+
+<a href="https://xanylabeling.com/sponsor">
+  <img src="https://github.com/user-attachments/assets/893151ad-d6b2-4846-882a-ef5376471c99" alt="Sponsor the X-AnyLabeling project" width="100%" />
+</a>
+
+Click the image above to visit the sponsorship p

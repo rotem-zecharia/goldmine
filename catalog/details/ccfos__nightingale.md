@@ -14,6 +14,7 @@ Everything below is optional; `/mcp` is enabled out of the box (`etc/config.toml
 
 ```toml
 [HTTP.A2A]
+# DisableMCP = true                        # turn off /mcp (Disable = true turns off /a2a as well)
 
 ## features
 
@@ -43,3 +44,22 @@ Everything below is optional; `/mcp` is enabled out of the box (`etc/config.toml
 - If you are already accustomed to Grafana, it is recommended to continue using Grafana for visualization, as Grafana has deeper expertise in this area.  
 - For machine-related monitoring data collected by Categraf, it is advisable to use Nightingale's built-in dashboards for viewing. This is because Categraf's metric naming follows Telegraf's convention, which differs from that of Node Exporter.  
 - Due to Nightingale's concept of business groups (where machines can belong to different groups), there may be scenarios where you only want to view machines within the current business group on the dashboard. Thus, Nightingale's dashboards can be linked with business groups for interactive filtering.
+
+## 🌟 Stargazers over time
+
+[![Stargazers over time](https://star-history.dera.page/svg?repos=ccfos/nightingale&type=Date)](https://star-history.dera.page/#ccfos/nightingale&Date)
+
+## 🔥 Users
+
+![User Logos](doc/img/readme/logos.png)
+
+## 🤝 Community Co-Building
+
+- ❇️ Please read the [Nightingale Open Source Project and Community Governance Draft](./doc/community-governance.md). We sincerely welcome every user, developer, company, and organization to use Nightingale, actively report bugs, submit feature requests, share best practices, and help build a professional and active open-source community.
+- ❤️ Nightingale Contributors
+<a href="https://github.com/ccfos/nightingale/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ccfos/nightingale" />
+</a>
+
+## 📜 License
+- [Apache License V2.0](https://github.com/ccfos/nightingale/blob/main/LICENSE)

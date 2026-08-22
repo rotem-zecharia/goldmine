@@ -15,6 +15,27 @@ or
 sudo apt update && sudo apt install cython3
 ```
 ```shell
+# on Ubuntu or Debian
+sudo apt update && sudo apt install ffmpeg
+
+# on Arch Linux
+sudo pacman -S ffmpeg
+
+# on MacOS using Homebrew (https://brew.sh/)
+brew install ffmpeg
+
+# on Windows using Chocolatey (https://chocolatey.org/)
+choco install ffmpeg
+
+# on Windows using Scoop (https://scoop.sh/)
+scoop install ffmpeg
+
+# on Windows using WinGet (https://github.com/microsoft/winget-cli)
+winget install ffmpeg
+```
+```shell
+pip install -c constraints.txt -r requirements.txt
+```
 
 ## tools
 
@@ -38,3 +59,21 @@ If your system has enough VRAM (>=10GB), you can use `diarize_parallel.py` inste
 
 - Overlapping speakers are yet to be addressed, a possible approach would be to separate the audio file and isolate only one speaker, then feed it into the pipeline but this will need much more computation
 - There might be some errors, please raise an issue if you encounter any.
+
+## Future Improvements
+- Implement a maximum length per sentence for SRT
+
+## Acknowledgements
+Special Thanks for [@adamjonas](https://github.com/adamjonas) for supporting this project
+This work is based on [OpenAI's Whisper](https://github.com/openai/whisper) , [Faster Whisper](https://github.com/guillaumekln/faster-whisper) , [Nvidia NeMo](https://github.com/NVIDIA/NeMo) , and [Facebook's Demucs](https://github.com/facebookresearch/demucs)
+
+## Citation
+If you use this in your research, please cite the project:
+
+```bibtex
+@unpublished{hassouna2024whisperdiarization,
+  title={Whisper Diarization: Speaker Diarization Using OpenAI Whisper},
+  author={Ashraf, Mahmoud},
+  year={2024}
+}
+```

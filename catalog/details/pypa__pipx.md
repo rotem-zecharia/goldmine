@@ -31,3 +31,14 @@ Linux's `apt`.
 
 It's closely related to pip. In fact, it uses pip, but is focused on installing and managing Python packages that can be
 run from the command line directly as applications.
+
+### Features
+
+`pipx` enables you to
+
+- expose CLI entrypoints of packages ("apps") installed to isolated environments with the `install` command,
+    guaranteeing no dependency conflicts and clean uninstalls;
+- easily list, upgrade, and uninstall packages that were installed with pipx; and
+- run the latest version of a Python application in a temporary environment with the `run` command.
+
+Best of all, pipx runs with regular user permissions, never calling `sudo pip install`.

@@ -19,3 +19,18 @@
 - **[Text-to-Speech](https://docs.lunatranslator.org/en/ttsengines.html)** Supports a wide range of online & offline text-to-speech engines.  
 
 - **[Speech Recognition](https://docs.lunatranslator.org/en/sr.html)** On Windows 10 and Windows 11, you can use Windows Speech Recognition.
+
+## License
+
+LunaTranslator uses [GPLv3](../LICENSE) License
+
+
+## Sponsors
+
+Software maintenance is not easy. If you find this software helpful, feel free to support me via [Patreon](https://patreon.com/HIllya51). Your support will contribute to the long-term maintenance of the software. Thank you~
+
+<a href="https://patreon.com/HIllya51" target='_blank'><img width="200" src="../docs/become_a_patron_4x1_black_logo_white_text_on_coral.svg"></a>
+
+
+| <img src="https://signpath.org/assets/favicon.png" width="25" height="25" align="center"> | Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/). |
+| :--- | :--- |

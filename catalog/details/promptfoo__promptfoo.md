@@ -30,6 +30,27 @@ promptfoo view
 
 See [Getting Started](https://www.promptfoo.dev/docs/getting-started/) (evals) or [Red Teaming](https://www.promptfoo.dev/docs/red-team/) (vulnerability scanning) for more.
 
+## What can you do with Promptfoo?
+
+- **Test your prompts and models** with [automated evaluations](https://www.promptfoo.dev/docs/getting-started/)
+- **Secure your LLM apps** with [red teaming](https://www.promptfoo.dev/docs/red-team/) and vulnerability scanning
+- **Compare models** side-by-side (OpenAI, Anthropic, Azure, Bedrock, Ollama, and [more](https://www.promptfoo.dev/docs/providers/))
+- **Automate checks** in [CI/CD](https://www.promptfoo.dev/docs/integrations/ci-cd/)
+- **Review pull requests** for LLM-related security and compliance issues with [code scanning](https://www.promptfoo.dev/docs/code-scanning/)
+- **Share results** with your team
+
+Here's what it looks like in action:
+
+<img src="site/static/img/claude-vs-gpt-example@2x.png" alt="prompt evaluation matrix - web viewer" width="700">
+
+It works on the command line too:
+
+<img src="https://www.promptfoo.dev/img/docs/self-grading.gif" alt="promptfoo command line" width="700">
+
+It also can generate [security vulnerability reports](https://www.promptfoo.dev/docs/red-team/):
+
+<img src="https://www.promptfoo.dev/img/redteam-dashboard@2x.jpg" alt="gen ai red team" width="700">
+
 ## features
 
 - **Developer-first**: Fast, with features like live reload and caching
@@ -38,3 +59,23 @@ See [Getting Started](https://www.promptfoo.dev/docs/getting-started/) (evals) o
 - **Battle-tested**: Powers LLM apps serving 10M+ users in production
 - **Data-driven**: Make decisions based on metrics, not gut feel
 - **Open source**: MIT licensed, with an active community
+
+## Learn More
+
+- [Getting Started](https://www.promptfoo.dev/docs/getting-started/)
+- [Full Documentation](https://www.promptfoo.dev/docs/intro/)
+- [Red Teaming Guide](https://www.promptfoo.dev/docs/red-team/)
+- [CLI Usage](https://www.promptfoo.dev/docs/usage/command-line/)
+- [Node.js Package](https://www.promptfoo.dev/docs/usage/node-package/)
+- [Supported Models](https://www.promptfoo.dev/docs/providers/)
+- [Code Scanning Guide](https://www.promptfoo.dev/docs/code-scanning/)
+
+## Contributing
+
+We welcome contributions! Check out our [contributing guide](https://www.promptfoo.dev/docs/contributing/) to get started.
+
+Join our [Discord community](https://discord.gg/promptfoo) for help and discussion.
+
+<a href="https://github.com/promptfoo/promptfoo/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=promptfoo/promptfoo" />
+</a>

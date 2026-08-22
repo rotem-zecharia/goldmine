@@ -53,6 +53,82 @@ new VoltAgent({
   },
   server: honoServer(),
   logger,
+});
+```
+
+Afterwards, navigate to your project and run:
+
+```bash
+npm run dev
+```
+
+When you run the dev command, tsx will compile and run your code. You should see the VoltAgent server startup message in your terminal:
+
+```
+══════════════════════════════════════════════════
+VOLTAGENT SERVER STARTED SUCCESSFULLY
+══════════════════════════════════════════════════
+✓ HTTP Server: http://localhost:3141
+
+Test your agents with VoltOps Console: https://console.voltagent.dev
+══════════════════════════════════════════════════
+```
+
+Your agent is now running! To interact with it:
+
+1. Open the Console: Click the [VoltOps LLM Observability Platform](https://console.voltagent.dev) link in your terminal output (or copy-paste it into your browser).
+2. Find Your Agent: On the VoltOps LLM Observability Platform page, you should see your agent listed (e.g., "my-agent").
+3. Open Agent Details: Click on your agent's name.
+4. Start Chatting: On the agent detail page, click the chat icon in the bottom right corner to open the chat window.
+5. Send a Message: Type a message like "Hello" and press Enter.
+
+[![VoltAgent Demo](thumbnail.png)](https://github.com/user-attachments/assets/26340c6a-be34-48a5-9006-e822bf6098a7)
+
+### Running Your First Workflow
+
+Your new project also includes a powerful workflow engine.
+
+The expense approval workflow demonstrates human-in-the-loop automation with suspend/resume capabilities:
+
+```typescript
+import { createWorkflowChain } from "@voltagent/core";
+import { z } from "zod";
+
+export const expenseApprovalWorkflow = createWorkflowChain({
+  id: "expense-approval",
+  name: "Expense Approval Workflow",
+  purpose: "Process expense reports with manager approval for high amounts",
+
+  input: z.object({
+    employeeId: z.string(),
+    amount: z.number(),
+    category: z.string(),
+    description: z.string(),
+  }),
+  result: z.object({
+    status: z.enum(["approved", "rejected"]),
+    approvedBy: z.string(),
+    finalAmount: z.number(),
+  }),
+})
+  // Step 1: Validate expense and check if approval needed
+  .andThen({
+    id: "check-approval-needed",
+    resumeSchema: z.object({
+      approved: z.boolean(),
+      managerId: z.string(),
+      comments: z.string().optional(),
+      adjustedAmount: z.number().optional(),
+    }),
+    execute: async ({ data, suspend, resumeData }) => {
+      // If we're resuming with manager's decision
+      if (resumeData) {
+        return {
+          ...data,
+          approved: resumeData.approved,
+          approvedBy: resumeData.managerId,
+          finalAmount: resumeData.adjustedAmount || data.amount,
+
 
 ## tools
 
@@ -76,3 +152,52 @@ VoltOps Console is the platform side of VoltAgent, providing observability, auto
 📖 [VoltOps Documentation](https://voltagent.dev/voltops-llm-observability-docs/)
 
 🚀 [VoltOps Platform](https://voltagent.dev/voltops-llm-observability/)
+
+### Observability & Tracing
+
+Deep dive into agent execution flow with detailed traces and performance metrics.
+
+<img alt="1" src="https://github.com/user-attachments/assets/21c6d05d-f333-4c61-9218-8862d16110fd" />
+
+### Dashboard
+
+Get a comprehensive overview of all your agents, workflows, and system performance metrics.
+
+<img alt="dashboar" src="https://github.com/user-attachments/assets/c88a5543-219e-4cf0-8f41-14a68ca297fb" />
+
+### Logs
+
+Track detailed execution logs for every agent interaction and workflow step.
+
+![VoltOps Logs](https://cdn.voltagent.dev/console/logs.png)
+
+### Memory Management
+
+Inspect and manage agent memory, context, and conversation history.
+
+![VoltOps Memory Overview](https://cdn.voltagent.dev/console/memory.png)
+
+### Traces
+
+Analyze complete execution traces to understand agent behavior and optimize performance.
+
+![VoltOps Traces](https://cdn.voltagent.dev/console/traces.png)
+
+### Prompt Builder
+
+Design, test, and refine prompts directly in the console.
+
+<img  alt="prompts" src="https://github.com/user-attachments/assets/fb6d71eb-8f81-4443-a494-08c33ec9bcc4" />
+
+### Deployment
+
+Deploy your agents to production with one-click GitHub integration and managed infrastructure.
+
+<img alt="deployment" src="https://github.com/user-attachments/assets/e329ab4b-7464-435a-96cc-90214e8a3cfa" />
+
+📖 [VoltOps Deploy Documentation](https://voltagent.dev/docs/deployment/voltops/)
+
+### Triggers & Actions
+
+Automate agent workflows with webhooks, schedules, and custom triggers to react to external events.
+

@@ -62,6 +62,40 @@ configure the server using commands sent to it by `fail2ban-client`. The
 available commands are described in the fail2ban-client(1) manpage.  Also see
 fail2ban(1) and jail.conf(5)  manpages for further references.
 
+Code status:
+------------
+
+* [![CI](https://github.com/fail2ban/fail2ban/actions/workflows/main.yml/badge.svg)](https://github.com/fail2ban/fail2ban/actions/workflows/main.yml)
+
+Contact:
+--------
+
 ## features
 
 See [CONTRIBUTING.md](https://github.com/fail2ban/fail2ban/blob/master/CONTRIBUTING.md)
+
+### You just appreciate this program:
+Send kudos to the original author ([Cyril Jaquier](mailto:cyril.jaquier@fail2ban.org))
+or *better* to the [mailing list](https://lists.sourceforge.net/lists/listinfo/fail2ban-users)
+since Fail2Ban is "community-driven" for years now.
+
+Thanks:
+-------
+
+See [THANKS](https://github.com/fail2ban/fail2ban/blob/master/THANKS) file.
+
+License:
+--------
+
+Fail2Ban is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+Fail2Ban is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+Fail2Ban; if not, write to the Free Software Foundation, Inc., 51 Franklin
+Street, Fifth Floor, Boston, MA 02110, USA

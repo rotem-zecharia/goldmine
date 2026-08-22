@@ -102,6 +102,28 @@ For self-hosted VM or homelab installs, `ctl.sh` wraps the common daemon lifecyc
 >    `HERMES_WEBUI_CHAT_BACKEND=gateway`): see [`docs/advanced-chat-setup.md`](docs/advanced-chat-setup.md).
 >    Full agent-loop delegation is not yet shipped; tracked in [#1925](https://github.com/nesquena/hermes-webui/issues/1925).
 
+### Advanced: dynamic recall prefill & Gateway-backed chat
+
+Two optional, self-hosted-deployment features — attaching dynamic **session-recall prefill** to browser turns (Joplin/Obsidian/Notion/llm-wiki routers), and routing browser chat through a running **Hermes Gateway** — are documented in [`docs/advanced-chat-setup.md`](docs/advanced-chat-setup.md). Most users need neither.
+
+The bootstrap will:
+
+1. Detect Hermes Agent and, if missing, attempt the official installer (`curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash`).
+2. Find or create a Python environment with the WebUI dependencies.
+3. Start the web server and wait for `/health`.
+4. Open the browser unless you pass `--no-browser`.
+5. Drop you into a first-run onboarding wizard inside the WebUI.
+
+> Native Windows is not supported for this bootstrap yet. Use Linux, macOS, or WSL2.
+> For Windows / WSL auto-start at login, see [`docs/wsl-autostart.md`](docs/wsl-autostart.md).
+
+A community-maintained native Windows setup is documented at [@markwang2658/hermes-windows-native-guide](https://github.com/markwang2658/hermes-windows-native-guide) (companion setup repo: [@markwang2658/hermes-windows-native](https://github.com/markwang2658/hermes-windows-native)). Notes from the community report in [#1952](https://github.com/nesquena/hermes-webui/issues/1952):
+
+- **Memory:** community-measured ~330 MB native vs ~1080 MB with WSL2+Docker (varies by configuration).
+- **What works:** chat, workspace browser, session management, all themes.
+- **Known limitations:** some POSIX-style file paths surface in the workspace browser; bash-assuming agent tools may not work natively.
+- *
+
 ## configuration
 
 - **Hermes Control Center** (sidebar launcher button) -- Conversation tab (export/import/clear), Preferences tab (model, send key, theme, language, all toggles), System tab (version, password)
@@ -120,3 +142,22 @@ For self-hosted VM or homelab installs, `ctl.sh` wraps the common daemon lifecyc
 - Built-in: `/help`, `/clear`, `/compress [focus topic]`, `/compact` (alias), `/model <name>`, `/workspace <name>`, `/new`, `/usage`, `/theme`
 - Arrow keys navigate, Tab/Enter select, Escape closes
 - Unrecognized commands pass through to the agent
+
+### Panels
+- **Chat** -- session list, search, pin, archive, projects, new conversation
+- **Tasks** -- view, create, edit, run, pause/resume, delete cron jobs; run history; completion alerts
+- **Skills** -- list all skills by category, search, preview, create/edit/delete; linked files viewer
+- **Memory** -- view and edit MEMORY.md and USER.md inline
+- **Profiles** -- create, switch, delete agent profiles; clone config
+- **Todos** -- live task list from the current session
+- **Spaces** -- add, rename, remove workspaces; quick-switch from topbar
+
+### Mobile responsive
+- Hamburger sidebar -- slide-in overlay on mobile (<640px)
+- Sidebar top tabs stay available on mobile; no fixed bottom nav stealing chat height
+- Files slide-over panel from right edge
+- Touch targets minimum 44px on all interactive elements
+- Full-height chat/composer on phones without bottom-nav spacing
+- Desktop layout completely unchanged
+
+---

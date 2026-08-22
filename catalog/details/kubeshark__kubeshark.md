@@ -10,6 +10,24 @@ Kubeshark indexes cluster-wide network traffic by parsing it according to protoc
 
 [KFL reference →](https://docs.kubeshark.com/en/v2/kfl2) · [Traffic indexing →](https://docs.kubeshark.com/en/v2/l7_api_dissection)
 
+### Workload Dependency Map
+
+A visual map of how workloads communicate, showing dependencies, traffic volume, and protocol usage across the cluster.
+
+![Service Map](https://github.com/kubeshark/assets/raw/master/png/servicemap.png)
+
+[Learn more →](https://docs.kubeshark.com/en/v2/service_map)
+
+### Traffic Retention & PCAP Export
+
+Capture and retain raw network traffic cluster-wide, including decrypted TLS. Download PCAPs scoped by time range, nodes, workloads, and IPs — ready for Wireshark or any PCAP-compatible tool. Store snapshots in cloud storage (S3, Azure Blob, GCS) for long-term retention and cross-cluster sharing.
+
+![Traffic Retention](https://github.com/kubeshark/assets/raw/master/png/snapshots-list.png)
+
+[Snapshots guide →](https://docs.kubeshark.com/en/v2/traffic_snapshots) · [Cloud storage →](https://docs.kubeshark.com/en/snapshots_cloud_storage)
+
+---
+
 ## features
 
 | Feature | Description |
@@ -35,3 +53,11 @@ Kubeshark indexes cluster-wide network traffic by parsing it according to protoc
 [Installation guide →](https://docs.kubeshark.com/en/install)
 
 ---
+
+## Contributing
+
+We welcome contributions. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+[Apache-2.0](LICENSE)

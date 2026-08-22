@@ -17,10 +17,119 @@ npx create-ag-ui-app my-agent-app
 - [Book a call to discuss an AG-UI integration with a new framework](https://calendly.com/markus-copilotkit/ag-ui)
 - [Join the Discord Community](https://discord.gg/Jd3FzfdJa8)
 
+## What is AG-UI?
+
+AG-UI is an open, lightweight, event-based protocol for agent-human interaction, designed for simplicity & flexibility:
+
+- During agent executions, agent backends **emit events _compatible_ with one of AG-UI's ~16 standard event types**
+- Agent backends can **accept one of a few simple AG-UI compatible inputs** as arguments
+
+**AG-UI includes a flexible middleware layer** that ensures compatibility across diverse environments:
+
+- Works with **any event transport** (SSE, WebSockets, webhooks, etc.)
+- Allows for **loose event format matching**, enabling broad agent and app interoperability
+
+It also ships with a **reference HTTP implementation** and **default connector** to help teams get started fast.
+
+
+[Learn more about the specs →](https://go.copilotkit.ai/ag-ui-introduction)
+
 ## features
 
 AG-UI was developed based on real-world requirements and practical experience building in-app agent interactions.
 
+
+## Where does AGUI fit in the agentic protocol stack?
+AG-UI is complementary to the other 2 top agentic protocols
+- MCP gives agents tools
+- A2A allows agents to communicate with other agents
+- AG-UI brings agents into user-facing applications
+
+<div align="center">
+  <img width="2048" height="1182" alt="The Agent Protocol Stack" src="https://github.com/user-attachments/assets/41138f71-50be-4812-98aa-20e0ad595716" />
+</div>
+
+## 🚀 Features
+
+- 💬 Real-time agentic chat with streaming
+- 🔄 Bi-directional state synchronization
+- 🧩 Generative UI and structured messages
+- 🧠 Real-time context enrichment
+- 🛠️ Frontend tool integration
+- 🧑‍💻 Human-in-the-loop collaboration
+
+
+## 🛠 Supported Integrations
+
+AG-UI was born from CopilotKit's initial **partnership** with LangChain and CrewAI - and brings the incredibly popular agent-user-interactivity infrastructure to the wider agentic ecosystem.
+
+**1st party** = the platforms that have AG‑UI built in and provide documentation for guidance.
+
+## Frameworks
+
+| Framework                                                          | Status                   | AG-UI Resources                                                                 |
+| ------------------------------------------------------------------ | ------------------------ | -------------------------------------------------------------------------------- |
+| Built-in Agent                                                | ✅ Supported             | ➡️ [Docs](https://docs.copilotkit.ai/direct-to-llm)  |
+
+### 🤝 Partnerships
+| Framework | Status | AG-UI Resources |
+| ---------- | ------- | ---------------- |
+| [LangChain](https://www.langchain.com/langgraph) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/langgraph/) 🎮 [Demos](https://dojo.ag-ui.com/langgraph-fastapi/feature/shared_state) |
+| [CrewAI](https://crewai.com/) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/crewai-flows) 🎮 [Demos](https://dojo.ag-ui.com/crewai/feature/shared_state) |
+
+### 🧩 1st Party
+| Framework | Status | AG-UI Resources |
+| ---------- | ------- | ---------------- |
+| [Microsoft Agent Framework](https://azure.microsoft.com/en-us/blog/introducing-microsoft-agent-framework/) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/microsoft-agent-framework) 🎮 [Demos](https://dojo.ag-ui.com/microsoft-agent-framework-dotnet/feature/shared_state) |
+| [Google ADK](https://google.github.io/adk-docs/get-started/) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/adk) 🎮 [Demos](https://dojo.ag-ui.com/adk-middleware/feature/shared_state?openCopilot=true) |
+| [AWS Strands Agents](https://github.com/strands-agents/sdk-python) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/aws-strands) 🎮 [Demos](https://dojo.ag-ui.com/aws-strands/feature/shared_state) |
+| [Mastra](https://mastra.ai/) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/mastra/) 🎮 [Demos](https://dojo.ag-ui.com/mastra/feature/tool_based_generative_ui) |
+| [Pydantic AI](https://github.com/pydantic/pydantic-ai) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/pydantic-ai/) 🎮 [Demos](https://dojo.ag-ui.com/pydantic-ai/feature/shared_state) |
+| [Agno](https://github.com/agno-agi/agno) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/agno/) 🎮 [Demos](https://dojo.ag-ui.com/agno/feature/tool_based_generative_ui) |
+| [LlamaIndex](https://github.com/run-llama/llama_index) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/llamaindex/) 🎮 [Demos](https://dojo.ag-ui.com/llamaindex/feature/shared_state) |
+| [AG2](https://ag2.ai/) | ✅ Supported | ➡️ [Docs](https://docs.copilotkit.ai/ag2/)  🎮 [Demos](https://dojo.ag-ui.com/ag2/feature/shared_state) |
+| [AWS Bedrock Agents](https://aws.amazon.com/bedrock/agents/) | 🛠️ In Progress | – |
+
+
+
+### 🌐 Community
+| Framework | Status | AG-UI Resources |
+| ---------- | ------- | ---------------- |
+| [Claude Agent SDK](https://github.com/ag-ui-protoc
+
+## tools
+
+### Hello World App
+
+Video:
+
+https://github.com/user-attachments/assets/18c03330-1ebc-4863-b2b8-cc6c3a4c7bae
+
+https://agui-demo.vercel.app/
+
+
+
+## The AG-UI Dojo (Building-Blocks Viewer)
+The AG-UI Dojo demonstrates AG-UI's core building blocks through simple, focused examples—each just 50-200 lines of code.
+
+View the source code for the Dojo and all framework integrations [here](https://github.com/ag-ui-protocol/ag-ui/tree/main/apps/dojo).
+
+https://github.com/user-attachments/assets/c298eea8-3f39-4a94-b968-7712429b0c49
+
+
+
+## 🙋🏽‍♂️ Contributing to AG-UI
+
+Check out the [Contributing guide](https://github.com/ag-ui-protocol/ag-ui/blob/main/CONTRIBUTING.md)
+
+- **[Biweekly AG-UI Working Group](https://lu.ma/CopilotKit?k=c)**
+  📅 Follow the CopilotKit Luma Events Calendar
+
 ## limitations
 
 Check out the [AG-UI Roadmap](https://github.com/orgs/ag-ui-protocol/projects/1) to see what's being built and where you can jump in.
+
+
+## 📄 License
+
+AG-UI is open source software [licensed as MIT](https://opensource.org/licenses/MIT).

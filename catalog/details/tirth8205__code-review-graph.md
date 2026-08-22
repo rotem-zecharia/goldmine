@@ -63,6 +63,15 @@ Build the code review graph for this project
 
 The initial build takes ~10 seconds for a 500-file project. After that, watch mode and supported hooks can keep the graph updated automatically.
 
+
+## How It Works
+
+<p align="center">
+  <img src="diagrams/diagram7_mcp_integration_flow.png" alt="How your AI assistant uses the graph: User asks for review, AI checks MCP tools, graph returns blast radius and risk scores, AI reads only what matters" width="80%" />
+</p>
+
+Your repository is parsed into an AST with Tree-sitter, stored as a graph of nodes (functions, classes, imports) and 
+
 ## limitations
 
 - **Impact "recall 1.0" is graph-derived and circular:** the historical ground truth comes from the same graph edges the predictor walks, so it is an upper bound by construction. The honest co-change mode (grade against files actually co-changed in the same commit) is measured alongside it; expect those numbers to be substantially lower.
@@ -228,3 +237,28 @@ just set the environment variables and pass `provider="openai"` to `embed_graph`
 export CRG_OPENAI_BASE_URL=http://127.0.0.1:3000/v1     # or https://api.openai.com/v1
 export CRG_OPENAI_API_KEY=sk-...
 export CRG_OPENAI_MODEL=text-embedding-3-small          # whatever your gateway serves
+# optional:
+export CRG_OPENAI_DIMENSION=1536                        # pin dim (v3 models support reduction)
+export CRG_OPENAI_BATCH_SIZE=100                        # lower for gateways with tight limits
+                                                        # (e.g. Qwen text-embedding-v4 caps at 10)
+```
+
+The cloud-egress warning is auto-skipped when the base URL points to localhost
+(`127.0.0.1`, `localhost`, `0.0.0.0`, `::1`).
+
+Voyage embeddings need no extra install. Set `VOYAGE_API_KEY` and pass
+`provider="voyage"` to `embed_graph`; the default model is `voyage-code-3`:
+
+```bash
+export VOYAGE_API_KEY=pa-...
+export CRG_ACCEPT_CLOUD_EMBEDDINGS=1
+code-review-graph embed --provider voyage --model voyage-code-3
+```
+
+> **Model selection tip.** Avoid `-preview` / `-beta` / `-exp` model IDs
+> (e.g. `google/gemini-embedding-2-preview`) for anything you plan to keep
+> long-term — preview models can change weights (different dimension → full
+> re-embed required) or be deprecated without notice. Prefer stable GA
+> releases such as `text-embedding-3-small` / `text-embedding-3-large` (OpenAI),
+> `Qwen/Qwen3-Embedding-8B` (via self-hosted vLLM / LocalAI), or
+> `ge

@@ -17,3 +17,54 @@ Your AI second brain. Self-hostable. Get answers from the web or your docs. Buil
 - Run it privately on [your computer](https://docs.khoj.dev/get-started/setup) or try it on our [cloud app](https://app.khoj.dev).
 
 ***
+
+## See it in action
+
+![demo_chat](https://github.com/khoj-ai/khoj/blob/master/documentation/assets/img/quadratic_equation_khoj_web.gif?raw=true)
+
+Go to https://app.khoj.dev to see Khoj live.
+
+## Full feature list
+You can see the full feature list [here](https://docs.khoj.dev/category/features).
+
+## Self-Host
+
+To get started with self-hosting Khoj, [read the docs](https://docs.khoj.dev/get-started/setup).
+
+## Enterprise
+
+Khoj is available as a cloud service, on-premises, or as a hybrid solution. To learn more about Khoj Enterprise, [visit our website](https://khoj.dev/teams).
+
+## Frequently Asked Questions (FAQ)
+
+Q: Can I use Khoj without self-hosting?
+
+Yes! You can use Khoj right away at [https://app.khoj.dev](https://app.khoj.dev) — no setup required.
+
+Q: What kinds of documents can Khoj read?
+
+Khoj supports a wide variety: PDFs, Markdown, Notion, Word docs, org-mode files, and more.
+
+Q: How can I make my own agent?
+
+Check out [this blog post](https://blog.khoj.dev/posts/create-agents-on-khoj/) for a step-by-step guide to custom agents.
+For more questions, head over to our [Discord](https://discord.gg/BDgyabRM6e)!
+
+
+## Contributors
+Cheers to our awesome contributors! 🎉
+
+<a href="https://github.com/khoj-ai/khoj/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=khoj-ai/khoj" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
+### Interested in Contributing?
+Khoj is open source. It is sustained by the community and we’d love for you to join it! Whether you’re a coder, designer, writer, or enthusiast, there’s a place for you.
+
+Why Contribute?
+- Make an Impact: Help build, test and improve a tool used by thousands to boost productivity.
+- Learn & Grow: Work on cutting-edge AI, LLMs, and semantic search technologies.
+
+You can help us build new features, improve the project documentation, report issues and fix bugs. If you're a developer, please see our [Contributing Guidelines](https://docs.khoj.dev/contributing/development) and check out [good first issues](https://github.com/khoj-ai/khoj/contribute) to work on.

@@ -40,6 +40,33 @@ In addition to common file operations, such as copy, move, remove, etc., **clifm
 
 ## installation
 
+### From a package manager
+
+<details>
+<summary>Packaging status <a href="https://repology.org/project/clifm/versions"><img src="https://repology.org/badge/tiny-repos/clifm.svg" alt="Packaging status"></a></summary>
+<a href="https://repology.org/project/clifm/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/clifm.svg?columns=3" alt="Packaging status">
+</a>
+</details>
+
+If running on Linux, [binary packages](https://software.opensuse.org//download.html?project=home%3Aarchcrack&package=clifm) are available for most major distributions via the OpenSUSE Build System.
+
+### From source (Linux/BSD)
+
+**Note**: Dependencies are most likely already satisfied, but, in any case, consult the [dependencies section](https://github.com/leo-arch/clifm/wiki/Introduction#1-satisfy-dependencies).
+
+```sh
+git clone https://github.com/leo-arch/clifm.git
+cd clifm
+sudo make install
+```
+
+For more information/supported platforms, consult the [installation page](https://github.com/leo-arch/clifm/wiki/Introduction#installation).
+
+---
+
+## 💡 Getting started
+
 To start using **clifm**, _you don't need to learn anything new_: the usual shell commands will just work. However, there is much more than just shell commands... \
 ✓ The `help` command gives you a quick introduction to **clifm**: once in the command prompt, enter `help` or `?`. \
 ✓ Type `cmd<TAB>` to get the list of available commands and a brief description. \
@@ -55,3 +82,37 @@ For a complete description, please consult our [Wiki](https://github.com/leo-arc
 > Start **clifm** and just press a number (technically, an ELN or [Entry List Number](https://github.com/leo-arch/clifm/wiki/Common-Operations#elns)).
 
 ---
+
+## 📰 What's new?
+
+Consult the [changelog file](https://github.com/leo-arch/clifm/blob/master/CHANGELOG).
+
+---
+
+## Support
+
+**Clifm** runs on Linux, Termux (Android), FreeBSD, NetBSD, OpenBSD, DragonFly, MacOS, Solaris/Illumos, Haiku, and Cygwin/MinGW, on x86, ARM, PowerPC, and RISC-V architectures.
+
+---
+
+## License
+This project is licensed GPL version 2 (or later).
+See the [LICENSE file](https://github.com/leo-arch/clifm/blob/master/LICENSE) for details.
+
+---
+
+## Contributing
+Contributions are kindly welcome! Please see our [contribution guidelines](https://github.com/leo-arch/clifm/wiki/CONTRIBUTING) for details.
+
+---
+
+## Community
+
+Visit the [Discussions section](https://github.com/leo-arch/clifm/discussions) of this repo and let us know what you think: ideas, comments, observations and questions are always useful.
+
+---
+
+## Developer
+[Leo Abramovich](https://github.com/leo-arch) <<leo.clifm@outlook.com>>.
+
+Special thanks to [all those who have contributed to this project](https://github.com/leo-arch/clifm/graphs/contributors).

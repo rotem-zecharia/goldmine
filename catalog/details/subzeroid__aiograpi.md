@@ -25,6 +25,44 @@ MoviePy `2.2.1` currently declares `Pillow<12`, but aiograpi keeps `Pillow>=12.3
 
 Android users should see [Pydroid and ffmpeg](docs/usage-guide/pydroid.md) and [Termux](docs/usage-guide/termux.md).
 
+### We recommend using our services:
+
+* [LamaTok](https://lamatok.com/p/X0HatoxX) for TikTok API 🔥
+* [HikerAPI](https://hikerapi.com/p/KhMxYMSn) for Instagram API ⚡⚡⚡
+* [DataLikers](https://datalikers.com/p/XPhrh0Y3) for Instagram Datasets 🚀
+
+[![PyPI](https://img.shields.io/pypi/v/aiograpi)](https://pypi.org/project/aiograpi/)
+[![Python](https://img.shields.io/pypi/pyversions/aiograpi)](https://pypi.org/project/aiograpi/)
+[![License](https://img.shields.io/pypi/l/aiograpi)](LICENSE)
+[![Package](https://github.com/subzeroid/aiograpi/actions/workflows/python-package.yml/badge.svg)](https://github.com/subzeroid/aiograpi/actions/workflows/python-package.yml)
+[![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://subzeroid.github.io/aiograpi/latest/)
+[![SemVer](https://img.shields.io/badge/semver-1.2.0-blue)](https://semver.org/spec/v2.0.0.html)
+
+
+Features:
+
+* Getting public data of user, posts, stories, highlights, followers and following users
+* Getting public email and phone number, if the user specified them in his business profile
+* Getting public data of post, story, album, Reels, IGTV data and the ability to download content
+* Getting public data of hashtag and location data, as well as a list of posts for them
+* Getting public data of all comments on a post and a list of users who liked it
+* Management of proxy servers, mobile devices and challenge resolver
+* Login by username and password, sessionid, 2FA, 8-digit backup codes, and Bloks 2FA fallback/helpers
+* Managing messages, reactions and threads for Direct and attach files
+* Experimental Realtime MQTT/MQTToT for Direct message sync, lightweight Direct actions, and FBNS push callbacks
+* Download and upload a Photo, Video, IGTV, Reels, Albums, Stories and Trial Reels
+* Work with Users, Posts, Comments, Insights, Collections, Location, Hashtag and account notification settings
+* Insights by account, posts and stories
+* Like, following, commenting, editing account (Bio) and much more else
+
+-----
+
+Asynchronous Instagram Private API wrapper without selenium. Use the most recent version of the API from Instagram, which was obtained using reverse-engineering with Charles Proxy and [Proxyman](https://proxyman.io/).
+
+Support **Python >= 3.10**
+
+F
+
 ## features
 
 1. Performs [Web API](https://subzeroid.github.io/aiograpi/latest/usage-guide/fundamentals/) or [Mobile API](https://subzeroid.github.io/aiograpi/latest/usage-guide/fundamentals/) requests depending on the situation (to avoid Instagram limits)
@@ -37,6 +75,30 @@ Android users should see [Pydroid and ffmpeg](docs/usage-guide/pydroid.md) and [
 8. [Build stories](https://subzeroid.github.io/aiograpi/latest/usage-guide/story/) with custom background, font animation, link sticker and mention users
 9. [Realtime MQTT](https://subzeroid.github.io/aiograpi/latest/usage-guide/realtime/) for Direct message sync, lightweight Direct MQTT actions, and FBNS push notifications
 10. Account [registration](https://github.com/subzeroid/aiograpi/blob/main/aiograpi/mixins/signup.py) and captcha passing will appear
+
+### Versioning policy
+
+Starting with `1.0.0`, aiograpi follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
+for the Python library API surface. Instagram's private API still rotates
+`doc_id`s, deprecates endpoints, and changes response shapes without notice, so
+`1.0.0` is not a promise that every Instagram-side flow will stay stable forever.
+
+What you can rely on instead:
+
+- **Breaking library API changes use major releases** when they are under our control.
+- **Instagram-driven endpoint removals are flagged in the [CHANGELOG](https://github.com/subzeroid/aiograpi/blob/main/CHANGELOG.md)** with migration notes.
+- **Deprecated methods stay around for ≥2 minor releases** with
+  `DeprecationWarning` before removal — you'll get loud warnings, not
+  surprise `AttributeError`s.
+- **Live CI smoke** runs on every push: `tests/live/smoke.py` against a
+  real account through a real proxy. If we ship something that breaks
+  the basic happy path, CI catches it.
+- **Migration Guide** at [docs/migration.md](https://subzeroid.github.io/aiograpi/latest/migration/) — breaking changes are documented with before/after examples.
+
+### What's new in 1.0.0 and recent releases
+
+- **1.3.0 upstream sync** — synced through `instagrapi 2.9.0`, adding experimental modern CAA email signup via `signup_caa_email(...)`, the mobile `graphql_www` Bloks app wrapper, and per-request private headers/domain routing for Bloks calls.
+- **1.2.x upstream sync** — synced through `instagrapi 2.8.19`, adding Direct media share to existing threads, clearer Direct message request privacy errors, private-first high-level user/media/story lookups, sessionid username recovery via private stre
 
 ## installation
 
@@ -59,3 +121,31 @@ cl = Client(public_transport="curl", public_transport_impersonate="chrome136")
 See the [public transport guide](docs/usage-guide/public-transport.md) for live comparison results and caveats.
 
 TLS certificate verification is enabled by default. For a trusted debugging MITM proxy, prefer `Client(tls_verify="/path/to/proxy-ca.pem")`; use `Client(tls_verify=False)` only for temporary local debugging because it allows session interception.
+
+### Realtime MQTT and Direct
+
+`aiograpi 1.1.0` adds experimental async Realtime MQTT/MQTToT helpers. They can receive Direct message sync payloads,
+publish lightweight Direct actions over MQTT, and subscribe to FBNS push notifications.
+
+```python
+from aiograpi import Client
+
+cl = Client()
+await cl.login(USERNAME, PASSWORD)
+
+
+def handle_message(payload):
+    print(payload)
+
+
+cl.realtime_on("message", handle_message)
+rt = await cl.realtime_connect()
+await rt.direct_subscribe()
+
+await rt.direct_send_text(thread_id, "Hello from MQTT")
+
+while True:
+    await cl.realtime_read_once()
+```
+
+See the [Realtime MQTT guide](docs/usage-guide/realtime.md) for Direct sync, MQTT Direct actions, and FBNS push examples.

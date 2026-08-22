@@ -202,3 +202,77 @@ katana -u https://tesla.com -aff
 Form config values support DSL helper functions for dynamic data generation. All `rand_*` functions from the [projectdiscovery/dsl](https://github.com/projectdiscovery/dsl) library are available:
 
 ```yaml
+# $HOME/.config/katana/form-config.yaml
+email: "rand_email()"
+phone: "rand_phone()"
+placeholder: "rand_first_name()"
+password: 'rand_base(16, "")'
+color: "#e66465"
+```
+
+*`-filter-similar`*
+----
+
+Option to filter crawling of similar looking URLs by normalizing variable path segments. This detects IDs, UUIDs, hashes, dates, and other dynamic values, and also learns repeating patterns at runtime. For example, `/users/123` and `/users/456` are treated as the same endpoint.
+
+```
+katana -u https://tesla.com -fsu
+```
+
+The promotion threshold (how many distinct values at a path position before it's treated as a parameter) can be tuned with `-fst`. Lower values are more aggressive (fewer URLs crawled), higher values are more permissive. Default is `10`.
+
+```
+katana -u https://tesla.com -fsu -fst 5
+```
+
+*`-max-domain-pages`*
+----
+
+Option to limit the number of pages crawled per domain. Prevents any single domain from consuming the entire crawl budget, useful for large sites or crawler trap protection.
+
+```
+katana -u https://tesla.com -mdp 100
+```
+
+## Knowledge Base Classification
+
+Katana can enrich crawl results with a **knowledge base** — machine-learning classification of each crawled page powered by [dit](https://github.com/HappyHackingSpace/dit). When enabled, every response is classified by **page type** (e.g. `login`, `error`, `captcha`, `parked`) and any forms on the page are identified, with the result attached to the `knowledgebase` field of the JSONL output. This works across **all engines** (standard and headless).
+
+> **Note**: The classification model is **downloaded automatically** on first use to `~/.dit/model.json` (from [Hugging Face](https://huggingface.co/datasets/happyhackingspace/dit)). This is a one-time, per-machine cost — subsequent runs reuse the cached model. No manual installation of `dit` is required.
+
+*`-knowledge-base`*
+----
+
+Enable knowledge base classification. Page-type and form classification is added to the `knowledgebase` field of each result.
+
+```console
+katana -u https://example.com -kb -jsonl
+```
+
+```json
+{
+  "timestamp": "...",
+  "request": { "...": "..." },
+  "response": {
+    "...": "...",
+    "knowledgebase": {
+      "PageType": "login",
+      "Forms": [{ "type": "login", "fields": { "username": "username or email", "password": "password" } }]
+    }
+  }
+}
+```
+
+*`-filter-page-type`*
+----
+
+Filter results to only the given page type(s). Enabling this implies `-kb` (the classifier is initialized automatically).
+
+```console
+katana -u https://example.com -fpt login,error
+```
+
+*`-kb-secrets`*
+----
+
+Enable the secrets extractor in the knowledge base, surfacing detected secrets (API keys, tokens, etc.) under the `secrets` key. Add `-kb-validate-se

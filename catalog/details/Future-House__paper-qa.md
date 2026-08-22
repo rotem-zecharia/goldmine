@@ -17,6 +17,69 @@ cd my_papers
 pqa ask 'What is PaperQA2?'
 ```
 
+### Example Output
+
+Question: Has anyone designed neural networks that compute with proteins or DNA?
+
+> The claim that neural networks have been designed to compute with DNA is supported by multiple sources.
+> The work by Qian, Winfree, and Bruck demonstrates the use of DNA strand displacement cascades
+> to construct neural network components, such as artificial neurons and associative memories,
+> using a DNA-based system (Qian2011Neural pages 1-2, Qian2011Neural pages 15-16, Qian2011Neural pages 54-56).
+> This research includes the implementation of a 3-bit XOR gate and a four-neuron Hopfield associative memory,
+> showcasing the potential of DNA for neural network computation.
+> Additionally, the application of deep learning techniques to genomics,
+> which involves computing with DNA sequences, is well-documented.
+> Studies have applied convolutional neural networks (CNNs) to predict genomic features such as
+> transcription factor binding and DNA accessibility (Eraslan2019Deep pages 4-5, Eraslan2019Deep pages 5-6).
+> These models leverage DNA sequences as input data,
+> effectively using neural networks to compute with DNA.
+> While the provided excerpts do not explicitly mention protein-based neural network computation,
+> they do highlight the use of neural networks in tasks related to protein sequences,
+> such as predicting DNA-protein binding (Zeng2016Convolutional pages 1-2).
+> However, the primary focus remains on DNA-based computation.
+
+## What is PaperQA2
+
+PaperQA2 is engineered to be the best agentic RAG model for working with scientific papers.
+Here are some features:
+
+- A simple interface to get good answers with grounded responses containing in-text citations.
+- State-of-the-art implementation including document metadata-awareness
+  in embeddings and LLM-based re-ranking and contextual summarization (RCS).
+- Support for agentic RAG, where a language agent can iteratively refine queries and answers.
+- Automatic redundant fetching of paper metadata,
+  including citation and journal quality data from multiple providers.
+- A usable full-text search engine for a local repository of PDF/text files.
+- A robust interface for customization, with default support for all [LiteLLM][LiteLLM providers] models.
+
+[LiteLLM providers]: https://docs.litellm.ai/docs/providers
+[LiteLLM general docs]: https://docs.litellm.ai/docs/
+
+By default, it uses [OpenAI embeddings](https://platform.openai.com/docs/guides/embeddings)
+and [models](https://platform.openai.com/docs/models) with a Numpy vector DB to embed and search documents.
+However, you can easily use other closed-source, open-source models or embeddings (see details below).
+
+PaperQA2 depends on some awesome libraries/APIs that make our repo possible.
+Here are some in no particular order:
+
+1. [Semantic Scholar](https://www.semanticscholar.org/)
+2. [Crossref](https://www.crossref.org/)
+3. [Unpaywall](https://unpaywall.org/)
+4. [Pydantic](https://docs.pydantic.dev/latest/)
+5. [tantivy](https://github.com/quickwit-oss/tantivy)
+6. [LiteLLM][LiteLLM general docs]
+7. [pybtex](https://pybtex.org/)
+
+### PaperQA2 vs PaperQA
+
+We've been working hard on fundamental upgrades for a while
+and mostly followed [SemVer](https://semver.org/), until [December 2025](#paperqa2-goes-calver-in-december-2025).
+Meaning we've incremented the major version number on each breaking change.
+This brings us to the current major version number v5.
+So why call is the repo now called PaperQA2?
+We wanted to remark on the fact though that we've
+exceeded human performance on [many important metrics](https://paper.wikicrow
+
 ## tools
 
 The fastest way to test PaperQA2 is via the CLI. First navigate to a directory with some papers and use the `pqa` cli:
@@ -102,3 +165,24 @@ they can be invoked as follows:
 pqa --settings <setting name> \
     ask 'Are there nm scale features in thermoelectric materials?'
 ```
+
+### Bundled Settings
+
+Inside [`src/paperqa/configs`](src/paperqa/configs) we bundle known useful settings:
+
+| Setting Name | Description                                                                                                                  |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| high_quality | Highly performant, relatively expensive (due to having `evidence_k` = 15) query using a `ToolSelector` agent.                |
+| fast         | Setting to get answers cheaply and quickly.                                                                                  |
+| wikicrow     | Setting to emulate the Wikipedia article writing used in our WikiCrow publication.                                           |
+| contracrow   | Setting to find contradictions in papers, your query should be a claim that needs to be flagged as a contradiction (or not). |
+| debug        | Setting useful solely for debugging, but not in any actual application beyond debugging.                                     |
+| tier1_limits | Settings that match OpenAI rate limits for each tier, you can use `tier<1-5>_limits` to specify the tier.                    |
+
+### Rate Limits
+
+If you are hitting rate limits, say with the OpenAI Tier 1 plan, you can add them into PaperQA2.
+For each OpenAI tier, a pre-built setting exists to limit usage.
+
+```bash
+pqa --settings 'tier1_limits' a

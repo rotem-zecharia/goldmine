@@ -10,6 +10,37 @@ Monorepos solve the context problem. When an agent can see the entire codebase �
 
 **Mega brings Google-scale monorepo infrastructure to the open-source world, purpose-built for the agentic future.**
 
+## Mega + Libra: Version Control for Agents
+
+Mega works together with [**Libra**](https://github.com/web3infra-foundation/libra), our Rust-based, Git-compatible client with SQLite-backed storage, to provide a complete version control workflow where AI agents are tracked, attributable contributors:
+
+- **Mega** (server-side) — The centralized monorepo engine. Manages code at scale with full codebase context, trunk-based development, and fine-grained access control. Provides the global visibility that agents need for dependency analysis, impact assessment, and cross-project reasoning.
+- **Libra** (agent-side) — A lightweight, embeddable Git client optimized for programmatic access. Agents use Libra to clone, commit, and push with structured metadata and intent tracking — no shell-out to `git` required.
+
+Together, they enable a new paradigm: **from intent to merge, every agent action is versioned, attributed, and traceable.**
+
+## Features
+
+### Git Compatible
+
+Mega offers full Git protocol support with a monorepo. Clone or pull any folder in the monorepo into your local filesystem as a standard Git repository, and seamlessly push changes back. Both human developers and AI agents interact through the same familiar Git interface.
+
+### Trunk-Based Development
+
+Large-scale codebases thrive on trunk-based development — a single source of truth, continuous integration, and short-lived branches. This model is especially critical for AI agents, which benefit from always operating against the latest, consistent state of the codebase. Learn more at [Trunk-Based Development](https://trunkbaseddevelopment.com/).
+
+### Conventional Commits
+
+Mega supports [Conventional Commits](https://www.conventionalcommits.org/), enabling both humans and agents to produce structured, machine-readable commit messages that power automated changelogs, semantic versioning, and audit trails.
+
+### Scorpio — FUSE Filesystem for Monorepo
+
+[Scorpio](https://github.com/web3infra-foundation/scorpiofs) is a FUSE filesystem that mounts any monorepo folder as a local filesystem. Developers and agents work with their codebase as if it were local, while Mega handles the scale underneath — no need to check out the entire repository.
+
+### Buck2 Integration
+
+Mega integrates [Buck2](https://buck2.build/) as its default build system. Developed by Meta in Rust, Buck2 enables declarative, reproducible, and highly parallelized builds — essential for maintaining build correctness across a monorepo that both humans and agents contribute to simultaneously.
+
 ## limitations
 
 Mega is evolving toward deeper AI-native capabilities:
@@ -27,6 +58,42 @@ To facilitate a rapid deployment and hands-on experience with the Mega service, 
 - **Architecture:** [docs/architecture.md](docs/architecture.md)
 
 Related projects: [Libra](https://github.com/web3infra-foundation/libra) (Git-compatible agent client), [ScorpioFS](https://github.com/web3infra-foundation/scorpiofs) (FUSE monorepo mount).
+
+## Community
+
+Discord Channel - https://discord.gg/HMFuu6pJmQ
+
+## Contributing
+
+The mega project relies on community contributions and aims to simplify getting started. To develop Mega, clone the repository, then install all dependencies and initialize the database schema, run the test suite and try it out locally. Pick an issue, make changes, and submit a pull request for community review.
+
+### Pre-submission Checks
+Before submitting a Pull Request, please ensure your code passes the following checks (run in order after modifying code):
+
+```bash
+# 1. Format Rust code (apply fixes)
+cargo +nightly fmt --all
+
+# 2. Lint Rust (warnings are errors)
+cargo clippy --all-targets --all-features -- -D warnings
+
+# 3. Check frontend formatting
+pnpm -C moon prettier --check .
+```
+
+All commands must complete without errors. Clippy treats warnings as errors; Prettier must report no formatting drift.
+
+To verify Rust formatting without writing files (CI-style):
+
+```bash
+cargo +nightly fmt --all --check
+```
+
+To auto-fix frontend formatting:
+
+```bash
+pnpm -C moon prettier --write .
+```
 
 ## requirements
 

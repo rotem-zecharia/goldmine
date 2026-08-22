@@ -17,6 +17,80 @@ See also [key features](https://en.oceanbase.com/product/opensource) for more 
 
 See also [Quick experience](https://en.oceanbase.com/docs/community-observer-en-10000000000829647) or [Quick Start (Simplified Chinese)](https://open.oceanbase.com/quickStart) for more details.
 
+## 🔥 Start with all-in-one
+
+You can quickly deploy a stand-alone OceanBase Database to experience with the following commands:
+
+**Note**: Linux Only
+
+```shell
+# download and install all-in-one package (internet connection is required)
+bash -c "$(curl -s https://obbusiness-private.oss-cn-shanghai.aliyuncs.com/download-center/opensource/oceanbase-all-in-one/installer.sh)"
+source ~/.oceanbase-all-in-one/bin/env.sh
+
+# quickly deploy OceanBase database
+obd demo
+```
+
+## 🐳 Start with docker
+
+**Note**: We provide images on [dockerhub](https://hub.docker.com/r/oceanbase/oceanbase-ce/tags), [quay.io](https://quay.io/repository/oceanbase/oceanbase-ce?tab=tags) and [ghcr.io](https://github.com/oceanbase/docker-images/pkgs/container/oceanbase-ce). If you have problems pulling images from dockerhub, please try the other two registries.
+
+1. Start an OceanBase Database instance:
+
+    ```shell
+    # Deploy a mini standalone instance.
+    docker run -p 2881:2881 --name oceanbase-ce -e MODE=mini -d oceanbase/oceanbase-ce
+
+    # Deploy a mini standalone instance using image from quay.io.
+    # docker run -p 2881:2881 --name oceanbase-ce -e MODE=mini -d quay.io/oceanbase/oceanbase-ce
+
+    # Deploy a mini standalone instance using image from ghcr.io.
+    # docker run -p 2881:2881 --name oceanbase-ce -e MODE=mini -d ghcr.io/oceanbase/oceanbase-ce
+    ```
+
+2. Connect to the OceanBase Database instance:
+
+    ```shell
+    docker exec -it oceanbase-ce obclient -h127.0.0.1 -P2881 -uroot # Connect to the root user of the sys tenant.
+    ```
+
+See also [Docker Readme](https://github.com/oceanbase/docker-images/blob/main/oceanbase-ce/README.md) for more details.
+
+## ☸️ Start with Kubernetes
+
+You can deploy and manage OceanBase Database instance in kubernetes cluster with [ob-operator](https://github.com/oceanbase/ob-operator) quickly. Refer to the document [Quick Start for ob-operator](https://oceanbase.github.io/ob-operator) to see details.
+
+## 👨‍💻 Start developing
+See [OceanBase Developer Document](https://oceanbase.github.io/oceanbase/build-and-run) to learn how to compile and deploy a manually compiled observer.
+
 ## limitations
 
 For future plans, see [Product Iteration Progress](https://github.com/oceanbase/oceanbase/issues/1839). See also [OceanBase Roadmap](https://github.com/orgs/oceanbase/projects/4) for more details.
+
+# Case study
+
+OceanBase has been serving more than 2000 customers and upgraded their database from different industries, including Financial Services, Telecom, Retail, Internet, and more.
+
+See also [success stories](https://en.oceanbase.com/customer/home) and [Who is using OceanBase](https://github.com/oceanbase/oceanbase/issues/1301) for more details.
+
+# System architecture
+
+[Introduction to system architecture](https://en.oceanbase.com/docs/community-observer-en-10000000000829641)
+
+# Contributing
+
+Contributions are highly appreciated. Read the [development guide](https://oceanbase.github.io/oceanbase) to get started.
+
+# License
+
+OceanBase Database is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for more info.
+
+# Community
+
+Join the OceanBase community via:
+
+* [Discord](https://discord.gg/74cF8vbNEs): Best for: asking questions, sharing feedback, getting the latest news, and connecting with other OceanBase users.
+* [GitHub Issues](https://github.com/oceanbase/oceanbase/issues): Best for: addressing bugs encountered while using OceanBase, as well as submitting feature proposals.
+* [Chinese User Forum](https://ask.oceanbase.com/): Only for Chinese users, best for: asking questions, sharing feedback, getting the latest news, and connecting with other OceanBase users.
+* WeChat Group (Add the assistant with WeChat ID: OBCE666): Only for Chinese users, best for: getting the latest news and connecting with other OceanBase users.

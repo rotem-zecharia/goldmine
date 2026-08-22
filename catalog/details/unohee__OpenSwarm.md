@@ -13,6 +13,38 @@ openswarm              # launches the TUI chat
 
 `openswarm init` walks you through provider authentication, optional Linear OAuth (team/project picker), and writes a validated `config.yaml`. Prefer wiring a provider by hand? You need **one** first: `openswarm auth login` (ChatGPT OAuth, used by `codex`/`gpt`), `openswarm auth login --provider openrouter` (or `export OPENROUTER_API_KEY=…`), or just have an authenticated `claude` on PATH. Check what's wired with `openswarm auth status`, and diagnose any gaps with `openswarm doctor`.
 
+### What `openswarm init` sets up
+
+The wizard asks three questions, detects what you already have, and writes the config for you:
+
+1. **AI provider** (worker/reviewer) — it auto-detects existing auth and offers inline login:
+   - `codex-responses` — ChatGPT subscription via OAuth (Codex models, native loop) — **easiest start**
+   - `codex` — external `codex` CLI · `openrouter` — any model (API key/OAuth) · `gpt` — OpenAI OAuth
+   - `lmstudio` / `local` — local servers, no account · `claude` — `claude -p` CLI (opt-in fallback)
+2. **Task backend** — `local` SQLite issue store (no account) **or** `linear` (OAuth browser login or API key, then an arrow-key **team → project** picker for this repo)
+3. **Notification channel** (optional) — `none` / `discord` / `slack` / `telegram` / `webhook`
+
+It then writes **`.env`** (secrets, `chmod 600`), **`config.yaml`** (validated), and — if you mapped a Linear project — **`openswarm.json`** (this repo → Linear team/project). Finally it prints next steps and can launch browser OAuth.
+
+> Re-running in a repo that already has `config.yaml` is refused unless you pass `--force`, and `init` refuses to overwrite a `config.yaml` that symlinks into the daemon's global config. For CI / non-interactive use, `openswarm init --yes` writes a sample config only.
+
+![TUI Chat Interface](screenshots/tui.png)
+
+### TUI keyboard shortcuts
+
+| Key | Action |
+|-----|--------|
+| `Tab` | Switch tabs (Chat / Projects / Tasks / Stuck / Issues / Logs) |
+| `Enter` | Send message |
+| `Shift+Enter` | Newline |
+| `i` | Focus input |
+| `Esc` | Exit input focus |
+| `Ctrl+C` | Quit |
+
+Status bar shows: provider · model · message count · cumulative cost
+
+---
+
 ## tools
 
 ```bash
@@ -27,6 +59,49 @@ openswarm provider               # Show/switch the active provider (interactive 
 openswarm provider claude        # Switch straight to a provider — a running daemon switches in place
 openswarm doctor                 # Diagnose environment (runtime, native deps, providers, ports)
 openswarm validate               # Validate config.yaml
+
+# Code review
+openswarm review                 # Review the working-tree changes
+openswarm review --max           # Full-codebase audit: fan reviewer subagents over areas
+                                 #   → report at .openswarm/audit/ + PM-synthesized Linear
+                                 #   issues by default (≤10 cohesive, master + sub-issues)
+openswarm review --max --fix     # after the audit, dependency-related findings are grouped;
+                                 #   independent fix units run in isolated sandboxes, then
+                                 #   a PR is published only after every re-review and trusted
+                                 #   deterministic repository check passes
+                                 #   add --in-place to edit the current working tree instead
+openswarm review --max --concurrency 8   # widen the fan-out — areas auto-split to fill the pool
+                                 # more --max flags: --no-linear (report only) · --issues-per-area
+                                 #   (legacy spray) · --issues <id> (set parent) · --fallback
+                                 #   <adapter> · --out <file> · --dry-run (print the plan)
+
+# CI / test gate auto-fix (npm / Cargo / Python auto-detected)
+openswarm fix                    # Run the checks (package.json scripts, or cargo check+test,
+                                 #   or ruff/mypy/pytest), fan a fix-worker out over the
+                                 #   failures, re-run until green
+openswarm fix --checks lint,test # only these checks · --concurrency <n> · --rounds <n> (default 3)
+                                 # any language: put {"checks": {"test": "pytest -x"}} in openswarm.json
+
+# PR autopilot (on-demand — conflict → comments → CI; does not merge)
+openswarm pr status              # Snapshot: conflicts, CI, CHANGES_REQUESTED / critical comments
+openswarm pr status --json       # Machine-readable; exit 0 only when merge-ready
+openswarm pr fix                 # One-shot fix for the current branch's open PR (or --number N)
+openswarm pr review              # Re-apply reviewer feedback only (Claude, Codex, or CHANGES_REQUESTED) — no conflict/CI work
+openswarm pr review --fresh      # Run a brand-new code review of the PR diff and post it as a comment
+openswarm pr review --all        # Review every open PR in the repo instead of just one (combine with --fresh)
+openswarm pr watch               # Loop fix until merge-ready or --rounds exhausted (default 5)
+openswarm pr create              # Local fix → commit → push → gh pr create (from feature branch)
+openswarm pr create --no-fix --issue INT-123 --title "feat: …"  # skip local fix; set issue id
+
+# Code Registry & BS Detector
+openswarm check --scan           # Scan repo → register all entities
+openswarm check src/foo.ts       # File brief (entities, tests, risk)
+openswarm check --bs             # BS pattern scan (bad code smells)
+openswarm check --stats          # Registry statistics
+openswarm check --high-risk      # High-risk entities
+openswarm check --search "name"  # Full-text search
+openswarm annotate "funcName" --deprecate "reason"
+openswarm a
 
 ## configuration
 

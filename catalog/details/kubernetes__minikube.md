@@ -30,6 +30,43 @@ See the [Getting Started Guide](https://minikube.sigs.k8s.io/docs/start/)
 
 :mega: **Please fill out our [fast 5-question survey](https://forms.gle/Gg3hG5ZySw8c1C24A)** so that we can learn how & why you use minikube, and what improvements we should make. Thank you! :dancers:
 
+## GitHub Codespace
+
+You can run minikube in a GitHub Codespace by clicking here:
+[![Open in GitHub Codespaces](https://img.shields.io/badge/Open%20in-GitHub%20Codespaces-blue?logo=github)](https://codespaces.new/kubernetes/minikube?quickstart=1)
+
+This will launch a Github Codespace. You can then run `minikube start` and `minikube dashboard` - You can then open Minikube Dashboard by clicking opening the link displayed in the terminal.  
+
+You can also run Minikube in a Dev Container locally using your favorite IDE, for more information see Dev Containers <https://code.visualstudio.com/docs/devcontainers/containers>
+
+## Documentation
+
+See <https://minikube.sigs.k8s.io/docs/>
+
 ## tools
 
 See minikube in action in the [controls handbook](https://minikube.sigs.k8s.io/docs/handbook/controls/)
+
+## Governance
+
+Kubernetes project is governed by a framework of principles, values, policies and processes to help our community and constituents towards our shared goals.
+
+The [Kubernetes Community](https://github.com/kubernetes/community/blob/master/governance.md) is the launching point for learning about how we organize ourselves.
+
+The [Kubernetes Steering community repo](https://github.com/kubernetes/steering) is used by the Kubernetes Steering Committee, which oversees governance of the Kubernetes project.
+
+## Community
+
+minikube is a Kubernetes [#sig-cluster-lifecycle](https://github.com/kubernetes/community/tree/master/sig-cluster-lifecycle)  project.
+
+* [**#minikube on Kubernetes Slack**](https://kubernetes.slack.com/messages/minikube) - Live chat with minikube developers!
+* [minikube-users mailing list](https://groups.google.com/g/minikube-users)
+* [minikube-dev mailing list](https://groups.google.com/g/minikube-dev)
+
+* [Contributing](https://minikube.sigs.k8s.io/docs/contrib/)
+* [Development Roadmap](https://minikube.sigs.k8s.io/docs/contrib/roadmap/)
+
+Join our community meetings:
+
+* [Bi-weekly office hours, Mondays @ 11am PST](https://tinyurl.com/minikube-oh)
+* [Triage Party](https://minikube.sigs.k8s.io/docs/contrib/triage/)

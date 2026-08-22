@@ -24,3 +24,45 @@ Extracted system prompts from Anthropic - Claude Fable 5, Opus 5, Claude Design,
 </details>
 
 ![Google Gemini](https://shieldcn.dev/badge/Google%20Gemini-8E75B2.svg?logo=googlegemini&logoColor=fff&variant=secondary&mode=light)
+
+## Google — Gemini system prompts
+
+| Model | Prompt |
+|-------|--------|
+| **Gemini 3.5 Flash** | [**Gemini 3.5 Flash system prompt**](Google/gemini-3.5-flash.md) · [AI Studio](Google/gemini-3.5-flash-ai-studio.md) |
+| **Gemini 3.1 Pro** | [**Gemini 3.1 Pro system prompt**](Google/gemini-3.1-pro.md) · [API](Google/gemini-3.1-pro-api.md) |
+| **Antigravity CLI** | [**Antigravity CLI system prompt**](Google/antigravity-cli.md) |
+| Nano / Banana 2 | [Nano Banana 2 system prompt](Google/nano-banana-2-api.md) |
+| Google Search AI Mode | [Google Search AI Mode system prompt](Google/google-search-ai-mode.md) |
+| Gemini CLI | [Gemini CLI system prompt](Google/gemini-cli.md) |
+| NotebookLM | [NotebookLM chat system prompt](Google/notebooklm-chat.md) |
+| Jules | [Jules system prompt](Google/jules.md) |
+| AI Studio Build | [AI Studio Build system prompt](Google/ai-studio-build.md) |
+| Gemini 3 | [Gemini 3 Flash system prompt](Google/gemini-3-flash.md) · [Gemini 3 Pro](Google/gemini-3-pro.md) |
+| Gemini YouTube | [Gemini YouTube system prompt](Google/gemini-youtube.md) |
+| Gemini Diffusion | [Gemini Diffusion system prompt](Google/gemini-diffusion.md) |
+| Gemini in Chrome | [Gemini in Chrome system prompt](Google/gemini-in-chrome.md) |
+| Gemini Workspace | [Gemini Workspace system prompt](Google/gemini-workspace.md) |
+
+
+<details><summary>Older models & variants</summary>
+
+| | |
+|--|--|
+| Gemini 2.5 Pro | [API](Google/gemini-2.5-pro-api.md) · [Webapp](Google/gemini-2.5-pro-webapp.md) · [Guided learning](Google/gemini-2.5-pro-guided-learning.md) |
+| Gemini 2.5 Flash | [Image preview](Google/gemini-2.5-flash-image-preview.md) |
+| Gemini 2.0 Flash | [Webapp](Google/gemini-2.0-flash-webapp.md) |
+
+</details>
+
+## xAI — Grok system prompts
+
+| Model | Prompt |
+|-------|--------|
+| **Grok 4.5** | [**Grok 4.5 system prompt**](xAI/grok-4.5.md) |
+| **Grok Build** | [**Grok Build system prompt** (CLI agent)](xAI/grok-build.md) |
+| **Grok 4.3 Beta** | [Grok 4.3 Beta system prompt](xAI/grok-4.3-beta.md) |
+| **Grok 4.2** | [**Grok 4.2 system prompt**](xAI/grok-4.2.md) |
+| Grok Expert | [Grok Expert system prompt](xAI/grok-expert.md) |
+
+<details><summary

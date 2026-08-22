@@ -16,3 +16,75 @@ Additional tutorial videos:
 - Depth of Field effect: https://youtu.be/jC3EKSpNjQk
 - Low-light enhancement: https://youtu.be/WSBLYWFrn2Q
 - Remove background from ANY object (not just human): https://youtu.be/N74VCDCToX8
+
+## How to build from source
+
+**Windows**:
+
+```pwsh
+git clone https://github.com/royshil/obs-backgroundremoval.git
+```
+
+**Platforms we support building from source officially:**
+
+```
+git clone https://github.com/royshil/obs-backgroundremoval.git
+cd obs-backgroundremoval
+sudo ./bin/bootstrap
+./bin/setup
+./bin/build
+sudo dpkg -i release/obs-backgroundremoval-*-linux-gnu.deb
+```
+
+The supported platforms are:
+
+- Debian Forky (x86_64 and arm64)
+
+We plan to add building scripts for popular platforms such as Windows, Mac, and various distributions of Linux.
+
+## Introduction
+
+This plugin is meant to make it easy to replace the background in portrait images and video.
+It is using a neural network to predict the mask of the portrait and remove the background pixels.
+It's easily composable with other OBS plugins to replace the background with e.g. an image or
+a transparent color.
+
+If you like this work, which is given to you completely free of charge, please consider supporting it by sponsoring us on GitHub:
+
+- https://github.com/sponsors/royshil
+- https://github.com/sponsors/umireon
+
+### Support and Help
+
+Reach out to us on [GitHub Discussions](https://github.com/royshil/obs-backgroundremoval/discussions) or the [OBS Plugins forum](https://obsproject.com/forum/resources/background-removal-portrait-segmentation.1260/) for online / immediate help.
+
+If you found a bug or want to suggest a feature or improvement please open an [issue](https://github.com/royshil/obs-backgroundremoval/issues).
+
+If you are looking for hands-on help or private consultation please select a [sponsorship tier](https://github.com/sponsors/royshil?frequency=one-time).
+
+### Technical Details
+
+GPU support:
+
+- On Windows, we plan to support WinML acceleration.
+- On Mac we support CoreML for acceleration, which is efficient on Apple Silicon. **Note:** This plugin does not support cross-architecture translation (Rosetta2). Intel binaries on Apple Silicon or Apple Silicon binaries on Intel will crash.
+- On Linux CUDA, ROCM (deprecated in ONNX Runtime 1.23.0), and MIGraphX are supported if this plugin is built from source. Ensure your ONNX Runtime installation has CUDA, ROCM, or MIGraphX support. For AMD GPUs, MIGraphX is recommended as ROCM was removed from ONNX Runtime starting with version 1.23.0.
+- The goal of this plugin is to be available for everyone on every system, even if they don't own a GPU.
+
+Number of CPU threads is controllable through the UI settings. A 2-thread setting works best.
+
+The pretrained model weights used for portrait foreground segmentation are taken from:
+
+- https://github.com/anilsathyan7/Portrait-Segmentation/tree/master/SINet
+- https://github.com/PaddlePaddle/PaddleSeg/tree/release/2.7/contrib/PP-HumanSeg
+- https://github.com/PINTO0309/PINTO_model_zoo/tree/main/082_MediaPipe_Meet_Segmentation
+- https://github.com/PeterL1n/RobustVideoMatting
+- https://github.com/PINTO0309/PINTO_model_zoo/tree/main/384_TCMonoDepth and https://github.com/yu-li/TCMonoDepth
+
+Image enhancement (low light) models are taken from:
+
+- https://github.com/PINTO0309/PINTO_model_zoo/tree/main/213_TBEFN
+- https://github.com/PINTO0309/PINTO_model_zoo/tree/main/372_URetinex-Net
+- https://github.com/PINTO0309/PINTO_model_zoo/tree/main/370_Semantic-Guided-Low-Light-Image-Enhancement
+
+Some more information a

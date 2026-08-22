@@ -8,6 +8,15 @@ Music Searcher and Downloader. - 音乐搜索下载器。
 
 ## installation
 
+### Download the [music-dl](./builds/music-dl) file
+
+```shell
+curl 'https://raw.githubusercontent.com/guanguans/music-dl/master/builds/music-dl' -o music-dl --progress-bar
+chmod +x music-dl
+```
+
+### Install via Composer
+
 ```shell
 composer global require guanguans/music-dl:dev-master --dev -v --ignore-platform-req=ext-pcntl # global
 composer require guanguans/music-dl:dev-master --dev -v --ignore-platform-req=ext-pcntl # local
@@ -63,3 +72,32 @@ Options:
 ```
 
 ![usage](resources/images/music-dl.gif)
+
+## Composer scripts
+
+```shell
+composer checks:required
+composer php-cs-fixer:fix
+composer test
+```
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+
+## Security Vulnerabilities
+
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
+## Credits
+
+* [guanguans](https://github.com/guanguans)
+* [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

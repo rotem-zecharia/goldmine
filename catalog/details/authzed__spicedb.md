@@ -19,7 +19,23 @@ Open Source, Google Zanzibar-inspired database for scalably storing and querying
 [reverse-indexes]: https://authzed.com/docs/spicedb/getting-started/faq#what-is-a-reverse-index
 [consistency]: https://authzed.com/docs/spicedb/concepts/consistency
 
+### Who uses SpiceDB?
+
+SpiceDB is a powerful tool in a variety of domains and in organizations of all sizes; we've chosen to highlight a few interesting community members:
+
+- [IBM's AI Data & Model Factory Platform](https://youtu.be/4K2a9HcRhXA)
+- [Red Hat's Insights Platform](https://www.redhat.com/en/technologies/management/insights)
+- [GitPod](https://github.com/gitpod-io/gitpod/issues/15632)
+- [TubiTV China (中文)](https://zhuanlan.zhihu.com/p/685603356)
+- [DMM Online Salon (日本語)](https://inside.dmm.com/articles/salon-datebase-migration-challenges/)
+
+Beyond the community, you can also read [customer stories][stories] for commercial usage of SpiceDB.
+
+[stories]: https://authzed.com/customers
+
 ## installation
+
+### Installing the binary
 
 Binary releases are available for Linux, macOS, and Windows on AMD64 and ARM64 architectures.
 
@@ -55,6 +71,18 @@ sudo dnf install -y spicedb zed
 [homebrew]: https://docs.authzed.com/spicedb/installing#brew
 [Debian-based Linux]: https://en.wikipedia.org/wiki/List_of_Linux_distributions#Debian-based
 [RPM-based Linux]: https://en.wikipedia.org/wiki/List_of_Linux_distributions#RPM-based
+  
+### Running a container
+
+Container images are available for AMD64 and ARM64 architectures on the following registries:
+
+- [authzed/spicedb](https://hub.docker.com/r/authzed/spicedb)
+- [ghcr.io/authzed/spicedb](https://github.com/authzed/spicedb/pkgs/container/spicedb)
+- [quay.io/authzed/spicedb](https://quay.io/authzed/spicedb)
+
+[Docker] users can run the latest SpiceDB container with the following:
+
+```shell
 
 ## tools
 
@@ -74,3 +102,84 @@ Containers are also available for each git commit to the `main` branch under `${
 
 [Docker]: https://docs.docker.com/get-docker/
 [Chainguard Images]: https://github.com/chainguard-images/images
+
+### Write your own schema and relationships
+
+Now that you have SpiceDB running, you must define your **schema** and write **relationships** that represent the permissions in your application. There are various way to do this:
+
+- Use the [client libraries].
+- Use the [hosted Playground] or [run it yourself locally]. The playground contains a set of example schemas and test data for different scenarios.
+- Use the [zed] CLI.
+- Use the [gRPC](https://buf.build/authzed/api/docs/main:authzed.api.v1) or the [HTTP](https://authzed.com/docs/spicedb/api/http-api) APIs. For example:
+  
+```shell
+    # write a schema
+    curl --location 'http://localhost:8443/v1/schema/write' \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    --header 'Authorization: Bearer somerandomkeyhere' \
+    --data '{
+        "schema": "definition user {} \n definition folder { \n relation parent: folder\n relation viewer: user \n permission view = viewer + parent->view \n } \n definition document {\n relation folder: folder \n relation viewer: user \n permission view = viewer + folder->view \n }"
+    }'
+
+    # write a relationship
+    curl --location 'http://localhost:8443/v1/relationships/write' \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    --header 'Authorization: Bearer somerandomkeyhere' \
+    --data '{
+        "updates": [
+            {
+                "operation": "OPERATION_TOUCH",
+                "relationship": {
+                    "resource": {
+                        "objectType": "folder",
+                        "objectId": "budget"
+                    },
+                    "relation": "viewer",
+                    "subject": {
+                        "object": {
+                            "objectType": "user",
+                            "objectId": "anne"
+                        }
+                    }
+                }
+            }
+        ]
+    }'
+```
+
+You can follow a [guide for developing a schema] or review the the schema language [design documentation].
+
+Finally, you can watch the [SpiceDB primer video on schema development](https://www.youtube.com/watch?v=AoK0LrkGFDY).
+
+[hosted Playground]: https://play.authzed.com
+[run it yourself locally]: https://github.com/authzed/playground
+[Playground]: https://github.com/authzed/playground
+[guide for developing a schema]: https://docs.authzed.com/guides/schema
+[design documentation]: https://docs.authzed.com/reference/schema-lang
+
+### Query the SpiceDB API
+
+You can use the [client libraries] or the [gRPC](https://buf.build/authzed/api/docs/main:authzed.api.v1) and [HTTP](https://authzed.com/docs/spicedb/api/http-api) APIs to query SpiceDB. For example,
+
+```shell
+curl --location 'http://localhost:8443/v1/permissions/check' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer somerandomkeyhere' \
+--data '{
+  "consistency": {
+    "minimizeLatency": true
+  },
+  "resource": {
+    "objectType": "folder",
+    "objectId": "budget"
+  },
+  "permission": "view",
+  "subject": {
+    "object": {
+      "objectType": "user",
+      "objectId": "anne"
+    }
+ 

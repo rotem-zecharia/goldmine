@@ -4,6 +4,8 @@ Lightpanda: the headless browser designed for AI and automation
 
 ## installation
 
+### Install
+
 **Package Managers**
 
 Latest nightly from Homebrew:
@@ -64,6 +66,64 @@ The following command fetches the Docker image and starts a new container exposi
 docker run -d --name lightpanda -p 127.0.0.1:9222:9222 lightpanda/browser:nightly
 ```
 
+### Dump a URL
+
+```console
+./lightpanda fetch --obey-robots --dump html --log-format pretty  --log-level info https://demo-browser.lightpanda.io/campfire-commerce/
+```
+
+You can use `--dump markdown` to convert directly into markdown.
+`--wait-until`, `--wait-ms`, `--wait-selector` and `--wait-script` are
+available to adjust waiting time before dump.
+
+### Start a CDP server
+
+```console
+./lightpanda serve --obey-robots --log-format pretty  --log-level info --host 127.0.0.1 --port 9222
+```
+Once the CDP server started, you can run a Puppeteer script by configuring the
+`browserWSEndpoint`.
+
+<details>
+<summary>Example Puppeteer script</summary>
+
+```js
+import puppeteer from 'puppeteer-core';
+
+// use browserWSEndpoint to pass the Lightpanda's CDP server address.
+const browser = await puppeteer.connect({
+  browserWSEndpoint: "ws://127.0.0.1:9222",
+});
+
+// The rest of your script remains the same.
+const context = await browser.createBrowserContext();
+const frame = await context.newPage();
+
+// Dump all the links from the frame.
+await frame.goto('https://demo-browser.lightpanda.io/amiibo/', {waitUntil: "networkidle0"});
+
+const links = await frame.evaluate(() => {
+  return Array.from(document.querySelectorAll('a')).map(row => {
+    return row.getAttribute('href');
+  });
+});
+
+console.log(links);
+
+await frame.close();
+await context.close();
+await browser.disconnect();
+```
+</details>
+
+### Agent mode
+
+`lightpanda agent` lets you drive the browser with a native agent. Describe what
+you want in plain English or with slash commands, and it controls the browser:
+navigating pages, clicking through flows, filling forms, extracting structured
+data. Think of it as a robot you're directing to use the web, more than a
+chatbot you're having a conversation wit
+
 ## requirements
 
 Lightpanda is written with [Zig](https://ziglang.org/) `0.15.2`. You have to
@@ -93,3 +153,151 @@ For **MacOS**, you need cmake and [Rust](https://rust-lang.org/tools/install/).
 ```
 brew install cmake
 ```
+
+### Build and run
+
+You can build the entire browser with `make build` or `make build-dev` for debug
+env.
+
+But you can directly use the zig command: `zig build run`.
+
+#### Embed v8 snapshot
+
+Lighpanda uses v8 snapshot. By default, it is created on startup but you can
+embed it by using the following commands:
+
+Generate the snapshot.
+```
+zig build snapshot_creator -- src/snapshot.bin
+```
+
+Build using the snapshot binary.
+```
+zig build -Dsnapshot_path=../../snapshot.bin
+```
+
+See [#1279](https://github.com/lightpanda-io/browser/pull/1279) for more details.
+
+## Test
+
+### Unit Tests
+
+You can test Lightpanda by running `make test`.
+
+```bash
+make test                                       # Run all tests
+make test F="server"                            # Filter by substring
+TEST_FILTER="WebApi: #selector_all" make test   # Filter main + subtest (separator: #)
+TEST_VERBOSE=true make test
+TEST_FAIL_FIRST=true make test
+METRICS=true make test                          # Capture allocation/duration metrics as JSON
+```
+
+### End to end tests
+
+To run end to end tests, you need to clone the [demo
+repository](https://github.com/lightpanda-io/demo) into `../demo` dir.
+
+You have to install the [demo's node
+requirements](https://github.com/lightpanda-io/demo?tab=readme-ov-file#dependencies-1)
+
+You also need to install [Go](https://go.dev) > v1.24.
+
+```
+make end2end
+```
+
+### Web Platform Tests
+
+Lightpanda is tested against the standardized [Web Platform
+Tests](https://web-platform-tests.org/).
+
+We use [a fork](https://github.com/lightpanda-io/wpt/tree/fork) including a custom
+[`testharnessreport.js`](https://github.com/lightpanda-io/wpt/blob/fork/resources/testharnessreport.js). Results are [published](https://perf.lightpanda.io/wpt) daily.
+
+For reference, you can easily execute a WPT test case with your browser via
+[wpt.live](https://wpt.live).
+
+#### Configure WPT HTTP server
+
+To run the test, you must clone the repository, configure the custom hosts and generate the
+`MANIFEST.json` file.
+
+Clone the repository with the `fork` branch.
+```
+git clone -b fork --depth=1 git@github.com:lightpanda-io/wpt.git
+```
+
+Enter into the `wpt/` dir.
+
+Install custom domains in your `/etc/hosts`
+```
+./wpt make-hosts-file | sudo tee -a /etc/hosts
+```
+
+Generate `MANIFEST.json`
+```
+./wpt manifest
+```
+Use the [WPT's setup
+guide](https://web-platform-tests.org/running-tests/from-local-system.html) for
+details.
+
+#### Run WPT test suite
+
+An external [Go](https://go.dev) runner is provided by
+[github.com/lightpanda-io/demo/](https://github.com/lightpanda-io/demo/)
+repository, located into `wptrunner/` dir.
+You need to clone the project first.
+
+First start the WPT's HTTP server from your `wpt/` clone dir.
+```
+./wpt serve
+```
+
+Run a Lightpanda browser
+
+```
+zig build run -- --insecure-disable-tls-host-verification
+```
+
+Then you can start the wptrunner from the demo's clone dir:
+```
+cd wptrunner && go run .
+```
+
+Or one specific test:
+
+```
+cd wptrunner && go run . Node-childNodes.html
+```
+
+`wptrunner` command accepts `--summary` and `--json` options modifying output.
+Also `--concurrency` define the concurrency limit.
+
+:warning: Running the whole test suite will take a long time. In this cas
+
+## features
+
+### Javascript execution is mandatory for the modern web
+
+Simple HTTP requests used to be enough for web automation. That's no longer the case. Javascript now drives most of the web:
+
+- Ajax, Single Page Apps, infinite loading, instant search
+- JS frameworks: React, Vue, Angular, and others
+
+### Chrome is not the right tool
+
+Running a full desktop browser on a server works, but it does not scale well. Chrome at hundreds or thousands of instances is expensive:
+
+- Heavy on RAM and CPU
+- Hard to package, deploy, and maintain at scale
+- Many features are not necessary in headless made
+
+### Lightpanda is built for performance
+
+Supporting Javascript with real performance meant building from scratch rather than forking Chromium:
+
+- Not based on Chromium, Blink, or WebKit
+- Written in Zig, a low-level language with explicit memory control
+- No graphical rendering engine

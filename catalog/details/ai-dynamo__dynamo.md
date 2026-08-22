@@ -15,11 +15,70 @@ A Datacenter Scale Distributed Inference Serving Framework
 | [**AIConfigurator**](https://github.com/ai-dynamo/aiconfigurator) | Simulates 10K+ deployment configs in seconds | Finds optimal serving config without burning GPU-hours |
 | [**Fault Tolerance**](https://docs.nvidia.com/dynamo/user-guides/fault-tolerance/request-migration) | Canary health checks + in-flight request migration | Workers fail; user requests don't |
 
+### New in 1.0
+
+- **Zero-config deploy ([DGDR](https://docs.nvidia.com/dynamo/kubernetes-deployment/deploy-models/dgdr-reference))** *(beta):* Specify model, HW, and SLA in one YAML — AIConfigurator auto-profiles the workload, Planner optimizes the topology, and Dynamo deploys
+- **Agentic inference:** Per-request hints for priority, expected output length, and speculative prefill, plus session metadata for tracing and SGLang subagent KV isolation. [LangChain](https://docs.langchain.com/oss/python/integrations/chat/nvidia_ai_endpoints#use-with-nvidia-dynamo) + [NeMo Agent Toolkit](https://github.com/NVIDIA/NeMo-Agent-Toolkit) integrations
+- **Multimodal E/P/D:** Disaggregated encode/prefill/decode with embedding cache — 30% faster TTFT on image workloads
+- **Video generation:** Native [FastVideo](https://github.com/hao-ai-lab/FastVideo) + [SGLang Diffusion](https://lmsys.org/blog/2026-02-16-sglang-diffusion-advanced-optimizations/) support — real-time 1080p on single B200
+- **K8s Inference Gateway plugin:** KV-aware routing inside the standard Kubernetes gateway
+- **Storage-tier KV offload:** S3/Azure blob support + global KV events for cluster-wide cache visibility
+
+## Request Routing Topologies
+
+Dynamo can expose traffic through two Kubernetes request routing topologies. Both expose an
+OpenAI-compatible API and support the same backends, disaggregated serving, and KV-aware routing.
+
+| Topology | What it is | When to use |
+|------|------------|-------------|
+| **Dynamo-native Frontend routing** | The Dynamo Frontend serves HTTP and the integrated Dynamo Router makes worker-selection decisions. No external gateway is required. | Local development, single-cluster deployments, and environments where Dynamo should own the request entry point end to end. |
+| **Gateway API routing with GAIE** | A Kubernetes [Gateway API Inference Extension](https://github.com/kubernetes-sigs/gateway-api-inference-extension) gateway calls the Dynamo Endpoint Picker Plugin (EPP) before forwarding to the selected worker's Frontend sidecar in `--router-mode direct`. | Kubernetes platforms that standardize on Gateway API, or deployments where gateway-level policy, auth, rate limiting, and observability should sit at the cluster edge. |
+
+Request flow for the Dynamo-native path is `client → Front
+
 ## installation
 
 > This repo ships agent skills: if you work with an AI coding agent (Claude Code, Codex,
 > Cursor), clone the repo and ask it to deploy, troubleshoot, benchmark, or optimize a Dynamo
 > deployment. The skills activate automatically; no setup required.
+
+### Option A: Container (fastest)
+
+```bash
+# Pull a prebuilt container (SGLang example)
+docker run --gpus all --network host --rm -it nvcr.io/nvidia/ai-dynamo/sglang-runtime:1.4.0
+
+# Inside the container — start frontend and worker
+python3 -m dynamo.frontend --http-port 8000 --discovery-backend file > /dev/null 2>&1 &
+python3 -m dynamo.sglang --model-path Qwen/Qwen3-0.6B --discovery-backend file &
+
+# Send a request
+curl -s localhost:8000/v1/chat/completions -H "Content-Type: application/json" -d '{
+  "model": "Qwen/Qwen3-0.6B",
+  "messages": [{"role": "user", "content": "Hello!"}],
+  "max_tokens": 100
+}' | jq
+```
+
+Also available: [`tensorrtllm-runtime:1.4.0`](https://docs.nvidia.com/dynamo/resources/release-artifacts) and [`vllm-runtime:1.4.0`](https://docs.nvidia.com/dynamo/resources/release-artifacts).
+
+### Option B: Install from PyPI
+
+Install [uv](https://github.com/astral-sh/uv) (`curl -LsSf https://astral.sh/uv/install.sh | sh`), then:
+
+```bash
+uv pip install --prerelease=allow "ai-dynamo[sglang]"   # or [vllm]
+```
+
+> **Note:** TensorRT-LLM requires `pip` with `--extra-index-url https://pypi.nvidia.com`. See the [install guide](docs/fern/pages/cli/installation/install-dynamo.mdx) for TRT-LLM-specific instructions.
+
+Then start the frontend and a worker as shown above. See the [full installation guide](docs/fern/pages/cli/installation/install-dynamo.mdx) for system dependencies and backend-specific notes.
+
+### Option C: Kubernetes (recommended)
+
+For production multi-node clusters, install the [Dynamo Platform](https://docs.nvidia.com/dynamo/kubernetes-deployment/start-here/installation-guide) and deploy with a single manifest:
+
+```yaml
 
 ## configuration
 
@@ -46,6 +105,12 @@ Pre-built recipes for common models:
 
 See [recipes/](recipes/README.md) for the full list. Cloud-specific guides: [AWS EKS](docs/fern/pages/kubernetes/installation/managed-kubernetes/eks/eks-setup.mdx) · [Google GKE](docs/fern/pages/kubernetes/installation/managed-kubernetes/gcp/gke-setup.mdx) · [Azure AKS](docs/fern/pages/kubernetes/installation/managed-kubernetes/azure/aks-setup.mdx) · [Amazon ECS](docs/fern/pages/kubernetes/installation/managed-kubernetes/eks/ecs.mdx)
 
+## Building from Source
+
+For contributors who want to build and develop locally. See the [full build guide](docs/fern/pages/developer-guide/advanced-customizations/building-from-source.md) for details.
+
+```bash
+
 ## tools
 
 The OpenAI-compatible frontend exposes an OpenAPI 3 spec at `/openapi.json`. To generate without running the server:
@@ -55,3 +120,48 @@ cargo run -p dynamo-llm --bin generate-frontend-openapi
 ```
 
 This writes to `docs/reference/api/openapi.json`.
+
+## Service Discovery and Messaging
+
+Dynamo uses TCP for inter-component communication. On Kubernetes, native resources ([CRDs + EndpointSlices](docs/fern/pages/developer-guide/knowledge-base/kubernetes/kubernetes-operator/service-discovery.md)) handle service discovery. External services are optional for most deployments:
+
+| Deployment | etcd | NATS | Notes |
+|------------|------|------|-------|
+| **Local Development** | ❌ Not required | ❌ Not required | Pass `--discovery-backend file`; vLLM also needs `--kv-events-config '{"enable_kv_cache_events": false}'` |
+| **Kubernetes** | ❌ Not required | ❌ Not required | K8s-native discovery; TCP request plane |
+
+> **Note:** KV-aware routing does not require NATS. Enable KV events when you need event-backed cache-state tracking, or use `--no-router-kv-events` for prediction-based routing without external event infrastructure.
+
+For Slurm or other distributed deployments that choose etcd or NATS JetStream-backed modes:
+
+- [etcd](https://etcd.io/) can be run directly as `./etcd`.
+- [nats](https://nats.io/) needs JetStream enabled: `nats-server -js`.
+
+To quickly setup both: `docker compose -f dev/docker-compose.yml up -d`
+
+## More News
+
+- [11/20] [Dell integrates PowerScale with Dynamo's NIXL for 19x faster TTFT](https://www.dell.com/en-us/dt/corporate/newsroom/announcements/detailpage.press-releases~usa~2025~11~dell-technologies-and-nvidia-advance-enterprise-ai-innovation.htm)
+- [11/20] [WEKA partners with NVIDIA on KV cache storage for Dynamo](https://siliconangle.com/2025/11/20/nvidia-weka-kv-cache-solution-ai-inferencing-sc25/)
+- [11/13] [Dynamo Office Hours Playlist](https://www.youtube.com/playlist?list=PL5B692fm6--tgryKu94h2Zb7jTFM3Go4X)
+- [10/16] [How Baseten achieved 2x faster inference with NVIDIA Dynamo](https://www.baseten.co/blog/how-baseten-achieved-2x-faster-inference-with-nvidia-dynamo/)
+- [12/01] [InfoQ: NVIDIA Dynamo simplifies Kubernetes deployment for LLM inference](https://www.infoq.com/news/2025/12/nvidia-dynamo-kubernetes/)
+
+</details>
+
+## Reference
+
+- **[Support Matrix](https://docs.nvidia.com/dynamo/resources/support-matrix)** — Hardware, OS, CUDA, and backend versions
+- **[Feature Matrix](https://docs.nvidia.com/dynamo/resources/feature-matrix)** — Detailed backend compatibility
+- **[Release Artifacts](https://docs.nvidia.com/dynamo/resources/release-artifacts)** — Containers, wheels, Helm charts
+- **[Service Discovery](https://docs.nvidia.com/dynamo/kubernetes-deployment/advanced-platform/service-discovery)** — K8s-native vs etcd vs file-based discovery
+- **[Benchmarking Guide](https://docs.nvidia.com/dynamo/user-guides/benchmarking)** — Compare deployment topologies with AIPerf
+
+<!-- Reference links for Feature Compatibility Matrix -->
+[disagg]: docs/design-docs/disagg-serving.md
+[kv-routing]: docs/components/router/README.md
+[planner]: docs/fern/pages/developer-guide/knowledge-base/modular-components/planner/planner-guide.md
+[kvbm]: docs/components/kvbm/README.md
+[migration]: docs/fault-tolerance/request-migration.md
+[lora]: examples/backends/vllm/deploy/lora/README.md
+[tools]: docs/fern/pages/use-cases/tool-calling-and-reasoning/tool-call-parsing.mdx

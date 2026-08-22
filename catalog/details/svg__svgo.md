@@ -7,6 +7,15 @@ SVG Optimizer for Node.js and CLI. ⚙️
 You can install SVGO globally through npm, yarn, or pnpm. Alternatively, drop the global flag (`global`/`-g`) to use it in your Node.js project.
 
 ```sh
+# npm
+npm install -g svgo
+
+# yarn
+yarn global add svgo
+
+# pnpm
+pnpm add -g svgo
+```
 
 ## tools
 
@@ -56,3 +65,60 @@ export default {
       },
     },
   ],
+};
+```
+
+### Default preset
+
+Instead of configuring SVGO from scratch, you can tweak the default preset to suit your needs by configuring or disabling the respective plugin.
+
+**`svgo.config.mjs`**
+
+```js
+export default {
+  plugins: [
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          // disable a default plugin
+          cleanupIds: false,
+
+          // customize the params of a default plugin
+          inlineStyles: {
+            onlyMatchedOnce: false,
+          },
+        },
+      },
+    },
+  ],
+};
+```
+
+You can find a list of the default plugins in the order they run in [Preset Default | SVGO Documentation](https://svgo.dev/docs/preset-default/#plugins-list).
+
+### Custom plugins
+
+You can also specify custom plugins:
+
+**`svgo.config.mjs`**
+
+```js
+import importedPlugin from './imported-plugin';
+
+export default {
+  plugins: [
+    // plugin imported from another JavaScript file
+    importedPlugin,
+
+    // plugin defined inline
+    {
+      name: 'customPlugin',
+      params: {
+        paramName: 'paramValue',
+      },
+      fn: (ast, params, info) => {},
+    },
+  ],
+};
+```

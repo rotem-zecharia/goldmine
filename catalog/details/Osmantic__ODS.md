@@ -74,3 +74,10 @@ See the [macOS Quickstart](ods/docs/MACOS-QUICKSTART.md) for details.
 </details>
 
 ---
+
+## What's In The Box
+
+### Chat & Inference
+- **Open WebUI** — full-featured chat interface with conversation history, web search, document upload, and [30+ languages](https://docs.openwebui.com)
+- **llama-server** — high-performance LLM inference with continuous batching, auto-selected for your GPU; Linux Docker host API defaults to `localhost:11434`, native macOS/Windows paths use `localhost:8080`, and container API runs on `8080`
+- **LiteLLM** — API gateway supporting loca

@@ -41,6 +41,22 @@ See [docs/v1-to-v2-changes.md](docs/v1-to-v2-changes.md) for what's different an
 
 </details>
 
+## Philosophy
+
+**Small enough to understand.** One process, a few source files and no microservices. If you want to understand the full NanoClaw codebase, just ask Claude Code to walk you through it.
+
+**Secure by isolation.** Agents run in Linux containers and they can only see what's explicitly mounted. Bash access is safe because commands run inside the container, not on your host.
+
+**Built for the individual user.** NanoClaw isn't a monolithic framework; it's software that fits each user's exact needs. Instead of becoming bloatware, NanoClaw is designed to be bespoke. You make your own fork and have Claude Code modify it to match your needs.
+
+**Customization = code changes.** No configuration sprawl. Want different behavior? Modify the code. The codebase is small enough that it's safe to make changes.
+
+**AI-native, hybrid by design.** The install and onboarding flow is an optimized scripted path, fast and deterministic. When a step needs judgment, whether a failed install, a guided decision, or a customization, control hands off to Claude Code seamlessly. Beyond setup there's no monitoring dashboard or debugging UI either: describe the problem in chat and Claude Code handles it.
+
+**Skills over features.** Trunk ships the registry and infrastructure, not specific channel adapters or alternative agent providers. Channels (Discord, Slack, Telegram, WhatsApp, …) live on a long-lived `channels` branch; alternative providers (OpenCode, Ollama) live on `providers`. You run `/add-telegram`, `/add-opencode`, etc. and the skill copies exactly the module(s) you need into your fork. No feature you didn't ask for.
+
+**Best harness, best model.** NanoClaw natively uses Claude Code via Anthropic's official Claude Agent SDK, so you get the latest Claude models and Claude Code's full toolset, including the ability to modify and expand your own NanoClaw fork. Other providers are drop-in options: `/add-codex` for OpenAI's Codex (ChatGPT subscription or API key), `/add-opencode` for OpenRouter, Google, DeepSeek and more via OpenCode, and `/add-ollama-provider` for local open-weight models. Pro
+
 ## tools
 
 Talk to your assistant with the trigger word (default: `@Andy`):
@@ -58,9 +74,87 @@ From a channel you own or administer, you can manage groups and tasks:
 @Andy join the Family Chat group
 ```
 
+## Customizing
+
+NanoClaw doesn't use configuration files. To make changes, just tell Claude Code what you want:
+
+- "Change the trigger word to @Bob"
+- "Remember in the future to make responses shorter and more direct"
+- "Add a custom greeting when I say good morning"
+- "Store conversation summaries weekly"
+
+Or run `/customize` for guided changes.
+
+The codebase is small enough that Claude can safely modify it.
+
+## Contributing
+
+**Don't add features. Add skills.**
+
+If you want to add a new channel or agent provider, don't add it to trunk. New channel adapters land on the `channels` branch; new agent providers land on `providers`. Users install them in their own fork with `/add-<name>` skills, which copy the relevant module(s) into the standard paths, wire the registration, and pin dependencies.
+
+This keeps trunk as pure registry and infra, and every fork stays lean — users get the channels and providers they asked for and nothing else.
+
+### RFS (Request for Skills)
+
+No channel or provider skills are currently requested — propose one via an issue.
+
 ## requirements
 
 - macOS or Linux (Windows via WSL2)
 - Node.js 22+ and pnpm 10+ (the installer will install both if missing)
 - [Docker Desktop](https://docker.com/products/docker-desktop) (macOS/Windows) or Docker Engine (Linux)
 - [Claude Code](https://claude.ai/download) for `/customize`, `/debug`, error recovery during setup, and all `/add-<channel>` skills
+
+## Architecture
+
+```
+messaging apps → host process (router) → inbound.db → container (Bun, Claude Agent SDK) → outbound.db → host process (delivery) → messaging apps
+```
+
+A single Node host orchestrates per-session agent containers. When a message arrives, the host routes it via the entity model (user → messaging group → agent group → session), writes it to the session's `inbound.db`, and wakes the container. The agent-runner inside the container polls `inbound.db`, runs the agent, and writes responses to `outbound.db`. The host polls `outbound.db` and delivers back through the channel adapter.
+
+Two SQLite files per session, each with exactly one writer — no cross-mount contention, no IPC, no stdin piping. Channels and alternative providers self-register at startup; trunk ships the registry and the Chat SDK bridge, while the adapters themselves are skill-installed per fork.
+
+For the full architecture writeup see [docs/architecture.md](docs/architecture.md); for the three-level isolation model see [docs/isolation-model.md](docs/isolation-model.md).
+
+Key files:
+- `src/index.ts` — entry point: DB init, channel adapters, delivery polls, sweep
+- `src/router.ts` — inbound routing: messaging group → agent group → session → `inbound.db`
+- `src/delivery.ts` — polls `outbound.db`, delivers via adapter, handles system actions
+- `src/host-sweep.ts` — 60s sweep: stale detection, due-message wake, recurrence
+- `src/session-manager.ts` — resolves sessions, opens `inbound.db` / `outbound.db`
+- `src/container-runner.ts` — spawns per-agent-group containers, OneCLI credential injection
+- `src/db/` — central DB (users, roles, agent groups, messaging groups, wiring, migrations)
+- `src/channels/` — channel adapter infra (adapters installed via `/add-<channel>` skills)
+- `src/providers/` — host-side provider config (`claude` baked in; others via skills)
+- `container/agent-runner/` — Bun agent-runner: poll loop, MCP tools, provider abstraction
+- `groups/<folder>/` — per-agent-group filesystem (`CLAUDE.md`, skills, container config)
+
+## FAQ
+
+**Why Docker?**
+
+Docker provides cross-platform support (macOS, Linux and Windows via WSL2) and a mature ecosystem.
+
+**Can I run this on Linux or Windows?**
+
+Yes. Docker is the default runtime and works on macOS, Linux, and Windows (via WSL2). Just run `bash nanoclaw.sh`.
+
+**Is this secure?**
+
+Agents run in containers, not behind application-level permission checks. They can only access explicitly mounted directories. Credentials never enter the container — outbound API requests route through [OneCLI's Agent Vault](https://github.com/onecli/onecli), which injects authentication at the proxy level and supports rate limits and access policies. You should still review what you're running, but the codebase is small enough that you actually can. See the [security documentation](https://docs.nanoclaw.dev/concepts/security) for the full security model.
+
+**Why no configuration files?**
+
+We don't want configuration sprawl. Every user should customize NanoClaw so that the code does exactly what they want, rather than configuring a generic system. If you prefer having config files, you can tell Claude to add them.
+
+**Can I use third-party or open-source models?**
+
+Yes. The supported path is `/add-opencode` (OpenRouter, OpenAI, Google, DeepSeek, and more via OpenCode config) or `/add-ollama-provider` (local open-weight models via Ollama). Both are configurable per agent group, so different agents can run on different backends in the same install.
+
+For one-off experiments, any Claude API-compatible endpoint also works via `.env`:
+
+```bash
+ANTHROPIC_BASE_URL=https://your-api-endpoint.com
+

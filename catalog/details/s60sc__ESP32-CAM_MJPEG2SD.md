@@ -31,6 +31,28 @@ An alternative installation process by [@ldijkman](https://github.com/ldijkman) 
 
 Browser functions only fully tested on Chrome.
 
+
+## Main Function
+
+A recording is generated either by the camera itself detecting motion, or by holding a given pin high (kept low by internal pulldown when released), eg by using an active high motion sensor such as a PIR (HC-SR501) or microwave radar (CWL-0516), or an I2C accelerometer (MPU6050), or a non motion detector such as a sound sensor (KY-037).
+In addition a recording can be requested manually using the **Start Recording** button on the web page.
+
+To play back a recording, select the file using **Playback & File Transfers** sidebar button to select the day folder then the required AVI file.
+After selecting the AVI file, press **Start Playback** button to playback the recording. 
+The **Start Stream** button shows a live video only feed from the camera. 
+
+Recordings can then be uploaded to an FTP or HTTPS server or downloaded to the browser for playback on a media application, eg VLC.
+To incorporate FTP or HTTPS server, set `#define INCLUDE_FTP_HFS` to `true`.
+
+## Continuous Recording
+
+A time lapse feature is available which can run in parallel with motion capture. 
+Select **Time Lapse** button under **Motion Detect & Recording** sidebar button. Time Lapse configuration is under **Motion** button in **Edit Config** tab.
+Time lapse files have the format **20200130_201015_VGA_15_60_T.avi**.
+
+A continuous recording feature generates a sequence of files from power up, similar to dashcam recording style. Use **DashCam** slider in **Motion Detect & Recording** sidebar button to select a value representing the length in minutes of each file. Need to press **Save Settings** button then **Reboot ESP** to commence recording.
+Select slider value 0 to switch off feature. Creates file names with format **20200130_201015_VGA_15_60_
+
 ## configuration
 
 The operation of the application can be modified dynamically as below, by using the main web page, which should mostly be self explanatory.
@@ -60,3 +82,41 @@ View application log via web page, displayed using **Show Log** tab:
     * SD card: Unlimited size log saved to SD card
   * Use slider to enable SD logging, but can slow recording rate
   * Use buttons to refresh or clear selected log
+
+
+## Configuration Web Page
+
+More configuration details accessed via **Edit Config** tab, which displays further buttons:
+
+**Network**:
+* Default network interface is Wifi, but Ethernet can be used instead using boards with built in Ethernet, eg: [`CAMERA_MODEL_Waveshare_ESP32_S3_ETH`](https://www.waveshare.com/wiki/ESP32-S3-ETH), or by connecting an external W5500 Ethernet controller.
+* Feature only available for ESP32S3 boards.
+* All existing services automatically use the selected network interface after reboot.
+* If Network interface in **Access Settings** side tab was previously set to Ethernet:
+  * App runs in quiet mode (WiFi and BLE off).
+  * First boot still prepares the SD `/data` folder and UI.
+  * WiFi AP wizard is suppressed; access the device by its DHCP IP or mDNS `http(s)://<hostname>.local` if your network supports it.
+  * PoE variants are supported at the hardware level; power delivery is handled by the board.
+  * Contributed by [@RedCanti](https://github.com/RedCanti)
+* If Network interface in **Access Settings** side tab was previously set to Eth+AP:
+  * Wifi AP is available concurrently with Ethernet, but uses a separate network.
+  * Do not open web pages on each network concurrently.
+* To use an external W5500 Ethernet controller, after selecting Ethernet or Eth+AP, an additional tab **Ethernet** is present in the **Edit Config** tab for entering the SPI pins numbers used to connect to the W5500 Ethernet controller.
+
+**Motion**: 
+See [**Motion detection by Camera**](#motion-detection-by-camera) section.
+
+**Peripherals** eg:
+* Select if a PIR or radar sensor is to be used (which can also be used in parallel with camera motion detection).
+* Control pan / tilt cradle for camera.
+* Connect a PDM or I2S microphone and I2S amplifier.
+* Connect a DS18B20 temperature sensor.
+* Monitor voltage of battery supply on ADC pin.
+* Wakeup on LDR after deep sleep at night.
+
+To incorporate peripherals, set `#define INCLUDE_PERIPH` to `true`.
+
+The **Peripherals** tab also enables further config tabs to be displayed:
+* **Audio**: to configure microphones and amplifiers.
+* **RC Config**: to configure hardware for remote control vehcles.
+* **Servos**: to c

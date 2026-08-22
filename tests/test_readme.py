@@ -198,3 +198,33 @@ def test_nested_install_command_is_extracted():
 
 def test_a_later_recognised_section_still_ends_the_previous_one():
     assert "Run it." not in extract_sections(NESTED)["installation"]
+
+
+def test_an_import_statement_is_not_an_install_command():
+    # firecrawl's install section opens with a Python import; offering that as
+    # "run this to install" is worse than offering nothing.
+    readme = "## Installation\n\n```python\nfrom firecrawl import Firecrawl\n```\n"
+
+    assert extract_install_command(readme) == ""
+
+
+def test_a_cd_is_not_an_install_command():
+    readme = "## Installation\n\n```bash\ncd dify\ndocker compose up -d\n```\n"
+
+    assert extract_install_command(readme) == "docker compose up -d"
+
+
+def test_a_curl_pipe_installer_is_recognised():
+    readme = "## Install\n\n```bash\ncurl -fsSL https://example.com/install.sh | bash\n```\n"
+
+    assert "curl -fsSL" in extract_install_command(readme)
+
+
+def test_an_unrecognised_block_yields_nothing_rather_than_a_guess():
+    readme = "## Installation\n\n```\nsee the docs on our website\n```\n"
+
+    assert extract_install_command(readme) == ""
+
+
+def test_apt_and_docker_compose_are_recognised():
+    assert "apt install" in extract_install_command("## Install\n\n```\nsudo apt install thing\n```\n")

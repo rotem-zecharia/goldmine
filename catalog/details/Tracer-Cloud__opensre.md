@@ -64,3 +64,96 @@ pipx install opensre
 ``` -->
 
 ---
+
+## Quick Start
+
+Contributors: start at [`main.py`](main.py) for the process entrypoint map.
+
+Configure once, then pick how you want to run investigations:
+
+```bash
+opensre onboard
+```
+
+**Interactive shell** — with no subcommand, `opensre` starts a REPL (TTY required). Describe incidents in plain language, stream investigations, and use slash commands for session control (`/help`, `/status`, `/cost`, `/sessions`, `/resume`, `/compact`, `/new`, `/exit`), integrations (`/integrations list`, `/integrations verify`), local agent fleet monitoring (`/agents`), and reasoning depth (`/effort` for **OpenAI** and **Codex** — `low` through `max`). Ctrl+C cancels an in-flight investigation without losing session state. See **[interactive shell commands](https://www.opensre.com/docs/interactive-shell-commands)** for the full reference.
+
+```bash
+opensre
+```
+
+**Headless CLI** — run one agent turn non-interactively from a terminal, script, or CI job:
+
+```bash
+opensre ask "why is checkout-api slow?"
+```
+
+See **[Headless CLI](https://www.opensre.com/docs/headless-cli)** for stdin prompts, JSON output, and tool approvals.
+
+**One-shot investigation** — run the agent once against an alert file:
+
+```bash
+opensre investigate -i tests/e2e/kubernetes/fixtures/datadog_k8s_alert.json
+```
+
+**Remote runtime investigation** — investigate a deployed service by name (live health, logs, and deployment status):
+
+```bash
+opensre investigate --service api-backend
+```
+
+**Hermes log watch** — tail a Hermes `errors.log`, classify incidents, and optionally alert on Telegram:
+
+```bash
+opensre hermes watch
+```
+
+**From Python** — drive the agent in-process from your own code (source checkout required):
+
+```python
+from core.agent_harness import AgentSession
+
+session = AgentSession.start()
+result = session.chat("why is checkout-api slow?")
+if result.answered:
+    print(result.primary_response_text)
+```
+
+See **[Python API](https://www.opensre.com/docs/python-api)** for sessions, conversations, and custom output sinks.
+
+**For your team's daily loop:** embed OpenSRE in the Python services and automations your teammates already use.
+Start with the in-repo [Python API guide](docs/python-api.mdx), then use it every day to make incident response repeatable.
+
+Other useful commands:
+
+```bash
+opensre integrations setup
+opensre agents scan
+opensre update
+opensre uninstall   # remove opensre and all local data
+```
+
+---
+
+## Deployment
+
+Two primary AWS EC2 paths and a general hosted option:
+
+- **Gateway (AMI + systemd):** `make build-gateway-image` then `make deploy-gateway` — Telegram gateway only, no Docker; the gateway is installed into a server image that new servers start from.
+- **Hosted (Railway / ECS / Vercel):** deploy with the repo `Dockerfile`; set `LLM_PROVIDER` and the matching API key (see [`.env.example`](.env.example)), plus `DATABASE_URI` and `REDIS_URI` if persistence is needed.
+
+**[Full deployment steps and prerequisites → DEPLOYMENT.md](DEPLOYMENT.md)**
+
+---
+
+## How OpenSRE Works
+
+<img
+  src="https://github.com/user-attachments/assets/936ab1f2-9bda-438d-9897-e8e9cd98e335"
+  width="1064"
+  height="568"
+  alt="opensre-how-it-works-github"
+/>
+
+When an alert fires, OpenSRE automatically:
+
+1. **Fetches** the 

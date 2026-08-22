@@ -43,6 +43,86 @@ Chat history, users, settings, files, and stats all live in MongoDB. You can poi
 > [!TIP]
 > For quick local development, you can skip this section. When `MONGODB_URL` is not set, Chat UI falls back to an embedded MongoDB that persists to `./db`.
 
+### MongoDB Atlas (managed)
+
+1. Create a free cluster at [mongodb.com](https://www.mongodb.com/pricing).
+2. Add your IP (or `0.0.0.0/0` for development) to the network access list.
+3. Create a database user and copy the connection string.
+4. Paste that string into `MONGODB_URL` in `.env.local`. Keep the default `MONGODB_DB_NAME=chat-ui` or change it per environment.
+
+Atlas keeps MongoDB off your laptop, which is ideal for teams or cloud deployments.
+
+### Local MongoDB (container)
+
+If you prefer to run MongoDB in a container:
+
+```bash
+docker run -d -p 27017:27017 --name mongo-chatui mongo:latest
+```
+
+Then set `MONGODB_URL=mongodb://localhost:27017` in `.env.local`.
+
+## Launch
+
+After configuring your environment variables, start Chat UI with:
+
+```bash
+npm install
+npm run dev
+```
+
+The dev server listens on `http://localhost:5173` by default. Use `npm run build` / `npm run preview` for production builds.
+
+## Optional Docker Image
+
+The `chat-ui-db` image bundles MongoDB inside the container:
+
+```bash
+docker run \
+  -p 3000:3000 \
+  -e OPENAI_BASE_URL=https://router.huggingface.co/v1 \
+  -e OPENAI_API_KEY=hf_*** \
+  -v chat-ui-data:/data \
+  ghcr.io/huggingface/chat-ui-db:latest
+```
+
+All environment variables accepted in `.env.local` can be provided as `-e` flags.
+
+## Extra parameters
+
+### Theming
+
+You can use a few environment variables to customize the look and feel of chat-ui. These are by default:
+
+```env
+PUBLIC_APP_NAME=ChatUI
+PUBLIC_APP_ASSETS=chatui
+PUBLIC_APP_DESCRIPTION="Making the community's best AI chat models available to everyone."
+PUBLIC_APP_DATA_SHARING=
+```
+
+- `PUBLIC_APP_NAME` The name used as a title throughout the app.
+- `PUBLIC_APP_ASSETS` Is used to find logos & favicons in `static/$PUBLIC_APP_ASSETS`, current options are `chatui` and `huggingchat`.
+- `PUBLIC_APP_DATA_SHARING` Can be set to 1 to add a toggle in the user settings that lets your users opt-in to data sharing with models creator.
+
+### Models
+
+Models are discovered from `${OPENAI_BASE_URL}/models`, and you can optionally override their metadata via the `MODELS` env var (JSON5). Legacy provider‑specific integrations and GGUF discovery are removed. Authorization uses `OPENAI_API_KEY` (preferred). `HF_TOKEN` remains a legacy alias.
+
+### LLM Router (Optional)
+
+Chat UI can perform server-side smart routing using a local heuristic — no separate router service or selection model is called. The UI exposes a virtual model alias called "Omni" (configurable) that, when selected, chooses the best route/model for each message: image inputs go to a `multimodal` route, MCP-tool-enabled requests go to an `agentic` route, and everything else goes to a `default` route.
+
+- Provide a routes policy JSON via `LLM_ROUTER_ROUTES_PATH`. No sample file ships with this branch, so you must point the variable to a JSON array you create yourself (for example, commit one in your project like `config/routes.chat.json`). Each route entry needs `name`, `description`, `primary_model`, and optional `fallback_models`. The router recognizes the route names `default`, `multimodal`, and `agentic`.
+- The default route name is configurable via `LLM_ROUTER_DEFAULT_ROUTE` (default: `default`). If the selected route's models all fail, calls fall back to `LLM_ROUTER_FALLBACK_MODEL`.
+- Omni alias configuration: `PUBLIC_LLM_ROUTER_ALIAS_ID` (default `omni`), `PUBLIC_LLM_ROUTER_DISPLAY_NAME` (default `Omni`), and optional `PUBLIC_LLM_ROUTER_LOGO_URL`.
+
+When you select Omni in the UI, Chat UI will:
+
+- Pick a route locally based on the request signals (image attached, MCP server enabled, or default).
+- Emit RouterMetadata immediately (route and actual model used) so the UI can display it.
+- Stream from the selected 
+
 ## tools
 
 Chat UI can call tools exposed by Model Context Protocol (MCP) servers and feed results back to the model using OpenAI function calling. You can preconfigure trusted servers via env, let users add their own, and optionally have the Omni router auto‑select a tools‑capable model.
@@ -50,3 +130,39 @@ Chat UI can call tools exposed by Model Context Protocol (MCP) servers and feed 
 Configure servers (base list for all users):
 
 ```env
+# JSON array of servers: name, url, optional headers
+MCP_SERVERS=[
+  {"name": "Web Search (Exa)", "url": "https://mcp.exa.ai/mcp"},
+  {"name": "Hugging Face MCP Login", "url": "https://hf.co/mcp?login"}
+]
+
+# Forward the signed-in user's Hugging Face token to the official HF MCP login endpoint
+# when no Authorization header is set on that server entry.
+MCP_FORWARD_HF_USER_TOKEN=true
+```
+
+Enable router tool path (Omni):
+
+- Set `LLM_ROUTER_ENABLE_TOOLS=true` and choose a tools‑capable target with `LLM_ROUTER_TOOLS_MODEL=<model id or name>`.
+- The target must support OpenAI tools/function calling. Chat UI surfaces a “tools” badge on models that advertise this; you can also force‑enable it per‑model in settings (see below).
+
+Use tools in the UI:
+
+- Open “MCP Servers” from the top‑right menu or from the `+` menu in the chat input to add servers, toggle them on, and run Health Check. The server card lists available tools.
+- When a model calls a tool, the message shows a compact “tool” block with parameters, a progress bar while running, and the result (or error). Results are also provided back to the model for follow‑up.
+
+Per‑model overrides:
+
+- In Settings → Model, you can toggle “Tool calling (functions)” and “Multimodal input” per model. These overrides apply even if the provider metadata doesn’t advertise the capability.
+
+## Building
+
+To create a production version of your app:
+
+```bash
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.

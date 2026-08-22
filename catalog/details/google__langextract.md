@@ -18,6 +18,90 @@ A Python library for extracting structured information from unstructured text us
 
 Extract structured information with just a few lines of code.
 
+### 1. Define Your Extraction Task
+
+First, create a prompt that clearly describes what you want to extract. Then, provide a high-quality example to guide the model.
+
+```python
+import langextract as lx
+import textwrap
+
+# 1. Define the prompt and extraction rules
+prompt = textwrap.dedent("""\
+    Extract characters, emotions, and relationships in order of appearance.
+    Use exact text for extractions. Do not paraphrase or overlap entities.
+    Provide meaningful attributes for each entity to add context.""")
+
+# 2. Provide a high-quality example to guide the model
+examples = [
+    lx.data.ExampleData(
+        text="ROMEO. But soft! What light through yonder window breaks? It is the east, and Juliet is the sun.",
+        extractions=[
+            lx.data.Extraction(
+                extraction_class="character",
+                extraction_text="ROMEO",
+                attributes={"emotional_state": "wonder"}
+            ),
+            lx.data.Extraction(
+                extraction_class="emotion",
+                extraction_text="But soft!",
+                attributes={"feeling": "gentle awe"}
+            ),
+            lx.data.Extraction(
+                extraction_class="relationship",
+                extraction_text="Juliet is the sun",
+                attributes={"type": "metaphor"}
+            ),
+        ]
+    )
+]
+```
+
+> **Note:** Examples drive model behavior. Each `extraction_text` should ideally be verbatim from the example's `text` (no paraphrasing), listed in order of appearance. LangExtract raises `Prompt alignment` warnings by default if examples don't follow this pattern—resolve these for best results.
+>
+> **Grounding:** LLMs may occasionally extract content from few-shot examples rather than the input text. LangExtract automatically detects this: extractions that cannot be located in the source text will have `char_interval = None`. Filter these out with `[e for e in result.extractions if e.char_interval]` to keep only grounded results.
+
+### 2. Run the Extraction
+
+Provide your input text and the prompt materials to the `lx.extract` function.
+
+```python
+# The input text to be processed
+input_text = "Lady Juliet gazed longingly at the stars, her heart aching for Romeo"
+
+# Run the extraction
+result = lx.extract(
+    text_or_documents=input_text,
+    prompt_description=prompt,
+    examples=examples,
+    model_id="gemini-3.5-flash",
+)
+```
+
+For advanced constraints beyond examples, such as enum values on extraction
+attributes, Gemini and OpenAI support `output_schema` with or without
+few-shot examples. See
+[Custom output schemas](docs/examples/output_schema.md).
+
+> **Model Selection**: `gemini-3.5-flash` is the recommended default, offering strong extraction quality for LangExtract's schema-constrained workflows. For high-volume or cost-sensitive workloads, consider the current stable Flash-Lite model, `gemini-3.1-flash-lite`; for highly complex tasks requiring deeper reasoning, evaluate a current Gemini Pro model from the official model documentation. For large-scale or production use, a paid Gemini tier is suggested to increase throughput and avoid rate limits. See the [rate-limit documentation](https://ai.google.dev/gemini-api/docs/rate-limits#usage-tiers) for details.
+>
+> **Model Lifecycle**: Note that Gemini models have a lifecycle with defined retirement dates. Users should consult the [official model version documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions) to stay informed about the latest stable and legacy versions.
+
+### 3. Visualize the Results
+
+The extractions can be saved to a `.jsonl` file, a popular format for working with language model data. LangExtract can then generate an interactive HTML visualization from this fi
+
 ## tools
 
 pip install -e ".[dev]"
+
+# For testing (includes pytest):
+pip install -e ".[test]"
+```
+
+### Docker
+
+```bash
+docker build -t langextract .
+docker run --rm -e LANGEXTRACT_API_KEY="your-api-key" langextract python your_script.py
+```

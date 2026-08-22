@@ -4,26 +4,135 @@ yq is a portable command-line YAML, JSON, XML, CSV, TOML, HCL and properties pro
 
 ## tools
 
-podman run --rm -v "${PWD}":/workdir mikefarah/yq '.a.b[0].c' file.yaml
+### Basic Operations
+
+**Read a value:**
+```bash
+yq '.a.b[0].c' file.yaml
 ```
 
-**Security note:** You can run `yq` in Docker with restricted privileges:
+**Pipe from STDIN:**
 ```bash
-docker run --rm --security-opt=no-new-privileges --cap-drop all --network none \
-  -v "${PWD}":/workdir mikefarah/yq '.a.b[0].c' file.yaml
+yq '.a.b[0].c' < file.yaml
 ```
 
-#### Pipe data via STDIN:
-
-You'll need to pass the `-i --interactive` flag to Docker/Podman:
-
+**Update a yaml file in place:**
 ```bash
+yq -i '.a.b[0].c = "cool"' file.yaml
+```
+
+**Update using environment variables:**
+```bash
+NAME=mike yq -i '.a.b[0].c = strenv(NAME)' file.yaml
+```
+
+### Advanced Operations
+
+**Merge multiple files:**
+```bash
+# merge two files
+yq -n 'load("file1.yaml") * load("file2.yaml")'
+
+# merge using globs (note: `ea` evaluates all files at once instead of in sequence)
+yq ea '. as $item ireduce ({}; . * $item )' path/to/*.yml
+```
+
+**Multiple updates to a yaml file:**
+```bash
+yq -i '
+  .a.b[0].c = "cool" |
+  .x.y.z = "foobar" |
+  .person.name = strenv(NAME)
+' file.yaml
+```
+
+**Find and update an item in an array:**
+```bash
+# Note: requires input file - add your file at the end
+yq -i '(.[] | select(.name == "foo") | .address) = "12 cat st"' data.yaml
+```
+
+**Convert between formats:**
+```bash
+# Convert JSON to YAML (pretty print)
+yq -Poy sample.json
+
+# Convert YAML to JSON
+yq -o json file.yaml
+
+# Convert XML to YAML
+yq -o yaml file.xml
+```
+
+See [recipes](https://mikefarah.gitbook.io/yq/recipes) for more examples and the [documentation](https://mikefarah.gitbook.io/yq/) for more information.
+
+Take a look at the discussions for [common questions](https://github.com/mikefarah/yq/discussions/categories/q-a), and [cool ideas](https://github.com/mikefarah/yq/discussions/categories/show-and-tell)
 
 ## installation
 
+### [Download the latest binary](https://github.com/mikefarah/yq/releases/latest)
+
+### wget
+Use wget to download pre-compiled binaries. Choose your platform and architecture:
+
+**For Linux (example):**
+```bash
+# Set your platform variables (adjust as needed)
+VERSION=v4.2.0
+PLATFORM=linux_amd64
+
+# Download compressed binary
+wget https://github.com/mikefarah/yq/releases/download/${VERSION}/yq_${PLATFORM}.tar.gz -O - |\
+  tar xz && sudo mv yq_${PLATFORM} /usr/local/bin/yq
+
+# Or download plain binary
+wget https://github.com/mikefarah/yq/releases/download/${VERSION}/yq_${PLATFORM} -O /usr/local/bin/yq &&\
+    chmod +x /usr/local/bin/yq
 ```
-go install github.com/mikefarah/yq/v4@latest
+
+**Latest version (Linux AMD64):**
+```bash
+wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq &&\
+    chmod +x /usr/local/bin/yq
 ```
+
+**Available platforms:** `linux_amd64`, `linux_arm64`, `linux_arm`, `linux_386`, `darwin_amd64`, `darwin_arm64`, `windows_amd64`, `windows_386`, etc.
+
+### MacOS / Linux via Homebrew:
+Using [Homebrew](https://brew.sh/)
+```
+brew install yq
+```
+
+### Linux via snap:
+```
+snap install yq
+```
+
+#### Snap notes
+`yq` installs with [_strict confinement_](https://docs.snapcraft.io/snap-confinement/6233) in snap, this means it doesn't have direct access to root files. To read root files you can:
+
+```
+sudo cat /etc/myfile | yq '.a.path'
+```
+
+And to write to a root file you can either use [sponge](https://linux.die.net/man/1/sponge):
+```
+sudo cat /etc/myfile | yq '.a.path = "value"' | sudo sponge /etc/myfile
+```
+or write to a temporary file:
+```
+sudo cat /etc/myfile | yq '.a.path = "value"' | sudo tee /etc/myfile.tmp
+sudo mv /etc/myfile.tmp /etc/myfile
+rm /etc/myfile.tmp
+```
+
+### Run with Docker or Podman
+
+#### One-time use:
+```bash
+# Docker - process files in current directory
+docker run --rm -v "${PWD}":/workdir mikefarah/yq '.a.b[0].c' file.yaml
 
 ## features
 

@@ -41,6 +41,15 @@ You can access the following providers locally and with multiple CLI accounts th
 </tbody>
 </table>
 
+
+## Sponsor
+
+[![https://www.packyapi.com/register?aff=cliproxyapi](./assets/packycode-en.png)](https://www.packyapi.com/register?aff=cliproxyapi)
+
+Thanks to PackyCode for sponsoring this project!
+
+PackyCode is a reliable and efficient API relay service provider, offering relay services for Claude Code, Codex, Gemini, and 
+
 ## features
 
 - OpenAI/Gemini/Claude/Grok compatible API endpoints for CLI models

@@ -37,6 +37,23 @@ GitHub operations are performed with `gh` inside the sandbox, backed by the Lang
 
 **Optional Corridor guardrails (server-side MCP):** Set `CORRIDOR_API_TOKEN` (or `CORRIDOR_MCP_TOKEN` / `CORRIDOR_TOKEN`) to load Corridor's hosted MCP server for each agent run. Open SWE exposes only Corridor's `analyzePlan` tool. `CORRIDOR_MCP_URL` defaults to `https://app.corridor.dev/api/mcp`; if set explicitly, Open SWE only accepts the same HTTPS host and `/api/mcp` path. Tokens are sent via `Authorization: Bearer ...` from the LangGraph server process and are never placed in the sandbox. A legacy `?token=...` URL is accepted and normalized into the header form.
 
+### 4. Context Engineering — AGENTS.md + Source Context
+
+Open SWE gathers context from two sources:
+
+- **`AGENTS.md`** — If the repo contains an `AGENTS.md` file at the root, it's read from the sandbox and injected into the system prompt. This is your repo-level equivalent of Stripe's rule files: encoding conventions, testing requirements, and architectural decisions that every agent run should follow.
+- **Source context** — The full Linear issue (title, description, comments) or Slack thread history is assembled and passed to the agent, so it starts with rich context rather than discovering everything through tool calls.
+
+### 5. Orchestration — Subagents + Middleware
+
+Open SWE's orchestration has two layers:
+
+**Subagents:** The Deep Agents framework natively supports spawning child agents via the `task` tool. The main agent can fan out independent subtasks to isolated subagents — each with its own middleware stack and file operations. This is similar to Ramp's child sessions for parallel work.
+
+**Middleware:** Deterministic middleware hooks run around the agent loop:
+
+- **`check_message_queue_before_model`** — Injects follo
+
 ## features
 
 - **Trigger from Linear, Slack, or GitHub** — mention `@openswe` in a comment to kick off a task
@@ -56,3 +73,7 @@ GitHub operations are performed with `gh` inside the sandbox, backed by the Lang
 - **[Installation Guide](docs/INSTALLATION.md)** — local dev (backend + dashboard), GitHub App creation, LangSmith, Linear/Slack/GitHub triggers, and production deployment
 - **macOS Desktop beta** — clone this repository and run `make install-desktop` from the root to install or update the app
 - **[Customization Guide](docs/CUSTOMIZATION.md)** — swap the sandbox, model, tools, triggers, system prompt, and middleware for your org
+
+## License
+
+MIT

@@ -71,3 +71,24 @@ Attach files by dragging & dropping, selecting or pasting them.
   <a href="#contribution--license">Contribution</a> •
   <a href="https://github.com/s0md3v/Photon/projects/1">Roadmap</a>
 </p>
+
+### Key Features
+
+#### Data Extraction
+Photon can extract the following data while crawling:
+
+- URLs (in-scope & out-of-scope)
+- URLs with parameters (`example.com/gallery.php?id=2`)
+- Intel (emails, social media accounts, amazon buckets etc.)
+- Files (pdf, png, xml etc.)
+- Secret keys (auth/API keys & hashes)
+- JavaScript files & Endpoints present in them
+- Strings matching custom regex pattern
+- Subdomains & DNS related data
+
+The extracted information is saved in an organized manner or can be [exported as json](https://github.com/s0md3v/Photon/wiki/Usage#export-formatted-result).
+
+![save demo](https://image.ibb.co/dS1BqK/carbon_2.png)
+
+#### Flexible
+Control timeout, delay, add seeds, exclude URLs matching a regex pattern and

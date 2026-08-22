@@ -12,9 +12,42 @@ pip install whisperlivekit
 
 ```bash
 
+# Start the server — open http://localhost:8000 and start talking
+wlk --model base --language en
+
+
+# Auto-pull model and start server
+wlk run whisper:tiny
+
+# Transcribe a file (no server needed)
+wlk transcribe meeting.wav
+
+# Generate subtitles
+wlk transcribe --format srt podcast.mp3 -o podcast.srt
+
+# Manage models
+wlk models                             # See what's installed
+wlk pull large-v3                      # Download a model
+wlk rm large-v3                        # Delete a model
+
+# Benchmark speed and accuracy
+wlk bench
+```
+
+#### API Compatibility
+
+WhisperLiveKit exposes compatibility-oriented subsets of popular APIs:
+
+```bash
+
 ## tools
 
 curl http://localhost:8000/v1/audio/transcriptions -F file=@audio.wav
+
+# Works with the OpenAI Python SDK
+client = OpenAI(base_url="http://localhost:8000/v1", api_key="unused")
+
+# Deepgram-compatible WebSocket
 
 ## configuration
 

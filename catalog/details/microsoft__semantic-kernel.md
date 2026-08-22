@@ -35,7 +35,199 @@ export AZURE_OPENAI_API_KEY=AAA....
 export OPENAI_API_KEY=sk-...
 ```
 
+### Python
+
+```bash
+pip install semantic-kernel
+```
+
+### .NET
+
+```bash
+dotnet add package Microsoft.SemanticKernel
+dotnet add package Microsoft.SemanticKernel.Agents.Core
+```
+
+### Java
+
+See [semantic-kernel-java build](https://github.com/microsoft/semantic-kernel-java/blob/main/BUILD.md) for instructions.
+
+## Quickstart
+
+### Basic Agent - Python
+
+Create a simple assistant that responds to user prompts:
+
+```python
+import asyncio
+from semantic_kernel.agents import ChatCompletionAgent
+from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
+
+async def main():
+    # Initialize a chat agent with basic instructions
+    agent = ChatCompletionAgent(
+        service=AzureChatCompletion(),
+        name="SK-Assistant",
+        instructions="You are a helpful assistant.",
+    )
+
+    # Get a response to a user message
+    response = await agent.get_response(messages="Write a haiku about Semantic Kernel.")
+    print(response.content)
+
+asyncio.run(main()) 
+
+# Output:
+# Language's essence,
+# Semantic threads intertwine,
+# Meaning's core revealed.
+```
+
+### Basic Agent - .NET
+
+```csharp
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Agents;
+
+var builder = Kernel.CreateBuilder();
+builder.AddAzureOpenAIChatCompletion(
+                Environment.GetEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT"),
+                Environment.GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
+                Environment.GetEnvironmentVariable("AZURE_OPENAI_API_KEY")
+                );
+var kernel = builder.Build();
+
+ChatCompletionAgent agent =
+    new()
+    {
+        Name = "SK-Agent",
+        Instructions = "You are a helpful assistant.",
+        Kernel = kernel,
+    };
+
+await foreach (AgentResponseItem<ChatMessageContent> response 
+    in agent.InvokeAsync("Write a haiku about Semantic Kernel."))
+{
+    Console.WriteLine(response.Message);
+}
+
+// Output:
+// Language's essence,
+// Semantic threads intertwine,
+// Meaning's core revealed.
+```
+
+### Agent with Plugins - Python
+
+Enhance your agent with custom tools (plugins) and structured output:
+
+```python
+import asyncio
+from typing import Annotated
+from pydantic import BaseModel
+from semantic_kernel.agents import ChatCompletionAgent
+from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion, OpenAIChatPromptExecutionSettings
+from semantic_kernel.functions import kernel_function, KernelArguments
+
+class MenuPlugin:
+    @kernel_function(description="Provides a list of specials from the menu.")
+    def get_specials(self) -> Annotated[str, "Returns the specials from the menu."]:
+        return """
+        Special Soup: Clam Chowder
+        Special Salad: Cobb Salad
+        Special Drink: Chai Tea
+        """
+
+    @kernel_function(description="Provides the price of the requested menu item.")
+    def get_item_price(
+        self, menu_item: Annotated[str, "The name of the menu item."]
+    ) -> Annotated[str, "Returns the price of the menu item."]:
+        return "$9.99"
+
+class MenuItem(BaseModel):
+    price: float
+    name: str
+
+async def main():
+    # Configure structured output format
+    settings = OpenAIChatPromptExecutionSettings()
+    settings.response_format = MenuItem
+
+    # Create agent with plugin and settings
+    agent = ChatCompletionAgent(
+        service=AzureChatCompletion(),
+        name="SK-Assistant",
+        instructions="You are a helpful assistant.",
+        plugins=[MenuPlugin()],
+        arguments=KernelArguments(settings)
+    )
+
+    response = await agent.get_response(messages="What is the price of the soup special?")
+    print(response.content)
+
+    # Output:
+    # The price of the Clam Chowder, which is the soup special, is $9.99.
+
+asyncio.run(main()) 
+```
+
+### Agent with Plugin - .NET
+
+```csharp
+using System.ComponentModel;
+using Microsoft.SemanticKernel;
+using Microsoft.Sem
+
 ## tools
 
 - [C# API reference](https://learn.microsoft.com/en-us/dotnet/api/microsoft.semantickernel?view=semantic-kernel-dotnet)
 - [Python API reference](https://learn.microsoft.com/en-us/python/api/semantic-kernel/semantic_kernel?view=semantic-kernel-python)
+
+## Troubleshooting
+
+### Common Issues
+
+- **Authentication Errors**: Check that your API key environment variables are correctly set
+- **Model Availability**: Verify your Azure OpenAI deployment or OpenAI model access
+
+### Getting Help
+
+- Check our [GitHub issues](https://github.com/microsoft/semantic-kernel/issues) for known problems
+- Search the [Discord community](https://aka.ms/SKDiscord) for solutions
+- Include your SDK version and full error messages when asking for help
+
+
+## Join the community
+
+We welcome your contributions and suggestions to the SK community! One of the easiest ways to participate is to engage in discussions in the GitHub repository. Bug reports and fixes are welcome!
+
+For new features, components, or extensions, please open an issue and discuss with us before sending a PR. This is to avoid rejection as we might be taking the core in a different direction, but also to consider the impact on the larger ecosystem.
+
+To learn more and get started:
+
+- Read the [documentation](https://aka.ms/sk/learn)
+- Learn how to [contribute](https://learn.microsoft.com/en-us/semantic-kernel/support/contributing) to the project
+- Ask questions in the [GitHub discussions](https://github.com/microsoft/semantic-kernel/discussions)
+- Ask questions in the [Discord community](https://aka.ms/SKDiscord)
+
+- Attend [regular office hours and SK community events](COMMUNITY.md)
+- Follow the team on our [blog](https://aka.ms/sk/blog)
+
+## Contributor Wall of Fame
+
+[![semantic-kernel contributors](https://contrib.rocks/image?repo=microsoft/semantic-kernel)](https://github.com/microsoft/semantic-kernel/graphs/contributors)
+
+## Code of Conduct
+
+This project has adopted the
+[Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information, see the
+[Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/)
+or contact [opencode@microsoft.com](mailto:opencode@microsoft.com)
+with any additional questions or comments.
+
+## License
+
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+Licensed under the [MIT](LICENSE) license.

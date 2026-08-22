@@ -119,3 +119,23 @@ Orama currently supports 10 different data types:
 | `boolean[]`      | An array of booleans.                                                       | `[true, false, false]`                                                      |
 | `enum[]`         | An array of enums.                                                          | `['comedy', 'action', 'romance']`                                           |
 | `vector[<size>]` | A vector of numbers to perform vector search on.                            | `[0.403, 0.192, 0.830]`                                                     |
+
+# Vector and Hybrid Search Support
+
+Orama supports both vector and hybrid search by just setting `mode: 'vector'` when performing search.
+
+To perform this kind of search, you'll need to provide [text embeddings](https://en.wikipedia.org/wiki/Word_embedding) at search time:
+
+```js
+import { create, insertMultiple, search } from '@orama/orama'
+
+const db = create({
+  schema: {
+    title: 'string',
+    embedding: 'vector[5]', // we are using a 5-dimensional vector.
+  },
+});
+
+insertMultiple(db, [
+  { title: 'The Prestige', embedding: [0.938293, 0.284951, 0.348264, 0.948276, 0.56472] },
+  { title: 'B

@@ -14,6 +14,16 @@ Paste into Claude Code:
 
 `/multi:setup` detects which CLIs you have, installs the matching sub-plugins, and wires Exa + Context7 MCPs into each.
 
+## Skills Included:
+
+Two skills ship with the plugin:
+
+- **multi-cli-anything** — adds ANY CLI beyond the four built-in providers (Aider, Qwen, or anything with a headless/print, app-server, or structured transport) as a subagent that Claude can invoke at will. Claude scaffolds the new plugin in the marketplace.
+
+- **customize** — change which CLI handles what. *"Make Codex the executor instead of Cursor."* Claude does the file edits, reinstalls, and tells you what restarts are needed.
+
+Just ask Claude in plain English. The skills activate automatically.
+
 ## tools
 
 Provider commands live under each CLI's namespace; the cross-cutting `/multi:*` commands operate the shared runtime.
@@ -41,6 +51,25 @@ Claude can also auto-dispatch the provider commands without you typing them.
 
 All of them are interchangeable, and can be altered to whatever you want using the `customize` skill.
 
+
+## Transports
+
+Each CLI is driven over a transport. The defaults are stable and need no configuration; the ACP path is opt-in.
+
+- **Codex** → ASP (app-server behind a broker). **Antigravity** → headless `agy` (transcript read-back).
+- **Cursor** and **OpenCode** → headless print mode **by default**, with an optional **ACP** path (Agent Client Protocol — structured JSON-RPC over stdio, via the official `@agentclientprotocol/sdk`). ACP adds in-protocol model selection, session modes, and `session/cancel`; it's still in bake-in, so headless remains the default.
+
+Opt into ACP per CLI with environment variables (e.g. in `~/.claude/settings.json` under `env`):
+
+```json
+"env": {
+  "MULTI_TRANSPORT_CURSOR": "acp",
+  "MULTI_TRANSPORT_OPENCODE": "acp"
+}
+```
+
+Each is `acp` | `headless` (default `headless`). With no flag set, behavior is identical to before. Codex and Antigravity have no ACP path (Codex has no native ACP; `agy` doesn't implement it). When on the ACP path, `ACP_TRACE=1` traces the JSON-RPC wire to stderr.
+
 ## limitations
 
 These are upstream CLI quirks and current limitations. If you hit something not listed, check the companion's stderr (the forwarders append `2>&1`) — a bad model id, an auth failure, or a sandbox block surfaces there.
@@ -62,3 +91,7 @@ These are upstream CLI quirks and current limitations. If you hit something not 
 - **OpenCode MCP servers are not managed by `/multi:setup`.** OpenCode reads MCP configuration from its own `opencode.json`; use OpenCode's interactive wizard to wire Exa/Context7 there.
 
 When upstream CLIs change behavior, the plugin's adapters absorb it — these notes track the current state.
+
+## License
+
+Apache 2.0. See [NOTICE](NOTICE) for upstream credits.

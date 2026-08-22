@@ -18,6 +18,19 @@ or run your own Vespa instance: [https://docs.vespa.ai/en/getting-started.html](
 
 Full documentation is at [https://docs.vespa.ai](https://docs.vespa.ai).
 
+## Contribute
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) to learn how to contribute.
+
+If you want to contribute to the documentation, see
+[https://github.com/vespa-engine/documentation](https://github.com/vespa-engine/documentation)
+
+## Building
+
+You do not need to build Vespa to use it, but if you want to contribute you need to be able to build the code.
+This section explains how to build and test Vespa. To understand where to make changes, see [Code-map.md](Code-map.md).
+Some suggested improvements with pointers to code are in [TODO.md](TODO.md).
+
 ## configuration
 
 C++ and Java building is supported on AlmaLinux 8.
@@ -58,3 +71,38 @@ jenv add $(/usr/libexec/java_home -v 17)
 ```sh
 mvn -v
 ```
+
+### Build Java modules
+
+    export MAVEN_OPTS="-Xms128m -Xmx1024m"
+    ./bootstrap.sh java
+    mvn install --threads 1C
+
+Use this if you only need to build the Java modules, otherwise follow the complete development guide above.
+
+### Run tests for shell scripts (on Mac)
+Shell scripts are tested with [BATS](https://bats-core.readthedocs.io/en/stable/).
+To run the tests locally, install the testing framework and its plugins.:
+```bash
+brew install node
+sudo npm install -g bats bats-assert bats-support bats-mock
+```
+Export the `BATS_PLUGIN_PATH` environment variable to point to the global npm modules directory, which contains the BATS plugins:
+```bash
+export BATS_PLUGIN_PATH="$(npm root -g)"
+```
+Then run all tests with the following command (from the root of the repository):
+```bash
+bats -r .
+```
+To run a specific test, use:
+```bash
+bats test_dir/test_name.bats
+```
+Tests can also be run in IntelliJ IDEA with the [BashSupport Pro](https://plugins.jetbrains.com/plugin/13841-bashsupport-pro)
+plugin. Ensure the `BATS_PLUGIN_PATH` environment variable is exported before launching the IDE
+to avoid setting it in each run configuration.
+
+## License
+
+Code licensed under the Apache 2.0 license. See [LICENSE](LICENSE) for terms.

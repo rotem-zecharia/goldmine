@@ -29,6 +29,53 @@ Drop a live design-score badge in any README:
 ![Design Score](https://designlang.app/badge/stripe.com.svg)
 ```
 
+## Watch it read — live Extraction Theatre (`v13`)
+
+Don't take the output on faith — **watch it happen.** On
+[designlang.app/watch](https://designlang.app/watch) you paste a URL and a real
+headless Chromium opens the page and reads its entire design system in real
+time: a split stage with the live browser on the left and the design system —
+palette, type, spacing, motion — assembling itself on the right as each token
+lifts off the page.
+
+It's driven by the *actual* extraction (the browser's CDP screencast streamed
+frame-by-frame alongside the real token events), recorded so a shared link
+replays the exact run. No install, no account. Every gallery card can be watched
+the same way, and the [gallery](https://designlang.app/gallery) now spans **37
+real-graded design systems**.
+
+## Whole-site design system (`site`)
+
+Most extractors read a single URL. `designlang site` crawls a site's canonical
+pages (home, pricing, docs, blog, about, product…) and synthesizes **one**
+de-duplicated system. Every token is elected by *coverage* — the share of pages
+that use it — so what's genuinely site-wide is separated from one-off,
+page-local choices. Near-identical colours are merged in OKLab. It's fully
+deterministic and free; no API key.
+
+```bash
+npx designlang site stripe.com --max-pages 8
+```
+
+You get, alongside the standard pack emitted from the **canonical** system:
+
+| File | What it is |
+|---|---|
+| `*-site-system.json` | canonical unified tokens + coverage + drift |
+| `*-site-coverage.md` | every token tagged 🟢 site-wide / 🟡 section / 🔴 page-local, with the pages using it |
+| `*-site-consistency.md` | a 0–100 consistency grade, per-category breakdown, and the off-system outliers to consolidate |
+
+## Measured clone fidelity (`fidelity` + `gallery`)
+
+Cloning tools all *claim* "pixel-perfect" — none of them **measure** it. `designlang
+fidelity` does. Point it at the original and your clone (often a local dev
+server) and it returns one honest number, both halves of the clone:
+
+- **Visual** — full-page screenshots of each, pixel-diffed.
+- **Motion** — `extractMotion()` on both, compared across feel, durations,
+  easings, springs, keyframe kinds, scroll-linked motion, and choreography/
+  s
+
 ## features
 
 Other tools give you the paint. designlang reads the architecture:
@@ -58,3 +105,24 @@ designlang visual-diff https://staging.app https://app   # single-file HTML diff
 designlang mcp                              # stdio MCP server for Cursor / Claude Code
 designlang doctor                           # sanity-check the local install
 ```
+
+## All features
+
+| Feature | Flag / Command | Description |
+|---------|---------------|-------------|
+| Base extraction | `designlang <url>` | Colors, typography, spacing, shadows, radii, CSS vars, breakpoints, animations, components |
+| Layout system | automatic | Grid patterns, flex usage, container widths, gap values |
+| Accessibility | automatic | WCAG 2.1 contrast ratios for all fg/bg pairs |
+| Design scoring | automatic | 7-category quality rating (A-F) with actionable issues |
+| Gradients | automatic | Gradient type, direction, stops, classification |
+| Z-index map | automatic | Layer hierarchy, z-index wars detection |
+| SVG icons | automatic | Deduplicated icons, size/style classification, color palette |
+| Font files | automatic | Source detection (Google/self-hosted/CDN/system), @font-face CSS |
+| Image styles | automatic | Aspect ratios, shapes, filters, pattern classification |
+| Dark mode | `--dark` | Extracts dark color scheme + light/dark diff |
+| Auth pages | `--cookie`, `--cookie-file`, `--header` | Extract from authenticated/protected pages; cookie files in JSON / Playwright storageState / Netscape formats |
+| Self-signed / dev TLS | `--insecure` | Ignore HTTPS/SSL certificate errors |
+| User-Agent override | `--user-agent <ua>` | Set a custom User-Agent string |
+| Chrome extension | `chrome-extension/` | One-click handoff from any tab, MV3, `activeTab` only |
+| Multi-page | `--depth <n>` | Crawl N internal pages; emits shared-vs-per-route token reconciliation (`*-tokens-shared.json`, `*-tokens-routes/<slug>.json`, `*-routes-report.md`) |
+| Screenshot

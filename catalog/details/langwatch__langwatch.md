@@ -27,6 +27,14 @@ LangWatch gives you full visibility into agent behavior and the tools to systema
 
 ## installation
 
+### Cloud ☁️
+
+The easiest way to get started with LangWatch.
+
+[Create a free account](https://app.langwatch.ai) → create a project → get started/ copy your API key.
+
+### Local setup 💻
+
 The fastest way to run LangWatch locally — only Node.js required:
 
 ```bash

@@ -4,6 +4,8 @@ SeaweedFS is a distributed storage system for object storage (S3), file systems,
 
 ## installation
 
+## Quick Start with weed mini ##
+
 Download the latest binary from https://github.com/seaweedfs/seaweedfs/releases and unzip the single `weed` (or `weed.exe`) file, or run `go install github.com/seaweedfs/seaweedfs/weed@latest`. Then start a ready-to-use S3 object store with credentials and a pre-created bucket in one command:
 
 ```bash
@@ -27,8 +29,54 @@ The same command starts everything else too:
 
 Perfect for development, testing, learning SeaweedFS, and single-node deployments. To scale out, add more volume servers by running `weed volume -dir="/some/data/dir2" -master="<master_host>:9333" -port=8081` locally, on another machine, or on thousands of machines.
 
+## Quick Start for S3 API on Docker ##
+
+```bash
+docker run -p 8333:8333 \
+  -e AWS_ACCESS_KEY_ID=admin \
+  -e AWS_SECRET_ACCESS_KEY=secret \
+  -e S3_BUCKET=my-bucket \
+  chrislusf/seaweedfs
+```
+
+Same behavior as the `weed mini` command above — the S3 endpoint is at http://localhost:8333 with `my-bucket` pre-created. Drop the env vars to run anonymously for development.
+
+# Introduction #
+
+SeaweedFS is a simple and highly scalable distributed file system. There are two objectives:
+
+1. to store billions of files!
+2. to serve the files fast!
+
+SeaweedFS started as a blob store to handle small files efficiently. 
+Instead of managing all file metadata in a central master, 
+the central master only manages volumes on volume servers, 
+and these volume servers manage files and their metadata. 
+This relieves concurrency pressure from the central master and spreads file metadata into volume servers, 
+allowing faster file access (O(1), usually just one disk read operation).
+
+There is only 40 bytes of disk storage overhead for each file's metadata. 
+It is so simple with O(1) disk reads that you are welcome to challenge the performance with your actual use cases.
+
+SeaweedFS started by implementing [Facebook's Haystack design paper](http://www.usenix.org/event/osdi10/tech/full_papers/Beaver.pdf). 
+Also, SeaweedFS implements erasure coding with ideas from 
+[f4: Facebook’s Warm BLOB Storage System](https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-muralidhar.pdf), and has a lot of similarities with [Facebook’s Tectonic Filesystem](https://www.usenix.org/system/files/fast21-pan.pdf) and [Google's Colossus File System](https://cloud.google.com/blog/products/storage-data-transfer/a-peek-behind-colossus-googles-file-system)
+
+On top of the blob store, optional [Filer] can support directories and POSIX attributes. 
+Filer is a separate linearly-scalable stateless server with customizable metadata stores, 
+e.g., MySql, Postgres, Redis, Cassandra, HBase, Mongodb, Elastic Search, LevelDB, RocksDB, Sqlite, MemSql, TiDB, Etcd, CockroachDB, YDB, etc.
+
+SeaweedFS can transparently integrate with the cloud. 
+With hot data on local cluster, and warm data on the cloud with O(1) access time, 
+SeaweedFS can achieve both fast local access time and elastic cloud storage capacity.
+What's more, the cloud storage access API cost is minimized. 
+Faster and cheaper than direct cloud storage!
+
+SeaweedFS also ships a built-in **Iceberg REST Catalog**, turn
+
 ## features
 
+## Additional Blob Store Features ##
 * Support different replication levels, with rack and data center aware.
 * Automatic master servers failover - no single point of failure (SPOF).
 * Automatic compression depending on file MIME type.
@@ -45,3 +93,36 @@ Perfect for development, testing, learning SeaweedFS, and single-node deployment
 * [Erasure Coding for warm storage][ErasureCoding]  Rack-Aware 10.4 erasure coding reduces storage cost and increases availability. Enterprise version can customize EC ratio.
 
 [Back to TOC](#table-of-contents)
+
+## Filer Features ##
+* [Filer server][Filer] provides "normal" directories and files via HTTP.
+* [File TTL][FilerTTL] automatically expires file metadata and actual file data.
+* [Mount filer][Mount] reads and writes files directly as a local directory via FUSE.
+* [Filer Store Replication][FilerStoreReplication] enables HA for filer meta data stores.
+* [Active-Active Replication][ActiveActiveAsyncReplication] enables asynchronous one-way or two-way cross cluster continuous replication.
+* [Amazon S3 compatible API][AmazonS3API] accesses files with S3 tooling.
+* [Hadoop Compatible File System][Hadoop] accesses files from Hadoop/Spark/Flink/etc or even runs HBase.
+* [Async Replication To Cloud][BackupToCloud] has extremely fast local access and backups to Amazon S3, Google Cloud Storage, Azure, BackBlaze.
+* [WebDAV] accesses as a mapped drive on Mac and Windows, or from mobile devices.
+* [AES256-GCM Encrypted Storage][FilerDataEncryption] safely stores the encrypted data.
+* [Super Large Files][SuperLargeFiles] stores large or super large files in tens of TB.
+* [Cloud Drive][CloudDrive] mounts cloud storage to local cluster, cached for fast read and write with asynchronous write back.
+* [Gateway to Remote Object Store][GatewayToRemoteObjectStore] mirrors bucket operations to remote object storage, in addition to [Cloud Drive][CloudDrive]
+
+## Data Lakehouse Features ##
+* [S3 Table Buckets][S3TableBucket] expose a dedicated namespace for Iceberg tables with strict layout validation.
+* Built-in [Iceberg REST Catalog][IcebergCatalog] runs alongside the S3 endpoint — no external metastore needed.
+* Native integrations with [Apache Spark][SparkIceberg], [Trino][TrinoIceberg], [Dremio][DremioIceberg], [DuckDB][DuckDBIceberg], and [RisingWave][RisingWaveIceberg].
+* [Automated table maintenance][IcebergMaintenance]: compaction, snapshot expiration, orphan removal, manifest rewriting.
+* Granular IAM at the bucket, namespace, and table level via standard S3 bucket policies.
+
+## Kubernetes ##
+* [Kubernetes CSI Driver][SeaweedFsCsiDriver] A Container Storage Interface (CSI) Driver. [![Docker Pulls](https://img.shields.io/docker/pulls/chrislusf/seaweedfs-csi-driver.svg?maxAge=4800)](https://hub.docker.com/r/chrislusf/seaweedfs-csi-driver/)
+* [SeaweedFS Operator](https://github.com/seaweedfs/seaweedfs-operator)
+
+[Filer]: https://github.com/seaweedfs/seaweedfs/wiki/Directories-and-Files
+[SuperLargeFiles]: https://github.com/seaweedfs/seaweedfs/wiki/Data-Structure-for-Large-Files
+[Mount]: https://github.com/seaweedfs/seaweedfs/wiki/FUSE-Mount
+[AmazonS3API]: https://github.com/seaweedfs/seaweedfs/wiki/Amazon-S3-API
+[BackupToCloud]: https://github.com/seaweedfs/seaweedfs/wiki/Async-Replication-to-Cloud
+[Hadoop]: https://github.com/seaweedfs/seaweedfs/wiki/Ha

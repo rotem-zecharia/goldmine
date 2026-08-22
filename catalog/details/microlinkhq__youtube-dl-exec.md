@@ -43,6 +43,82 @@ $ ./bin/yt-dlp \
 
 Type `yt-dlp --help` for seeing all of them.
 
+## Custom binary
+
+In case you need, you can specify your own binary path using [`.create`]():
+
+```js
+const { create: createYoutubeDl } = require('youtube-dl-exec')
+const youtubedl = createYoutubeDl('/my/binary/path')
+```
+
+## Progress bar
+
+Since the library is returning a promise, you can use any library that makes a progress estimation taking a promise as input:
+
+```js
+const logger = require('progress-estimator')()
+const youtubedl = require('youtube-dl-exec')
+
+const url = 'https://www.youtube.com/watch?v=6xKWiCMKKJg'
+const promise = youtubedl(url, { dumpSingleJson: true })
+const result = await logger(promise, `Obtaining ${url}`)
+
+console.log(result)
+```
+
+Alternatively, you can access to the subprocess to have more granular control. See [youtubedl.exec](https://github.com/microlinkhq/youtube-dl-exec#youtubedlexecurl-flags-options).
+
+Also, combine that with [YOUTUBE_DL_SKIP_DOWNLOAD](#youtube_dl_skip_download). See [environment variables](#environment-variables) to know more.
+
+## Plugins
+
+In order to use yt-dlp plugins, you just need to create a `plugin.zip` file inside `yt-dlp-plugins` directory under the same binaty path.
+
+For example, if you are using the default binary path:
+
+```
+node_modules/youtube-dl-exec/bin
+```
+
+Then the plugins should be placed at:
+
+```
+node_modules/youtube-dl-exec/bin/yt-dlp-plugins/plugin.zip
+```
+
+For more detailed information you can see yt-dlp's plugins installation guide: [yt-dlp#installing-plugins](https://github.com/yt-dlp/yt-dlp#installing-plugins).
+
+## Timeout & cancellation
+
+You can customize [spawn#options](https://nodejs.org/api/child_process.html#child_processspawncommand-args-options) by passing a third argument:
+
+```js
+const url = 'https://www.youtube.com/watch?v=6xKWiCMKKJg'
+const result = await youtubedl.exec(url, ,{ dumpSingleJson: true }, {
+  timeout: 5000,
+  killSignal: 'SIGKILL'
+})
+
+console.log(result)
+```
+
+You can also interact with the subprocess programmatically:
+
+```js
+const url = 'https://www.youtube.com/watch?v=6xKWiCMKKJg'
+const subprocess = youtubedl.exec(url, { dumpSingleJson: true })
+
+setTimeout(() => {
+  subprocess.kill('SIGKILL')
+}, 5000)
+
+const result = await subprocess
+console.log(result)
+```
+
+## API
+
 ## configuration
 
 It execs any `yt-dlp` command, returning back the output.
@@ -63,3 +139,89 @@ Any flag supported by `yt-dlp`.
 #### options
 
 Any option provided here will passed to [spawn#options](https://nodejs.org/api/child_process.html#child_processspawncommand-args-options).
+
+### youtubedl.exec(url, [flags], [options])
+
+Similar to main method but instead of a parsed output, it will return the internal subprocess object:
+
+```js
+const youtubedl = require('youtube-dl-exec')
+const fs = require('fs')
+
+const subprocess = youtubedl.exec(
+  'https://www.youtube.com/watch?v=6xKWiCMKKJg',
+  {
+    dumpSingleJson: true
+  }
+)
+
+console.log(`Running subprocess as ${subprocess.pid}`)
+
+subprocess.stdout.pipe(fs.createWriteStream('stdout.txt'))
+subprocess.stderr.pipe(fs.createWriteStream('stderr.txt'))
+
+setTimeout(subprocess.cancel, 30000)
+```
+
+### youtubedl.create(binaryPath)
+
+It creates a `yt-dlp` using the `binaryPath` provided.
+
+### youtubedl.update(binaryPath)
+
+Updates the `yt-dlp` executable at the provided path. If not path is provided, the default instance will be updated.
+
+## Environment variables
+
+The environment variables are used to customize the [postinstall script](https://github.com/microlinkhq/youtube-dl-exec/blob/master/scripts/postinstall.js) behavior that will be triggered after `npm install` is performed.
+
+This is mostly for backward compatibility or debugging purposes. You don't need to do anything by default.
+
+### DEBUG
+
+Set `DEBUG="youtube-dl-exec*"` to enable debug mode. This will enable log additional information during the post-install script.
+
+### YOUTUBE_DL_DIR
+
+It determines the folder where to put the binary file.
+
+The default folder is `bin`.
+
+### YOUTUBE_DL_FILENAME
+
+It determines the binary filename.
+
+The default binary file could be `yt-dlp` or `youtube-dl.exe`, depending of the [`YOUTUBE_DL_PLATFORM`](#youtube_dl_platform) value.
+
+### YOUTUBE_DL_HOST
+
+It determines the remote URL for getting the `yt-dlp` binary file.
+
+The default URL is [yt-dlp/yt-dlp latest release](https://github.com/yt-dlp/yt-dlp/releases/latest).
+
+### YOUTUBE_DL_PLATFORM
+
+It determines the architecture of the machine that will use the `yt-dlp` binary.
+
+The default value will computed from `process.platform`, being `'unix'` or `'win32'`.
+
+### YOUTUBE_DL_SKIP_DOWNLOAD
+
+When is present, it will skip the [postinstall](/scripts/postinstall.js) script for fetching the latest `yt-dlp` version.
+
+That variable should be set before performing the installation command, such as:
+
+```bash
+YOUTUBE_DL_SKIP_DOWNLOAD=true npm install
+```
+
+### YOUTUBE_DL_SKIP_PYTHON_CHECK
+
+When is present, it skip the python step on installation.
+
+## License
+
+**youtube-dl-exec** © [microlink.io](https://microlink.io), released under the [MIT](https://github.com/microlinkhq/youtube-dl-exec/blob/master/LICENSE.md) License.<br>
+Authored and maintained by [Kiko Beats](https://kikobeats.com) with help from [contributors](https://github.com/microlinkhq/youtube-dl-exec/contributors).
+
+> [microlink.io](https://microlink.io) · GitHub [microlink.io](https://github.com/microlinkhq) · X [@microlinkhq](https://x.com/microlinkhq)

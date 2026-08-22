@@ -34,6 +34,40 @@ cd my-video-project && npm i
 
 The agent runs the whole workflow (research → script → TTS → Remotion composition → Studio review → 4K render + BGM). Preview and iterate in Remotion Studio (`npx remotion studio src/remotion/index.ts`); the agent waits for your explicit "render 4K" confirmation before the final render.
 
+## ⚠️ For the human reading this (not the AI): manually polish `podcast.txt`, repeatedly
+
+> **This section is for you, the human — not the agent.** Every downstream step — TTS narration, subtitles, section transitions, animation timing, final cut — **is derived from this single `podcast.txt`**. A weak script renders into 4K garbage. No amount of polish downstream saves it.
+>
+> The AI-generated draft is a starting point, nothing more. Do these yourself — **don't hand them off to the AI**:
+>
+> 1. **Mentally read it as the narrator.** Treat each sentence as one breath — if a line forces you to "catch your breath" or backtrack to parse, fix it. Where you stumble silently is where TTS stumbles audibly.
+> 2. **Revise at least three times.**
+>    - Pass 1: typos, awkward phrasing, tongue-twisters
+>    - Pass 2: cut filler, cut throat-clearing intros ("So today we're going to talk about…"), cut redundancy
+>    - Pass 3: tune rhythm — where to pause, where to break a long sentence, which word carries the stress
+> 3. **Read each `[SECTION:xxx]` block end-to-end.** Confirm each section opens with a hook and lands a clean transition into the next — not a bullet-point dump.
+> 4. **Audit numbers, proper nouns, and English terms separately.** ~90% of TTS mispronunciations live here. If pronunciation is wrong, add it to `phonemes.json`; if it just sounds awkward, rewrite it.
+> 5. **Know your length budget.** Estimate **~280 zh-CN chars/min** or **~150 en words/min**. A 5–10 min video means ~1400–2800 chars / 750–1500 words. Don't pad to fill time.
+>
+> **The only acceptance test:** read through it once in your head — does any line make you wince? If yes, don't move on to Step 7 (TTS) yet. Otherwise you're just rendering 4K of something even you don't want to hear.
+
+## Workflow
+
+![Pipeline](images/pipeline.png)
+
+![Component Skills](images/skills.png)
+
+![Asset Flow](images/assets.png)
+
+## Related Skills
+
+- **[remotion-best-practices](https://github.com/remotion-dev/skills)** - required; core Remotion patterns and guidelines
+- **[ttscn](https://github.com/Agents365-ai/ttsCN)** - required; the TTS engine behind all 11 backends (install under `~/.claude/skills/ttscn`, as a Pi skill, or set `TTSCN_HOME`)
+- **[assetseeker](https://github.com/Agents365-ai/assetSeeker)** - optional; license-vetted stock photos/video/BGM/SFX/icons/fonts
+- **[imagencn](https://github.com/Agents365-ai/imagenCN)** - optional; AI stills and thumbnails (paid APIs)
+- **[videogencn](https://github.com/Agents365-ai/videogenCN)** - optional; AI video clips for B-roll (paid APIs)
+- **[Hyperframes](https://github.com/heygen-com/hyperframes)** - optional; transparent overlay animations (Node 22+)
+
 ## requirements
 
 | Software | Version | Purpose |
@@ -44,6 +78,26 @@ The agent runs the whole workflow (research → script → TTS → Remotion comp
 | **FFmpeg** | 4.0+ | Audio/video processing |
 
 > **Marketplace install (recommended):** users typically install this skill via the [365-skills marketplace](https://github.com/Agents365-ai/365-skills) rather than cloning. SKILL.md, scripts, and templates then live under the agent's `${SKILL_DIR}`; paths in this README are written from the repo-root perspective for contributors.
+
+### TTS Backends (all via ttscn)
+
+All 11 platforms are synthesized by the **required** [ttscn](https://github.com/Agents365-ai/ttsCN) component skill. Set `TTS_BACKEND` to any platform id; only the active platform's env vars are needed:
+
+| `TTS_BACKEND` | Provider | Required env vars | Get Key |
+| --------------- | ---------- | ------------------- | --------- |
+| `edge` (default) | Microsoft Edge TTS | *(none — free)* | — |
+| `azure` | Microsoft Azure Speech | `AZURE_SPEECH_KEY` (+ optional `AZURE_SPEECH_REGION`, default `eastasia`) | [Azure Portal](https://portal.azure.com/) |
+| `cosyvoice` | Aliyun CosyVoice | `DASHSCOPE_API_KEY` | [Aliyun Bailian](https://bailian.console.aliyun.com/) |
+| `doubao` | Volcengine Doubao | `VOLCENGINE_APPID`, `VOLCENGINE_ACCESS_TOKEN` | [Volcengine Console](https://console.volcengine.com/speech/service/8) |
+| `tencent` | Tencent Cloud TTS | `TENCENT_SECRET_ID`, `TENCENT_SECRET_KEY` | [Tencent Console](https://console.cloud.tencent.com/tts) |
+| `baidu` | Baidu AI TTS | `BAIDU_APP_ID`, `BAIDU_API_KEY`, `BAIDU_SECRET_KEY` | [Baidu Console](https://console.bce.baidu.com/ai/#/ai/speech/overview) |
+| `minimax` | MiniMax TTS | `MINIMAX_API_KEY` | [MiniMax Platform](https://platform.minimaxi.com/) |
+| `xunfei` | iFlytek Xunfei TTS | `XUNFEI_APP_ID`, `XUNFEI_API_KEY`, `XUNFEI_API_SECRET` | [Xfyun](https://www.xfyun.cn/) |
+| `elevenlabs` | ElevenLabs | `ELEVENLABS_API_KEY` | [ElevenLabs](https://elevenlabs.io/) |
+| `openai` | OpenAI TTS | `OPENAI_API_KEY` | [OpenAI Platform](https://platform.openai.com/) |
+| `google` | Google Cloud TTS | `GOOGLE_TTS_API_KEY` | [Google Cloud Console](https://console.cloud.google.com/) |
+
+**Non-TTS keys (optional):** `GEMINI_API_KEY` / `DASHSCOPE_API_KEY` for AI thumbnails (imagencn).
 
 ## configuration
 
@@ -60,3 +114,78 @@ export DASHSCOPE_API_KEY="..."             # optional: AI thumbnails (also the c
 ```
 
 Then reload: `source ~/.zshrc`
+
+## Configuration
+
+Mutable user-level files live in `~/.video-podcast-maker/` (shared across projects, safe from skill updates); the rest live in the skill root (`skills/video-podcast-maker/` in this repo, `${SKILL_DIR}` when installed):
+
+| File | Location | Purpose |
+| ------ | -------- | --------- |
+| `phonemes.json` | `~/.video-podcast-maker/` | Global polyphone dictionary; auto-created from the bundled template; per-project overrides in `videos/{name}/phonemes.json` |
+| `user_prefs.json` | `~/.video-podcast-maker/` | Your preferences (TTS, BGM, platform, visual overrides, style profiles); auto-created from template |
+| `user_prefs.template.json` / `phonemes.template.json` | Skill root | Default templates — sources for the user-level copies |
+| `prefs_schema.json` | Skill root | JSON Schema for preference validation |
+| `tsconfig.json` | Skill root | TypeScript config for Remotion templates |
+
+**Output structure** — every video renders into its own `videos/{name}/` directory:
+
+```
+videos/{video-name}/
+├── topic_definition.md      # Topic direction
+├── topic_research.md        # Research notes
+├── podcast.txt              # Narration script
+├── phonemes.json            # (Optional) pronunciation overrides
+├── assets/manifest.json     # Asset registry (role / source / license)
+├── podcast_audio.wav        # TTS audio
+├── podcast_audio.srt        # Subtitles
+├── timing.json              # Section timing (drives animation sync)
+├── thumbnail_*.png          # Video thumbnails
+├── publish_info.md          # Title, tags, description
+├── output.mp4               # Raw 4K render
+├── video_with_bgm.mp4       # With BGM
+├── bgm.mp3                  # Background music
+├── final_video.mp4          # Final output
+└── shorts/                  # (Optional) 9:16 vertical shorts
+```
+
+**Background music:** bundled tracks live in `skills/video-podcast-maker/assets/` — `perfect-beauty-191271.mp3` (upbeat) and `snow-stevekaldes-piano-397491.mp3` (calm piano). Per-platform behavior (thumbnails, chapters, CTA, publish formats) is documented in the skill's `references/platform-matrix.md`.
+
+## ❤️ Support
+
+If this project helps you, consider supporting the author:
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/Agents365-ai/images_payment/main/qrcode/wechat-pay.png" width="180" alt="WeChat Pay">
+      <br>
+      <b>WeChat Pay</b>
+    </td>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/Agents365-ai/images_payment/main/qrcode/alipay.png" width="180" alt="Alipay">
+      <br>
+      <b>Alipay</b>
+    </td>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/Agents365-ai/images_payment/main/qrcode/buymeacoffee.png" width="180" alt="Buy Me a Coffee">
+      <br>
+      <b>Buy Me a Coffee</b>
+    </td>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/Agents365-ai/images_payment/main/awarding/award.gif" width="180" alt="Give a Reward">
+      <br>
+      <b>Give a Reward</b>
+    </td>
+  </tr>
+</table>
+
+## 👤 Author
+
+**Agents365-ai**
+
+- Bilibili: <https://space.bilibili.com/441831884>
+- GitHub: <https://github.com/Agents365-ai>
+
+## 📄 License
+
+[CC BY-NC 4.0](LICENSE) — Free for non-commercial use. Commercial use requires permissio

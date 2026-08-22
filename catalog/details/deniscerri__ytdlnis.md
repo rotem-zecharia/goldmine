@@ -42,3 +42,36 @@ Full-featured audio/video downloader for Android using yt-dlp
 - Theming options
 - Backup and restore features
 - MVVM architecture with WorkManager
+
+## 🧩 Plugin Support
+
+YTDLnis orchestrates plugins so users can freely upgrade and downgrade components such as:
+- Python
+- JS Runtimes (NodeJS, Deno)
+- FFmpeg
+- Aria2c
+
+You can install ytdlnis packages from this repository [ytdlnis-packages](https://github.com/deniscerri/ytdlnis-packages/) or through the updating section in the application.
+<br>For more information refer to the repo's README.
+
+## 📲 Screenshots
+
+<div>
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
+</div>
+
+## 💬 Contact
+
+Join our [Discord](https://discord.gg/WW3KYWxAPm) or 

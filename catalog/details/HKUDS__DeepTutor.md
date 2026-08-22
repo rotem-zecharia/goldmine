@@ -15,6 +15,42 @@ DeepTutor is an agent-native learning workspace that connects tutoring, problem 
 
 ---
 
+## 🚀 Get Started
+
+DeepTutor ships four installation paths. They all share one workspace layout: settings live in `data/user/settings/` under the directory you launch from (or under `DEEPTUTOR_HOME` / `deeptutor start --home` if you set one explicitly). For the full app, the recommended flow is **pick a workspace directory → install → `deeptutor init` → `deeptutor start`**.
+
+<details>
+<summary><b>Option 1 — Install From PyPI</b> · full local Web app + CLI, no clone required</summary>
+
+Full local Web app + CLI, no clone required. Needs **Python 3.11–3.13** and a **Node.js 20+** runtime on PATH (the packaged Next.js standalone server is spawned by `deeptutor start`).
+
+```bash
+mkdir -p my-deeptutor && cd my-deeptutor
+pip install -U deeptutor
+deeptutor init     # prompts for ports + LLM provider + optional embedding
+deeptutor start    # starts backend + frontend; keep the terminal open
+```
+
+`deeptutor init` prompts for backend port (default `8001`), frontend port (default `3782`), LLM provider / base URL / API key / model, and an optional embedding provider for Knowledge Base / RAG.
+
+After `deeptutor start`, open the frontend URL printed in the terminal — by default [http://127.0.0.1:3782](http://127.0.0.1:3782). Press `Ctrl+C` in that terminal to stop both backend and frontend. Skipping `deeptutor init` is fine for a quick trial; the app boots with default ports and empty model settings, configure them later in **Settings → Models**.
+
+</details>
+
+<details>
+<summary><b>Option 2 — Install From Source</b> · develop against a checkout</summary>
+
+For development against a checkout. Use **Python 3.11–3.13** and **Node.js 22 LTS** to match CI and Docker.
+
+```bash
+git clone https://github.com/HKUDS/DeepTutor.git
+cd DeepTutor
+
+# Create a venv (macOS/Linux). Windows PowerShell:
+#   py -3.11 -m venv .venv ; .\.venv\Scripts\Activate.ps1
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install --upgrade pip
+
 ## installation
 
 python -m pip install -e .
@@ -102,6 +138,11 @@ uses to reach the backend (it's read server-side, never sent to the browser).
 ```json
 {
   "next_public_api_base": "http://backend:8001"
+}
+```
+
+`next_public_api_base_external` (and its alias `public_api_base`) are accepted as
+lower-precedence fallbacks. COR
 
 ## limitations
 

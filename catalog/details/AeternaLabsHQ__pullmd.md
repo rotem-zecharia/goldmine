@@ -11,6 +11,12 @@ Hub. Drop the compose file somewhere and run:
 mkdir pullmd && cd pullmd
 curl -O https://raw.githubusercontent.com/AeternaLabsHQ/pullmd/main/docker-compose.yml
 docker compose up -d
+# → http://localhost:3000
+```
+
+That's it. No `.env` needed: every variable has a sensible default
+and PullMD listens on port `3000`. Add a `.env` next to the compose
+file to override anything (see [Configuration](#configuration)).
 
 ## configuration
 
@@ -84,6 +90,41 @@ networks:
 > **Mirror on GHCR:** `ghcr.io/aeternalabshq/{pullmd,pullmd-trafilatura,pullmd-playwright,pullmd-markitdown}`.
 > Replace the `image:` lines if you prefer GitHub's registry.
 
+### Behind Traefik
+
+For deployments behind Traefik with TLS, use `docker-compose.traefik.yml`
+instead. Same images, but with Traefik labels and the `proxy` external
+network. Set `HOST_DOMAIN` in `.env`:
+
+```bash
+curl -O https://raw.githubusercontent.com/AeternaLabsHQ/pullmd/main/docker-compose.traefik.yml
+echo "HOST_DOMAIN=pullmd.example.com" > .env
+docker compose -f docker-compose.traefik.yml up -d
+```
+
+### Local development (no Docker)
+
+```bash
+git clone https://github.com/AeternaLabsHQ/pullmd.git
+cd pullmd
+npm install
+npm start             # http://localhost:3000
+npm test              # node --test
+```
+
+---
+
+## Configuration
+
+All variables go in `.env` (copy from `.env.example`):
+
+> **v3.0.0 output format change:** the markdown body is clean by default - just `# Title` followed by content. The source URL, fetch date, and all extraction metadata remain in the YAML frontmatter unchanged - the body no longer duplicates them. Set `PULLMD_SOURCE_HEADER=true` to restore the old inline header. Use `PULLMD_FRONTMATTER_FIELDS` to pick which frontmatter fields are emitted (handy for trimming tokens in agent pipelines).
+
+| Variable               | Required | Purpose                                                                                              |
+| ---------------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| `HOST_DOMAIN`          | Traefik variant only | Public hostname without scheme. Used by Traefik routing and as fallback for `PUBLIC_URL`. Unused by the default compose. |
+| `PUBLIC_URL`           | no       | Full public origin embedded in `/help` and the skill zip. Defaults to `https://${HOST_DOMAIN}
+
 ## tools
 
 | Endpoint               | Returns                                                                          |
@@ -102,3 +143,21 @@ networks:
 | `POST /mcp`            | Streamable-HTTP MCP endpoint (3 tools: `read_url`, `get_share`, `list_recent`). |
 | `GET /pullmd.zip`      | Claude Code skill bundle, with this instance's URL baked in (`/web-reader.zip` redirects here). |
 | `GET /help`            | Bilingual user/agent setup guide.                                                |
+
+### `/api` parameters
+
+| Param           | Default | Notes                                                                              |
+| --------------- | ------- | ---------------------------------------------------------------------------------- |
+| `url`           | —       | Required.                                                                          |
+| `comments`      | `true`  | Include Reddit / Hacker News comments. Ignored for other URLs.                     |
+| `comment_depth` | `3`     | Max nesting depth (1–10). Applies to Reddit and Hacker News.                       |
+| `comment_limit` | none    | Max top-level comments (uncapped by default).                                      |
+| `frontmatter`   | `false` | Prepend YAML metadata.                                                             |
+| `format`        | `md`    | `text` strips Markdown; `json` returns structured response.                        |
+| `nocache`       | `false` | Bypass the 1-hour cache.                                                           |
+| `render`        | auto    | `force` → always render via Playwright. `skip` → never render. Bypasses cache.     |
+| `extractor`     | auto    | Force `readability` / `trafilatura` / `playwright` and skip the quality pick. Bypasses cache. |
+| `pdf`           | —       | `ocr` → route PDFs through the [OCR tier](#high-quality-pdf-ocr). Bypasses cache.  |
+| `yt_timecodes` / `yt_chunk` | see [YouTube](#youtube-transcripts) | Transcript format overrides. Bypass cache when set. |
+| `lang`          | `de`    | Comments-section header language (`de` or `en`).                                   |
+| `query`         | —       | Set this when 

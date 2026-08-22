@@ -17,6 +17,59 @@ Streaming music player that finds free music for you
 - Keyboard shortcuts
 - Localized in multiple languages
 
+## Plugins
+
+Nuclear has a powerful plugin system now! Every functionality has been redesigned to be driven by plugins.
+
+Plugins can provide streaming sources, metadata, playlists, dashboard content, and more. Browse and install plugins from the built-in plugin store, or write your own using the [@nuclearplayer/plugin-sdk](https://www.npmjs.com/package/@nuclearplayer/plugin-sdk).
+
+## MCP
+
+You can enable the MCP server in Settings → Integrations.
+
+Then to add it to **Claude Code:**
+
+```bash
+claude mcp add nuclear --transport http http://127.0.0.1:8800/mcp
+```
+
+**Codex CLI:**
+
+```bash
+codex mcp add nuclear --url http://127.0.0.1:8800/mcp
+```
+
+**OpenCode:**
+
+```json
+{
+  "mcp": {
+    "nuclear": {
+      "type": "remote",
+      "url": "http://127.0.0.1:8800/mcp"
+    }
+  }
+}
+```
+
+**Claude Desktop / Cursor / Windsurf:**
+
+```json
+{
+  "mcpServers": {
+    "nuclear": {
+      "url": "http://127.0.0.1:8800/mcp"
+    }
+  }
+}
+```
+
+The MCP is designed to be discoverable, but there's a skill you can load to get your AI up to speed: [Nuclear MCP Skill](./packages/docs/public/skills/nuclear-mcp.zip)
+
+## Development
+
+Nuclear is a pnpm monorepo managed with Turborepo. The main app is built with Tauri (Rust + React).
+
 ## requirements
 
 - Node.js >= 22
@@ -44,3 +97,13 @@ pnpm lint           # Lint all packages
 pnpm type-check     # TypeScript checks
 pnpm storybook      # Run Storybook
 ```
+
+## Community
+
+- [Discord](https://discord.gg/JqPjKxE)
+- [Mastodon](https://fosstodon.org/@nuclearplayer)
+- [Discussions](https://github.com/nukeop/nuclear/discussions)
+
+## License
+
+AGPL-3.0. See [LICENSE](LICENSE).

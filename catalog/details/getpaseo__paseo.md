@@ -15,3 +15,114 @@ You need at least one agent CLI installed and configured with your credentials:
 - [GitHub Copilot](https://github.com/features/copilot/cli/)
 - [OpenCode](https://github.com/anomalyco/opencode)
 - [Pi](https://pi.dev)
+
+### Desktop app (recommended)
+
+Download it from [paseo.sh/download](https://paseo.sh/download) or the [GitHub releases page](https://github.com/getpaseo/paseo/releases). Open the app and the daemon starts automatically. Nothing else to install.
+
+To connect from your phone, open **Settings → your host → Pair Device**.
+
+### CLI / headless
+
+Install the CLI and start Paseo:
+
+```bash
+npm install -g @getpaseo/cli
+paseo
+```
+
+Paseo starts locally, then asks whether to enable the end-to-end encrypted relay for device pairing. If you decline, connect directly over TCP, Tailscale, or another VPN. This path is useful for servers and remote machines.
+
+For full setup and configuration, see:
+
+- [Docs](https://paseo.sh/docs)
+- [Connectivity guide](https://paseo.sh/docs/connectivity)
+- [Configuration reference](https://paseo.sh/docs/configuration)
+
+### Docker
+
+Run the Paseo daemon and self-hosted web UI in Docker:
+
+```bash
+docker run -d --name paseo \
+  -p 6767:6767 \
+  -e PASEO_PASSWORD=change-me \
+  -v "$PWD/paseo-home:/home/paseo" \
+  -v "$PWD:/workspace" \
+  ghcr.io/getpaseo/paseo:latest
+```
+
+Open `http://localhost:6767` after it starts. Extend the base image with the agent CLIs you use, then provide credentials through environment variables or the persistent `/home/paseo` volume. See the [Docker documentation](docs/docker.md) for full setup details.
+
+## CLI
+
+Everything you can do in the app, you can do from the terminal.
+
+```bash
+paseo run --provider claude/opus-4.6 "implement user authentication"
+paseo run --provider codex/gpt-5.5 --worktree feature-x "implement feature X"
+
+paseo ls                           # list running agents
+paseo attach abc123                # stream live output
+paseo send abc123 "also add tests" # follow-up task
+
+# run on a remote daemon
+paseo --host workstation.local:6767 run "run the full test suite"
+```
+
+See the [full CLI reference](https://paseo.sh/docs/cli) for more.
+
+## TypeScript SDK
+
+Build issue integrations, dashboards, and orchestration services with `@getpaseo/client`:
+
+```ts
+import { createPaseoClient } from "@getpaseo/client";
+
+const client = createPaseoClient({ url: "ws://127.0.0.1:6767/ws" });
+await client.connect();
+
+const agent = await client.agents.create({
+  config: { provider: "codex/gpt-5.5" },
+  cwd: "/Users/me/dev/storefront",
+  prompt: "Review the current diff and name the riskiest change.",
+});
+
+const result = await agent.waitForFinish();
+console.log(result.lastMessage);
+
+await client.close();
+```
+
+See the [SDK quickstart](https://paseo.sh/docs/sdk/quickstart), [recipes](https://paseo.sh/docs/sdk/recipes), and [API reference](https://paseo.sh/docs/sdk/reference).
+
+## Skills
+
+Skills teach your agent to use Paseo to orchestrate other agents.
+
+```bash
+npx skills add getpaseo/paseo
+```
+
+Then use them in any agent conversation:
+
+- `/paseo-handoff` — hand off work between agents. I use this to plan with Claude and then handoff to Codex to implement.
+- `/paseo-advisor` — spin up a single agent as an advisor for a second opinion, without delegating the work itself.
+- `/paseo-committee` — form a committee of two contrasting agents to step back, do root cause analysis, and produce a plan.
+
+## Development
+
+Quick monorepo package map:
+
+- `packages/server`: Paseo daemon (agent process orchestration, WebSocket API, MCP server)
+- `packages/app`: Expo client (iOS, Android, web)
+- `packages/cli`: `paseo` CLI for daemon and agent workflows
+- `packages/desktop`: Electron desktop app
+- `packages/relay`: Relay transport and encryption used by the daemon and clients
+- `packages/website`: Marketing site and documentation (`paseo.sh`)
+
+Common commands:
+
+```bash
+# run all local dev services
+npm 

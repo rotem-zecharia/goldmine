@@ -13,6 +13,20 @@ To get started contributing to containerd, see [CONTRIBUTING](CONTRIBUTING.md).
 
 If you are interested in trying out containerd see our example at [Getting Started](docs/getting-started.md).
 
+## Nightly builds
+
+There are nightly builds available for download [here](https://github.com/containerd/containerd/actions?query=workflow%3ANightly).
+Binaries are generated from `main` branch every night for `Linux` and `Windows`.
+
+Please be aware: nightly builds might have critical bugs, it's not recommended for use in production and no support provided.
+
+## Kubernetes (k8s) CI Dashboard Group
+
+The [k8s CI dashboard group for containerd](https://testgrid.k8s.io/containerd) contains test results regarding
+the health of kubernetes when run against main and a number of containerd release branches.
+
+- [containerd-periodics](https://testgrid.k8s.io/containerd-periodic)
+
 ## requirements
 
 Runtime requirements for containerd are very minimal. Most interactions with
@@ -35,6 +49,14 @@ To use Linux checkpoint and restore features, you will need `criu` installed on
 your system. See more details in [Checkpoint and Restore](#checkpoint-and-restore).
 
 Build requirements for developers are listed in [BUILDING](BUILDING.md).
+
+
+## Supported Registries
+
+Any registry which is compliant with the [OCI Distribution Specification](https://github.com/opencontainers/distribution-spec)
+is supported by containerd.
+
+For configuring registries, see [registry host configuration documentation](docs/hosts.md)
 
 ## features
 
@@ -75,3 +97,42 @@ file is also available and can be used similarly for zsh users.
 Provide documentation to users to `source` this file into their shell if
 you don't place the autocomplete file in a location where it is automatically
 loaded for the user's shell environment.
+
+### CRI
+
+`cri` is a [containerd](https://containerd.io/) plugin implementation of the Kubernetes [container runtime interface (CRI)](https://github.com/kubernetes/cri-api/blob/master/pkg/apis/runtime/v1/api.proto). With it, you are able to use containerd as the container runtime for a Kubernetes cluster.
+
+![cri](./docs/cri/cri.png)
+
+#### CRI Status
+
+`cri` is a native plugin of containerd. Since containerd 1.1, the cri plugin is built into the release binaries and enabled by default.
+
+The `cri` plugin has reached GA status, representing that it is:
+* Feature complete
+* Works with Kubernetes 1.10 and above
+* Passes all [CRI validation tests](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/cri-validation.md).
+* Passes all [node e2e tests](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/e2e-node-tests.md).
+* Passes all [e2e tests](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-testing/e2e-tests.md).
+
+See results on the containerd k8s [test dashboard](https://testgrid.k8s.io/containerd)
+
+#### Validating Your `cri` Setup
+A Kubernetes incubator project, [cri-tools](https://github.com/kubernetes-sigs/cri-tools), includes programs for exercising CRI implementations. More importantly, cri-tools includes the program `critest` which is used for running [CRI Validation Testing](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/cri-validation.md).
+
+#### CRI Guides
+* [Installing with Ansible and Kubeadm](contrib/ansible/README.md)
+* [For Non-Ansible Users, Performing a Custom Installation Using the Release Tarball and Kubeadm](docs/getting-started.md)
+* [CRI Plugin Testing Guide](./docs/cri/testing.md)
+* [Debugging Pods, Containers, and Images with `crictl`](./docs/cri/crictl.md)
+* [Configuring `cri` Plugins](./docs/cri/config.md)
+* [Configuring containerd](https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.8.md)
+
+### Communication
+
+For async communication and long-running discussions please use issues and pull requests on the GitHub repo.
+This will be the best place to discuss design and implementation.
+
+For sync communication catch us in the `#containerd` and `#containerd-dev` Slack channels on Cloud Native Computing Foundation's (CNCF) Slack - `cloud-native.slack.com`. Everyone is welcome to join and chat. [Get Invite to CNCF Slack.](https://slack.cncf.io)
+
+Join our next community meeting hosted on Zoom. The schedule is posted on the [

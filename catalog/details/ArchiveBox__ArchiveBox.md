@@ -4,10 +4,54 @@
 
 ## installation
 
+# docker compose run --rm archivebox add 'https://example.com'
+# docker compose run --rm archivebox help
+<br/>
+<br/>
+# Option B: Or use it as a plain Docker container:
+mkdir -p ~/archivebox/data && cd ~/archivebox/data
+docker run --rm -it -v "$PWD:/data" archivebox/archivebox:dev init
+docker run --rm -it -v "$PWD:/data" archivebox/archivebox:dev install
+docker run -d --name archivebox -v "$PWD:/data" -p 8000:8000 archivebox/archivebox:dev
+# open http://admin.archivebox.localhost:8000 to finish setup
+# docker run -it -v $PWD:/data archivebox/archivebox:dev add 'https://example.com'
+# docker run -it -v $PWD:/data archivebox/archivebox:dev help
+<br/>
+<br/>
+# Option C: Or install it with uv (see Quickstart below for apt, brew, and more)
 uv tool install --python 3.13 --prerelease explicit --upgrade 'archivebox>=0.9.0rc0,<0.10'
 mkdir -p ~/archivebox/data && cd ~/archivebox/data
 archivebox init
 archivebox install
+# archivebox add 'https://example.com'
+# archivebox help
+# archivebox server 0.0.0.0:8000
+<br/>
+<br/>
+# Option D: Or use the optional auto setup script to install it
+curl -fsSL 'https://get.archivebox.io' | bash
+</code></pre>
+<br/>
+<sub>Open <a href="http://web.archivebox.localhost:8000"><code>http://web.archivebox.localhost:8000</code></a> for the public UI and <a href="http://admin.archivebox.localhost:8000"><code>http://admin.archivebox.localhost:8000</code></a> for the admin UI ➡️</sub><br/>
+<sub>Set <code>BASE_URL</code> to change the public base domain. The default <code>auto</code> mode uses <code>web.</code> and <code>admin.</code> subdomains on <code>*.localhost</code>, but one host for ordinary DNS names. <code>BIND_ADDR</code> only controls the local listen address.</sub>
+</details>
+<br/>
+
+
+<div align="center" style="text-align: center">
+<br/><br/>
+<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/5a7d95f2-6977-4de6-9f08-42851a1fe1d2" height="70px" alt="bookshelf graphic"> &nbsp; <img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/b2765a33-0d1e-4019-a1db-920c7e00e20e" height="75px" alt="logo" align="top"/> &nbsp; <img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/5a7d95f2-6977-4de6-9f08-42851a1fe1d2" height="70px" alt="bookshelf graphic">
+<br/><br/>
+<small><a href="https://demo.archivebox.io">Demo</a> | <a href="#screenshots">Screenshots</a> | <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Usage">Usage</a></small>
+<br/>
+<sub>. . . . . . . . . . . . . . . . . . . . . . . . . . . .</sub>
+<br/><br/>
+<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/8d67382c-e0ce-4286-89f7-7915f09b930c" width="22%" alt="cli init screenshot" align="top">
+<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/dad2bc51-e7e5-484e-bb26-f956ed692d16" width="22%" alt="cli init screenshot" align="top">
+<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/e8e0b6f8-8fdf-4b7f-8124-c10d8699bdb2" width="22%" alt="server snapshot admin screenshot" align="top">
+<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/ace0954a-ddac-4520-9d18-1c77b1ec50b2" width="28.6%" alt="server snapshot details page screenshot" align="top"/>
+<br/><br/>
+</div>
 
 ## features
 
@@ -23,6 +67,34 @@ archivebox install
 - Planned: support for running [JS during archiving](https://github.com/ArchiveBox/ArchiveBox/issues/51) to adblock, [autoscroll](https://github.com/ArchiveBox/ArchiveBox/issues/80), [modal-hide](https://github.com/ArchiveBox/ArchiveBox/issues/175), [thread-expand](https://github.com/ArchiveBox/ArchiveBox/issues/345)
 
 <br/>
+
+## 🤝 Professional Integration
+
+ArchiveBox is free for everyone to self-host, but we also provide support, security review, and custom integrations to help NGOs, governments, and other organizations [run ArchiveBox professionally](https://zulip.archivebox.io/#narrow/stream/167-enterprise/topic/welcome/near/1191102):
+
+- **Journalists:**
+  `crawling during research`, `preserving cited pages`, `fact-checking & review`  
+- **Lawyers:**
+  `collecting & preserving evidence`, `detecting changes`, `tagging & review`  
+- **Researchers:**
+  `analyzing social media trends`, `getting LLM training data`, `crawling pipelines`
+- **Individuals:**
+  `saving bookmarks`, `preserving portfolio content`, `legacy / memoirs archival`
+- **Governments:**
+  `snapshotting public service sites`, `recordkeeping compliance`
+
+> ***[Contact us](https://zulip.archivebox.io/#narrow/stream/167-enterprise/topic/welcome/near/1191102)** if your org wants help using ArchiveBox professionally.*  
+> We offer: setup & support, CAPTCHA/ratelimit unblocking, SSO, audit logging/chain-of-custody, and more  
+> *ArchiveBox is a 🏛️ 501(c)(3) [nonprofit FSP](https://hackclub.com/hcb/) and all our work supports open-source development.* 
+
+<br/>
+
+<div align="center" style="text-align: center">
+<br/>
+<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/0db52ea7-4a2c-441d-b47f-5553a5d8fe96" width="49%" alt="grass"/><img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/0db52ea7-4a2c-441d-b47f-5553a5d8fe96" width="49%" alt="grass"/>
+</div>
+
+<a name="install"></a>
 
 ## tools
 
@@ -50,6 +122,49 @@ docker run --rm -v $PWD:/data -it archivebox/archivebox:dev install
 </li>
 <li>Optional: Start the server, then open <code>/admin/</code> on the hostname or IP used to reach ArchiveBox (local example: <a href="http://admin.archivebox.localhost:8000/admin/">http://admin.archivebox.localhost:8000/admin/</a>) to create the first admin. If <code>BASE_URL</code> is not configured yet, continue through the web setup wizard.
 <pre lang="bash"><code style="white-space: pre-line">docker run -v $PWD:/data -p 8000:8000 archivebox/archivebox:dev
+# completely optional, CLI can always be used without running a server
+# docker run -v $PWD:/data -it archivebox/archivebox:dev [subcommand] [--help]
+docker run -v $PWD:/data -it archivebox/archivebox:dev help
+</code></pre>
+<i>For more info, see <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Install#option-a-docker--docker-compose-setup-%EF%B8%8F">Install: Docker Compose</a> in the Wiki. ➡️</i>
+</li>
+</ol>
+
+See <a href="#%EF%B8%8F-cli-usage">below</a> for more usage examples using the CLI, Web UI, or filesystem/SQL/Python to manage your archive.
+<br/><br/>
+</details>
+
+<details>
+<summary><b><img src="https://user-images.githubusercontent.com/511499/117456282-08665e80-af16-11eb-91a1-8102eff54091.png" alt="curl sh automatic setup script" height="28px" align="top"/> <code>bash</code> auto-setup script</b>  (macOS/Linux)</summary>
+<br/>
+<ol>
+<li>Install <a href="https://docs.docker.com/get-docker/">Docker</a> on your system (optional, highly recommended but not required).</li>
+<li>Run the automatic setup script.
+<pre lang="bash"><code style="white-space: pre-line">curl -fsSL 'https://get.archivebox.io' | bash</code></pre>
+<i>For more info, see <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Install#option-b-automatic-setup-script">Install: Bare Metal</a> in the Wiki. ➡️</i>
+</li>
+</ol>
+
+See <a href="#%EF%B8%8F-cli-usage">below</a> for more usage examples using the CLI, Web UI, or filesystem/SQL/Python to manage your archive.<br/>
+See <a href="https://github.com/ArchiveBox/ArchiveBox/blob/dev/bin/setup.sh"><code>setup.sh</code></a> for the source code of the auto-install script.<br/>
+See <a href="https://docs.sweeting.me/s/against-curl-sh">"Against curl | sh as an install method"</a> blog post for my thoughts on the shortcomings of this install method.
+<br/><br/>
+</details>
+
+<br/>
+
+#### 🛠&nbsp; Package Manager Setup
+
+<a name="Manual-Setup"></a>
+
+
+<details>
+<summary><b><img src="https://user-images.githubusercontent.com/511499/117447613-ba4c5d80-af0b-11eb-8f89-1d98e31b6a79.png" alt="uv" height="28px" align="top"/> <code>uv</code></b> (macOS/Linux/BSD)</summary>
+<br/>
+<ol>
+
+<li>Install <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a> on your system (if not already installed).</li>
+<li>Install the Arch
 
 ## configuration
 
@@ -147,3 +262,75 @@ These optional subdependencies used for archiving sites include:
 </ul>
 
 You don't need to install every dependency by hand. ArchiveBox resolves every extractor dependency through <code>abxpkg</code>: it uses a compatible host installation when
+
+## limitations
+
+### Archiving Private Content
+
+<a id="archiving-private-urls"></a>
+
+If you're importing pages with private content or URLs containing secret tokens you don't want public (e.g Google Docs, paywalled content, unlisted videos, etc.), **you may want to disable some of the extractor methods to avoid leaking that content to 3rd party APIs or the public**.
+
+<br/>
+<details>
+<summary><i>Expand to learn about privacy, permissions, and user accounts...</i></summary>
+
+
+<pre lang="bash"><code style="white-space: pre-line"># don't save private content to ArchiveBox, e.g.:
+archivebox add 'https://docs.google.com/document/d/12345somePrivateDocument'
+archivebox add 'https://vimeo.com/somePrivateVideo'
+
+# restrict the main index, Snapshot content, and Add Page to authenticated users as-needed:
+archivebox config --set PUBLIC_INDEX=False
+archivebox config --set PERMISSIONS=private
+archivebox config --set PUBLIC_ADD_VIEW=False
+archivebox manage createsuperuser
+</code></pre>
+
+<blockquote>
+<p><em>CAUTION: Assume anyone <em>viewing</em> your archives will be able to see any cookies, session tokens, or private URLs passed to ArchiveBox during archiving.</em>
+<em>Make sure to secure your ArchiveBox data and don't share snapshots with others without stripping out sensitive headers and content first.</em></p>
+</blockquote>
+
+<h4>Learn More</h4>
+
+<ul>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Publishing-Your-Archive">Wiki: Publishing Your Archive</a></li>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview">Wiki: Security Overview</a></li>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Chromium-Install#setting-up-a-chromium-user-profile">Wiki: Chromium Install (Setting Up a User Profile)</a></li>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Personas">Wiki: Personas (browser profiles and cookies)</a></li>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Configuration#default_persona">Wiki: Configuration (<code>DEFAULT_PERSONA</code>)</a></li>
+</ul>
+
+</details>
+<br/>
+
+
+### Security Risks of Viewing Archived JS
+
+Archived JavaScript is untrusted content. The default <code>SERVER_SECURITY_MODE=auto</code> uses isolated subdomains with full replay on <code>*.localhost</code>, and a one-domain no-JS replay policy on ordinary public or LAN hostnames. Choose <code>safe-subdomains-fullreplay</code> only when wildcard DNS and TLS are configured. See the [Security Overview](https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview) and [Issue #239](https://github.com/ArchiveBox/ArchiveBox/issues/239) for details.
+
+
+<br/>
+<details>
+<summary><i>Expand to see risks and mitigations...</i></summary>
+
+
+<pre lang="bash"><code style="white-space: pre-line"># Explicit wildcard mode: full replay on isolated snapshot subdomains
+archivebox config --set SERVER_SECURITY_MODE=safe-subdomains-fullreplay
+
+# Alternative for deployments without wildcard subdomains: disable JS replay
+archivebox config --set SERVER_SECURITY_MODE=safe-onedomain-nojsreplay
+</code></pre>
+
+<blockquote>
+<p><em>NOTE: Only the <code>wget</code> &amp; <code>dom</code> extractor methods execute archived JS when viewing snapshots, all other archive methods produce static output that does not execute JS on viewing.</em><br/>
+<em>If you do not need JavaScript-capable replay at all, you can also disable those extractors with:<br/> <code>archivebox config --set WGET_ENABLED=False DOM_ENABLED=False</code>.</em></p>
+</blockquote>
+
+<h4>Learn More</h4>
+<ul>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview">Wiki: Security Overview</a></li>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/issues/239">ArchiveBox Github Issue: #239</a></li>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/security/advisories/GHSA-cr45-98w9-gwqx">Security Advisory: <code>CVE-2023-45815</code></a></li>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview#publishing">Wiki: Security Overview (Publishing)

@@ -14,6 +14,23 @@ A Kubernetes web UI that is fully-featured, user-friendly and extensible
 - Logs, exec, and resource editor with documentation
 - Read-write / interactive (actions based on permissions)
 
+## Screenshots
+
+<table>
+    <tr>
+        <td width="33%"><img src="https://raw.githubusercontent.com/kubernetes-sigs/headlamp/screenshots/screenshots/home.png"></td>
+        <td width="33%"><img src="https://raw.githubusercontent.com/kubernetes-sigs/headlamp/screenshots/screenshots/cluster_chooser.png"></td>
+    </tr>
+    <tr>
+        <td width="33%"><img src="https://raw.githubusercontent.com/kubernetes-sigs/headlamp/screenshots/screenshots/workloads.png"></td>
+        <td width="33%"><img src="https://raw.githubusercontent.com/kubernetes-sigs/headlamp/screenshots/screenshots/resource_edition.png"></td>
+    </tr>
+    <tr>
+        <td width="33%"><img src="https://raw.githubusercontent.com/kubernetes-sigs/headlamp/screenshots/screenshots/logs.png"></td>
+        <td width="33%"><img src="https://raw.githubusercontent.com/kubernetes-sigs/headlamp/screenshots/screenshots/terminal.png"></td>
+    </tr>
+</table>
+
 ## installation
 
 If you want to deploy Headlamp in your cluster, check out the instructions on running it [in-cluster](https://headlamp.dev/docs/latest/installation/in-cluster/).
@@ -26,8 +43,58 @@ or [Windows](https://headlamp.dev/docs/latest/installation/desktop/win-installat
 **Make sure** you have a kubeconfig file set up with your favorite clusters and
 in the default path so Headlamp can use it.
 
+### Accessing
+
+Headlamp uses [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac) for checking
+users' access to resources. If you try Headlamp with a token that has very limited
+permissions, you may not be able to view your cluster resources correctly.
+
+See the documentation on [how to easily get a Service Account token](https://headlamp.dev/docs/latest/installation#create-a-service-account-token) for your cluster.
+
+## Quick Start for Contributors
+
+Want to hack on Headlamp? We'd love your help!
+
+Check out the [Contributing Guidelines](./CONTRIBUTING.md) for detailed instructions on setting up your local development environment, building the project, and platform-specific tips (including Apple Silicon and macOS).
+
+For more in-depth development docs, see the [Development Guide](https://headlamp.dev/docs/latest/development/).
+
+## Tested platforms
+
+We maintain a list of the [Kubernetes platforms](./docs/platforms.md) we have
+tested Headlamp with. We invite you to add any missing platforms you have
+tested, or comment if there are any regressions in the existing ones.
+
+## Extensions / Plugins
+
+Please see [headlamp plugins on Artifact Hub](https://artifacthub.io/packages/search?kind=21&sort=relevance&page=1) for a list of plugins published.
+
+See the [plugins repo](https://github.com/headlamp-k8s/plugins) for some official plugins.
+
+### Plugin development
+
+If you are interested in tweaking Headlamp to fit your use-cases, you can check out
+our [plugin development guide](https://headlamp.dev/docs/latest/development/plugins/).
+
+
+## Get involved
+
+Check out our: 
+- [Guidelines](https://headlamp.dev/docs/latest/contributing/)
+- [Code of Conduct](./code-of-conduct.md),
+- [#headlamp](https://kubernetes.slack.com/messages/headlamp) slack channel in the Kubernetes Slack 
+- [Monthly Community Meeting](https://zoom-lfx.platform.linuxfoundation.org/meetings/headlamp)
+
 ## limitations
 
 If you are interested in the direction of the project, we maintain a
 [Roadmap](https://github.com/orgs/headlamp-k8s/projects/1/views/1). It has the
 biggest changes planned so far, as well as a [board](https://github.com/orgs/headlamp-k8s/projects/1/) tracking each release.
+
+## License
+
+Headlamp is released under the terms of the [Apache 2.0](./LICENSE) license.
+
+## Frequently Asked Questions
+
+For more information about Headlamp, see the [Headlamp FAQ](https://headlamp.dev/docs/latest/faq/).

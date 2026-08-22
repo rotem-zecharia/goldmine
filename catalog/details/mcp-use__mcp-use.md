@@ -111,3 +111,77 @@ export default function WeatherCard() {
       {refresh.error && <p>{refresh.error.message}</p>}
     </main>
   );
+}
+```
+
+</details>
+</td></tr></table>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/mcp-use/mcp-use/main/static/readme/chatgpt-hello-world.jpg" alt="Hello World MCP App rendered in a ChatGPT conversation" width="100%" />
+  <br />
+  <sub>Build interactive UI experiences within ChatGPT with mcp-use.</sub>
+</p>
+
+[Build your first MCP App →](https://mcp-use.com/docs/typescript/mcp-apps/quickstart)
+
+## Build
+
+Create the production build:
+
+```bash
+npm run build
+```
+
+## Inspect
+
+Start development mode to serve the MCP endpoint at [`http://localhost:3000/mcp`](http://localhost:3000/mcp). The Inspector is automatically available at [`http://localhost:3000/mcp/inspector`](http://localhost:3000/mcp/inspector):
+
+```bash
+npm run dev
+```
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/mcp-use/mcp-use/main/static/readme/inspector-hello-world.jpg" alt="Hello World MCP App rendered in the mcp-use Inspector" width="100%" />
+  <br />
+  <sub>Invoke tools, validate inputs, and inspect interactive Views in the same development loop.</sub>
+</p>
+
+Start a tunnel from the Inspector UI or run `mcp-use dev --tunnel` to get a public URL for your local MCP server and test it with ChatGPT and Claude before deployment. [Learn more about tunneling →](https://docs.mcp-use.com/tunneling)
+
+Inspect the same server headlessly from the terminal, invoke representative tools, and capture a View screenshot:
+
+```bash
+npm install --save-dev @mcp-use/client
+npx mcp-use client connect local http://localhost:3000/mcp
+npx mcp-use client local tools list
+npx mcp-use client local tools call get-weather city=Tokyo
+npx mcp-use screenshot \
+  --server local \
+  --tool get-weather \
+  city=Tokyo \
+  --output weather-card.png
+```
+
+## Deploy
+
+Ship to [Manufact](https://manufact.com) and get observability, analytics, evals, submission readiness, and Git-based preview environments for free.
+
+```bash
+npm run deploy
+```
+
+Prefer to run it yourself? Follow the [self-hosting guide →](https://docs.mcp-use.com/typescript/server/deployment/runtime-patterns).
+
+## How mcp-use compares
+
+mcp-use builds on the official TypeScript SDK v2 and adds first-class Views, typed tool-to-UI contracts, an optimized stateless runtime, the Inspector, screenshot verification, agent-first CLI workflows, and deployment.
+
+```mermaid
+block-beta
+  columns 7
+
+  metric["Metric"] mcp["mcp-use v2"] fastmcp["FastMCP TS"] official["Official SDK v2*"] xmcp["xmcp"] skybridge["Skybridge"] handler["mcp-handler"]
+
+  speed["Speed"] speedMcp["10,982 ops/s"] speedFast["6,628 ops/s"] speedOfficial["8,050 ops/s"] speedXmcp["6,585 ops/s"] speedSkybridge["8,116 ops/s"] speedHandler["6,324 ops/s"]
+  install["MCP App<br/>dev stack"] installMcp["74.4 MiB"] installFast["122.5 MiB"] installOfficial["99.0 MiB"] installXmcp["121.9 MiB"] installSkybridge["137.5 MiB"] installHandler["388.0

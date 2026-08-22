@@ -143,3 +143,65 @@ marimo tutorial --help
 **Share cloud-based notebooks.** Use
 [molab](https://molab.marimo.io/notebooks), a cloud-based marimo notebook
 service similar to Google Colab, to create and share notebook links.
+
+## Questions?
+
+See the [FAQ](https://docs.marimo.io/faq.html) at our docs.
+
+## Learn more
+
+marimo is easy to get started with, with lots of room for power users.
+For example, here's an embedding visualizer made in marimo
+([try the notebook live on molab!](https://molab.marimo.io/notebooks/nb_jJiFFtznAy4BxkrrZA1o9b/app?show-code=true)):
+
+<img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/embedding.gif" width="700px" />
+
+Check out our [docs](https://docs.marimo.io),
+[usage examples](https://docs.marimo.io/examples/), and our [gallery](https://marimo.io/gallery) to learn more.
+
+<table border="0">
+  <tr>
+    <td>
+      <a target="_blank" href="https://docs.marimo.io/getting_started/key_concepts.html">
+        <img src="https://docs.marimo.io/_static/reactive.gif" style="max-height: 150px; width: auto; display: block" />
+      </a>
+    </td>
+    <td>
+      <a target="_blank" href="https://docs.marimo.io/api/inputs/index.html">
+        <img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/readme-ui.gif" style="max-height: 150px; width: auto; display: block" />
+      </a>
+    </td>
+    <td>
+      <a target="_blank" href="https://docs.marimo.io/guides/working_with_data/plotting.html">
+        <img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/docs-intro.gif" style="max-height: 150px; width: auto; display: block" />
+      </a>
+    </td>
+    <td>
+      <a target="_blank" href="https://docs.marimo.io/api/layouts/index.html">
+        <img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/outputs.gif" style="max-height: 150px; width: auto; display: block" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a target="_blank" href="https://docs.marimo.io/getting_started/key_concepts.html"> Tutorial </a>
+    </td>
+    <td>
+      <a target="_blank" href="https://docs.marimo.io/api/inputs/index.html"> Inputs </a>
+    </td>
+    <td>
+      <a target="_blank" href="https://docs.marimo.io/guides/working_with_data/plotting.html"> Plots </a>
+    </td>
+    <td>
+      <a target="_blank" href="https://docs.marimo.io/api/layouts/index.html"> Layout </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a target="_blank" href="https://molab.marimo.io/notebooks/nb_TWVGCgZZK4L8zj5ziUBNVL">
+        <img src="https://marimo.io/molab-shield.svg"/>
+      </a>
+    </td>
+    <td>
+      <a target="_blank" href="https://molab.marimo.io/notebooks/nb_WuoXgs7mjg5yqrMxJXjRpF">
+        <img src="https://marimo.io/molab-shield.svg"/>

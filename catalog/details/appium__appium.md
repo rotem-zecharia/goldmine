@@ -18,6 +18,87 @@ npm i -g appium
 Note that this will only install the core Appium server, which cannot automate anything on its own.
 Please install [drivers](#drivers) for your target platforms in order to automate them.
 
+## Drivers
+
+Appium supports app automation across a variety of platforms, like iOS, Android, macOS, Windows,
+and more. Each platform is supported by one or more "drivers", which know how to automate that
+particular platform. You can find a full list of officially-supported and third-party drivers in
+[Appium Ecosystem's Drivers page](http://appium.io/docs/en/latest/ecosystem/drivers/).
+
+Driver management is done using [Appium's Extension command-line interface](http://appium.io/docs/en/latest/cli/extensions/):
+
+```bash
+# Install an official driver from npm (see documentation for a list of such drivers)
+appium driver install <driver-name>
+# Install any driver from npm
+appium driver install --source=npm <driver-name>
+# See documentation for installation from other sources
+
+# List already installed drivers
+appium driver list --installed
+# Update a driver (it must be already installed)
+# This will NOT update the major version, in order to prevent breaking changes
+appium driver update <driver-name>
+# Update a driver to the most recent version (may include breaking changes)
+appium driver update <driver-name> --unsafe
+# Uninstall a driver (it won't last forever, will it?)
+appium driver uninstall <driver-name>
+```
+
+## Clients
+
+Client libraries enable writing Appium tests in different programming languages. There are
+officially-supported clients for Java, Python, Ruby, and .NET C#, as well as third-party clients
+for other languages. You can find a full list of clients in
+[Appium Ecosystem's Clients page](http://appium.io/docs/en/latest/ecosystem/clients/).
+
+## Plugins
+
+Plugins allow you to extend server functionality without changing the server code. The main
+difference between drivers and plugins is that the latter must be explicitly enabled on
+Appium server startup (all installed drivers are enabled by default):
+
+```bash
+appium --use-plugins=<plugin-name>
+```
+
+You can find a full list of officially-supported and third-party plugins in
+[Appium Ecosystem's Plugins page](http://appium.io/docs/en/latest/ecosystem/plugins/).
+
+Similarly to drivers, plugin management is also done using
+[Appium's Extension command-line interface](http://appium.io/docs/en/latest/cli/extensions/):
+
+```bash
+# Install an official plugin from npm (see documentation for a list of such plugins)
+appium plugin install <plugin-name>
+# Install any plugin from npm
+appium plugin install --source=npm <plugin-name>
+# See documentation for installation from other sources
+
+# List already installed plugins
+appium plugin list --installed
+# Update a plugin (it must be already installed)
+# This will NOT update the major version, in order to prevent breaking changes
+appium plugin update <plugin-name>
+# Update a plugin to the most recent version (may include breaking changes)
+appium plugin update <plugin-name> --unsafe
+# Uninstall a plugin
+appium plugin uninstall <plugin-name>
+```
+
+## Server Command Line Interface
+
+In order to start sending commands to the Appium server, it must be running on the URL and port
+where your client library expects it to listen. [Appium's command-line interface](http://appium.io/docs/en/latest/cli/server/)
+is used to launch and configure the server:
+
+```bash
+# Start the server on the default host (0.0.0.0) and port (4723)
+appium server
+# You can also omit the 'server' subcommand
+appium
+# Start the server on the given host, port and use a custom base path pre
+
 ## features
 
 1. You usually don't have to recompile your app or modify it in any way, due to the use of standard
@@ -44,3 +125,47 @@ cross-platform native app automation, for mobile and beyond!
 
 If you are looking for a more comprehensive description of what this is all about, please read our
 documentation on [How Does Appium Work?](https://appium.io/docs/en/latest/intro/appium/).
+
+## Sponsors
+
+Appium has a [Sponsorship Program](GOVERNANCE.md#sponsorship)! If you or your company uses Appium
+and wants to give back financially to the project, we use these funds to [encourage development and
+contributions](GOVERNANCE.md#compensation-scheme), as well as support other open source projects we
+rely on. [Become a sponsor](https://opencollective.com/appium) via our OpenCollective page.
+
+### Development and Strategic Partners
+
+Appium is incredibly grateful to our Development and Strategic Partners for their sustained
+contribution of project development and leadership!
+
+<p align="center">
+  <a href="https://www.browserstack.com/browserstack-appium?utm_campaigncode=701OW00000AoUTQYA3&utm_medium=partnered&utm_source=appium">
+    <picture>
+      <source srcset="packages/appium/docs/overrides/assets/images/sponsor-logo-browserstack-dark.png" media="(prefers-color-scheme: dark)"/>
+      <source srcset="packages/appium/docs/overrides/assets/images/sponsor-logo-browserstack-light.png" media="(prefers-color-scheme: light)"/>
+      <img src="packages/appium/docs/overrides/assets/images/sponsor-logo-browserstack-dark.png" width="300" alt="Browserstack"/>
+    </picture>
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://www.testmuai.com">
+    <picture>
+      <source srcset="packages/appium/docs/overrides/assets/images/sponsor-logo-testmuai-dark.png" media="(prefers-color-scheme: dark)"/>
+      <source srcset="packages/appium/docs/overrides/assets/images/sponsor-logo-testmuai-light.png" media="(prefers-color-scheme: light)"/>
+      <img src="packages/appium/docs/overrides/assets/images/sponsor-logo-testmuai-dark.png" width="300" alt="TestMu AI (formerly LambdaTest)"/>
+    </picture>
+  </a>
+</p>
+
+### Other Sponsors
+
+A full list of sponsors is available at our [Sponsors page](https://appium.io/docs/en/latest/sponsors/).
+
+## License
+
+[Apache-2.0](./LICENSE)
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fappium%2Fappium.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fappium%2Fappium?ref=badge_large)
+
+`@appium/logger` package is under [ISC](./packages/logger/LICENSE) Lice

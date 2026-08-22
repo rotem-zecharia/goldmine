@@ -20,3 +20,13 @@ CRAWL_RULES = {
             '',  # all
         }
     },
+}
+```
+
+The current configuration always lives in
+[make_tracked_links_list.py](make_tracked_links_list.py):
+see `CRAWL_RULES` for the rules and `HIDDEN_URLS` for the manually added links.
+
+### License
+
+Licensed under the [MIT License](LICENSE).

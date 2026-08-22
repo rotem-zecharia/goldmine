@@ -17,6 +17,17 @@ Open-source tag manager for developers
   warehouse, ready to query
 - **MIT licensed** - self-host anywhere, no vendor lock-in
 
+## How it works
+
+![walkerOS Architecture](https://raw.githubusercontent.com/elbwalker/walkerOS/main/website/static/diagrams/walkeros_readme.png)
+
+- **Sources:** Where events come from (browser, dataLayer, Express, AWS Lambda,
+  GCP Functions, and more)
+- **Collector:** The processing engine (consent, validation, mapping, routing,
+  enrichment)
+- **Destinations:** Where events go (GA4, Google Ads, Meta CAPI, BigQuery, and
+  more)
+
 ## installation
 
 Choose one based on your workflow and integration possibilities:
@@ -69,3 +80,99 @@ await startFlow({
       },
     },
   },
+});
+```
+
+**Bundled** (build from JSON config):
+
+```json
+{
+  "version": 4,
+  "flows": {
+    "default": {
+      "config": {
+        "platform": "web",
+        "bundle": {
+          "packages": {
+            "@walkeros/collector": {},
+            "@walkeros/web-source-browser": {},
+            "@walkeros/web-destination-gtag": {}
+          }
+        }
+      },
+      "sources": {
+        "browser": {
+          "package": "@walkeros/web-source-browser",
+          "config": { "settings": { "pageview": true } }
+        }
+      },
+      "destinations": {
+        "ga4": {
+          "package": "@walkeros/web-destination-gtag",
+          "config": {
+            "settings": { "ga4": { "measurementId": "G-XXX" } }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Then: `npx walkeros bundle flow.json`
+
+- **[Operating Modes](https://www.walkeros.io/docs/getting-started/modes/)**
+- **[Quickstart guide for React](https://www.walkeros.io/docs/getting-started/quickstart/react)**
+- **[Full Documentation](https://www.walkeros.io/docs/)** - Complete guides and
+  API reference
+- **[Destinations](https://www.walkeros.io/docs/destinations/)** - GA4, Meta,
+  BigQuery, and more
+- **[React Demo](https://github.com/elbwalker/walkerOS/tree/main/apps/demos/react)**
+- **[Storybook](https://storybook.walkeros.io/)**
+
+## AI-ready via MCP
+
+walkerOS exposes a Model Context Protocol (MCP) interface. AI agents can read
+your event schema, suggest tracking definitions, and generate integration code -
+making your event layer programmable, not just configurable.
+
+In Claude Code, one plugin installs both MCP servers and the walkerOS skills:
+
+```
+/plugin marketplace add elbwalker/walkerOS
+/plugin install walkeros@elbwalker
+```
+
+For any other MCP client, add the servers to its configuration:
+
+```json
+{
+  "mcpServers": {
+    "walkeros-flow": {
+      "command": "npx",
+      "args": ["@walkeros/mcp"]
+    },
+    "walkeros-source-browser": {
+      "command": "npx",
+      "args": ["@walkeros/mcp-source-browser"]
+    }
+  }
+}
+```
+
+Loading a flow, validating it, and simulating an event all run locally, no
+account needed. See the [MCP docs](https://www.walkeros.io/docs/apps/mcp).
+
+Coming from Google Tag Manager? See
+[walkerOS vs. GTM](https://www.walkeros.io/docs/comparisons/gtm).
+
+## Contributing
+
+⭐️ Help us grow and star us. See our
+[Contributing Guidelines](https://www.walkeros.io/docs/contributing) to get
+involved.
+
+## Support
+
+Need help? Start a
+[discussion](https://github.com/elbwalker/walkerOS/discussions), or reach ou

@@ -10,6 +10,10 @@ QA via natural language AI tests
 - GitHub integration with 2FA support
 - Email validation with Mailosaur
 
+## Using Shortest in your project
+
+If helpful, [here's a short video](https://github.com/antiwork/shortest/issues/143#issuecomment-2564488173)!
+
 ## installation
 
 Use the `shortest init` command to streamline the setup process in a new or existing project.
@@ -26,6 +30,131 @@ This will:
 - Create a default `shortest.config.ts` file with boilerplate configuration
 - Generate a `.env.local` file (unless present) with placeholders for required environment variables, such as `ANTHROPIC_API_KEY`
 - Add `.env.local` and `.shortest/` to `.gitignore`
+
+### Quick start
+
+1. Determine your test entry and add your Anthropic API key in config file: `shortest.config.ts`
+
+```typescript
+import type { ShortestConfig } from "@antiwork/shortest";
+
+export default {
+  headless: false,
+  baseUrl: "http://localhost:3000",
+  browser: {
+    contextOptions: {
+      ignoreHTTPSErrors: true
+    },
+  },
+  testPattern: "**/*.test.ts",
+  ai: {
+    provider: "anthropic",
+  },
+} satisfies ShortestConfig;
+```
+The Anthropic API key defaults to `SHORTEST_ANTHROPIC_API_KEY` / `ANTHROPIC_API_KEY` environment variables. Can be overwritten via `ai.config.apiKey`.
+
+Optionally, you can configure browser behavior using the `browser.contextOptions` property in your configuration file. This allows you to pass custom [Playwright browser context options](https://playwright.dev/docs/api/class-browser#browser-new-context).
+
+2. Create test files using the pattern specified in the config: `app/login.test.ts`
+
+```typescript
+import { shortest } from "@antiwork/shortest";
+
+shortest("Login to the app using email and password", {
+  username: process.env.GITHUB_USERNAME,
+  password: process.env.GITHUB_PASSWORD,
+});
+```
+
+### Using callback functions
+
+You can also use callback functions to add additional assertions and other logic. AI will execute the callback function after the test
+execution in browser is completed.
+
+```typescript
+import { shortest } from "@antiwork/shortest";
+import { db } from "@/lib/db/drizzle";
+import { users } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
+
+shortest("Login to the app using username and password", {
+  username: process.env.USERNAME,
+  password: process.env.PASSWORD,
+}).after(async ({ page }) => {
+  // Get current user's clerk ID from the page
+  const clerkId = await page.evaluate(() => {
+    return window.localStorage.getItem("clerk-user");
+  });
+
+  if (!clerkId) {
+    throw new Error("User not found in database");
+  }
+
+  // Query the database
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.clerkId, clerkId))
+    .limit(1);
+
+  expect(user).toBeDefined();
+});
+```
+
+### Lifecycle hooks
+
+You can use lifecycle hooks to run code before and after the test.
+
+```typescript
+import { shortest } from "@antiwork/shortest";
+
+shortest.beforeAll(async ({ page }) => {
+  await clerkSetup({
+    frontendApiUrl:
+      process.env.PLAYWRIGHT_TEST_BASE_URL ?? "http://localhost:3000",
+  });
+});
+
+shortest.beforeEach(async ({ page }) => {
+  await clerk.signIn({
+    page,
+    signInParams: {
+      strategy: "email_code",
+      identifier: "iffy+clerk_test@example.com",
+    },
+  });
+});
+
+shortest.afterEach(async ({ page }) => {
+  await page.close();
+});
+
+shortest.afterAll(async ({ page }) => {
+  await clerk.signOut({ page });
+});
+```
+
+### Chaining tests
+
+Shortest supports flexible test chaining patterns:
+
+```typescript
+// Sequential test chain
+shortest([
+  "user can login with email and password",
+  "user can modify their account-level refund policy",
+]);
+
+// Reusable test flows
+const loginAsLawyer = "login as lawyer with valid credentials";
+const loginAsContractor = "login as contractor with valid credentials";
+const allAppActions = ["send invoice to company", "view invoices"];
+
+// Combine flows with spread operator
+shortest([loginAsLawyer, ...allAppActions]);
+shortest([loginAsContractor, ...allAppActions]);
+```
 
 ## tools
 
@@ -45,6 +174,28 @@ shortest(
       active: true,
     }),
   }),
+);
+```
+
+Or simply:
+
+```typescript
+shortest(`
+  Test the API GET endpoint ${API_BASE_URI}/users with query parameter { "active": true }
+  Expect the response to contain only active users
+`);
+```
+
+### Running tests
+
+```bash
+pnpm shortest                   # Run all tests
+pnpm shortest login.test.ts     # Run specific tests from a file
+pnpm shortest login.test.ts:23  # Run specific test from a file using a line number
+pnpm shortest --headless        # Run in headless mode using
+```
+
+You can find example tests in the [`examples`](./examples) directory.
 
 ## requirements
 

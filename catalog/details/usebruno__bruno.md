@@ -47,6 +47,31 @@ Bruno is offline-only. There are no plans to add cloud-sync to Bruno, ever. We v
 ![bruno](assets/images/landing-2-dark.png#gh-light-mode-only)
 ![bruno](assets/images/landing-2-light.png#gh-dark-mode-only) <br /><br />
 
+## Commercial Versions ✨
+
+Majority of our features are free and open source.
+We strive to strike a harmonious balance between [open-source principles and sustainability](https://github.com/usebruno/bruno/discussions/269)
+
+You can explore our [paid versions](https://www.usebruno.com/pricing) to see if there are additional features that you or your team may find useful! <br/>
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Bruno CLI](#bruno-cli)
+- [Run with Docker](#run-with-docker)
+- [Features](#features)
+  - [Run across multiple platforms 🖥️](#run-across-multiple-platforms-%EF%B8%8F)
+  - [Collaborate via Git 👩‍💻🧑‍💻](#collaborate-via-git-%E2%80%8D%E2%80%8D)
+- [Important Links 📌](#important-links-)
+- [Showcase 🎥](#showcase-)
+- [Share Testimonials 📣](#share-testimonials-)
+- [Publishing to New Package Managers](#publishing-to-new-package-managers)
+- [Stay in touch 🌐](#stay-in-touch-)
+- [Trademark](#trademark)
+- [Contribute 👩‍💻🧑‍💻](#contribute-%E2%80%8D%E2%80%8D)
+- [Authors](#authors)
+- [License 📄](#license-)
+
 ## installation
 
 Bruno is available as binary download [on our website](https://www.usebruno.com/downloads) for Mac, Windows and Linux.
@@ -54,6 +79,56 @@ Bruno is available as binary download [on our website](https://www.usebruno.com/
 You can also install Bruno via package managers like Homebrew, Chocolatey, Scoop, Snap, Flatpak and Apt.
 
 ```sh
+# On Mac via Homebrew
+brew install bruno
+
+# On Windows via Chocolatey
+choco install bruno
+
+# On Windows via Scoop
+scoop bucket add extras
+scoop install bruno
+
+# On Windows via winget
+winget install Bruno.Bruno
+
+# On Linux via Snap
+snap install bruno
+
+# On Linux via Flatpak
+flatpak install com.usebruno.Bruno
+
+# On Arch Linux via AUR
+yay -S bruno
+
+# On Linux via Apt
+sudo mkdir -p /etc/apt/keyrings
+sudo apt update && sudo apt install gpg curl
+curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x9FA6017ECABE0266" \
+  | gpg --dearmor \
+  | sudo tee /etc/apt/keyrings/bruno.gpg > /dev/null
+sudo chmod 644 /etc/apt/keyrings/bruno.gpg
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/bruno.gpg] http://debian.usebruno.com/ bruno stable" \
+  | sudo tee /etc/apt/sources.list.d/bruno.list
+sudo apt update && sudo apt install bruno
+```
+
+## Bruno CLI
+
+The **Bruno CLI** lets you run your API collections from the command line, which is ideal for automated testing and CI/CD pipelines. Install it from npm using the package manager of your choice:
+
+```sh
+npm install -g @usebruno/cli
+```
+
+Navigate to the directory containing your collection and run it:
+
+```sh
+# Run every request in the collection
+bru run
+
+# Run a single request
+bru run request.bru
 
 ## configuration
 
@@ -61,3 +136,91 @@ bru run folder --env Local
 ```
 
 For the full command reference, see the [Bruno CLI documentation](https://docs.usebruno.com/bru-cli/overview).
+
+## Run with Docker
+
+Official Docker images for the **Bruno CLI** let you run API collections in CI/CD pipelines and locally without installing Node.js or npm on the host. Images are published to both [Docker Hub](https://hub.docker.com/r/usebruno/cli) and the [GitHub Container Registry](https://ghcr.io/usebruno/cli) on every CLI release, with `alpine` and `debian` variants for `linux/amd64` and `linux/arm64`.
+
+```sh
+# Pull from Docker Hub
+docker pull usebruno/cli:latest
+
+# Or pull from the GitHub Container Registry
+docker pull ghcr.io/usebruno/cli:latest
+
+# Run a collection by mounting the current directory
+docker run -v $(pwd):/bruno usebruno/cli run
+```
+
+For variants, tag matrix, environment files, and CI examples (GitHub Actions, GitLab CI, Jenkins), see the full [Bruno CLI Docker documentation](https://docs.usebruno.com/bru-cli/docker).
+
+## features
+
+### Run across multiple platforms 🖥️
+
+![bruno](assets/images/run-anywhere.png) <br /><br />
+
+### Collaborate via Git 👩‍💻🧑‍💻
+
+Or any version control system of your choice
+
+![bruno](assets/images/version-control.png) <br /><br />
+
+## Important Links 📌
+
+- [Our Long Term Vision](https://github.com/usebruno/bruno/discussions/269)
+- [Roadmap](https://www.usebruno.com/roadmap)
+- [Documentation](https://docs.usebruno.com)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/bruno)
+- [Website](https://www.usebruno.com)
+- [Pricing](https://www.usebruno.com/pricing)
+- [Download](https://www.usebruno.com/downloads)
+
+## Showcase 🎥
+
+- [Testimonials](https://github.com/usebruno/bruno/discussions/343)
+- [Knowledge Hub](https://github.com/usebruno/bruno/discussions/386)
+- [Scriptmania](https://github.com/usebruno/bruno/discussions/385)
+
+## Share Testimonials 📣
+
+If Bruno has helped you at work and your teams, please don't forget to share your [testimonials on our GitHub discussion](https://github.com/usebruno/bruno/discussions/343)
+
+## Publishing to New Package Managers
+
+Please see [here](publishing.md) for more information.
+
+## Stay in touch 🌐
+
+[𝕏 (Twitter)](https://twitter.com/use_bruno) <br />
+[Website](https://www.usebruno.com) <br />
+[Discord](https://discord.com/invite/KgcZUncpjq) <br />
+[LinkedIn](https://www.linkedin.com/company/usebruno)
+
+## Trademark
+
+**Name**
+
+`Bruno` is a trademark held by [Anoop M D](https://www.helloanoop.com/)
+
+**Logo**
+
+The logo is sourced from [OpenMoji](https://openmoji.org/library/emoji-1F436/). License: CC [BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+
+## Contribute 👩‍💻🧑‍💻
+
+I am happy that you are looking to improve bruno. Please check out the [contributing guide](contributing.md)
+
+Even if you are not able to make contributions via code, please don't hesitate to file bugs and feature requests that needs to be implemented to solve your use case.
+
+## Authors
+
+<div align="center">
+    <a href="https://github.com/usebruno/bruno/graphs/contributors">
+        <img src="https://contrib.rocks/image?repo=usebruno/bruno" />
+    </a>
+</div>
+
+## License 📄
+
+[MIT](license.md)

@@ -14,9 +14,147 @@ Stack blocks visually to build complex browser workflows and execute them via AP
   </a>
 </div>
 
+## Integration Partner
+
+<div align="center">
+  <a href="https://simplynode.io/?utm_source=figranium" target="_blank">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="partner-assets/simplynode_white.png">
+      <source media="(prefers-color-scheme: light)" srcset="partner-assets/simplynode.png">
+      <img src="partner-assets/simplynode.png" width="220" alt="SimplyNode">
+    </picture>
+  </a>
+</div>
+
+## Infrastructure Backers
+
+<div align="center">
+  <a href="https://www.digitalocean.com/?utm_medium=opensource&utm_source=Figranium">
+    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="201" alt="DigitalOcean">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.mintlify.com">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="partner-assets/mintlify_white.svg">
+      <source media="(prefers-color-scheme: light)" srcset="partner-assets/mintlify.svg">
+      <img src="partner-assets/mintlify.svg" width="165" alt="Mintlify">
+    </picture>
+  </a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.algolia.com">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Algolia_logo_full_blue.svg/1920px-Algolia_logo_full_blue.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20221025105233" width="165" alt="Algolia">
+  </a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://neon.com">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="partner-assets/neon_white.png">
+      <source media="(prefers-color-scheme: light)" srcset="partner-assets/neon.png">
+      <img src="partner-assets/neon.png" width="165" alt="Mintlify">
+    </picture>
+  </a>
+</div>
+
 ## installation
 
 This starts the app on `http://localhost:11345` and the VNC viewer on `http://localhost:54311`.
+
+
+## Docker Compose (Standard)
+
+### 1. Create a Project Directory
+
+Create a directory for your Figranium installation and navigate into it:
+```bash
+mkdir figranium-server
+cd figranium-server
+```
+### 2. Create docker-compose.yml
+
+Create a docker-compose.yml file in your project directory:
+```bash
+services:
+  figranium:
+    image: ghcr.io/figranium/figranium:latest
+    container_name: figranium
+    ports:
+      - "11345:11345"
+      - "54311:54311"
+    volumes:
+      - ./data:/app/data
+      - ./captures:/app/public/captures
+    environment:
+      - PORT=11345
+      - SESSION_SECRET=your_secure_random_string
+    restart: unless-stopped
+```
+### 3. Start with Docker Compose
+
+Run the following command to start the application in detached mode:
+```bash
+docker compose up -d
+```
+
+
+## Git Clone (Multi-arch / ARM / Apple Silicon)
+
+The easiest way to run Figranium on any architecture (including M1/M2/M3 Macs) is via Docker Compose.
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/figranium/figranium.git
+cd figranium
+```
+
+2. Start the services:
+
+```bash
+docker compose up --build -d
+```
+
+Visit `http://localhost:11345`.
+
+> The first visit loads the login/setup screen. After you create the admin account and sign in, the dashboard replaces the login view and stays visible for as long as the session remains valid; returning users are redirected straight to the dashboard until they explicitly log out or the session expires.
+
+## Session Secret
+
+Set `SESSION_SECRET` before any run. A quick generator:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+# Architecture Snapshot
+
+## Figranite
+At the core of Figranium lies **Figranite**, a high-performance, deterministic workflow interpreter designed for stateful browser automation. It is the project's primary execution kernel, responsible for transforming abstract block definitions into sentient-like browser behavior.
+
+Key capabilities of **Figranite** include:
+- **Stateful Execution:** Manages complex variables and loop contexts across blocks.
+- **Human Physics Simulation:** Implements Bezier-curve cursor movements, randomized jitter, and fatigue-aware typing.
+- **Stealth Integration:** Works in tandem with the Stealth Browser engine to bypass modern bot detection.
+- **Recursive Logic:** Handles nested if/else, while, and foreach blocks with custom jump-map optimization.
+- **Security-First:** Executes within a protected context with built-in SSRF and private network protection.
+
+
+1. **Frontend**  
+   - Vite with React (TypeScript) drives `/dashboard`, `/tasks`, `/settings`, `/executions`, and `/captures`.
+   - The Settings screen is tabbed (`System`, `Data`, `Proxies`) and houses panels for API keys, user agents, layout, storage, and version info.
+   - Components call `/api/*` endpoints through the Vite dev proxy (see `vite.config.mts`), sharing `APP_VERSION` via `src/utils/appInfo.ts`.
+
+2. **Backend**  
+   - `server.js` (Express) handles auth (`/api/auth`), task metadata, hooks into Playwright, and exposes `/api/settings/*` for runtime configuration.
+   - Requirements: Node 18+ (LTS), Playwright bundled via `npm install`.
+   - Storage is plain‑file: `data/` for proxies and allowlists, `public/captures` for visuals, and browser session cookies stored internally.
+
+3. **Scripts & automation**  
+   - `scripts/postinstall.js` runs when dependencies install (keep an eye if you customize).
+   - `agent.js` (powered by the **Figranite Engine**), `headful.js`, and `scrape.js` expose specialized runners; the CLI binary `bin/cli.js` wires them for `npx figranium`.
+
+4. **Code layout highlights**
+   - `src/App.tsx` glues together routing, alerts, and the sidebar that links dashboards, tasks, and settings.
+   - `src/components` houses reusable panels (API keys, storage, captures, proxies) that map directly to backend endpoints.
+   - `server.js` embeds all HTTP handlers 
 
 ## configuration
 
@@ -38,12 +176,100 @@ This starts the app on `http://localhost:11345` and the VNC viewer on `http://lo
 
 Proxy rotation also respects `data/proxies.json` (see below), and `data/allowed_ips.json` works as an alternate allowlist format.
 
+## Advanced Configuration
+
+- `PLAYWRIGHT_BROWSERS_PATH` (or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`) when using a shared Playwright installation.
+- `NODE_ENV=production` enables the bundled `dist/` client and reduces console verbosity.
+- `HOST=0.0.0.0` allows binding beyond localhost inside Docker containers, while `PORT` overrides the Express listen port (defaults to `11345`).
+- Set `LOG_LEVEL` to `debug` if you need more Playwright or proxy diagnostics; this can also be a custom wrapper when running `node server.js`.
+- **Headful mode:** the headful/visible browser binds to `54311`, so open that port alongside `11345` when running `headful.js` or other headful flows.
+
+# UI Walkthrough
+
+- **Dashboard** — quick stats, recent runs, and a “New Task” entry point (block or agent).
+ - **Task Editor** — drag blocks (click, type, wait, scroll, press, JavaScript); toggle “Rotate Proxies”; schedule runs via the **Schedule** tab; run/stop tasks; inspect results with pins & logs.
+ - **Captures** — review screenshots/recordings stored under `public/captures`; delete individually or refresh.
+ - **Executions** — historical runs with detail drill-down and the ability to re-run or download results.
+ - **Settings**
+  - **System tab**: regenerate or copy API key, select user agent, adjust layout ratio, view/copy version (`VersionPanel`), and clear storage.
+  - **Data tab**: manage captures and cookies.
+  - **Proxies tab**: add/import proxies, set defaults, toggle rotation, and inspect host vs saved entries.
+
+# CLI & Agent Mode
+
+- Use `npx figranium` (or `npm run cli`) to launch the interactive CLI that shows tasks, status, and logs.
+- Behind the scenes, `bin/cli.js` can invoke `agent.js`, `headful.js`, or `scrape.js` depending on the runtime mode (`--agent`, `--headful`, `--scrape`).
+- Run `node agent.js --help` to see flags like `--task`, `--browser`, or `--version`. These runners share the same settings (API key, proxies, storage) as the web UI.
+- When connecting via the API key, prefer `Authorization: Bearer <key>` so reverse proxies can normalize headers; the CLI also accepts a `--api-key` flag for scripted runs.
+
 ## tools
 
 Figranium exposes a comprehensive REST API for integration with agents (like OpenClaw) or custom automation scripts. All endpoints are hosted locally, typically on port `11345`.
 
 **Authentication:** 
 If enabled, provide the `x-api-key` header or `Authorization: Bearer <key>`. For internal network use, this may be optional depending on your settings.
+
+
+### Task Management API
+*   **`GET /api/tasks`**: List all saved automation profiles.
+*   **`POST /api/tasks`**: Create a new task profile.
+*   **`PUT /api/tasks/:id`**: Update an existing task profile.
+*   **`POST /api/tasks/:id/api`**: Execute a predefined task. Pass `{"variables": {}}` in the body to override execution variables dynamically.
+
+### Scheduling API
+*   **`GET /api/schedules`**: List all scheduled tasks and their status.
+*   **`POST /api/schedules/:taskId`**: Create or update a schedule (supports visual config or raw cron).
+*   **`DELETE /api/schedules/:taskId`**: Disable/remove a schedule.
+*   **`GET /api/schedules/status/all`**: Get an overview of all active scheduled jobs.
+
+### Execution & Logging API
+*   **`GET /api/executions`**: Retrieve paginated logs of all past runs.
+*   **`GET /api/executions/:id`**: View the exact steps, result JSON, and configuration state of a specific run.
+
+### Data Management API
+*   **`GET /api/data/captures`**: List generated screenshots, videos, and downloads.
+*   **`DELETE /api/data/captures/:name`**: Delete a specific capture.
+*   **`POST /api/clear-screenshots`**: Removes all files in `public/captures` and `data/recordings`.
+*   **`POST /api/clear-cookies`**: Clears stored browser session cookies.
+
+# Task Scripting Tips
+
+- Use JavaScript blocks to scrape structured data:
+  ```js
+  return document.querySelectorAll('article').length;
+  ```
+- Keep CSS selectors narrow; the block-based editor surfaces `#`, `.`, and attribute hints.
+- When running headlessly, toggle `headful.js` or `agent.js` depending on whether you need a visible browser for debugging.
+- Set `task.variables` via the API to re-use generic workflows across multiple domains.
+
+## Workflow Recipe
+
+1. Design a task in the editor starting with a `goto` block and a `wait` block to give pages time to render.
+2. Add conditional `javascript` blocks to test for specific DOM elements; use the retry/timer controls per block.
+3. Attach `extract` (JSON output) or `screenshot` actions before submitting so you can inspect results in the Captures tab.
+4. Toggle “Rotate Proxies” if you need egress diversity and pick a default proxy on Settings → Proxies.
+5. Use the **Schedule** tab to set up automated runs (e.g., every day at 9 AM or every 15 minutes).
+6. Save the task, pin results you care about, and use the `POST /tasks/:id/api` endpoint with variables like `{"variables":{"query":"books"}}` to run it from automation tools.
+
+# Task Scheduling
+
+Figranium includes a built-in scheduler that handles automated task execution without requiring external cron jobs or triggers.
+
+- **Visual Mode**: Easily configure periodic runs (every X minutes), hourly, daily, weekly (select specific days), or monthly runs.
+- **Advanced Mode**: Use standard 5-field cron expressions (`* * * * *`) for complex schedules.
+- **Persistence**: Schedules are stored within the task metadata and persist across server restarts.
+- **Monitoring**: The "Next Run" and "Last Run" status (including duration) are visible directly in the Task Editor's Schedule tab.
+
+# Testing & Validation
+
+- Run `npm run build` before packaging for production; the `dist/` folder contains the compiled assets.
+- Backend logging writes to the console; capture output from `server.js` for debugging proxies, authentication, or Playwright failures.
+- Playwright logs are visible in the running Node process and under `node_modules/.cache` when using the CLI.
+
+# Troubleshooting
+
+- **“Session expired”** in the UI: confirm `SESSION_SECRET` is consistent and cookies aren’t blocked by your browser.
+- **Proxy import fails**: inspect `data/proxies.json` for 
 
 ## limitations
 

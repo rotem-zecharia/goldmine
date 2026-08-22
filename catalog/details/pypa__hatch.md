@@ -16,3 +16,11 @@ Modern, extensible Python project management
 - Responsive [CLI](https://hatch.pypa.io/latest/cli/about/), ~2-3x [faster](https://github.com/pypa/hatch/actions/workflows/cli.yml) than equivalent tools
 
 See the [Why Hatch?](https://hatch.pypa.io/latest/why/) page for more information.
+
+## Documentation
+
+The [documentation](https://hatch.pypa.io/) is made with [Material for MkDocs](https://github.com/squidfunk/mkdocs-material) and is hosted by [GitHub Pages](https://docs.github.com/en/pages).
+
+## License
+
+Hatch is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.

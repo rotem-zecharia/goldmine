@@ -11,3 +11,11 @@ The complete load testing platform. Everything you need for production-grade loa
 - **Test anything**. HTTP, WebSocket, Socket.io, gRPC, Kinesis, and more.
 - **Powerful workload modeling**. Emulate complex user behavior with request chains, multiple steps, transactions, and more.
 - **Extensible & hackable**. Artillery has a plugin API to allow extending and customization.
+
+## License
+
+* Most of the code in this repository is licensed under the terms of the [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/) license.
+* Some Azure-specific modules are licensed under the terms of the [BSL license](https://mariadb.com/bsl-faq-adopting/). See [LICENSE-BSL.txt](./LICENSE-BSL.txt) for details. You may use Artillery on Azure for evaluation and proof-of-concept purposes, but commercial and/or production usage requires a commercial license.
+
+
+→ [Learn more](./packages/artillery#readme)

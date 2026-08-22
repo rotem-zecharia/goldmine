@@ -24,3 +24,25 @@ sudo DOKKU_TAG=v0.38.27 bash bootstrap.sh
 You can then proceed to configure your server domain (via `dokku domains:set-global`) and user access (via `dokku ssh-keys:add`) to complete the installation.
 
 If you wish for a more unattended installation method, see [these](https://dokku.com/docs/getting-started/install/debian/#unattended-installation) docs.
+
+### Upgrade
+
+[View the docs](https://dokku.com/docs/getting-started/upgrading/) for upgrading from an older version of Dokku.
+
+## Documentation
+
+Full documentation - including advanced installation docs - are available online at <https://dokku.com/docs/getting-started/installation/>.
+
+## Support
+
+You can use [GitHub Issues](https://github.com/dokku/dokku/issues), check [Troubleshooting](https://dokku.com/docs/getting-started/troubleshooting/) in the documentation, or join us on [Gliderlabs Slack in the #dokku channel](https://slack.dokku.com/).
+
+## Contribution
+
+After checking [GitHub Issues](https://github.com/dokku/dokku/issues), the [Troubleshooting Guide](https://dokku.com/docs/getting-started/troubleshooting/) or having a chat with us on [Gliderlabs Slack in the #dokku channel](https://slack.dokku.com/), feel free to fork and create a Pull Request.
+
+While we may not merge your PR as is, they serve to start conversations and improve the general Dokku experience for all users.
+
+## License
+
+[MIT License](https://github.com/dokku/dokku/blob/master/LICENSE) © Jeff Lindsay

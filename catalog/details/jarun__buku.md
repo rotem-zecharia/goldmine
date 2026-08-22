@@ -87,6 +87,10 @@ To remove, run:
     $ chmod +x buku.py
     $ ./buku.py
 
+### Shell completion
+
+Shell completion scripts for Bash, Fish and Zsh can be found in respective subdirectories of [auto-completion/](https://github.com/jarun/buku/blob/master/auto-completion). Please refer to your shell's manual for installation instructions.
+
 ## tools
 
 #### Command-line options

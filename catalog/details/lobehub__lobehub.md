@@ -37,6 +37,100 @@ LobeHub is a work-and-lifestyle space to find, build, and collaborate with agent
 
 ![](https://github.com/user-attachments/assets/89d1c402-a62b-4794-82ea-17e5ee1a6165)
 
+### Operator: Agents as the Unit of Work
+
+Hires, schedules, and reports on your entire AI team.
+
+- **More productivity. Fewer tools**: Bring all your agents under one roof.
+- **IM Gateway**: Agents where you already chat.
+
+![](https://github.com/user-attachments/assets/7b08d6d9-9dff-4b06-a919-324630554509)
+
+[![][back-to-top]](#readme-top)
+
+<div align="right">
+
+[![][back-to-top]](#readme-top)
+
+</div>
+
+![](https://github.com/user-attachments/assets/81e89324-fc66-4024-99a3-aa8e16ec8184)
+
+### Create: Agents as the Unit of Work
+
+Building a personalized AI team starts with the **Agent Builder**. You can describe what you need once, and the agent setup starts right away, applying auto-configurations so you can use it instantly.
+
+- **Unified Intelligence**: Seamlessly access any model and any modality—all under your control.
+- **10,000+ Skills**: Connect your agents to the skills you use every day with a library of over 10,000 tools and MCP-compatible plugins.
+
+![](https://github.com/user-attachments/assets/949b8166-486d-4750-ad7a-cfe7bfcb84e3)
+
+[![][back-to-top]](#readme-top)
+
+<div align="right">
+
+[![][back-to-top]](#readme-top)
+
+</div>
+
+![](https://hub-apac-1.lobeobjects.space/blog/assets/771ff3d30b9ef93e65e55021cc43d356.webp)
+
+### Collaborate: Scale New Forms of Collaboration Networks
+
+LobeHub introduces **Agent Groups**, allowing you to work with agents like real teammates. The system assembles the right agents for the task, enabling parallel collaboration and iterative improvement.
+
+- **Pages**: Write and refine content with multiple agents in one place with a shared context.
+- **Schedule**: Schedule runs and let agents do the work at the right time, even while you are away.
+- **Project**: Organize work by project to keep everything structured and easy to track.
+- **Workspace**: A shared space for teams to collaborate with agents, ensuring clear ownership and visibility across the organization.
+
+![](https://github.com/user-attachments/assets/e51526c6-e09c-4a5a-9cec-dcd3fd68a3a8)
+
+[![][back-to-top]](#readme-top)
+
+<div align="right">
+
+[![][back-to-top]](#readme-top)
+
+</div>
+
+![](https://hub-apac-1.lobeobjects.space/blog/assets/fe98eae9fcb6acc47c8e1fb69bdb4b50.webp)
+
+### Evolve: Co-evolution of Humans and Agents
+
+The best AI is one that understands you deeply. LobeHub features **Personal Memory** that builds a clear understanding of your needs.
+
+- **Continual Learning**: Your agents learn from how you work, adapting their behavior to act at the right moment.
+- **White-Box Memory**: We believe in transparency. Your agents use structured, editable memory, giving you full control over what they remember.
+
+![](https://github.com/user-attachments/assets/5c6e16f0-7f47-4baf-9aeb-3a00deb8ff5b)
+
+<div align="right">
+
+[![][back-to-top]](#readme-top)
+
+</div>
+
+> ✨ more features will be added when LobeHub evolve.
+
+<div align="right">
+
+[![][back-to-top]](#readme-top)
+
+</div>
+
+## 🛳 Self Hosting
+
+LobeHub provides Self-Hosted Version with Vercel, Alibaba Cloud, and [Docker Image][docker-release-link]. This allows you to deploy your own chatbot within a few minutes without any prior knowledge.
+
+> \[!TIP]
+>
+> Learn more about [📘 Build your own LobeHub][docs-self-hosting] by checking it out.
+
+### `A` Deploying with Vercel, Zeabur , Sealos or Alibaba Cloud
+
+"If you w
+
 ## configuration
 
 This project provides some additional configuration items set with environment variables:

@@ -9,6 +9,15 @@
     - Supporters please use the [Changelog for Supporters](https://github.com/staxrip/staxrip/blob/master/CHANGELOG-SUPPORTER.md) instead.
 - If the [Latest Release](https://github.com/staxrip/staxrip/releases/latest) does not solve your problem, please use the [Issue Tracker](https://github.com/staxrip/staxrip/issues). You need to be as precise as possible using the Issue Tracker template when opening a thread in it.
 
+### Community
+- Feel free to join in the [StaxRip Community on Discord](https://discord.gg/uz8pVR79Bd) , where you can chat and share knowledge with us and other StaxRip users. 
+This is the way to go if you have questions regarding settings, usage, etc.
+- Usage questions can also be asked on the *StaxRip threads* on
+  - [VideoHelp](https://forum.videohelp.com/threads/369913-StaxRip-support-thread)
+  - [Doom9](https://forum.doom9.org/showthread.php?t=172068)
+
+  although no developer or contributor is active there anymore.
+
 ## requirements
 
 - Many tools and filters need a specific version of Microsoft Visual C++ Redistributable Runtimes. Due to the frequent changing and replacing of tools and filters, it is impossible to provide precise details about the right dependency. So if StaxRip doesn't start or you get error messages due to missing runtime files or dependencies, we recommend to download and install the Microsoft Visual C++ Redistributable Runtimes from:
@@ -44,3 +53,16 @@ Since `v2.37.0` the versioning has changed a little bit.
 Releases with the same second number (for example `v2.39.0`, `v2.39.2` and `v2.39.3`) are basically compatible with each other,
 means that you can overwrite the existing files of your old instance and use the same/old settings.
 Whenever this is possible an `UPDATE` archive is also released so you can just download the files that are needed to overwrite.
+
+
+# Screenshots
+
+![Main Window](https://github.com/staxrip/staxrip/blob/master/Images/Screenshots/MainWindow2.png)
+
+![Code Editor](https://github.com/staxrip/staxrip/blob/master/Images/Screenshots/FilterProfiles.png)
+
+![Event Command Editor](https://github.com/staxrip/staxrip/blob/master/Images/Screenshots/EventCommands.png)
+
+![x265 Options](https://github.com/staxrip/staxrip/blob/master/Images/Screenshots/AppsManager.png)
+
+![Processing](https://github.com/staxrip/staxrip/blob/master/Images/Screenshots/SettingsGeneral.png)

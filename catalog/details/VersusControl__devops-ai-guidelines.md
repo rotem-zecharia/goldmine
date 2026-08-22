@@ -5,3 +5,83 @@ First AI Journey for DevOps - with comprehensive learning paths, practical tips,
 ## features
 
 This repository provides everything you need to master AI in DevOps - from your first AI tool to becoming an AI Infrastructure Architect. Whether you're starting your AI journey, implementing AI in your team, or leading enterprise AI adoption, we've got comprehensive resources and proven frameworks to guide your success.
+
+### What You'll Find Here
+
+- **Complete learning roadmap** from DevOps to AI Infrastructure Architect
+- **Structured tutorials** for AI fundamentals and advanced techniques
+- **Enterprise AI frameworks** for safe team implementation
+- **Career acceleration** strategies and interview preparation
+- **Daily productivity** tips and automation workflows
+- **Cloud optimization** using AI tools and techniques
+
+## Repository Contents
+
+### AI Learning Path for DevOps
+
+**Complete 18-month journey from DevOps Engineer to AI Infrastructure Architect**
+
+| Document                                                                  | Description                                                       | Status       |
+| ------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------ |
+| [**AI Roadmap Overview**](./01-ai-roadmap-for-devops/01-roadmap.md) | Complete visual learning path with 3 phases and navigation        | ✅ Available |
+| [**MCP for DevOps**](./02-mcp-for-devops/00-toc.md)                 | Complete guide to building MCP servers with Golang and Kubernetes | ✅ Available |
+| [**AI Agent for DevOps**](./03-ai-agent-for-devops/00-toc.md)       | Complete guide to building AI Agent with Golang and LangChain    | ✅ Available |
+| [**AI Agent for Monitoring**](./04-ai-agent-for-monitoring/00-contents.md) | The Versus SRE Agent - Monitor your systems and automatically escalate unexpected issues by learning what "normal" looks like | ✅ Available        |
+| [**AI Project Management**](./05-ai-project-management/00-toc.md) | An Engineer's Journey to Building an Intelligent Project Management with OpenClaw | ✅ Available        |
+| [**SRE Agent Brain**](./06-sre-agent-brain/00-contents.md) | The SRE Agent's Runbook Brain - Building system knowledge so your agent retrieves the right fix the moment an incident fires | ✅ Available        |
+
+### For Teams & Organizations
+
+| Document                                                                          | Description                                                        | Time to Read |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------------ |
+| [**AI Guidelines for DevOps Teams**](./resources/ai-guidelines-devops-team.md) | Complete framework for implementing AI safely in your organization | 15-20 min    |
+
+### For Individual Career Growth
+
+| Document                                                                         | Description                                                  | Time to Read |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------ |
+| [**AI Interview Preparation Guide**](./resources/ai-mock-interview.md)        | Master AI-related DevOps interview questions and scenarios   | 10 min       |
+| [**10 Essential AI Prompts for DevOps**](./resources/10-ai-prompts-devops.md) | Ready-to-use prompts that will boost your daily productivity | 5 min        |
+
+### For Cloud & Certification
+
+| Document                                                                                   | Description                                                | Time to Read |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------- | ------------ |
+| [**AWS Certification 10x Faster with AI**](./resources/aws-certification-10x-faster.md) | Accelerate your AWS learning using AI tools an
+
+## installation
+
+### Individual DevOps Engineer
+
+1. Start with [10 AI Prompts](./resources/10-ai-prompts-devops.md) for immediate productivity gains
+2. Use [AWS AI Learning](./resources/aws-certification-10x-faster.md) to accelerate certifications
+3. Prepare for interviews with [AI Interview Guide](./resources/ai-mock-interview.md)
+
+### **Team Lead/Manager**
+
+1. Review [Team Guidelines](./resources/ai-guidelines-devops-team.md) for safe AI implementation
+2. Share [Daily Prompts](./resources/10-ai-prompts-devops.md) with your team
+3. Establish security framework from the guidelines
+
+### **Organization/CTO**
+
+1. Implement [AI Guidelines](./resources/ai-guidelines-devops-team.md) across teams
+2. Train teams using all resources as reference material
+3. Monitor and optimize based on provided frameworks
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support This Project
+
+If these guidelines have helped your team implement AI safely and effectively, consider:
+
+- ⭐ **Starring** this repository
+- 💖 **Sponsoring** continued development
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+---
+
+**Made with ❤️ by the DevOps VN community | Helping DevOps professionals thrive in the AI era**

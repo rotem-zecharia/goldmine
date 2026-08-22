@@ -36,3 +36,21 @@ if it becomes impractical, and bugs affecting only these versions may not be
 treated as release blockers.
 
 To find out what environments work with a particular Jasmine release, see the [release notes](https://github.com/jasmine/jasmine/tree/main/release_notes).
+
+## Maintainers
+
+* [Gwendolyn Van Hove](mailto:gwen@slackersoft.net)
+* [Steve Gravrock](mailto:sdg@panix.com)
+
+### Maintainers Emeritus
+
+* [Davis W. Frank](mailto:dwfrank@pivotal.io)
+* [Rajan Agaskar](mailto:rajan@pivotal.io)
+* [Greg Cobb](mailto:gcobb@pivotal.io)
+* [Chris Amavisca](mailto:camavisca@pivotal.io)
+* [Christian Williams](mailto:antixian666@gmail.com)
+* Sheel Choksi
+
+Copyright (c) 2008-2019 Pivotal Labs<br>
+Copyright (c) 2008-2026 The Jasmine developers<br>
+This software is licensed under the [MIT License](https://github.com/jasmine/jasmine/blob/main/LICENSE).

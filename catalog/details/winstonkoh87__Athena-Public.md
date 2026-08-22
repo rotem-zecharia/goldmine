@@ -19,10 +19,60 @@ Athena moves the memory layer to **your machine**. Plain Markdown files that you
 >
 > *The design philosophy: [augment the human, not replace them](docs/concepts/Grace_Protocol.md). After 1,900+ sessions, the bottleneck shifted — [optimising the operator is now higher-leverage than optimising the AI](docs/USER_DRIVEN_RSI.md#phase-2-optimising-the-operator).*
 
+### The Human Augmentation Thesis
+
+Athena's centralised design principle: **augment human cognition, not replace it.** The more context you give Athena, the sharper its answers become — not by remembering your preferences, but by **reasoning differently because of what it knows about you.**
+
+But personalization is only half the design — and on its own, it's the dangerous half. An AI tuned purely to *fit you* is a mirror: it hands your own blind spots back to you, faster and more fluently than you'd rationalise them yourself. The moat was never that Athena agrees with you more precisely. It's that Athena knows you well enough to tell you when **you** are the problem — and has the standing (Law #1, the Committee of Seats) to refuse a premise a generic assistant would obligingly help you execute.
+
+So the USP has two legs, not one:
+
+- **It knows you** — owned, portable, compounding context. The substrate nobody else has.
+- **It will disagree with you** — grounded in *your* documented patterns, not generic hedging. The leg that makes the first one safe to stand on.
+
+Personalization is what makes the disagreement credible (it's aimed at your actual situation, not a textbook). The disagreement is what keeps the personalization from becoming a well-decorated echo chamber. Neither leg is the USP alone; the product is the pair.
+
+A generic LLM gives the internet's statistically average answer — correct *on average, across all humans*. Athena gives answers calibrated to *your specific situation* — including the situations where the honest answer is the one you were hoping it wouldn't say:
+
+<table>
+<tr>
+<th width="25%">Question</th>
+<th width="37%">Generic LLM</th>
+<th width="38%">Athena (with your context)</th>
+</tr>
+<tr>
+<td><strong>The Trolley Problem</strong></td>
+<td>
+“Pull the lever — utilitarian calculus says save five lives.”
+</td>
+<td>
+Challenges the false binary. Generates third options. Asks why you’re on the tracks in the first place. Identifies the systemic failures that created the dilemma. Refuses to solve the wrong problem.
+</td>
+</tr>
+<tr>
+<td><strong>“Should I double down on 1
+
 ## installation
 
 **Works on macOS, Windows, and Linux.**
 
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/winstonkoh87/Athena-Public.git
+cd Athena-Public
+```
+
+Clone it anywhere you keep projects (e.g. `~/Projects/`). This folder **is** your Athena workspace — your memory, protocols, and config all live here.
+
 ## configuration
 
 ```bash
+# Create and activate a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate   # macOS / Linux
+# .venv\Scripts\activate    # Windows
+```
+
+> [!IMPORTANT]
+> On macOS (Homebrew) and Ubuntu 23.04+, installing packages without a virtual environment will fail with `externally-managed-environment`. The step above prevents this.

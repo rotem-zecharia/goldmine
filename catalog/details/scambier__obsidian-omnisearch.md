@@ -34,3 +34,24 @@ You can check the [CHANGELOG](./CHANGELOG.md) for more information on the differ
 **Note:** support of Chinese depends
 on [this additional plugin](https://github.com/aidenlx/cm-chs-patch) (also you may need to clear search cache data to apply new Chinese index). Please read its documentation for more
 information.
+
+## Projects that use Omnisearch
+
+_Submit a PR to add your own project!_
+
+- [Omnisearch Companion](https://github.com/ALegendsTale/omnisearch-companion), an extension for your browser ([Firefox](https://addons.mozilla.org/en-US/firefox/addon/omnisearch-companion/), [Chrome](https://chromewebstore.google.com/detail/omnisearch-companion/kcjcnnlpfbilodfnnkpioijobpjhokkd))
+- [Actions for Obsidian](https://actions.work/actions-for-obsidian)
+- [Notebook Navigator](https://notebooknavigator.com/)
+- [Userscripts](https://publish.obsidian.md/omnisearch/Inject+Omnisearch+results+into+your+search+engine) to inject Omnisearch into your favorite web search engine
+- [obsidian-mcp-server](https://github.com/cyanheads/obsidian-mcp-server), an MCP server that auto-detects Omnisearch and exposes it as a BM25-ranked search mode for AI agents accessing your vault
+
+## LICENSE
+
+Omnisearch is licensed under [GPL-3](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
+
+## Thanks
+
+To all people who donate through [Ko-Fi](https://ko-fi.com/scambier)
+or [Github Sponsors](https://github.com/sponsors/scambier) ❤
+
+![JetBrains logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)

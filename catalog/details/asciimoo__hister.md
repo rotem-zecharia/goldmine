@@ -36,3 +36,41 @@ No configuration is required for a local personal setup. See the [complete quick
 - **Multi user support**: Keep each user's documents and search results separate on a shared server.
 
 ![Hister terminal interface](webui/website/src/lib/assets/demo.gif)
+
+## Privacy
+
+By default, Hister has no telemetry and no cloud sync. The browser extension sends indexed page content only to the Hister server you configure, apart from downloading page favicons. The server stores documents and search indexes on that server.
+
+Optional semantic search sends document text to the embeddings endpoint you choose. Review the [privacy overview](https://hister.org/docs/intro#privacy) and [semantic search configuration](https://hister.org/docs/configuration#semantic-search) before enabling remote integrations.
+
+## Development
+
+Requirements are Go 1.26, npm, and a C compiler for CGO dependencies.
+
+```bash
+git clone https://github.com/asciimoo/hister.git
+cd hister
+./manage.sh build
+```
+
+To work on the web app with hot reload and automatic Go rebuilds:
+
+```bash
+npm run serve:app
+```
+
+This starts a Vite development server and the Go backend with automatic rebuilds through [air](https://github.com/air-verse/air).
+
+## Community and contributing
+
+Join us on IRCNet in `#hister` or on [Discord](https://discord.gg/beEyuHxRSs).
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a change. Bugs and suggestions belong in the [issue tracker](https://github.com/asciimoo/hister/issues). For security reports, see [SECURITY.md](SECURITY.md).
+
+## Sponsors
+
+[![Uruky](webui/website/static/uruky.svg)](https://uruky.com/)
+
+## License
+
+[AGPLv3](LICENSE) or any later version

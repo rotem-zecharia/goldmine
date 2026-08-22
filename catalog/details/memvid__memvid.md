@@ -6,6 +6,13 @@ Memory layer for AI Agents. Replace complex RAG pipelines with a serverless, sin
 
 -   **Rust 1.85.0+** — Install from [rustup.rs](https://rustup.rs)
 
+### Add to Your Project
+
+```toml
+[dependencies]
+memvid-core = "2.0"
+```
+
 ## features
 
 | Feature             | Description                                                      |
@@ -59,7 +66,144 @@ fn main() -> memvid_core::Result<()> {
     }
 
     Ok(())
+}
+```
+
+---
+
+## Build
+
+Clone the repository:
+
+```bash
+git clone https://github.com/memvid/memvid.git
+cd memvid
+```
+
+Build in debug mode:
+
+```bash
+cargo build
+```
+
+Build in release mode (optimized):
+
+```bash
+cargo build --release
+```
+
+Build with specific features:
+
+```bash
+cargo build --release --features "lex,vec,temporal_track"
+```
+
+---
+
+## Run Tests
+
+Run all tests:
+
+```bash
+cargo test
+```
+
+Run tests with output:
+
+```bash
+cargo test -- --nocapture
+```
+
+Run a specific test:
+
+```bash
+cargo test test_name
+```
+
+Run integration tests only:
+
+```bash
+cargo test --test lifecycle
+cargo test --test search
+cargo test --test mutation
+```
+
+---
 
 ## tools
 
 The `examples/` directory contains working examples:
+
+### Basic Usage
+
+Demonstrates create, put, search, and timeline operations:
+
+```bash
+cargo run --example basic_usage
+```
+
+### PDF Ingestion
+
+Ingest and search PDF documents (uses the "Attention Is All You Need" paper):
+
+```bash
+cargo run --example pdf_ingestion
+```
+
+### CLIP Visual Search
+
+Image search using CLIP embeddings (requires `clip` feature):
+
+```bash
+cargo run --example clip_visual_search --features clip
+```
+
+### Whisper Transcription
+
+Audio transcription (requires `whisper` feature):
+
+```bash
+cargo run --example test_whisper --features whisper -- /path/to/audio.mp3
+```
+
+**Available Models:**
+
+| Model                 | Size   | Speed   | Use Case                            |
+| --------------------- | ------ | ------- | ----------------------------------- |
+| `whisper-small-en`    | 244 MB | Slowest | Best accuracy (default)             |
+| `whisper-tiny-en`     | 75 MB  | Fast    | Balanced                            |
+| `whisper-tiny-en-q8k` | 19 MB  | Fastest | Quick testing, resource-constrained |
+
+**Model Selection:**
+
+```bash
+# Default (FP32 small, highest accuracy)
+cargo run --example test_whisper --features whisper -- audio.mp3
+
+# Quantized tiny (75% smaller, faster)
+MEMVID_WHISPER_MODEL=whisper-tiny-en-q8k cargo run --example test_whisper --features whisper -- audio.mp3
+```
+
+**Programmatic Configuration:**
+
+```rust
+use memvid_core::{WhisperConfig, WhisperTranscriber};
+
+// Default FP32 small model
+let config = WhisperConfig::default();
+
+// Quantized tiny model (faster, smaller)
+let config = WhisperConfig::with_quantization();
+
+// Specific model
+let config = WhisperConfig::with_model("whisper-tiny-en-q8k");
+
+let transcriber = WhisperTranscriber::new(&config)?;
+let result = transcriber.transcribe_file("audio.mp3")?;
+println!("{}", result.text);
+```
+
+
+## Text Embedding Models
+
+The `vec` feature includes local text embedding support using ONNX models. Before using local text embeddings, you need to download the model files manually.

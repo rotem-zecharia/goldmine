@@ -31,6 +31,25 @@ With the client, you can create collection:
 client.create_collection(
     collection_name="demo_collection",
     dimension=768,  # The vectors we will use in this demo have 768 dimensions
+)
+```
+
+Ingest data:
+```python
+res = client.insert(collection_name="demo_collection", data=data)
+```
+
+Perform vector search:
+
+```python
+query_vectors = embedding_fn.encode_queries(["Who is Alan Turing?", "What is AI?"])
+res = client.search(
+    collection_name="demo_collection",  # target collection
+    data=query_vectors,  # a list of one or more query vectors, supports batch
+    limit=2,  # how many results to return (topK)
+    output_fields=["vector", "text", "subject"],  # what fields to return
+)
+```
 
 ## features
 

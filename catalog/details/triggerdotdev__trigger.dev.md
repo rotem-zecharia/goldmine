@@ -29,10 +29,53 @@ Trigger.dev – build and deploy fully‑managed AI agents and workflows
 - **[Bulk actions](https://trigger.dev/docs/bulk-actions)** - Perform actions on multiple runs simultaneously, including replaying and cancelling
 - **[Real-time alerts](https://trigger.dev/docs/troubleshooting-alerts#alerts)** - Choose your preferred notification method for run failures and deployments
 
+## Write tasks in your codebase
+
+Create tasks where they belong: in your codebase. Version control, localhost, test and review like you're already used to.
+
+```ts
+import { task } from "@trigger.dev/sdk";
+
+//1. You need to export each task
+export const h
+
 ## configuration
 
 We support `Development`, `Staging`, `Preview`, and `Production` environments, allowing you to test your tasks before deploying them to production.
 
+## Full visibility of every job run
+
+View every task in every run so you can tell exactly what happened. We provide a full trace view of every task run so you can see what happened at every step.
+
+![Trace view image](https://content.trigger.dev/trace-view.png)
+
 ## installation
 
 The quickest way to get started is to create an account and project in our [web app](https://cloud.trigger.dev), and follow the instructions in the onboarding. Build and deploy your first task in minutes.
+
+### Useful links:
+
+- [Quick start](https://trigger.dev/docs/quick-start) - get up and running in minutes
+- [How it works](https://trigger.dev/docs/how-it-works) - understand how Trigger.dev works under the hood
+- [Guides and examples](https://trigger.dev/docs/guides/introduction) - walk-through guides and code examples for popular frameworks and use cases
+
+## Self-hosting
+
+If you prefer to self-host Trigger.dev, you can follow our [self-hosting guides](https://trigger.dev/docs/self-hosting/overview):
+
+- [Docker self-hosting guide](https://trigger.dev/docs/self-hosting/docker) - use Docker Compose to spin up a Trigger.dev instance
+- [Kubernetes self-hosting guide](https://trigger.dev/docs/self-hosting/kubernetes) - use our official Helm chart to deploy Trigger.dev to your Kubernetes cluster
+
+## Support and community
+
+We have a large active community in our official [Discord server](https://trigger.dev/discord) for support, including a dedicated channel for self-hosting.
+
+## Development
+
+To setup and develop locally or contribute to the open source project, follow our [development guide](./CONTRIBUTING.md).
+
+## Meet the Amazing People Behind This Project:
+
+<a href="https://github.com/triggerdotdev/trigger.dev/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=triggerdotdev/trigger.dev" />
+</a>

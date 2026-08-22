@@ -14,6 +14,126 @@ Browser extensions ship with the worst dev experience in modern web. Manifest V3
 - **Production builds** with `extension build --zip`, ready for the Chrome Web Store and Firefox Add-ons
 - **Drop-in** for existing extensions with one `devDependency`
 
+## Watch it work
+
+[![One command, and the extension is running in a real browser](https://media.extension.land/video/extension-js/sixty-second-demo.gif)](https://extension.js.org/docs)
+
+Or skip the install and try a [live template](https://templates.extension.dev) in your browser.
+
+## How is this different
+
+If you have used [Plasmo](https://www.plasmo.com), [WXT](https://wxt.dev), or [CRXJS](https://crxjs.dev), here is what Extension.js does that the others do not:
+
+| Capability | Extension.js |
+| :--------- | :----------- |
+| Run any GitHub sample directly | `extension dev https://github.com/.../sample` |
+| Managed browser binaries | `extension install firefox` downloads an isolated build |
+| Cross-browser HMR for content scripts | Built in, no plugin glue |
+| Production zip for the stores | `extension build --zip` |
+| Framework agnostic | [Vanilla](https://templates.extension.dev/javascript), [TS](https://templates.extension.dev/typescript), [React](https://templates.extension.dev/react), [Vue](https://templates.extension.dev/vue), [Svelte](https://templates.extension.dev/svelte), [Preact](https://templates.extension.dev/preact), no lock-in |
+| Custom Chromium and Gecko binaries | `--chromium-binary`, `--gecko-binary` |
+
+Extension.js is sponsored by [extension.dev](https://docs.extension.dev/?utm_source=readme), the platform that hosts the build, share and store submission side of shipping an extension. To hand someone an unpublished build behind a link, with no zip and no install on their side, see [Share an unpublished build for review](https://docs.extension.dev/share/unpublished-build-for-review?utm_source=readme).
+
+## Frameworks
+
+<div align="center">
+
+| <img alt="ESNext" src="https://github.com/cezaraugusto/extension.js/assets/4672033/a9e2541a-96f0-4caa-9fc9-5fc5c3e901c8" width="70"> | <img alt="TypeScript" src="https://github.com/cezaraugusto/extension.js/assets/4672033/b42c5330-9e2a-4045-99c3-1f7d264dfaf4" width="70"> | <img alt="WASM" src="https://github.com/cezaraugusto/extension.js/assets/4672033/f19edff3-9005-4f50-b05c-fba615896a7f" width="70"> | <img alt="React" src="https://github.com/cezaraugusto/extension.js/assets/4672033/ff64721d-d145-4213-930d-e70193f8d57e" width="70"> | <img alt="Vue" src="https://github.com/cezaraugusto/extension.js/assets/4672033/15f1314a-aa65-4ce2-a3f3-cf53c4f730cf" width="70"> | <img alt="Svelte" src="https://github.com/cezaraugusto/extension.js/assets/4672033/de1082fd-7cf6-4202-8c12-a5c3cd3e5b42" width="70"> | <img alt="Preact" src="https://github.com/cezaraugusto/extension.js/assets/4672033/8807efd9-93e5-4db5-a1d2-9ac524f7ecc2" width="70"> |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| ESNext<br>[Try out](https://templates.extension.dev/javascript) | TypeScript<br>[Try out](https://templates.extension.dev/typescript) | WASM<br>[Try out](https://github.com/extension-js/examples/tree/main/examples/transformers-js) | React<br>[Try out](https://templates.extension.dev/react) | Vue<br>[Try out](https://templates.extension.dev/vue) | Svelte<br>[Try out](https://templates.extension.dev/svelte) | Preact<br>[Try out](https://templates.extension.dev/preact) |
+
+</div>
+
+
 ## installation
 
 npx extension@latest install firefox
+
+# Install Chrome and Edge in one go
+npx extension@latest install --browser=all
+
+# Print where managed browsers live
+npx extension@latest install --where
+```
+
+## Add to an existing extension
+
+Install Extension.js as a dev dependency and wire up your scripts.
+
+```bash
+npm install extension@latest --save-dev
+```
+
+```json
+{
+  "scripts": {
+    "build": "extension build",
+    "dev": "extension dev",
+    "preview": "extension preview"
+  }
+}
+```
+
+Run `npm run dev` to develop, and watch the browser open with your extension already loaded:
+
+[![extension dev: the browser opens with the extension loaded](https://media.extension.land/video/extension-js/dev-build-preview.gif)](https://extension.js.org/docs/commands/dev)
+
+Use `npm run build` for production, and `npm run preview` to inspect the production output.
+
+## Start from a Chrome sample
+
+Pull any sample from [Chrome Extension Samples](https://github.com/GoogleChrome/chrome-extensions-samples) and run it directly:
+
+```bash
+npx extension@latest dev https://github.com/GoogleChrome/chrome-extensions-samples/tree/main/functional-samples/sample.page-redder --browser=edge
+```
+
+[![Running a Chrome sample straight from its GitHub URL](https://media.extension.land/video/extension-js/run-chrome-sample.gif)](https://extension.js.org/docs/getting-started/immediately)
+
+## Package managers
+
+<div align="center">
+
+| <img alt="npm" src="https://media.extension.land/logos/package-managers/npm.svg" width="70"> | <img alt="pnpm" src="https://media.extension.land/logos/package-managers/pnpm.svg" width="70"> | <img alt="Yarn" src="https://media.extension.land/logos/package-managers/yarn.svg" width="70"> | <img alt="Bun" src="https://media.extension.land/logos/package-managers/bun.svg" width="70"> | <picture><source media="(prefers-color-scheme: dark)" srcset="https://media.extension.land/logos/package-managers/deno-dark.svg"><img alt="Deno" src="https://media.extension.land/logos/package-managers/deno.svg" width="70"></picture> |
+| :-: | :-: | :-: | :-: | :-: |
+| npm<br>✅ Supported | pnpm<br>✅ Supported | Yarn<br>✅ Supported | Bun<br>✅ Supported | Deno<br>✅ Supported |
+
+</div>
+
+## Community
+
+- Star the repo if Extension.js helped you ship faster
+- Join the [Discord](https://discord.gg/v9h2RgeTSN) for help and feedback
+- Open issues and feature requests on [GitHub](https://github.com/extension-js/extension.js/issues)
+- Browse production-ready [examples](https://github.com/extension-js/examples)
+
+## Sponsors
+
+Sponsors help the project ship faster releases, better developer experience, and long-term reliability for extension teams.
+
+<div align="center">
+  <p>
+    <a href="https://www.testmuai.com/?utm_medium=sponsor&utm_source=extensionjs" target="_blank" rel="noopener noreferrer">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://extension.js.org/images/sponsors/testmuai_dark.svg" />
+        <source media="(prefers-color-scheme: light)" srcset="https://extension.js.org/images/sponsors/testmuai.svg" />
+        <img src="https://extension.js.org/images/sponsors/testmuai.svg" width="220" alt="TestMu AI" />
+      </picture>
+    </a>
+  </p>
+  <p>
+    <a href="https://extension.dev/?utm_medium=sponsor&utm_source=extensionjs" target="_blank" rel="noopener noreferrer">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://extension.js.org/images/sponsors/extensiondev_dark.svg" />
+        <source media="(prefers-color-scheme: light)" srcset="https://extension.js.org/images/sponsors/extensiondev.svg" />
+        <img src="https://extension.js.org/images/sponsors/extensiondev.svg" width="220" alt="extension.dev" />
+      </picture>
+    </a>
+  </p>
+  <p>
+    <a href="https://github.com/sponsors/cezaraugusto">Become a sponsor</a>
+  </p>
+</div>
+
+Documentation is hosted by [Mintlify](https://mintlify.com/?utm_medium=infrastructure&utm_source=extensionjs) through its open source program. Tiers and placement are listed in [BA

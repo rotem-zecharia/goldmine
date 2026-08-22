@@ -32,9 +32,120 @@ With OpenMetadata, users and AI agents can answer:
 
 ---
 
+## The Context OpenMetadata Connects
+
+OpenMetadata collects and connects the context AI needs to reason safely over enterprise data.
+
+| Context type | What OpenMetadata captures | Why it matters for AI |
+| --- | --- | --- |
+| **Technical metadata** | Databases, schemas, tables, columns, topics, dashboards, charts, pipelines, APIs, search indexes, ML models, storage assets, data types, constraints, descriptions, joins, sample queries, service metadata, owners, teams, usage, domains, and data products | Helps AI discover what exists and understand how assets are structured |
+| **Quality and trust** | Test cases, test suites, freshness checks, volume checks, null, uniqueness, distribution, custom tests, profiling results, observability signals, incidents, alerts, and quality history | Helps AI avoid treating every dataset as equally trustworthy |
+| **Lineage and impact** | Upstream and downstream lineage, table lineage, column-level lineage, dashboard lineage, pipeline lineage, metric lineage, ML model lineage, API and topic dependencies, and OpenLineage events | Helps AI explain where data came from, where it flows, and what changes may break |
+| **Semantics** | Glossaries, business terms, synonyms, related terms, metrics, KPIs, classifications, tags, domains, data products, policies, personas, lifecycle states, and ontologies | Helps AI map technical names to business meaning |
+| **Governance** | Owners, stewards, teams, policies, roles, classifications, access context, certification, review workflows, lifecycle states, and data contracts | Helps AI act with policy-aware context |
+| **Memory and tribal knowledge** | Conversations, AI threads, decisions, assumptions, runbooks, remediation notes, incident learnings, and reusable memory nuggets attached to assets, users, teams, data products, and agent workflows | Helps humans and agents inherit what the organization already learned instead of rediscovering it in every conversation |
+| **Standards and interoperability** | DCAT, DPROD, PROV-O, OpenLineage, ODCS, RDF/OWL, JSON-
+
 ## tools
 
 OpenMetadata makes context actionable through AI- and developer-friendly interfaces.
+
+### MCP Server
+
+OpenMetadata includes an MCP server that lets MCP-compatible assistants and agents interact with the metadata graph through natural language.
+
+AI assistants can use OpenMetadata MCP to:
+
+- search metadata
+- run semantic search
+- retrieve entity details
+- inspect lineage
+- understand data contracts and policy context
+- retrieve or preserve memory nuggets
+- update descriptions, tags, owners, and other metadata
+- create glossary terms and lineage
+- list and create data quality tests
+- analyze root causes of data quality failures
+
+Get started: [OpenMetadata MCP Server Documentation](https://docs.open-metadata.org/latest/how-to-guides/mcp)
+
+### Semantic Search
+
+Semantic Search lets users and AI assistants find data assets by meaning, not only exact keywords.
+
+```text
+Find trusted customer purchase datasets with known data quality issues and recent remediation notes.
+```
+
+OpenMetadata can surface conceptually related assets, metrics, glossary terms, data products, memory nuggets, and governance context even when names differ across domains, tools, and teams.
+
+### APIs, SDKs, Events, and Webhooks
+
+OpenMetadata exposes APIs, SDKs, events, and webhooks so teams can ingest, update, search, subscribe to, and automate metadata across their ecosystem.
+
+Developers can use the AI SDK to build custom AI applications that use OpenMetadata context and memory programmatically.
+
+---
+
+## Use It From Code
+
+Two packages, depending on what you're building.
+
+| Goal | Package | Install |
+|------|---------|---------|
+| Read/write metadata, lineage, glossary, quality | [`openmetadata-ingestion`](https://pypi.org/project/openmetadata-ingestion/) | `pip install "openmetadata-ingestion"` |
+| Give an LLM or agent governed access (MCP, LangChain) | [`data-ai-sdk`](https://pypi.org/project/data-ai-sdk/) | `pip install data-ai-sdk` |
+
+Also available: [`@openmetadata/ai-sdk`](https://www.npmjs.com/package/@openmetadata/ai-sdk) (TypeScript), [`org.open-metadata:ai-sdk`](https://central.sonatype.com/artifact/org.open-metadata/ai-sdk) (Java).
+
+### Python SDK — connect and read metadata
+
+Match the SDK version to your server version.
+
+```python
+from metadata.generated.schema.entity.data.table import Table
+from metadata.generated.schema.entity.services.connections.metadata.openMetadataConnection import (
+    OpenMetadataConnection, AuthProvider,
+)
+from metadata.generated.schema.security.client.openMetadataJWTClientConfig import (
+    OpenMetadataJWTClientConfig,
+)
+from metadata.ingestion.ometa.ometa_api import OpenMetadata
+
+metadata = OpenMetadata(OpenMetadataConnection(
+    hostPort="http://localhost:8585/api",
+    authProvider=AuthProvider.openmetadata,
+    securityConfig=OpenMetadataJWTClientConfig(jwtToken="<your-token>"),
+))
+assert metadata.health_check()
+
+table = metadata.get_by_name(entity=Table, fqn="sample_data.ecommerce_db.shopify.raw_product_catalog")
+print(table.description, [c.name.root for c in table.columns])
+```
+
+Entities are hierarchical — a Table belongs to a Schema, which belongs to a Database, which belongs to a DatabaseService. Every entity references its parent by `fullyQualifiedName`.
+
+### AI SDK — give an agent governed context via MCP
+
+OpenMetadata exposes an [MCP server](https://modelcontextprotocol.io/) at `/mcp`. Unlike generic connectors that only read raw database schemas, it exposes semantic search, lineage traversal, glossary/classification, and metadata mutations as tools any LLM can call.
+
+```python
+from ai_sdk import AISdk, AISdkConfig
+
+client = AISdk.from_config(AISdkConfig.from_env())
+
+# Convert MCP tools to LangChain format — one line
+tools = client.mcp.as_langchain_tools()
+
+# Or call a tool directly
+result = client.mcp.call_tool("search_metadata", {"query": "customers"})
+```
+
+Works with LangChain and OpenAI function calling out of the box.
+
+### Docs & examples
+
+- **Python SDK reference:** https://docs.open-metadata.org/latest/sdk
 
 ## installation
 
@@ -49,3 +160,42 @@ OpenMetadata makes context actionable through AI- and developer-friendly interfa
 9. **Build AI Applications** using OpenMetadata APIs, SDKs, MCP tools, events, and AI SDK workflows.
 
 ---
+
+## Documentation and Community
+
+- Documentation: [docs.open-metadata.org](https://docs.open-metadata.org/)
+- MCP Server: [OpenMetadata MCP Documentation](https://docs.open-metadata.org/latest/how-to-guides/mcp)
+- OpenLineage Connector: [OpenMetadata OpenLineage Documentation](https://docs.open-metadata.org/latest/connectors/pipeline/openlineage)
+- OpenMetadata Standards: [openmetadatastandards.org](https://openmetadatastandards.org/)
+- Website: [open-metadata.org](https://open-metadata.org/)
+- Slack Community: [slack.open-metadata.org](https://slack.open-metadata.org/)
+- Blog: [blog.open-metadata.org](https://blog.open-metadata.org/)
+
+---
+
+## Open Source and Enterprise AI
+
+OpenMetadata is the open-source foundation for AI context, metadata, organizational memory, semantics, governance, quality, lineage, data contracts, open standards, APIs, MCP, and AI SDK workflows.
+
+For managed enterprise capabilities, AI agents, automation, AI Studio, enterprise MCP workflows, commercial support, and managed operations, see Collate:
+
+- [Collate](https://www.getcollate.io/)
+- [Collate AI](https://www.getcollate.io/collate-ai)
+
+---
+
+## Contributing
+
+We welcome contributions from the community. You can help improve metadata schemas and standards, add connectors, improve ingestion workflows, enhance MCP tools, improve semantic search, add memory workflows, add documentation, fix bugs, and improve the user experience.
+
+See the contribution guide in this repository to get started.
+
+- [How To Contribute](https://docs.open-metadata.org/v1.12.x/developers/contribute)
+- [Development Environment Setup](https://docs.open-metadata.org/v1.12.x/developers/contribute/development-environment-setup)
+- [Build Code & Run Tests](https://docs.open-metadata.org/v1.12.x/developers/contribute/build-code-and-run-tests)
+
+---
+
+## License
+
+OpenMetadata is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).

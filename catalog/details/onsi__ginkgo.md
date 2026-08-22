@@ -23,3 +23,14 @@ Ginkgo ships with `ginkgo`, a [command line tool](https://onsi.github.io/ginkgo/
 And that's just Ginkgo!  [Gomega](https://onsi.github.io/gomega/) brings a rich, mature, family of [assertions and matchers](https://onsi.github.io/gomega/#provided-matchers) to your suites.  With Gomega you can easily mix [synchronous and asynchronous assertions](https://onsi.github.io/ginkgo/#patterns-for-asynchronous-testing) in your specs.  You can even build your own set of expressive domain-specific matchers quickly and easily by composing Gomega's [existing building blocks](https://onsi.github.io/ginkgo/#building-custom-matchers).
 
 Happy Testing!
+
+## Using Ginkgo with Claude Code
+
+Ginkgo ships a set of [Claude Code](https://claude.com/claude-code) skills as a plugin, with this repo doubling as the marketplace, so an agent writing specs in *your* project has Ginkgo's idioms, decorators, and gotchas on hand. From inside Claude Code:
+
+```
+/plugin marketplace add onsi/ginkgo
+/plugin install ginkgo@ginkgo
+```
+
+(or non-interactively: `claude plugin marketplace add onsi/ginkgo` then `claude plugin install ginkgo@ginkg

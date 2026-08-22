@@ -6,6 +6,141 @@ Find, verify, and analyze leaked credentials
 
 Several options are available for you:
 
+### MacOS users
+
+```bash
+brew install trufflehog
+```
+
+### Docker:
+
+<sub><i>_Ensure Docker engine is running before executing the following commands:_</i></sub>
+
+#### &nbsp;&nbsp;&nbsp;&nbsp;Unix
+
+```bash
+docker run --rm -it -v "$PWD:/pwd" trufflesecurity/trufflehog:latest github --repo https://github.com/trufflesecurity/test_keys
+```
+
+#### &nbsp;&nbsp;&nbsp;&nbsp;Windows Command Prompt
+
+```bash
+docker run --rm -it -v "%cd:/=\%:/pwd" trufflesecurity/trufflehog:latest github --repo https://github.com/trufflesecurity/test_keys
+```
+
+#### &nbsp;&nbsp;&nbsp;&nbsp;Windows PowerShell
+
+```bash
+docker run --rm -it -v "${PWD}:/pwd" trufflesecurity/trufflehog github --repo https://github.com/trufflesecurity/test_keys
+```
+
+#### &nbsp;&nbsp;&nbsp;&nbsp;M1 and M2 Mac
+
+```bash
+docker run --platform linux/arm64 --rm -it -v "$PWD:/pwd" trufflesecurity/trufflehog:latest github --repo https://github.com/trufflesecurity/test_keys
+```
+
+### Binary releases
+
+```bash
+Download and unpack from https://github.com/trufflesecurity/trufflehog/releases
+```
+
+### Compile from source
+
+```bash
+git clone https://github.com/trufflesecurity/trufflehog.git
+cd trufflehog; go install
+```
+
+### Using installation script
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -b /usr/local/bin
+```
+
+### Using installation script, verify checksum signature (requires cosign to be installed)
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -v -b /usr/local/bin
+```
+
+### Using installation script to install a specific version
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -b /usr/local/bin <ReleaseTag like v3.56.0>
+```
+
+# :closed_lock_with_key: Verifying the artifacts
+
+Checksums are applied to all artifacts, and the resulting checksum file is signed using cosign.
+
+You need the following tool to verify signature:
+
+- [Cosign](https://docs.sigstore.dev/cosign/system_config/installation/)
+
+Verification steps are as follows:
+
+1. Download the artifact files you want, and the following files from the [releases](https://github.com/trufflesecurity/trufflehog/releases) page.
+
+   - trufflehog\_{version}\_checksums.txt
+   - trufflehog\_{version}\_checksums.txt.pem
+   - trufflehog\_{version}\_checksums.txt.sig
+
+2. Verify the signature:
+
+   ```shell
+   cosign verify-blob <path to trufflehog_{version}_checksums.txt> \
+   --certificate <path to trufflehog_{version}_checksums.txt.pem> \
+   --signature <path to trufflehog_{version}_checksums.txt.sig> \
+   --certificate-identity-regexp 'https://github\.com/trufflesecurity/trufflehog/\.github/workflows/.+' \
+   --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+   ```
+
+3. Once the signature is confirmed as valid, you can proceed to validate that the SHA256 sums align with the downloaded artifact:
+
+   ```shell
+   sha256sum --ignore-missing -c trufflehog_{version}_checksums.txt
+   ```
+
+Replace `{version}` with the downloaded files version
+
+Alternatively, if you are using the installation script, pass `-v` option to perform signature verification.
+This requires Cosign binary to be installed prior to running the installation script.
+
+# :rocket: Quick Start
+
+## 1: Scan a repo for only verified secrets
+
+Command:
+
+```bash
+trufflehog git https://github.com/trufflesecurity/test_keys --results=verified
+```
+
+Expected output:
+
+```
+🐷🔑🐷  TruffleHog. Unearth your secrets. 🐷🔑🐷
+
+Found verified result 🐷🔑
+Detector Type: AWS
+Decoder Type: PLAIN
+Raw result: AKIAYVP4CIPPERUVIFXG
+Line: 4
+Commit: fbc14303ffbf8fb1c2c1914e8dda7d0121633aca
+File: keys
+Email: counter <counter@counters-MacBook-Air.local>
+Repository: https://github.com/trufflesecurity/test_keys
+Timestamp: 2022-06-16 10:17:40 -0700 PDT
+...
+```
+
+## 2: Scan a GitHub Org for only verified secrets
+
+```bash
+trufflehog github --org=trufflesecurity --results=verifie
+
 ## tools
 
 TruffleHog has a sub-command for each source of data that you may want to scan:
@@ -114,3 +249,35 @@ sources:
 
 You may define multiple connections under the `sources` key (see above), and
 TruffleHog will scan all of the sources concurrently.
+
+## S3
+
+The S3 source supports assuming IAM roles for scanning in addition to IAM users. This makes it easier for users to scan multiple AWS accounts without needing to rely on hardcoded credentials for each account.
+
+The IAM identity that TruffleHog uses initially will need to have `AssumeRole` privileges as a principal in the [trust policy](https://aws.amazon.com/blogs/security/how-to-use-trust-policies-with-iam-roles/) of each IAM role to assume.
+
+To scan a specific bucket using locally set credentials or instance metadata if on an EC2 instance:
+
+```bash
+trufflehog s3 --bucket=<bucket-name>
+```
+
+To scan a specific bucket using an assumed role:
+
+```bash
+trufflehog s3 --bucket=<bucket-name> --role-arn=<iam-role-arn>
+```
+
+Multiple roles can be passed as separate arguments. The following command will attempt to scan every bucket each role has permissions to list in the S3 API:
+
+```bash
+trufflehog s3 --role-arn=<iam-role-arn-1> --role-arn=<iam-role-arn-2>
+```
+
+Exit Codes:
+
+- 0: No errors and no results were found.
+- 1: An error was encountered. Sources may not have completed scans.
+- 183: No errors were encountered, but results were found. Will only be returned if `--fail` flag is used.
+
+## :octocat: TruffleHog Github Action

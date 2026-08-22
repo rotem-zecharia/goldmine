@@ -17,3 +17,5 @@ There are **two different install paths** with very different surface areas. Pic
 ## tools
 
 ```bash
+# Add the marketplace
+/plugin marketplace add ruvnet/ruflo

@@ -13,6 +13,23 @@ The first run helps you connect a provider or stay offline. Codewhale also
 supports Cargo, Docker, Nix, Scoop, prebuilt archives, Android/Termux, and a CNB
 mirror. See [the installation guide](docs/INSTALL.md).
 
+## Use
+
+Talk to Codewhale the same way you would talk to a teammate:
+
+```text
+Fix the failing tests and explain what changed.
+```
+
+Or run a task without opening the TUI:
+
+```bash
+codewhale exec "fix the failing tests and explain what changed"
+```
+
+Codewhale can read your repository, edit files, run commands, inspect results,
+and keep working toward a goal. You decide how much access it has.
+
 ## features
 
 - **Use the model you want.** Connect hosted providers or local models through
@@ -28,3 +45,46 @@ mirror. See [the installation guide](docs/INSTALL.md).
   personal settings.
 
 Run `/help` in the TUI for commands and keyboard shortcuts.
+
+## Safety
+
+Codewhale runs on your machine with the access you grant it. Approval modes and
+repository rules limit what the agent may do; optional OS sandboxing adds a
+stronger execution boundary where supported. Unknown model prices stay unknown
+instead of being reported as free.
+
+Read [authorization order](docs/AUTHORIZATION_ORDER.md) for the exact policy
+stack and [configuration](docs/CONFIGURATION.md) for local settings.
+
+## Documentation
+
+- [Providers and local models](docs/PROVIDERS.md)
+- [Agent teams](docs/FLEET.md)
+- [MCP](docs/MCP.md), [hooks](docs/HOOKS.md), and [configuration](docs/CONFIGURATION.md)
+- [Local web client](docs/WEB.md)
+- [All documentation](docs)
+
+## Join the community
+
+Codewhale gets better when people use it, report what feels wrong, and help fix
+it. If a provider is missing, a workflow is awkward, or the terminal UI gets in
+your way, [open an issue](https://github.com/Hmbown/CodeWhale/issues). If you
+know how to improve it, [open a pull request](CONTRIBUTING.md). First
+contributions are welcome, and contributors keep credit for the work that
+lands.
+
+Join the [Discord](https://discord.gg/37gfS3ksug), or add Hunter on WeChat
+(`hunterbown`) and ask to join the Whale Brothers group.
+
+## Project history
+
+Codewhale began as `deepseek-tui` and still preserves that configuration and
+session compatibility. It is now provider-neutral and independently maintained;
+it is not affiliated with any model provider.
+
+Thanks to every contributor and to the open source communities that helped the
+project grow. See [the contributor record](docs/CONTRIBUTORS.md).
+
+## License
+
+[MIT](LICENSE)

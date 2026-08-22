@@ -50,3 +50,19 @@ Same pipeline, same quality gates. Full setup in [`codex/CODEX.md`](codex/CODEX.
 - **Model:** synthesis runs on Opus for reasoning quality; research and packaging use Sonnet.
 
 ---
+
+## Free vs. the full Diffmode
+
+This free tool builds the **strategy**: the competitor read, the buyer map, and the unconventional ideas. It stops at ideas.
+
+[**Diffmode**](https://diffmode.app) picks up from there. It ranks the tactics so you know what to run first, and turns the top picks into a week-by-week rollout plan, drawn from a much deeper database of growth mechanisms. Start with a **free audit** (no credit card). The full plan comes with a **30-day money-back guarantee**.
+
+→ **[diffmode.app](https://diffmode.app)**
+
+---
+
+## Under the hood
+
+13 skill files hold the methodology. Four stateless workers execute them. An orchestrator owns the DAG, the retries, and the quality gates. Skills live once in `plugin/skills/`; Codex consumes them through symlinks. Full design in [`docs/architecture.md`](docs/architecture.md).
+
+License: **[Apache-2.0](LICENSE)**. © 2026 Anton Kogut.

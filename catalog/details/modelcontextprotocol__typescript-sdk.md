@@ -13,7 +13,69 @@ This repository contains the TypeScript SDK implementation of the MCP specificat
 - Optional **middleware packages** for specific runtimes/frameworks (Express, Fastify, Hono, Node.js HTTP)
 - Runnable **examples** (under [`examples/`](https://github.com/modelcontextprotocol/typescript-sdk/tree/main/examples))
 
+## Packages
+
+This monorepo publishes split packages:
+
+- **`@modelcontextprotocol/server`**: build MCP servers
+- **`@modelcontextprotocol/client`**: build MCP clients
+
+Tool and prompt schemas use [Standard Schema](https://standardschema.dev/) — bring Zod v4, Valibot, ArkType, or any compatible library.
+
+### Middleware packages (optional)
+
+The SDK also publishes small "middleware" packages under [`packages/middleware/`](https://github.com/modelcontextprotocol/typescript-sdk/tree/main/packages/middleware) that help you **wire MCP into a specific runtime or web framework**.
+
+They are intentionally thin adapters: they should not introduce new MCP functionality or business logic. See [`packages/middleware/README.md`](packages/middleware/README.md) for details.
+
+- **`@modelcontextprotocol/node`**: Node.js Streamable HTTP transport wrapper for `IncomingMessage` / `ServerResponse`
+- **`@modelcontextprotocol/express`**: Express helpers (app defaults + Host header validation)
+- **`@modelcontextprotocol/fastify`**: Fastify helpers (app defaults + Host header validation)
+- **`@modelcontextprotocol/hono`**: Hono helpers (app defaults + JSON body parsing hook + Host header validation)
+
 ## installation
+
+### Server
+
+```bash
+npm install @modelcontextprotocol/server
+# or
+bun add @modelcontextprotocol/server
+# or
+deno add npm:@modelcontextprotocol/server
+```
+
+### Client
+
+```bash
+npm install @modelcontextprotocol/client
+# or
+bun add @modelcontextprotocol/client
+# or
+deno add npm:@modelcontextprotocol/client
+```
+
+### Optional middleware packages
+
+The SDK also publishes optional “middleware” packages that help you **wire MCP into a specific runtime or web framework** (for example Express, Fastify, Hono, or Node.js `http`).
+
+These packages are intentionally thin adapters and should not introduce additional MCP features or business logic. See [`packages/middleware/README.md`](packages/middleware/README.md) for details.
+
+```bash
+# Node.js HTTP (IncomingMessage/ServerResponse) Streamable HTTP transport:
+npm install @modelcontextprotocol/node
+
+# Express integration:
+npm install @modelcontextprotocol/express express
+
+# Fastify integration:
+npm install @modelcontextprotocol/fastify fastify
+
+# Hono integration:
+npm install @modelcontextprotocol/hono hono
+```
+
+## Getting Started
 
 Here is what an MCP server looks like. This minimal example exposes a single `greet` tool over stdio:
 
@@ -51,3 +113,31 @@ Ready to build something real? Follow the step-by-step tutorials:
 For runnable, end-to-end examples beyond the tutorials, see:
 
 - [`examples/README.md`](examples/README.md) — runnable, self-verifying client/server example pairs (one story per directory)
+
+## Documentation
+
+- [Build a server](docs/get-started/first-server.md) — your first MCP server, step by step
+- [Build a client](docs/get-started/first-client.md) — your first MCP client, step by step
+- [Documentation site](https://ts.sdk.modelcontextprotocol.io/v2/) — the full guides: tools, resources, prompts, serving over HTTP and stdio, clients, OAuth, and migration
+- [Troubleshooting](docs/troubleshooting.md) — common errors and their fixes
+- [API reference](https://ts.sdk.modelcontextprotocol.io/v2/api/)
+- [MCP documentation](https://modelcontextprotocol.io/docs)
+- [MCP specification](https://modelcontextprotocol.io/specification/latest)
+
+### Building docs locally
+
+To work on the documentation site locally:
+
+```bash
+pnpm docs:api      # Generate the API reference markdown (output: docs/api/)
+pnpm docs:dev      # Start the VitePress dev server for the V2 site
+pnpm docs:build    # Build the V2 site (output: docs/.vitepress/dist/)
+pnpm docs:multi    # Build the combined V1 + V2 site (output: tmp/docs-combined/)
+```
+
+The `docs:multi` script builds the V2 site from the current checkout, checks out the `v1.x` branch via a git worktree to build the V1 site, and produces a combined site with V1 docs at the root and V2 docs under `/v2/`.
+
+## v1 (legacy) documentation and fixes
+
+If you are using the **v1** generation of the SDK, the **v1 API documentation** is available at [`https://ts.sdk.modelcontextprotocol.io/`](https://ts.sdk.modelcontextprotocol.io/). The v1 source code and any v1-specific fixes live on the long-lived
+[`v1.x` branch](https://github.com/modelcontextprotocol/typescript-sdk/tree/v1.x). V2 API docs are at [`/v2/`](https://ts.sdk.modelcontextprotoc

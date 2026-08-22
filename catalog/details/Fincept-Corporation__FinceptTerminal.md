@@ -21,3 +21,45 @@ Latest release: **v4.4.1** — [View all releases](https://github.com/Fincept-Co
 > Looking for the Enterprise build? It has its own signed installers for Windows, macOS and Linux, behind an Enterprise login — [get them here](https://fincept.in/enterprise).
 
 ---
+
+## What's in the open build
+
+- **Analytics** — DCF, portfolio optimisation, VaR/Sharpe, derivatives pricing, fixed income, alternatives, plus an 18-module QuantLib suite
+- **AI** — 37 trader/investor, economic and geopolitics agents; bring your own key (OpenAI, Anthropic, Gemini, Groq, DeepSeek, OpenRouter, Ollama)
+- **Data** — 100+ connectors: FRED, IMF, World Bank, DBnomics, AkShare, Polygon, Kraken, Yahoo Finance, government APIs
+- **Trading** — crypto and equity feeds, paper-trading engine, 16 broker integrations
+- **Automation** — visual node editor, MCP tools, AI Quant Lab (ML, factor discovery, RL)
+- **Global intelligence** — maritime tracking, geopolitical analysis, relationship mapping
+
+Native C++20 · Qt6 · embedded Python 3.11 · single binary · no Node.js, no browser runtime.
+
+---
+
+## How this repo is maintained
+
+This repo **stays public and will not be deleted**. Everything already released stays released.
+
+It now ships **one release a month** rather than continuous development, because the team's daily work is on Enterprise. Issues and pull requests are still reviewed, and fixes land on the monthly cycle. Security reports go to [support@fincept.in](mailto:support@fincept.in).
+
+---
+
+## Contributing
+
+New data connectors, AI agents, analytics modules, C++ screens and documentation are all welcome.
+
+[Contributing guide](docs/CONTRIBUTING.md) · [C++ guide](docs/CPP_CONTRIBUTOR_GUIDE.md) · [Python guide](docs/PYTHON_CONTRIBUTOR_GUIDE.md) · [Architecture](docs/ARCHITECTURE.md) · [Report a bug](https://github.com/Fincept-Corporation/FinceptTerminal/issues) · [Request a feature](https://github.com/Fincept-Corporation/FinceptTerminal/discussions)
+
+---
+
+## Also from Fincept
+
+- **[Fincept Data API](https://docs.fincept.in)** — 500+ REST endpoints, 423,000+ instruments, 2,000+ sources. Free tier included with any account.
+- **[Quantcept](https://quantcept.io)** — open-source, AI-powered command-line finance terminal (Apache-2.0).
+
+---
+
+## License
+
+**AGPL-3.0-or-later** — full text in [LICENSE](LICENSE).
+
+Free for personal use, learning and academic research. AGPL-3.0 is **strong copyleft,

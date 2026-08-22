@@ -23,6 +23,16 @@ The best IP Toolbox. Check your IP address & geolocation, test IP for WebRTC and
 * 🖥️ **Browser Fingerprints**：Multiple ways to caculate your browser fingerprint
 * 📋 **Cybersecurity Checklist**：A comprehensive cybersecurity checklist with a total of 258 items
 
+## 💪 Also
+
+* 🌗 **Dark Mode**: Automatically toggles between dark and daylight modes based on system settings, with an option for manual switching.
+* 📲 **PWA Supported**：Can be added as a desktop app on your phone as well as a Chrome app on your computer.
+* ⌨️ **Keyboard Shortcuts**: Supports keyboard shortcuts for all functions, press `?` to view the shortcut list.
+* 🌍 Based on availability test results, it indicates whether global internet access is currently feasible.
+* 🇺🇸 🇨🇳 🇷🇺 🇫🇷 English, Chinese, Russian, French support.
+
+## 📕 How to Use
+
 ## configuration
 
 Make sure you have Node.js installed.
@@ -48,8 +58,82 @@ pnpm start
 
 The program will run on port 18966.
 
+### Using Docker
+
+Click the 'Deploy to Docker' button at the top to complete the deployment. Or, use the following shell:
+
+```bash
+docker run -d -p 18966:18966 --name myip --restart always jason5ng32/myip:latest
+```
+
+## 📖 Documentation
+
+Full guides live in the MyIP Docs Center: **[docs.ipcheck.ing](https://docs.ipcheck.ing)**
+
+* [Developer Guide](https://docs.ipcheck.ing/developer) — deployment, configuration, architecture, and contributing
+* [Knowledge Base](https://docs.ipcheck.ing/knowledge-base) — how to use every tool, step-by-step network diagnosis, and networking concepts
+
+## 🤝 Contributing
+
+Contributions are welcome! We keep a curated set of beginner-friendly tasks — each with exact file paths, acceptance criteria, and tests that guide you to a green build:
+
+* 🏷️ [Good first issues](https://github.com/jason5ng32/MyIP/labels/good%20first%20issue) — add a DNS resolver from your country, add curated site lists, translate the README into your language, polish translations, and more
+* 📄 [CONTRIBUTING.md](CONTRIBUTING.md) — setup, conventions, and how PRs flow (target the `dev` branch)
+
+## ⚙️ Configuration
+
+Two settings matter before anything else:
+
+* **MaxMind GeoLite2 (required)** — free credentials that power IP geolocation and ASN lookups. Without them, the MaxMind source returns 503. → [MaxMind Setup](https://docs.ipcheck.ing/developer/getting-started/maxmind-setup)
+* **`ALLOWED_DOMAINS` (required on a real domain)** — hostname allowlist for the backend API. Without it, every request from a non-localhost domain gets 403. → [Reverse Proxy & Domains](https://docs.ipcheck.ing/developer/getting-started/reverse-proxy-and-domains)
+
+```bash
+docker run -d -p 18966:18966 \
+  -e MAXMIND_ACCOUNT_ID="YOUR_ACCOUNT_ID" \
+  -e MAXMIND_LICENSE_KEY="YOUR_LICENSE_KEY" \
+  -e MAXMIND_AUTO_UPDATE="true" \
+  -e ALLOWED_DOMAINS="your-domain.com" \
+  --name myip --restart always \
+  jason5ng32/myip:latest
+```
+
+Everything else — optional API keys, security & rate limiting, logging, Sentry, the curl API domains — is documented in the [Environment Variables reference](https://docs.ipcheck.ing/developer/reference/environment-variables).
+
 ## tools
 
 If you're using a proxy for internet access, consider adding this rule to your proxy configuration (modify it according to your client). This setup lets you check both your real IP and the IP when using the proxy:
 
 ```ini
+# IP Testing
+IP-CIDR,1.0.0.2/32,Proxy,no-resolve
+IP-CIDR6,2606:4700:4700::1111/128,Proxy,no-resolve
+DOMAIN,4.ipcheck.ing,DIRECT
+DOMAIN,6.ipcheck.ing,DIRECT
+# Rule Testing
+DOMAIN,ptest-1.ipcheck.ing,Proxy1
+DOMAIN,ptest-2.ipcheck.ing,Proxy2
+DOMAIN,ptest-3.ipcheck.ing,Proxy3
+DOMAIN,ptest-4.ipcheck.ing,Proxy4
+DOMAIN,ptest-5.ipcheck.ing,Proxy5
+DOMAIN,ptest-6.ipcheck.ing,Proxy6
+DOMAIN,ptest-7.ipcheck.ing,Proxy7
+DOMAIN,ptest-8.ipcheck.ing,Proxy8
+```
+
+## 💖 Sponsors
+
+As a open source project, I'm very grateful to the following sponsors for their support:
+
+<a href="https://www.digitalocean.com/?refcode=fd2634a3981b&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://res.ipcheck.ing/img/digitalocean_logo.png" width="240px"  title="DigitalOcean" /></a>
+
+<a href="https://www.1password.com"><img src="https://res.ipcheck.ing/img/1password_logo.png" alt="1Password" title="1Password" width="240px"  /></a>
+
+<a href="https://www.greptile.com/"><img src="https://res.ipcheck.ing/img/greptile_logo.png" alt="Greptile" title="Greptile" width="240px"  /></a>
+
+<a href="https://www.sentry.io"><img src="https://res.ipcheck.ing/img/sentry_logo.png" alt="Sentry" title="Sentry" width="240px" /></a>
+
+<a href="https://www.gitbook.com"><img src="https://res.ipcheck.ing/img/gitbook_logo.png" alt="GitBook" title="GitBook" width="240px" /></a>
+
+<a href="https://v.ps/?utm_source=ipcheck.ing&utm_medium=referral&utm_campaign=github_readme&utm_content=en"><img src="https://res.ipcheck.ing/img/vps_logo.png" alt="v.ps" title="v.ps" width="240px" /></a>
+
+<a href="https://www.cloudflare.com/lp/project-alexandria/"><img src="https://res.ipcheck.ing/img/cloudflare_logo.png" alt="Cloudflare Project Alexandria" title="Cloudflare Project Alexandria" width="240px" /></a>

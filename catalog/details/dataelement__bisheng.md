@@ -38,3 +38,43 @@ Please ensure the following conditions are met before installing BISHENG:
 Download BISHENG
 ```bash
 git clone https://github.com/dataelement/bisheng.git
+# Enter the installation directory
+cd bisheng/docker
+
+# If the system does not have the git command, you can download the BISHENG code as a zip file.
+wget https://github.com/dataelement/bisheng/archive/refs/heads/main.zip
+# Unzip and enter the installation directory
+unzip main.zip && cd bisheng-main/docker
+```
+Start BISHENG
+```bash
+docker compose -f docker-compose.yml -p bisheng up -d
+```
+After the startup is complete, access http://IP:3001 in the browser. The login page will appear, proceed with user registration. 
+
+By default, the first registered user will become the system admin. 
+
+For more installation and deployment issues, refer to:：[Self-hosting](https://dataelem.feishu.cn/wiki/BSCcwKd4Yiot3IkOEC8cxGW7nPc)
+
+## Acknowledgement 
+This repo benefits from [langchain](https://github.com/langchain-ai/langchain) [langflow](https://github.com/logspace-ai/langflow) [unstructured](https://github.com/Unstructured-IO/unstructured) and [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) . Thanks for their wonderful works.
+
+<b>Thank you to our contributors：</b>
+
+<a href="https://github.com/dataelement/bisheng/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dataelement/bisheng" />
+</a>
+
+
+
+## Community & contact 
+Welcome to join our discussion group
+
+<img src="https://www.dataelem.com/nstatic/qrcode.png" alt="Wechat QR Code">
+
+
+<!--
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=dataelement/bisheng&type=Date)](https://star-history.com/#dataelement/bisheng&Date)
+-->

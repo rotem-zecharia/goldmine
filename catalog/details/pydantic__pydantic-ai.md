@@ -17,3 +17,7 @@ How Python does AI: agents, realtime voice, image generation, embeddings. Every 
 - **Durable execution.** First-party, co-maintained [durable execution](https://ai.pydantic.dev/durable_execution/overview/) on Temporal, DBOS, or Prefect, with [Restate, Kitaru, and Airflow](https://ai.pydantic.dev/durable_execution/overview/) integrations and more coming. Agents survive restarts and run for days on the engine you already operate, with [human-in-the-loop approval](https://ai.pydantic.dev/deferred-tools#human-in-the-loop-tool-approval) built in.
 
 Built by the [Pydantic](https://docs.pydantic.dev) team: [Pydantic Validation](https://pydantic.dev/docs/) is the validation layer of the OpenAI SDK, the Anthropic SDK, the Google ADK, LangChain, and most of the AI ecosystem (and the foundation FastAPI was built on). Pydantic AI brings that same feeling to agents.
+
+## Putting it together: a bank support agent
+
+A typed support agent showing several features working together: [dependency injection](https://ai.pydantic.dev/dependencies), [function tools](https://ai.pydantic.dev/tools), [structured output](https://ai.pydantic.dev/output), a reusable [capability](https://ai.pydantic.dev/capabilities/overview/) bundling the customer context, and an [on-demand capability](https://ai.pydanti

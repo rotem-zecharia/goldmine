@@ -38,3 +38,30 @@ Pick your system, download the latest release, and open it. There is no installe
 </table>
 
 <sub><strong>AppImage on Debian 12+ or Ubuntu 24.04+:</strong> those releases ship without FUSE 2, which AppImage needs. If <code>./omniget.AppImage</code> fails with a libfuse error, run <code>sudo apt install libfuse2</code>, or start it with <code>./omniget.AppImage --appimage-extract-and-run</code>. The <code>.deb</code> avoids this entirely.</sub>
+
+### ⚠️ Please read this before the first launch
+
+OmniGet is open source and is not signed with a paid certificate, so the first time you open it your system may warn you. This is expected, and the steps below clear it for good. Your files stay local either way.
+
+**macOS (this is the big one, the app will not open on the first try).** macOS Gatekeeper blocks unsigned apps. After you move OmniGet to Applications, open Terminal and run these two lines:
+
+```bash
+xattr -cr /Applications/omniget.app
+codesign --force --deep --sign - /Applications/omniget.app
+```
+
+Then open OmniGet normally. You only do this once.
+
+**Windows.** SmartScreen may show a blue warning on the first run. Click **More info**, then **Run anyway**. This is standard for open source apps without a paid code signing certificate.
+
+### Portable mode, for a USB stick or a locked-down PC
+
+Create an empty file named `portable.txt` (or `.portable`) next to the `.exe` and relaunch. OmniGet then keeps settings, the database, cookies, plugins, caches, and the bundled yt-dlp and FFmpeg in a `data` folder beside the executable. Nothing is written to `AppData\Roaming` or any other user folder, so the whole install travels on the stick. Without that file, OmniGet uses the standard per-user data directory.
+
+Free and open source under GPL-3.0. Updates run quietly in the background. The bundled tools (yt-dlp and FFmpeg) install themselves, and yt-dlp is verified by SHA256 before it runs. Plugins install on first launch and update themselves too, with nothing for you to configure.
+
+---
+
+## One keypress, and it is downloading
+
+This is the part people fall in love with. Copy any link, a YouTube video, a tweet, a Discord message, a track, a magnet, then press the global hotkey **`Ctrl+Shift+D`** (**`Cmd+Shift+D`** on macOS). OmniGet reads your clipboard and downloads it in the background. You do n

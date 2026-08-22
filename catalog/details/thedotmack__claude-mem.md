@@ -34,12 +34,77 @@ Restart Claude Code. Context from previous sessions will automatically appear in
 
 > **Note:** Claude-Mem is also published on npm, but `npm install -g claude-mem` installs the **SDK/library only** — it does not register the plugin hooks or set up the worker service. Always install via `npx claude-mem install` or the `/plugin` commands above.
 
+### 🦞 OpenClaw Gateway
+
+Install claude-mem as a persistent memory plugin on [OpenClaw](https://openclaw.ai) gateways with a single command:
+
+```bash
+curl -fsSL https://install.cmem.ai/openclaw.sh | bash
+```
+
+The installer handles dependencies, plugin setup, AI provider configuration, worker startup, and optional real-time observation feeds to Telegram, Discord, Slack, and more. See the [OpenClaw Integration Guide](https://docs.claude-mem.ai/openclaw-integration) for details.
+
+**Key Features:**
+
+- 🧠 **Persistent Memory** - Context survives across sessions
+- 📊 **Progressive Disclosure** - Layered memory retrieval with token cost visibility
+- 🔍 **Skill-Based Search** - Query your project history with mem-search skill
+- 🖥️ **Web Viewer UI** - Real-time memory stream at the worker URL printed on startup
+- 💻 **Claude Desktop Skill** - Search memory from Claude Desktop conversations
+- 🔒 **Privacy Control** - Use `<private>` tags to exclude sensitive content from storage
+- ⚙️ **Context Configuration** - Fine-grained control over what context gets injected
+- 🤖 **Automatic Operation** - No manual intervention required
+- 🔗 **Citations** - Reference past observations with IDs through the worker API or view all in the web viewer
+
+---
+
+## Documentation
+
+📚 **[View Full Documentation](https://docs.claude-mem.ai/)** - Browse on official website
+
+### Getting Started
+
+- **[Installation Guide](https://docs.claude-mem.ai/installation)** - Quick start & advanced installation
+- **[Usage Guide](https://docs.claude-mem.ai/usage/getting-started)** - How Claude-Mem works automatically
+- **[Search Tools](https://docs.claude-mem.ai/usage/search-tools)** - Query your project history with natural language
+- **[Cloud Sync](https://docs.claude-mem.ai/cloud-sync)** - Back up your memories to cmem.ai — no daemon, the worker syncs on write
+
+### Best Practices
+
+- **[Context Engineering](https://docs.claude-mem.ai/context-engineering)** - AI agent context optimization principles
+- **[Progressive Disclosure](https://docs.claude-mem.ai/progressive-disclosure)** - Philosophy behind Claude-Mem's context priming strategy
+
+### Architecture
+
+- **[Overview](https://docs.claude-mem.ai/architecture/overview)** - System components & data flow
+- **[Architecture Evolution](https://docs.claude-mem.ai/architecture-evolution)** - The journey from v3 to v5
+- **[Hooks Architecture](https://docs.claude-mem.ai/hooks-architecture)** - How Claude-Mem uses lifecycle hooks
+- **[Hooks Reference](https://docs.claude-mem.ai/architecture/hooks)** - 7 hook scripts explained
+- **[Worker Service](https://docs.claude-mem.ai/architecture/worker-service)** - HTTP API & Bun management
+- **[Database](https://docs.claude-mem.ai/architecture/database)** - SQLite schema & FTS5 search
+- **[Search Architecture](https://docs.claude-mem.ai/architecture/search-architecture)** - Hybrid search with Chroma vector database
+
 ## configuration
 
 - **[Configuration](https://docs.claude-mem.ai/configuration)** - Environment variables & settings
 - **[Development](https://docs.claude-mem.ai/development)** - Building, testing, contributing
 - **[Release Branches](https://docs.claude-mem.ai/branches)** - Stable, core-dev, and community-edge branch flow
 - **[Troubleshooting](https://docs.claude-mem.ai/troubleshooting)** - Common issues & solutions
+
+---
+
+## How It Works
+
+**Core Components:**
+
+1. **5 Lifecycle Hooks** - SessionStart, UserPromptSubmit, PostToolUse, Stop, SessionEnd (6 hook scripts)
+2. **Smart Install** - Cached dependency checker (pre-hook script, not a lifecycle hook)
+3. **Worker Service** - Local HTTP API with web viewer UI and search endpoints, managed by Bun
+4. **SQLite Database** - Stores sessions, observations, summaries
+5. **mem-search Skill** - Natural language queries with progressive disclosure
+6. **Chroma Vector Database** - Hybrid semantic + keyword search for intelligent context retrieval
+
+See [Architecture Overview](https://docs.claude-mem.ai/architecture/overview) for details.
 
 ---
 
@@ -79,6 +144,15 @@ get_observations(ids=[123, 456])
 ```
 
 See [Search Tools Guide](https://docs.claude-mem.ai/usage/search-tools) for detailed examples.
+
+---
+
+## Release Branches
+
+Stable releases ship from `main` and are published to npm. `core-dev` and
+`community-edge` are source-run branches for early reliability fixes and
+community integrations. See **[Release Branches](https://docs.claude-mem.ai/branches)**
+for the branch flow and non-stable run instructions.
 
 ---
 

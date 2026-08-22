@@ -49,6 +49,65 @@ brew install portaudio
 For CUDA, platform notes, and optional engine stacks, see
 [docs/installation.md](docs/installation.md).
 
+## Microphone Example
+
+This waits for speech, stops after the detected utterance, and prints the final
+transcript:
+
+```python
+from RealtimeSTT import AudioToTextRecorder
+
+if __name__ == "__main__":
+    with AudioToTextRecorder() as recorder:
+        print("Speak now")
+        print(recorder.text())
+```
+
+Use the `if __name__ == "__main__":` guard when running scripts, especially on
+Windows, because RealtimeSTT uses multiprocessing for model work.
+
+## Automatic Recording Loop
+
+For continuous dictation, pass a callback to `text()` so transcription work can
+complete asynchronously while your loop keeps listening:
+
+```python
+from RealtimeSTT import AudioToTextRecorder
+
+
+def process_text(text):
+    print(text)
+
+
+if __name__ == "__main__":
+    recorder = AudioToTextRecorder()
+
+    while True:
+        recorder.text(process_text)
+```
+
+## External Audio
+
+Set `use_microphone=False` when audio comes from a file, stream, websocket, or
+another process. Feed 16-bit mono PCM chunks at 16 kHz, or pass the original
+sample rate so RealtimeSTT can resample:
+
+```python
+from RealtimeSTT import AudioToTextRecorder
+
+if __name__ == "__main__":
+    recorder = AudioToTextRecorder(use_microphone=False)
+
+    with open("audio_chunk.pcm", "rb") as audio_file:
+        recorder.feed_audio(audio_file.read(), original_sample_rate=16000)
+
+    print(recorder.text())
+    recorder.shutdown()
+```
+
+More examples are in [docs/quick-start.md](docs/quick-start.md) and
+[docs/external-audio.md](docs/external-audio.md).
+
 ## configuration
 
 Every `AudioToTextRecorder` constructor parameter is documented in

@@ -11,10 +11,138 @@ A persistent, unified memory layer for all your AI agents (e.g. Claude Code, Cod
 
 ---
 
+## 🧑‍💻 For Agent Users
+
+Pick your platform, install the plugin, and you're done. Each plugin captures conversations automatically and provides semantic recall with zero configuration.
+
+<details open>
+<summary><h3>For Claude Code Users</h3></summary>
+
+```bash
+
 ## installation
 
 /plugin marketplace add zilliztech/memsearch
 /plugin install memsearch
+# Restart Claude Code to activate the plugin
+```
+
+After restarting, just chat with Claude Code as usual. The plugin captures every conversation turn automatically.
+
+**Verify it's working** — after a few conversations, check your memory files:
+
+```bash
+ls .memsearch/memory/          # you should see daily .md files
+cat .memsearch/memory/$(date +%Y-%m-%d).md
+```
+
+**Recall memories** — two ways to trigger:
+
+```
+/memory-recall what did we discuss about Redis?
+```
+Or just ask naturally — Claude auto-invokes the skill when it senses the question needs history:
+```
+We discussed Redis caching before, what was the TTL we chose?
+```
+
+> 📖 [Claude Code Plugin docs](https://zilliztech.github.io/memsearch/platforms/claude-code/) · [Troubleshooting](https://zilliztech.github.io/memsearch/platforms/claude-code/troubleshooting/)
+
+</details>
+
+<details open>
+<summary><h3>For Codex CLI Users</h3></summary>
+
+```bash
+# Install
+git clone --depth 1 https://github.com/zilliztech/memsearch.git
+bash memsearch/plugins/codex/scripts/install.sh
+codex --yolo  # needed for ONNX model network access
+```
+
+After installing, chat as usual. Hooks capture and summarize each turn.
+
+**Verify it's working:**
+
+```bash
+ls .memsearch/memory/
+```
+
+**Recall memories** — use the skill:
+
+```
+$memory-recall what did we discuss about deployment?
+```
+
+> 📖 [Codex CLI Plugin docs](https://zilliztech.github.io/memsearch/platforms/codex/)
+
+</details>
+
+<details>
+<summary><h3>For OpenClaw Users</h3></summary>
+
+```bash
+# Install from ClawHub
+openclaw plugins install --force clawhub:memsearch
+openclaw config set plugins.entries.memsearch.hooks.allowConversationAccess true
+openclaw config set plugins.entries.memsearch.hooks.allowPromptInjection true
+openclaw gateway restart
+```
+
+After installing, chat in TUI as usual. The plugin captures each turn automatically.
+
+**Verify it's working** — memory files are stored in your agent's workspace:
+
+```bash
+# For the main agent:
+ls ~/.openclaw/workspace/.memsearch/memory/
+# For other agents (e.g. work):
+ls ~/.openclaw/workspace-work/.memsearch/memory/
+```
+
+**Recall memories** — two ways to trigger:
+
+```
+/memory-recall what was the batch size limit we set?
+```
+Or just ask naturally — the LLM auto-invokes memory tools when it senses the question needs history:
+```
+We discussed batch size limits before, what did we decide?
+```
+
+> 📖 [OpenClaw Plugin docs](https://zilliztech.github.io/memsearch/platforms/openclaw/) · [Browse on ClawHub](https://clawhub.ai/plugins/memsearch)
+
+</details>
+
+<details>
+<summary><h3>For OpenCode Users</h3></summary>
+
+```json
+// In ~/.config/opencode/opencode.json
+{ "plugin": ["@zilliz/memsearch-opencode"] }
+```
+
+After installing, chat in TUI as usual. A background daemon captures conversations.
+
+**Verify it's working:**
+
+```bash
+ls .memsearch/memory/    # daily .md files appear after a few conversations
+```
+
+**Recall memories** — two ways to trigger:
+
+```
+/memory-recall what did we discuss about authentication?
+```
+Or just ask naturally — the LLM auto-invokes memory tools when it senses the question needs history:
+```
+We discussed the authentication flow before, what was the approach?
+```
+
+> 📖 [OpenCode Plugin docs](https://zilliztech.github.io/memsearch/platforms/opencode/)
+
+</details>
 
 ## configuration
 
@@ -45,3 +173,6 @@ Just change `milvus_uri` (and optionally `milvus_token`) to switch between deplo
 uv tool install "memsearch[onnx]"
 pipx install "memsearch[onnx]"
 pip install "memsearch[onnx]"
+
+# As a project dependency
+uv add "memsearch[onnx]"

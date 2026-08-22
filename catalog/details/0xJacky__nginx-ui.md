@@ -19,7 +19,37 @@ Yet another WebUI for Nginx
 - Dark Mode
 - Responsive Web Design
 
+### Internationalization
+
+We proudly offer official support for:
+
+- English
+- Simplified Chinese
+- Traditional Chinese
+
+As non-native English speakers, we strive for accuracy, but we know there's always room for improvement. If you spot any issues, we'd love your feedback!
+
+Thanks to our amazing community, additional languages are also available! Explore and contribute to translations on [Weblate](https://weblate.nginxui.com).
+
 ## installation
+
+### Before Use
+
+The Nginx UI follows the Debian web server configuration file standard. Created site configuration files will be placed in the `sites-available` folder that under the Nginx configuration folder (auto-detected). The configuration files for an enabled site will create a soft link to the `sites-enabled` folder. You may need to adjust the way the configuration files are organised.
+
+For non-Debian (and Ubuntu) systems, you may need to change the contents of the `nginx.conf` configuration file to the Debian style as shown below.
+
+```nginx
+http {
+	# ...
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+}
+```
+
+For more information: [debian/conf/nginx.conf](https://salsa.debian.org/nginx-team/nginx/-/blob/debian/latest/debian/conf/nginx.conf#L60-L61)
+
+### Installation
 
 Nginx UI is available on the following platforms:
 
@@ -147,6 +177,10 @@ docker compose up -d
 
 </details>
 
+## Manual Build
+
+On platforms that do not have an official build version, they can be built manually.
+
 ## requirements
 
 - Make
@@ -158,6 +192,26 @@ docker compose up -d
   ```shell
   npx browserslist@latest --update-db
   ```
+
+### Build Frontend
+
+Please execute the following command in `app` directory.
+
+```shell
+bun install
+bun run build
+```
+
+### Build Backend
+
+Please build the app first, and then execute the following command in the project root directory.
+
+```shell
+go generate
+go build -tags=jsoniter -ldflags "$LD_FLAGS -X 'github.com/0xJacky/Nginx-UI/settings.buildTime=$(date +%s)'" -o nginx-ui -v main.go
+```
+
+## Script for Linux
 
 ## configuration
 
@@ -195,3 +249,21 @@ server {
         proxy_set_header    Connection          $connection_upgrade;
         proxy_pass          http://127.0.0.1:9000/;
     }
+}
+```
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you  make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is provided under a GNU Affero General Public License v3.0 license that can be found in the [LICENSE](LICENSE) file. By using, distributing, or contributing to this project, you agree to the terms and conditions of this license.

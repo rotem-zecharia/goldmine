@@ -72,6 +72,52 @@ Now proceed to [adjust] your `.local` customization file copy.
 [@bphogan]: https://bphogan.com/
 [adjust]: #configuration
 
+Troubleshooting
+---------------
+
+  - **I believe something's not quite right**
+
+    Please make sure no tmux client or server process is currently running.
+
+    Then launch tmux with:
+    ```
+    $ tmux -f /dev/null -L test
+    ```
+
+    Which launches a new tmux client/server pair without loading any
+    configuration.
+
+    If the issue is still reproducing, please reach out to the tmux project for
+    support.
+
+    Otherwise, please open an issue describing what doesn't work and I'll do my
+    best to address it.
+
+  - **I tried to use `set`, `bind` and `unbind` in my `.local` customization
+    file, but Oh my tmux! overwrites my preferences**
+
+    When that happens append `#!important` to the line:
+
+    ```
+    bind c new-window -c '#{pane_current_path}' #!important
+    ```
+
+    ```
+    set -g default-terminal "screen-256color" #!important
+    ```
+
+  - **Status line is broken and/or gets duplicated at the bottom of the screen**
+
+    This could happen on Linux when the distribution provides a version of glib
+    that received Unicode 9.0 upgrades (glib `>= 2.50.1`) while providing a
+    version of glibc that didn't (glibc `< 2.26`). Typically VTE-based terminal
+    emulators rely on glib's `g_unichar_iswide()` function while tmux relies on
+    glibc's `wcwidth()` function. When these two functions disagree, display
+    gets messed up. You may also configure `LC_CTYPE` to use a `UTF-8` locale.
+
+    This can also happen on macOS when using iTerm2 and "Use Unicode version 9
+    character widths" is enabled in `Preferen
+
 ## features
 
 - `C-a` acts as secondary prefix, while keeping default `C-b` prefix
@@ -123,6 +169,32 @@ panes. It also switches automatically to copy-mode when you select text.
   </picture>
 </p>
 
+Bindings
+--------
+
+tmux may be controlled from an attached client by using a key combination of a
+prefix key, followed by a command key. This configuration uses `C-a` as a
+secondary prefix while keeping `C-b` as the default prefix. In the following
+list of key bindings:
+  - `<prefix>` means you have to either hit <kbd>Ctrl</kbd> + <kbd>a</kbd> or <kbd>Ctrl</kbd> + <kbd>b</kbd>
+  - `<prefix> c` means you have to hit <kbd>Ctrl</kbd> + <kbd>a</kbd> or <kbd>Ctrl</kbd> + <kbd>b</kbd> followed by <kbd>c</kbd>
+  - `<prefix> C-c` means you have to hit <kbd>Ctrl</kbd> + <kbd>a</kbd> or <kbd>Ctrl</kbd> + <kbd>b</kbd> followed by <kbd>Ctrl</kbd> + <kbd>c</kbd>
+
+This configuration uses the following bindings:
+
+  - `<prefix> e` opens the `.local` customization file copy with the editor
+    defined by the `VISUAL` or `EDITOR` environment variable (defaults to `vim`
+    when empty)
+  - `<prefix> r` reloads the configuration
+  - `C-l` clears both the screen **and** the tmux history
+
+  - `<prefix> C-c` creates a new session
+  - `<prefix> C-f` lets you switch to another session by name
+  - `<prefix> BTab` brings you to the last active session
+
+  - `<prefix> C-h` and `<prefix> C-l` let you navigate windows left/right
+    (default `<prefix> n` is unbound and `<prefix
+
 ## configuration
 
 While this configuration tries to bring sane default settings, you may want to
@@ -136,3 +208,73 @@ variables that allow you to alter different behaviors. Upon successful
 installation, pressing `<prefix> e` will open your `.local` customization file
 copy with the editor defined by the `VISUAL` or `EDITOR` environment variable
 (defaults to `vim` when empty).
+
+### Enabling the Powerline look
+
+Powerline originated as a status-line plugin for Vim. Its popular eye-catching
+look is based on the use of special symbols:
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/55afd317-150b-42f0-9ef3-fa619be7b160">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/55afd317-150b-42f0-9ef3-fa619be7b160">
+    <img alt="Powerline symbols" src="https://github.com/user-attachments/assets/55afd317-150b-42f0-9ef3-fa619be7b160">
+  </picture>
+</p>
+
+To make use of these symbols, there are several options:
+
+  - Use a font that already bundles those: this is the case for the [Source Code
+    Pro][source code pro] font
+  - Use a [pre-patched font][powerline patched fonts]
+  - Use your preferred font along with the standalone [Powerline font][powerline
+    font] (that only contains the Powerline symbols): [this highly depends on
+    your operating system and your terminal emulator][terminal support], for
+    instance here's a screenshot of iTerm2 configured to use
+    `PowerlineSymbols.otf` for non-ASCII symbols:
+    <p align="center">
+      <picture>
+        <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/553208/62243890-8232f500-b3de-11e9-9b8c-51a5d38bdaa8.png">
+        <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/553208/62243890-8232f500-b3de-11e9-9b8c-51a5d38bdaa8.png">
+        <img alt="iTerm2 + Powerline font" src="https://user-images.githubusercontent.com/553208/62243890-8232f500-b3de-11e9-9b8c-51a5d38bdaa8.png">
+      </picture>
+    </p>
+
+[source code pro]: https://github.com/adobe-fonts/source-code-pro/releases/latest
+[powerline patched fonts]: https://github.com/powerline/fonts
+[powerline font]: https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+[terminal support]: http://powerline.readthedocs.io/en/master/usage.html#usage-terminal-emulators
+
+Then edit your `.local` customization file copy (with `<prefix> e`) and adjust
+the following variables:
+
+```
+tmux_conf_theme_left_separator_main='\uE0B0'
+tmux_conf_theme_left_separator_sub='\uE0B1'
+tmux_conf_theme_right_separator_main='\uE0B2'
+tmux_conf_theme_right_separator_sub='\uE0B3'
+```
+
+The [Powerline manual] contains further details on how to install fonts
+containing the Powerline symbols.
+
+[Powerline manual]: http://powerline.readthedocs.org/en/latest/installation.html#fonts-installation
+
+### Configuring the status line
+
+Edit your `.local` customization file copy (`<prefix> e`) and adjust the
+`tmux_conf_theme_status_left` and `tmux_conf_theme_status_right` variables to
+your liking.
+
+This configuration supports the following builtin variables:
+
+  - `#{battery_bar}`: horizontal battery charge bar
+  - `#{battery_hbar}`: 1 character wide, horizontal battery charge bar
+  - `#{battery_vbar}`: 1 character wide, vertical battery charge bar
+  - `#{battery_percentage}`: battery percentage
+  - `#{battery_status}`: is battery charging or discharging?
+  - `#{circled_window_index}`: circled window number (from ⓪ to ⑳)
+  - `#{circled_session_name}`: circled session number (from ⓪ to ⑳)
+  - `#{hostname}`: SSH/Mosh aware hostname information
+  - `#{hostname_full}`: SSH/Mosh aware fully qualified hostname
+  - `#{hostname_ssh}`: SSH/Mosh aware hostname information, blank

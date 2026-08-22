@@ -14,6 +14,30 @@ AAS Core is the local, agent-first control plane for complete catalog discovery,
 - **Focused delivery remains available**: specialized plugins package proven sets for web, security, data, docs, DevOps, QA, OSS, or agent/MCP workflows.
 - **Useful whether you want breadth or curation**: install the full catalog, choose a specialized plugin, start with bundles, or compare alternatives before installing.
 
+### Why not just search the skills directory?
+
+Direct file search can find candidate prose, but it leaves the result in the conversation. AAS Core adds verified catalog identity, explicit target binding, durable desired state, optional selection evidence, deterministic validation, immutable planning, and dedicated review surfaces. Its value is not choosing better than the coding agent; it is turning the agent's choice into reproducible, inspectable state.
+
+## Table of Contents
+
+- [AAS Core: Agent-First Preview](#aas-core-agent-first-preview)
+- [Why This Repo](#why-this-repo)
+- [Installation](#installation)
+- [Recommended Specialized Plugins](#recommended-specialized-plugins)
+- [Choose Your Tool](#choose-your-tool)
+- [Quick FAQ](#quick-faq)
+- [Bundles & Workflows](#bundles--workflows)
+- [Browse 2,025+ Skills](#browse-2025-skills)
+- [Troubleshooting](#troubleshooting)
+- [Stable Skills Manifest v1](#stable-skills-manifest-v1)
+- [Support the Project](#support-the-project)
+- [Contributing](#contributing)
+- [Community](#community)
+- [Credits & Sources](#credits--sources)
+- [Repo Contributors](#repo-contributors)
+- [Star History](#star-history)
+- [License](#license)
+
 ## installation
 
 For Codex and Claude, start with the [AAS Core guide](https://github.com/sickn33/agentic-awesome-skills/blob/v15.16.0/docs/users/aas-core.md): configure the local MCP, ask the agent to inspect the project and choose exact IDs from the full catalog, review the proposed `aas-stack.json`, then run CLI validation and planning. The MCP and validation are read-only. Planning writes only the requested plan artifact; it does not materialize skill payloads or AAS managed state in the target.
@@ -23,6 +47,12 @@ Use direct installation when your host does not yet have a native AAS Core adapt
 - **Specialized plugins** when the job has a clear domain.
 - **Full library install** when you want every skill available in a local skills directory.
 - **Bundles and workflows** when you want role-based recommendations or ordered execution playbooks.
+
+### Direct skill install
+
+```bash
+# Antigravity: preview an exact, agent-selected set before writing.
+npx agentic-awesome-skills --antigravity --skills brainstorming,systematic-debugging --dry-run
 
 ## tools
 

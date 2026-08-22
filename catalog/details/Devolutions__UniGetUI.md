@@ -6,6 +6,70 @@ UniGetUI: The Graphical Interface for your package managers. Could be terribly d
 
 <p>There are multiple ways to install UniGetUI — choose whichever one you prefer!</p>
 
+### Windows
+
+UniGetUI is primarily built for Windows. The Microsoft Store is the recommended installation method, but direct installer and package-manager options are also available.
+
+#### Microsoft Store installation (recommended)
+<a href="https://apps.microsoft.com/detail/xpfftq032ptphf"><img alt="alt_text" width="240px" src="https://get.microsoft.com/images/en-us%20dark.svg" /></a>
+
+#### Download the Windows installer:
+![GitHub Release](https://img.shields.io/github/v/release/Devolutions/UniGetUI?style=for-the-badge)
+Use the installer for the best Windows experience. `UniGetUI.Installer.exe` is the legacy/default x64 installer alias; use the explicit architecture downloads if needed.
+
+| Architecture | Installer | Portable `.zip` |
+|---|---|---|
+| x64 | [UniGetUI.Installer.x64.exe](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.Installer.x64.exe) ([default x64 alias](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.Installer.exe)) | [UniGetUI.x64.zip](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.x64.zip) |
+| arm64 | [UniGetUI.Installer.arm64.exe](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.Installer.arm64.exe) | [UniGetUI.arm64.zip](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.arm64.zip) |
+
+#### Install via WinGet:
+![WinGet Package Version](https://img.shields.io/winget/v/Devolutions.UniGetUI?style=for-the-badge)
+```cmd
+winget install --exact --id Devolutions.UniGetUI --source winget
+```
+
+
+#### Install via Scoop:
+![Scoop version](https://img.shields.io/scoop/v/unigetui?bucket=extras&style=for-the-badge)
+```cmd
+scoop bucket add extras
+scoop install extras/unigetui
+```
+
+#### Install via Chocolatey:
+![Chocolatey Version](https://img.shields.io/chocolatey/v/unigetui?style=for-the-badge)
+```cmd
+choco install unigetui
+```
+
+### NativeAOT builds
+
+Release packages are compiled with NativeAOT on all supported platforms (Windows, macOS, and Linux) for improved startup performance and a reduced attack surface. If you want to build the same configuration locally, the repository includes helper publish profiles and a script:
+
+```powershell
+pwsh ./scripts/publish-nativeaot.ps1 -Platform x64   # or arm64
+```
+
+This publishes `src/UniGetUI.Avalonia/UniGetUI.Avalonia.csproj` as a self-contained NativeAOT build into `artifacts/nativeaot/win-<platform>/`.
+
+### macOS
+
+macOS builds are available from GitHub Releases. Use the `.dmg` for the standard installer experience, or the `.tar.gz` archive for a portable app bundle.
+
+| Architecture | `.dmg` | `.tar.gz` |
+|---|---|---|
+| Apple silicon (arm64) | [UniGetUI.macos-arm64.dmg](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.macos-arm64.dmg) | [UniGetUI.macos-arm64.tar.gz](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.macos-arm64.tar.gz) |
+| Intel (x64) | [UniGetUI.macos-x64.dmg](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.macos-x64.dmg) | [UniGetUI.macos-x64.tar.gz](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.macos-x64.tar.gz) |
+
+### Linux
+
+Linux builds are available from GitHub Releases. Use the `.deb` package for Debian/Ubuntu-based distributions, the `.rpm` package for Fedora/RHEL-based distributions, or the `.tar.gz` archive for a portable build.
+
+| Architecture | `.deb` | `.rpm` | `.tar.gz` |
+|---|---|---|---|
+| x64 | [Download](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.linux-x64.deb) | [Download](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.linux-x64.rpm) | [Download](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.linux-x64.tar.gz) |
+| arm64 | [Download](https://github.com/Devolutions/UniGetUI/releases/latest/download/UniGetUI.linux-arm64.deb) | [Download](https://github.c
+
 ## features
 
 - Install, update, and remove software from your system easily at one click: UniGetUI combines packages from the most used package managers for your platform, including WinGet, Chocolatey, Scoop, Homebrew, APT, DNF, Pacman, Flatpak, Snap, Pip, npm, Bun, and .NET Tool.
@@ -18,3 +82,58 @@ UniGetUI: The Graphical Interface for your package managers. Could be terribly d
  - Share packages with your friends using generated package links.
  - Export custom lists of packages to then import them to another machine and install those packages with previously specified, custom installation parameters. Setting up machines or configuring a specific software setup has never been easier.
  - Backup your packages to a local file to easily recover your setup in a matter of seconds when migrating to a new machine*
+
+## Package Managers
+
+**NOTE:** All package managers do support basic install, update, and uninstall processes, as well as checking for updates, finding new packages, and retrieving details from a package.
+
+UniGetUI loads package managers based on the current platform. Windows builds include WinGet, Scoop, Chocolatey, Windows PowerShell, PowerShell 7, npm, Bun, pip, Cargo, .NET Tool, and vcpkg. macOS and Linux builds include Homebrew, PowerShell 7, npm, Bun, pip, Cargo, .NET Tool, and vcpkg; Linux builds also include distro-aware support for APT, DNF, Pacman, Snap, and Flatpak where applicable.
+
+![image](media/supported-managers.svg)
+
+✅: Supported on UniGetUI<br>
+☑️: Not directly supported but can be easily achieved<br>
+⚠️: May not work in some cases<br>
+❌: Not supported by the Package Manager<br>
+<br>
+
+## Translations
+
+UniGetUI translations are maintained directly in this repository. For the current language list, completion status, and per-language contributor attributions, see [TRANSLATION.md](TRANSLATION.md). If you spot a translation issue or want to improve a locale, please open an issue or submit a pull request.
+
+## Screenshots
+ 
+![image](media/UniGetUI_1.png)
+
+![image](media/UniGetUI_2.png)
+
+![image](media/UniGetUI_3.png)
+
+![image](media/UniGetUI_4.png)
+
+![image](media/UniGetUI_5.png)
+
+![image](media/UniGetUI_6.png)
+
+![image](media/UniGetUI_7.png)
+
+![image](media/UniGetUI_8.png)
+
+![image](media/UniGetUI_9.png)
+
+
+## Contributions
+UniGetUI continues to grow thanks to its community of contributors. Devolutions is grateful to everyone who contributes code, translations, documentation, testing, and feedback to the project.<br><br>
+
+[![Contributors](https://contrib.rocks/image?repo=Devolutions/UniGetUI)](https://github.com/Devolutions/UniGetUI/graphs/contributors)<br><br>
+
+
+## Frequently asked questions
+
+**Q: I am unable to install or upgrade a specific Winget package! What should I do?**<br>
+
+A: This is likely an issue with Winget rather than UniGetUI. 
+
+Please check if it's possible to install/upgrade the package through PowerShell or the Command Prompt by using the commands `winget upgrade` or `winget install`, depending on the situation (for example: `winget upgrade --id Microsoft.PowerToys`). 
+
+If this doesn't work, consider asking for help at [Winget's project page](https:

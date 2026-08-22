@@ -68,6 +68,59 @@ Extracting DNS records can provide a wealth of information in an OSINT investiga
 
 - [What are DNS records? (via Cloudflare learning)](https://www.cloudfla
 
+## tools
+
+### Deployment
+
+### Deploying - Option #1: Netlify
+
+Click the button below, to deploy to Netlify 👇
+
+[![Deploy to Netlify](https://img.shields.io/badge/Deploy-Netlify-%2330c8c9?style=for-the-badge&logo=netlify&labelColor=1e0e41 "Deploy Web-Check to Netlify, via 1-Click Script")](https://app.netlify.com/start/deploy?repository=https://github.com/lissy93/web-check)
+
+### Deploying - Option #2: Vercel
+
+Click the button below, to deploy to Vercel 👇
+
+[![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-%23ffffff?style=for-the-badge&logo=vercel&labelColor=1e0e41)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Flissy93%2Fweb-check&project-name=web-check&repository-name=web-check-fork&demo-title=Web-Check%20Demo&demo-description=Check%20out%20web-check.xyz%20to%20see%20a%20live%20demo%20of%20this%20application%20running.&demo-url=https%3A%2F%2Fweb-check.xyz&demo-image=https%3A%2F%2Fraw.githubusercontent.com%2FLissy93%2Fweb-check%2Fmaster%2F.github%2Fscreenshots%2Fweb-check-screenshot10.png)
+
+### Deploying - Option #3: Docker
+
+Run `docker run -p 3000:3000 lissy93/web-check`, then open [`localhost:3000`](http://localhost:3000)
+
+<details>
+<summary>Docker Options</summary>
+
+You can get the Docker image from:
+
+- DockerHub: [`lissy93/web-check`](https://hub.docker.com/r/lissy93/web-check)
+- GHCR: [`ghcr.io/lissy93/web-check`](https://github.com/Lissy93/web-check/pkgs/container/web-check)
+- Or build the image yourself by cloning the repo and running `docker build -t web-check .`
+
+</details>
+
+### Deploying - Option #4: Render
+
+Click the button below, to deploy to Render 👇
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Lissy93/web-check)
+
+Uses the official [`lissy93/web-check`](https://hub.docker.com/r/lissy93/web-check) image on a Standard web service. Optional enrichment API keys can be added after deploy.
+
+### Deploying - Option #5: From Source
+
+Install the prerequisites listed in the [Developing](#developing) section, then run:
+
+```bash
+git clone https://github.com/Lissy93/web-check.git  # Download the code from GitHub
+cd web-check                                        # Navigate into the project dir
+yarn install                                        # Install the NPM dependencies
+yarn build                                          # Build the app for production
+yarn start                                          # Start the app (API and GUI)
+```
+
+---
+
 ## configuration
 
 By default, no configuration is needed.

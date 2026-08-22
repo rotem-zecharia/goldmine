@@ -73,6 +73,64 @@ Credit goes to [Guillaume - The Parallel Interface blog](https://www.paralint.co
 
 If this setup does not work, you may have an old WSL version. In that case, ignore `\.wslconfig` and put everything on `/etc/wsl.conf`, including the `[wsl2]` flag.
 
+Use-Cases
+---------
+
+1. [Build Android project](./documentations/USE_CASE_BUILD_ANDROID_PROJECT.md)
+2. [UI-Test with Appium](./documentations/USE_CASE_APPIUM.md)
+3. [Control Android emulator on host machine](./documentations/USE_CASE_CONTROL_EMULATOR.md)
+4. [SMS Simulation](./documentations/USE_CASE_SMS.md)
+5. [Jenkins](./documentations/USE_CASE_JENKINS.md)
+6. [Deploying on cloud (Azure, AWS, GCP)](./documentations/USE_CASE_CLOUD.md)
+
 ## configuration
 
 This [document](./documentations/CUSTOM_CONFIGURATIONS.md) contains information about configurations that can be used to enable some features, e.g. log-sharing, etc.
+
+Genymotion
+----------
+
+<p align="center">
+  <img id="geny" src="./images/logo_genymotion_and_dockerandroid.png" />
+</p>
+
+For you who do not have ressources to maintain the simulator or to buy machines or need different device profiles, you can give a try by using [Genymotion SAAS](https://cloud.geny.io/). Docker-Android is [integrated with Genymotion](https://www.genymotion.com/blog/partner_tag/docker/) on different cloud services, e.g. Genymotion SAAS, AWS, GCP, Alibaba Cloud. Please follow [this document](./documentations/THIRD_PARTY_GENYMOTION.md) for more detail.
+
+Emulator Skins
+--------------
+The Emulator skins are taken from [Android Studio IDE](https://developer.android.com/studio) and [Samsung Developer Website](https://developer.samsung.com/)
+
+USERS
+-----
+
+<a href="https://lookerstudio.google.com/s/iGaemHJqQvg">
+  <p align="center">
+    <img src="./images/docker-android_users.png" alt="docker-android-users" width="800" height="600">
+  </p>
+</a>
+
+PRO VERSION
+-----------
+
+Due to high requests for help and to be able to actively maintain the projects, the creator has decided to create docker-android-pro. Docker-Android-Pro is a sponsor based project which mean that the docker image of pro-version can be pulled only by [active sponsor](https://github.com/sponsors/budtmo).
+
+The differences between normal version and pro version are:
+
+|Feature   |Normal   |Pro   |Comment|
+|:---|:---|:---|:---|
+|user-behavior-analytics|Yes|No|-|
+|proxy|No|Yes|Set up company proxy on Android emulator on fly|
+|language|No|Yes|Set up language on Android emulator on fly|
+|Newer Android version|No|Yes|Support other newer Android version e.g. Android 15, Android 16, etc|
+|root-privileged|No|Yes|Able to run command with security privileged|
+|headless-mode|No|Yes|Save resources by using headless mode|
+|Selenium 4.x integration|No|Yes|Running Appium UI-Tests againt one (Selenium Hub) endpoint for Android- and iOS emulator(s) / device(s)|
+|multiple Android-Simulators|No|Yes (soon)|Save resources by having multiple Android-Simulators on one docker-container|
+|Google Play Store|No|Yes (soon)|-|
+|Video Recording|No|Yes (soon)|Helpful for debugging|
+
+This [document](./documentations/DOCKER-ANDROID-PRO.md) contains detail information about how to use docker-android-pro.
+
+LICENSE
+-------
+See [License](LICENSE.md)

@@ -89,6 +89,20 @@ Includes one-click integrations to most popular products.
 
 **All release files:**   https://github.com/rowboatlabs/rowboat/releases/latest
 
+### Google setup
+To connect Google services (Gmail, Calendar, and Drive), follow [Google setup](https://github.com/rowboatlabs/rowboat/blob/main/google-setup.md).
+
+### Voice input
+To enable voice input and voice notes (optional), add a Deepgram API key in `~/.rowboat/config/deepgram.json`
+
+### Voice output
+
+To enable voice output (optional), add an ElevenLabs API key in `~/.rowboat/config/elevenlabs.json`
+
+### Web search
+
+To use Exa research search (optional), add the Exa API key in `~/.rowboat/config/exa-search.json`
+
 ## tools
 
 To enable external tools (optional), you can add any MCP server or use Composio tools by adding an API key in `~/.rowboat/config/composio.json`
@@ -97,3 +111,44 @@ All API key files use the same format:
 ```
 {
   "apiKey": "<key>"
+}
+```
+
+
+## How it’s different
+
+Most AI tools reconstruct context on demand by searching transcripts or documents.
+
+Rowboat maintains **long-lived knowledge** instead:
+- context accumulates over time
+- relationships are explicit and inspectable
+- notes are editable by you, not hidden inside a model
+- everything lives on your machine as plain Markdown
+
+The result is memory that compounds, rather than retrieval that starts cold every time.
+
+## Bring your own model
+
+Rowboat works with the model setup you prefer:
+- **Local models** via Ollama or LM Studio
+- **Hosted models** (bring your own API key/provider)
+- Swap models anytime — your data stays in your local Markdown vault
+
+## Extend Rowboat with tools (MCP)
+
+Rowboat can connect to external tools and services via **Model Context Protocol (MCP)**.
+That means you can plug in (for example) search, databases, CRMs, support tools, and automations - or your own internal tools.
+
+Examples: Exa (web search), Twitter/X, ElevenLabs (voice), Slack, Linear/Jira, GitHub, and more.
+
+## Local-first by design
+
+- All data is stored locally as plain Markdown
+- No proprietary formats or hosted lock-in
+- You can inspect, edit, back up, or delete everything at any time
+
+---
+<div align="center">
+
+[Discord](https://discord.gg/wajrgmJQ6b) · [Twitter](https://x.com/intent/user?screen_name=rowboatlabshq)
+</div>

@@ -31,6 +31,16 @@
 
 <br />
 
+## 🌐 Localizations
+
+The localizations in this section are third-party forks maintained outside this repository. They are not maintained, reviewed, or endorsed by this repository, so review their code and releases before using them.
+
+- 🌏 **中文版 (Chinese):** [ccstatusline-zh](https://github.com/huangguang1999/ccstatusline-zh)
+
+<br />
+
 ## installation
+
+### No installation needed! Use directly with npx or bunx:
 
 ```bash

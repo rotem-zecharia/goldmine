@@ -111,6 +111,39 @@ files for patterns without any opportunities for literal optimizations:
 In other words, use ripgrep if you like speed, filtering by default, fewer
 bugs and Unicode support.
 
+
+### Why shouldn't I use ripgrep?
+
+Despite initially not wanting to add every feature under the sun to ripgrep,
+over time, ripgrep has grown support for most features found in other file
+searching tools. This includes searching for results spanning across multiple
+lines, and opt-in support for PCRE2, which provides look-around and
+backreference support.
+
+At this point, the primary reasons not to use ripgrep probably consist of one
+or more of the following:
+
+* You need a portable and ubiquitous tool. While ripgrep works on Windows,
+  macOS and Linux, it is not ubiquitous and it does not conform to any
+  standard such as POSIX. The best tool for this job is good old grep.
+* There still exists some other feature (or bug) not listed in this README that
+  you rely on that's in another tool that isn't in ripgrep.
+* There is a performance edge case where ripgrep doesn't do well where another
+  tool does do well. (Please file a bug report!)
+* ripgrep isn't possible to install on your machine or isn't available for your
+  platform. (Please file a bug report!)
+
+
+### Is it really faster than everything else?
+
+Generally, yes. A large number of benchmarks with detailed analysis for each is
+[available on my blog](https://blog.burntsushi.net/ripgrep/).
+
+Summarizing, ripgrep is fast because:
+
+* It is built on top of
+  [Rust's regex engine](https://github.com/rust-lang/regex).
+
 ## installation
 
 The binary name for ripgrep is `rg`.

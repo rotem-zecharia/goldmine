@@ -10,6 +10,10 @@ This repo distributes the Zapier MCP plugin — the part that lives in your AI c
 
 ![AI connects to Zapier MCP, which connects to Gmail, Slack, Google Sheets, Notion, HubSpot, Salesforce, Linear, Asana, and 9,000 more apps](./assets/mcp-apps-diagram.png)
 
+## What's in this repo
+
+- **[`plugins/zapier/`](./plugins/zapier/)**: the plugin that onboards you to Zapier MCP and supercharges your experience
+
 ## installation
 
 Connecting Zapier MCP to your AI client only takes a server URL — see [docs.zapier.com/mcp/clients](https://docs.zapier.com/mcp/clients) for step-by-step instructions for every supported client.
@@ -24,3 +28,16 @@ A few clients also install the plugin distributed from this repo, which layers g
 - **Gemini CLI**: `gemini extensions install https://github.com/zapier/zapier-mcp`, then `/mcp auth zapier` — see [`gemini-extension.json`](./gemini-extension.json)
 
 VS Code connects directly to the hosted MCP server rather than through a plugin — use the badge above, or add `https://mcp.zapier.com/api/v1/connect` (`type: http`) manually.
+
+## Third-party registries
+
+Zapier MCP is also listed on:
+
+- [Smithery](https://smithery.ai/servers/zapier)
+- [PulseMCP](https://www.pulsemcp.com/servers/zapier)
+
+## For contributors
+
+- [AGENTS.md](./AGENTS.md): guide for AI agents working in this repo
+- [CONTRIBUTING.md](./CONTRIBUTING.md): how to contribute
+- [llms.txt](./llms.txt): LLM discovery index

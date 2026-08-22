@@ -12,6 +12,38 @@ The leading, most token-efficient MCP server for documentation exploration and r
 
 ---
 
+## What makes it different
+
+### Section-first retrieval
+Search and retrieve documentation by section, not just file path or keyword match.
+
+### Byte-precise extraction
+Full content is pulled on demand from exact byte offsets into the original file.
+
+### Stable section IDs
+Sections retain durable identities across re-indexing when path, heading text, and heading level remain unchanged.
+
+---
+
+## Evidence
+
+Four benchmarks against public documentation corpora, each with the corpus, date, and per-query results recorded in [`benchmarks/`](benchmarks/).
+
+| Corpus | Scale | Indexed in | Result |
+|---|---|---|---|
+| [Kubernetes](benchmarks/jDocMunch_Benchmark_Kubernetes.md) (`kubernetes/website`, 2026-03-04) | 1,569 `.md` files, 4,355 sections, 16 MB | 3,352 ms | 27,285 tokens saved on a single node-affinity query; 100 ms latency |
+| [SciPy](benchmarks/jDocMunch_Benchmark_SciPy.md) | 10,402 sections, ~855,000 corpus tokens | 2,247 ms | 135–152 ms per query across sparse-solver, FFT, and optimization lookups |
+| [LangChain](benchmarks/jDocMunch_Benchmark_LangChain_MDX.md) (MDX) | 5,973 sections | 5,204 ms | MDX-aware sectioning found 754% more sections than the naive pass |
+| [Wiki](benchmarks/jDocMunch_Benchmark_Wiki.md) | 7,449-token corpus | — | Search returns ranked metadata in ~190 tokens against a 7,449-token whole-corpus read |
+
+**Read these as per-corpus results, not as a single headline multiple.** Savings depend on how large the containing file is relative to the section you needed: a small file with one heading saves almost nothing, and the Kubernetes corpus saves a great deal. The benchmark files record the queries that did poorly alongside the ones that did well.
+
+A separate, measured result from the [v1.121.0](CHANGELOG.md) projection work, on this repository's own docs at `max_results=10`: a search row went **1,989 chars → 319 with `compact=true` (−84%)**, or 431 with `snippet_bytes=200` (−78%) while removing the follow-up `get_section` call entirely.
+
+**Retrieval quality is gated, not assumed.** Every release runs a replay fixture over a frozen golden set and fails below **nDCG 0.95**. That gate has failed builds and blocked releases; it is not decorative.
+
+---
+
 ## installation
 
 **Requirements:** Python 3.10+, any MCP-compatible client.
@@ -58,6 +90,51 @@ Call the jdocmunch_guide tool and strictly follow its instructions.
 
 ---
 
+## Quickstart
+
+**Assumes:** jDocMunch installed and registered with your client, and a folder of documentation.
+
+Index a local documentation folder:
+
+```bash
+jdocmunch-mcp index-local --path ./docs
+```
+
+It prints JSON naming the corpus and what it found:
+
+```json
+{
+  "success": true,
+  "repo": "local/docs",
+  "file_count": 1,
+  "section_count": 4,
+  "doc_types": { ".md": 1 },
+  "semantic_search": false
+}
+```
+
+`section_count` greater than `file_count` is the whole point: the index addresses headings, not files.
+
+Then, inside your agent:
+
+> Using jdocmunch, search the docs for "authentication configuration" and show me that section.
+
+The agent should call `search_sections`, then `get_section` on the top hit — returning one section rather than a file. `_meta.tokens_saved` on the response reports what that cost versus reading the containing document.
+
+**Next step:** `get_toc_tree` for a structural view of the whole corpus, or `index_repo` to index documentation straight from a GitHub repository.
+
+---
+
+## What you can do
+
+- **Retrieve one section instead of a document.** `get_section` and `get_sections` pull byte-precise content from the original file; `get_section_excerpt` narrows further.
+- **Search by meaning, not just keywords.** `search_sections` fuses BM25 with semantic cosine when an embedding provider is configured. `compact=true`, `fields=[...]`, and `snippet_bytes=N` cut the response further.
+- **Navigate structure.** `get_toc`, `get_toc_tree`, `get_section_path`, `get_section_descendants`, and `section_neighbors` traverse the heading tree without reading content.
+- **Find what documentation is missing or rotting.** `get_doc_coverage`, `get_undocumented_symbols`, `get_stale_pages`, `get_orphan_sections`, `get_broken_links`, and `doc_health_radar`.
+- **Work across API specs.** `find_endpoint`, `list_endpoints_by_tag`, `find_operations_using_schema`, and `get_schema_graph` treat OpenAPI documents as first-class.
+- **Preflight documentation changes.** `check_section_delete_safe` and `get_section_blast_radius` before you remove or restructure.
+- **Know when an answer is stale.** Content reads disclose `_meta.freshness`, `_meta.verdict`, and which source layer an
+
 ## limitations
 
 - **Section retrieval helps least on small files.** If a document has one heading and 40 lines, retrieving the section and reading the file cost about the same.
@@ -67,3 +144,47 @@ Call the jdocmunch_guide tool and strictly follow its instructions.
 - **jDocMunch does not parse code.** Symbols, signatures, and call graphs belong to [jcodemunch-mcp](https://github.com/jgravelle/jcodemunch-mcp); tabular data belongs to [jdatamunch-mcp](https://github.com/jgravelle/jdatamunch-mcp).
 
 ---
+
+## Documentation
+
+| Doc | What it covers |
+|-----|----------------|
+| [USER_GUIDE.md](USER_GUIDE.md) | Full tool reference, workflows, and best practices |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Storage model, parsing pipeline, extension points |
+| [SPEC.md](SPEC.md) | Response contracts and reason-code vocabulary |
+| [SECURITY.md](SECURITY.md) | Security controls and vulnerability reporting |
+| [TOKEN_SAVINGS.md](TOKEN_SAVINGS.md) | How savings are counted and reported |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Development setup and the CLA requirement |
+| [CHANGELOG.md](CHANGELOG.md) · [ROADMAP.md](ROADMAP.md) | Release history and what's next |
+
+---
+
+## Licensing and commercial use
+
+Released under the **jDocMunch-MCP Dual-Use License** ([full terms](LICENSE)). **Free for non-commercial use. Commercial use requires a paid license**, one-time, sold by jMunch LLC.
+
+**jDocMunch only:** [Builder, $29](https://jcodemunch.com/descriptions.php#builder) (1 developer) · [Studio, $99](https://jcodemunch.com/descriptions.php#studio) (up to 5) · [Platform, $499](https://jcodemunch.com/descriptions.php#platform) (org-wide internal deployment)
+
+**Full jMunch suite (code + docs + data):** [Trio Builder, $99](https://jcodemunch.com/descriptions.php#builder) · [Trio Studio, $449](https://jcodemunch.com/descriptions.php#studio) · [Trio Platform, $2,499](https://jcodemunch.com/descriptions.php#platform)
+
+Individual developers and non-commercial projects need no license. Organizations deploying jDocMunch across internal teams do.
+
+### 1.x compatibility commitment
+
+Every 1.x license entitles you to every future 1.x release. We will never ship a 1.x version that:
+
+- removes or renames an MCP tool (deprecated tool names keep their aliases),
+- drops a `Section` field from the response shape,
+- forces a reindex without auto-migrating your existing index on first load,
+- changes the JSON wire format of any tool response in a way that breaks an existing consumer,
+- or makes a previously-default behavior raise.
+
+Anything that would require breaking these promises is reserved for a future major version (2.x). The full machine-checked contract is enforced via `tests/test_server.py` (tool-name and required-field invariants) and the replay-fixture gate that runs on every release.
+
+---
+
+## Support and project status
+
+Actively maintained. Issues and bug reports: [GitHub Issues](https://github.com/jgravelle/jdocmunch-mcp/issues). Security reports: see [SECURITY.md](SECURITY.md). Commercial licensing questions go through [jcodemunch.com](https://jcodemunch.com/).
+
+Part of the jMunch suite alongside [jcodemunch-mcp](https://github.com/jgravelle/jcodemunch-mcp) (code symbols) and [jdatamunch-mcp](https://github.com/jgravelle/jdatamunch-mcp) (tabular data). All three implement [jMRI](https://github.com/jgravelle/mcp-retrieval-spec), the open retrieval interface spec.

@@ -27,6 +27,17 @@ VictoriaMetrics is optimized for timeseries data, even when old time series are 
 * **NFS-based storages**: Supports storing data on NFS-based storages such as Amazon EFS, Google Filestore.
 * And many other features such as metrics relabeling, cardinality limiter, etc.
 
+## Enterprise version
+
+In addition, the Enterprise version includes extra features:
+
+- **Anomaly detection**: Automation and simplification of your alerting rules, covering complex anomalies found in metrics data.
+- **Backup automation**: Automates regular backup procedures.
+- **Multiple retentions**: Reducing storage costs by specifying different retentions for different datasets.
+- **Downsampling**: Reducing storage costs and increasing performance for queries over historical data.
+- **Stable releases** with long-term support lines ([LTS](https://docs.victoriametrics.com/victoriametrics/lts-releases/)).
+- **Comprehensive suppo
+
 ## tools
 
 #### Font
@@ -40,3 +51,12 @@ VictoriaMetrics is optimized for timeseries data, even when old time series are 
 * Purple [#4d0e82](https://www.color-hex.com/color/4d0e82)
 * Orange [#ff2e00](https://www.color-hex.com/color/ff2e00)
 * White [#ffffff](https://www.color-hex.com/color/ffffff)
+
+### Logo Usage Rules
+
+* Only use the Lato Black font as specified.
+* Maintain sufficient clear space around the logo for visibility.
+* Do not modify the spacing, alignment, or positioning of design elements.
+* You may resize the logo as needed, but ensure all proportions remain intact.
+
+Thank you for your cooperation!
