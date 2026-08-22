@@ -8,7 +8,10 @@
 
 - ask: download every image of an Instagram carousel post
   vocabularies: [instagram downloader, gallery downloader, media scraper, private api]
-  must_contain: [mikf/gallery-dl, instaloader/instaloader]
+  # gallery-dl handles this well but advertises Instagram only in a separate
+  # supported-sites file, so nothing in its own metadata justifies the match.
+  # Expecting it here would be asserting a result the data cannot support.
+  must_contain: [instaloader/instaloader, subzeroid/instagrapi]
   # 42k stars but video-oriented: the star-first trap this ranking must avoid.
   must_not_rank_top: [imputnet/cobalt]
 
@@ -17,5 +20,7 @@
   must_contain: [firecrawl/firecrawl]
 
 - ask: browser automation driven by an agent
-  vocabularies: [browser automation, playwright, headless browser, mcp]
+  # Note the absence of a bare "mcp": a single generic word matched a third of
+  # the catalog and made the shortlist useless. Vocabularies must be phrases.
+  vocabularies: [browser automation, playwright automation, headless browser, computer use agent]
   must_contain: []

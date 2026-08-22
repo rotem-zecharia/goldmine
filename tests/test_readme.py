@@ -102,3 +102,52 @@ def test_headings_with_emoji_and_anchors_still_match():
     readme = "## \U0001f680 Quick Start\n\nrun it\n"
 
     assert "installation" in extract_sections(readme)
+
+
+RST = """gallery-dl
+==========
+
+Download image galleries from several sites.
+
+Features
+--------
+
+- Supports Instagram, Twitter, Pixiv and many more
+- Resumable downloads
+
+Installation
+------------
+
+.. code:: bash
+
+    pip install gallery-dl
+"""
+
+
+def test_extracts_sections_from_restructuredtext():
+    # gallery-dl and many Python projects ship .rst READMEs with underlined
+    # headings; a markdown-only parser produced no detail file at all for them.
+    sections = extract_sections(RST)
+
+    assert "features" in sections and "installation" in sections
+
+
+def test_restructuredtext_section_text_is_verbatim():
+    assert "Supports Instagram" in extract_sections(RST)["features"]
+
+
+def test_setext_markdown_headings_are_recognised():
+    markdown = "Tool\n====\n\nFeatures\n--------\n\n- does things\n"
+
+    assert "does things" in extract_sections(markdown)["features"]
+
+
+def test_an_underline_that_is_not_a_heading_is_ignored():
+    # A table rule or horizontal line must not create a phantom section.
+    text = "# Tool\n\nsome prose\n\n-----\n\nmore prose\n"
+
+    assert extract_sections(text) == {}
+
+
+def test_install_command_is_found_in_an_rst_code_block():
+    assert extract_install_command(RST) == "pip install gallery-dl"

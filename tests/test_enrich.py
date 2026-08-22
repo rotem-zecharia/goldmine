@@ -214,7 +214,7 @@ def test_selection_handles_a_tool_with_no_categories():
 
     tools = [dataclasses.replace(make_tool("o/x", categories=[]), score=99.0)]
 
-    assert select_for_enrichment(tools, limit=5, per_category=2) == {"o/x"}
+    assert select_for_enrichment(tools, limit=5, per_category=2) == ["o/x"]
 
 
 def test_enrich_only_touches_the_selected_repos():
@@ -224,3 +224,58 @@ def test_enrich_only_touches_the_selected_repos():
     enrich_tools(tools, fetcher, limit=2, selected={"a/b"})
 
     assert not any("c/d" in call for call in fetcher.calls)
+
+
+def test_selection_order_round_robins_across_categories():
+    from goldmine.enrich import select_for_enrichment
+
+    # Fair selection is not enough: if enrichment then runs in global score
+    # order, a big category drains the budget before a niche leader is reached.
+    big = [
+        dataclasses.replace(make_tool(f"o/big{i}", categories=["mcp"]), score=1000.0 - i)
+        for i in range(50)
+    ]
+    niche = [dataclasses.replace(make_tool("o/niche", categories=["scraping"]), score=1.0)]
+
+    order = select_for_enrichment(big + niche, limit=100, per_category=5)
+
+    assert order.index("o/niche") < 5, "niche leader must be enriched early, not last"
+
+
+def test_selection_returns_an_ordered_sequence():
+    from goldmine.enrich import select_for_enrichment
+
+    tools = [
+        dataclasses.replace(make_tool(f"o/r{i}", categories=["mcp"]), score=float(i))
+        for i in range(5)
+    ]
+
+    order = select_for_enrichment(tools, limit=5, per_category=5)
+
+    assert order[0] == "o/r4"
+
+
+def test_enrich_follows_the_given_order_under_a_tight_budget():
+    class Draining(StubFetcher):
+        def __init__(self, routes):
+            super().__init__(routes)
+            self.remaining = 210
+
+        def get_json(self, url):
+            self.remaining -= 1
+            return super().get_json(url)
+
+        def get_json_meta(self, url):
+            self.remaining -= 1
+            return super().get_json_meta(url)
+
+        def get_text(self, url):
+            self.remaining -= 1
+            return super().get_text(url)
+
+    fetcher = Draining({"contributors": [], "releases": [], "readme": None})
+    tools = [make_tool("a/first"), make_tool("b/second"), make_tool("c/third")]
+
+    enrich_tools(tools, fetcher, limit=3, min_remaining=200, selected=["c/third", "a/first"])
+
+    assert any("c/third" in call for call in fetcher.calls)

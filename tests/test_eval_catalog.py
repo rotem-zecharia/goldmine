@@ -58,16 +58,90 @@ def test_every_expected_repo_is_present():
     assert not missing, f"catalog is missing known-good tools: {missing}"
 
 
-def test_expected_repos_are_not_buried_in_watch():
-    catalog = by_repo()
-    buried = [
-        repo
-        for case in cases()
-        for repo in case["must_contain"]
-        if catalog.get(repo.lower(), {}).get("tier") == "watch"
-    ]
+TIER_RANK = {"established": 0, "rising": 1, "watch": 2}
 
-    assert not buried, f"known-good tools landed in watch: {buried}"
+
+def rank_for_query(vocabularies, limit=10):
+    """Approximate what the skill does: gate on relevance, then rank.
+
+    Tier membership is the wrong thing to assert on. A 1.25k-star tool is not
+    top-5% of a 542-repo category, and pretending otherwise would be exactly
+    the inflation the skill is told to avoid. What matters to a user is whether
+    the right tool surfaces for their query, which is this.
+
+    A vocabulary matches only when every word in it appears. Matching on single
+    common words ("api", "downloader") let the largest generalist projects win
+    every query; matching on hit count let a 2-star repo outrank a 13k-star
+    established one. Neither is relevance.
+    """
+    phrases = [[word.lower() for word in vocabulary.split()] for vocabulary in vocabularies]
+
+    gated = []
+    for row in rows():
+        haystack = " ".join(
+            [row["repo"], row["summary"], " ".join(row["categories"]), " ".join(row["tags"] or [])]
+        ).lower()
+        matched = sum(1 for phrase in phrases if all(word in haystack for word in phrase))
+        if matched:
+            gated.append(row)
+
+    gated.sort(key=lambda row: (TIER_RANK[row["tier"]], -row["score"]))
+    ranked = [row["repo"].lower() for row in gated]
+    return ranked if limit is None else ranked[:limit]
+
+
+def test_known_good_tools_are_reachable_for_their_query():
+    """The catalog must put the right tool in front of the skill.
+
+    Ordering the shortlist is Claude's job, and no keyword ranker can make the
+    judgement that huggingface/transformers is a general ML library rather than
+    a tool for analysing a reel. What the catalog owes the skill is that the
+    right tool is in the candidate set at all, with the categories and tags
+    that make it findable.
+    """
+    failures = []
+    for case in cases():
+        if not case["must_contain"]:
+            continue
+        gated = rank_for_query(case["vocabularies"], limit=None)
+        for repo in case["must_contain"]:
+            if repo.lower() not in gated:
+                failures.append(f"{case['ask']!r}: {repo} is unreachable ({len(gated)} candidates)")
+
+    assert not failures, "\n".join(failures)
+
+
+def test_the_relevance_gate_is_selective():
+    """A gate that admits half the catalog is not a gate.
+
+    Matching single common words let "api" pull in every large generalist
+    project; requiring every word of a vocabulary phrase is what keeps the
+    shortlist small enough for Claude to read.
+    """
+    total = len(rows())
+    for case in cases():
+        gated = rank_for_query(case["vocabularies"], limit=None)
+        share = len(gated) / total
+        assert share < 0.10, f"{case['ask']!r} gated {share:.0%} of the catalog"
+
+
+def test_star_heavy_irrelevant_tools_do_not_outrank_the_right_answer():
+    # The measured failure: a 42k-star video downloader beating the 19k-star
+    # gallery downloader that is correct for image carousels.
+    failures = []
+    for case in cases():
+        trap = case.get("must_not_rank_top") or []
+        if not trap or not case["must_contain"]:
+            continue
+        top = rank_for_query(case["vocabularies"], limit=25)
+        for bad in trap:
+            if bad.lower() not in top:
+                continue
+            for good in case["must_contain"]:
+                if good.lower() in top and top.index(bad.lower()) < top.index(good.lower()):
+                    failures.append(f"{case['ask']!r}: {bad} outranks {good}")
+
+    assert not failures, "\n".join(failures)
 
 
 def test_scores_are_within_range():

@@ -52,6 +52,10 @@ Searching `instagram reel analysis` returns a 26-star toy. Searching `video anal
 Generate the alternates from the **requirements**, not from the user's phrasing. Include the words a
 maintainer would put in a repository description: the format, the technique, the library.
 
+**Use phrases, not single generic words.** A bare `mcp` matches a third of the catalog and the
+shortlist becomes useless; `browser automation` and `frame extraction` select. If a vocabulary term
+returns hundreds of hits, it is too generic - make it more specific rather than reading the list.
+
 ```bash
 grep -iE "video|frame|multimodal|vision|transcri" catalog/index.md | head -40
 ```
@@ -64,6 +68,12 @@ requirement, and only then order by tier and score.
 **Never sort by stars first.** A 5.9k-star general-purpose desktop agent will outrank the 1.25k-star
 tool that is actually right. A 42k-star video downloader will outrank the 19k-star gallery downloader
 that is the correct answer for image carousels. Both are measured failures, not hypotheticals.
+
+**And never rank by how many search terms matched.** That is the same error wearing a different hat:
+it put a 2-star repository above 13k-star, established `instaloader`. Relevance decides who is on
+the shortlist. Tier and score decide the order within it. Your own judgement decides the winner -
+a huge, established, genuinely-matching general ML library is still the wrong answer to "analyse this
+reel", and no ranking formula will tell you that.
 
 ### 4. Answer in one of three modes
 

@@ -18,8 +18,16 @@ WANTED = {
     "requirements": ("requirement", "prerequisite", "dependencies"),
 }
 
-HEADING = re.compile(r"^#{1,3}\s+(.+?)\s*$", re.MULTILINE)
+ATX_HEADING = re.compile(r"^#{1,3}[ \t]+(.+?)[ \t]*$", re.MULTILINE)
+# reStructuredText and setext markdown underline their headings instead. Many
+# Python projects ship .rst READMEs, and a markdown-only parser produced no
+# sections at all for them, so they got no detail file and no install command.
+UNDERLINE_HEADING = re.compile(
+    r"^(?P<title>[^\s\n][^\n]{0,78})\n(?P<rule>[=\-~^\"'`*+#]{3,})[ \t]*$", re.MULTILINE
+)
 FENCE = re.compile(r"```[a-zA-Z]*\n(.*?)```", re.DOTALL)
+# ".. code:: bash" and a bare "::" both introduce an indented literal block.
+RST_BLOCK = re.compile(r"::[^\n]*\n\n((?:[ \t]+[^\n]*\n?)+)")
 MAX_SECTION = 4_000
 
 INSTALL_MARKERS = (
@@ -49,16 +57,31 @@ def _canonical(heading: str) -> str | None:
     return None
 
 
+def _headings(text: str) -> list:
+    """Every heading in the document, in order, whichever style it uses."""
+    found = [(match.start(), match.end(), match.group(1)) for match in ATX_HEADING.finditer(text)]
+
+    for match in UNDERLINE_HEADING.finditer(text):
+        title = match.group("title").strip()
+        # The underline must be at least as long as the title it underlines,
+        # which is what separates a real heading from a horizontal rule.
+        if len(match.group("rule")) >= len(title) and not title.startswith(("-", "=", "|")):
+            found.append((match.start(), match.end(), title))
+
+    found.sort(key=lambda item: item[0])
+    return found
+
+
 def extract_sections(markdown: str) -> dict[str, str]:
-    matches = list(HEADING.finditer(markdown))
+    matches = _headings(markdown)
     sections: dict[str, str] = {}
 
-    for index, match in enumerate(matches):
-        canonical = _canonical(match.group(1))
+    for index, (_, heading_end, title) in enumerate(matches):
+        canonical = _canonical(title)
         if not canonical or canonical in sections:
             continue
-        start = match.end()
-        end = matches[index + 1].start() if index + 1 < len(matches) else len(markdown)
+        start = heading_end
+        end = matches[index + 1][0] if index + 1 < len(matches) else len(markdown)
         body = markdown[start:end].strip()
         if body:
             sections[canonical] = body[:MAX_SECTION]
@@ -77,7 +100,7 @@ def extract_install_command(markdown: str) -> str:
         return ""
 
     lines = []
-    for block in FENCE.findall(section):
+    for block in FENCE.findall(section) + RST_BLOCK.findall(section):
         for line in block.splitlines():
             cleaned = line.strip().lstrip("$").strip()
             if cleaned and not cleaned.startswith("#"):
