@@ -1,0 +1,22 @@
+# Signal weights, published deliberately so they can be argued about in pull
+# requests. They must sum to 1.0; a test enforces that.
+weights:
+  stars: 0.20
+  velocity: 0.20
+  recency: 0.25
+  contributors: 0.15
+  issue_close: 0.10
+  packaging: 0.10
+
+# Multipliers applied after the weighted sum. Each is a hard demotion rather
+# than a small subtraction.
+penalties:
+  archived: 0.20
+  unmaintained_12mo: 0.35
+  unresolved_fork: 0.60
+  new_without_traction: 0.40
+
+thresholds:
+  new_repo_days: 30
+  new_repo_min_stars: 100
+  unmaintained_days: 365

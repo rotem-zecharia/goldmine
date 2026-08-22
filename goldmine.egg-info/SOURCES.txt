@@ -1,0 +1,8 @@
+pyproject.toml
+goldmine/__init__.py
+goldmine.egg-info/PKG-INFO
+goldmine.egg-info/SOURCES.txt
+goldmine.egg-info/dependency_links.txt
+goldmine.egg-info/requires.txt
+goldmine.egg-info/top_level.txt
+tests/test_smoke.py
