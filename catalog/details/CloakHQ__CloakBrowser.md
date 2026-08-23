@@ -106,33 +106,21 @@ export CLOAKBROWSER_LICENSE_KEY=cb_xxxxxxxx
 
 Try the latest free → **[cloakbrowser.dev/free](https://cloakbrowser.dev/free)**  ·  Scale up on Pro → **[cloakbrowser.dev](https://cloakbrowser.dev)**
 
-## Test Results
+## CloakBrowser Manager
 
-All tests verified against live detection services. Results below are for the latest Pro/current build unless noted. Last tested: Aug 2026 (Chromium 151).
+**The anti-detect browser, with a GUI.** A self-hosted alternative to Multilogin, GoLogin, and AdsPower, running on this same engine, on your own machine, not someone else's cloud.
 
-| Detection Service | Stock Playwright | CloakBrowser | Notes |
-|---|---|---|---|
-| **reCAPTCHA v3** | 0.1 (bot) | **0.9** (human) | Pro/current build; server-side verified |
-| **Cloudflare Turnstile** (non-interactive) | FAIL | **PASS** | Auto-resolve |
-| **Cloudflare Turnstile** (managed) | FAIL | **PASS** | Single click |
-| **ShieldSquare** | BLOCKED | **PASS** | Production site |
-| **FingerprintJS** bot detection | DETECTED | **PASS** | Pro/current build; demo.fingerprint.com |
-| **BrowserScan** bot detection | DETECTED | **NORMAL** (4/4) | browserscan.net |
-| **bot.incolumitas.com** | 13 fails | **1 fail** | WEBDRIVER spec only |
-| **deviceandbrowserinfo.com** | 6 true flags | **0 true flags** | `isBot: false` |
-| `navigator.webdriver` | `true` | **`false`** | Source-level patch |
-| `navigator.plugins.length` | 0 | **5** | Real plugin list |
-| `window.chrome` | `undefined` | **`object`** | Present like real Chrome |
-| UA string | `HeadlessChrome` | **`Chrome/151.0.0.0`** | No headless leak |
-| CDP detection | Detected | **Not detected** | `isAutomatedWithCDP: false` |
-| TLS fingerprint | Mismatch | **Identical to Chrome** | ja3n/ja4/akamai match |
-| | | **Tested against 30+ detection sites** | |
+Every profile is a genuinely separate computer: its own fingerprint, GPU, screen, timezone, proxy, cookies, and history. Nothing bleeds between them. Close a profile, reopen it next month, and it's the same person, warmed up and ready.
 
-### Proof
+- **Unlimited profiles** — the big brands charge per profile and push you up a tier when you hit the ceiling. Here profiles are unlimited and you pay only for how many run at the same time. A drawer full of dormant accounts costs nothing.
+- **Native desktop app** — profiles open as normal windows on Windows and macOS. On a Linux server they run in Docker and stream to your browser.
+- **The real engine** — most profile managers inject JavaScript into a stock browser. Every profile here runs the patched Chromium binary this repo ships.
+- **Automate what you can see** — every running profile exposes a CDP endpoint. Drive it with Playwright or Puppeteer while you watch the exact same window live.
+- **One key, both products** — your CloakBrowser key works in the Manager too. Free with a GitHub sign-in for one profile at a time.
 
-<p align="center">
-<img src="https://i.imgur.com/hvIQyMv.png" width="600" alt="reCAPTCHA v3 — Score 0.9">
-<br><em>Pro/
+It's also the fastest way to try the browser without writing any code: download, create a profile, click **Launch**.
+
+[**Get the Manager →**](https://cloakbrowser.dev/manager) · [Manager repo](https://github.com/CloakHQ/CloakBrowser-Manager) —
 
 ## tools
 
