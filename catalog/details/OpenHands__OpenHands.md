@@ -91,9 +91,10 @@ The Agent Server is often paired with an [Automation Server](https://github.com/
 
 <img width="1456" height="1258" alt="image" src="https://github.com/user-attachments/assets/cb6de6f5-ac30-4d04-a76a-b5c259f0c163" />
 
-## More documentation
+### Repository boundaries
 
-- [Documentation index](./docs/README.md)
-- [Architecture overview](./docs/architecture.md)
-- [Development guide](./docs/DEVELOPMENT.md)
-- [Self-hosting guide](./docs/SELF_HOSTING.md)
+Agent Canvas is part of a multi-repository OpenHands system. Changes should go to the repository that owns the behavior:
+
+| Repository | Responsibility |
+|---|---|
+| [`OpenHands/OpenHands`](https://github.com/OpenHands/OpenHands) | Agent Canvas frontend, user-facing control center

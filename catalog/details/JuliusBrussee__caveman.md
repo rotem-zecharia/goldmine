@@ -25,13 +25,13 @@ npx skills add JuliusBrussee/caveman
 The full installer also wires the Claude Code hooks and statusline, finds every supported agent on your machine, and is safe to rerun (Node.js 18+):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/v2.2.0/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/v2.3.1/install.sh | bash
 ```
 
 Windows (PowerShell 5.1+):
 
 ```powershell
-irm https://raw.githubusercontent.com/JuliusBrussee/caveman/v2.2.0/install.ps1 | iex
+irm https://raw.githubusercontent.com/JuliusBrussee/caveman/v2.3.1/install.ps1 | iex
 ```
 
 One agent only:
@@ -87,6 +87,6 @@ caveman claude             # Claude Code + Codex + Gemini CLI + opencode; aider 
 
 **What the engine does to a payload** — `detect()` types each payload, then routes it to a compressor that keeps what answers depend on:
 
-| Detected type | Keeps | Target |
+| Detected type | Keeps | Target Savings|
 |---|---|---|
-| `json` | keys, str
+| `json` | ke

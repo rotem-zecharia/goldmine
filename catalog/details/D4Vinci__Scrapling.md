@@ -35,25 +35,6 @@
 - 🔄 **Smart Element Tracking**: Relocate elements after website changes using intelligent similarity algorithms.
 - 🎯 **Smart Flexible Selection**: CSS selectors, XPath selectors, filter-based search, text search, regex search, and more.
 - 🔍 **Find Similar Elements**: Automatically locate elements similar to found elements.
-- 🤖 **MCP Server to be used with AI**: Built-in MCP server for AI-assisted Web Scraping and data extraction. The MCP server features powerful, custom capabilities that leverage Scrapling to extract targeted content before passing it to the AI (Claude/Cursor/etc), thereby speeding up operations and reducing costs by minimizing token usage. ([demo video](https://www.youtube.com/watch?v=qyFk3ZNwOxE)) It can also keep browser sessions open across calls, take page screenshots, and drive remote browsers over CDP.
-- 🧠 **Agent Skill**: A ready-to-install [Agent Skill](https://github.com/D4Vinci/Scrapling/tree/main/agent-skill) that teaches coding agents the whole library, so the code they write with Scrapling matches the current API instead of guessing.
-
-### High-Performance & battle-tested Architecture
-- 🚀 **Lightning Fast**: Optimized performance outperforming most Python scraping libraries.
-- 🔋 **Memory Efficient**: Optimized data structures and lazy loading for a minimal memory footprint.
-- ⚡ **Fast JSON Serialization**: 10x faster than the standard library.
-- 🏗️ **Battle tested**: Not only does Scrapling have 92% test coverage and full type hints coverage, but it has been used daily by hundreds of Web Scrapers over the past year.
-
-### Developer/Web Scraper Friendly Experience
-- 🎯 **Interactive Web Scraping Shell**: Optional built-in IPython shell with Scrapling integration, shortcuts, and new tools to speed up Web Scraping scripts development, like converting curl requests to Scrapling requests and viewing requests results in your browser.
-- 🚀 **Use it directly from the Terminal**: Optionally, you can use Scrapling to scrape a URL without writing a single line of code!
-- 🛠️ **Rich Navigation API**: Advanced DOM traversal with parent, sibling, and child navigation methods.
-- 🧬 **Enhanced Text Processing**: Built-in regex, cleaning methods, and optimized string operations.
-- 📝 **Auto Selector Generation**: Generate robust CSS/XPath selectors for any element.
-- 🔌 **Familiar API**: Similar to Scrapy/BeautifulSoup with the same pseudo-elements used in Scrapy/Parsel.
-- 🤝 **Drop-in Scrapy Integration**: Already invested in Scrapy? Decorate any callback with `scrapling_response` to parse the responses you already fetch with Scrapling's parser, no rewrite needed.
-- 📘 **Complete Type Coverage**: Full type hints for excellent IDE support and code completion. The entire codebase is automatically scanned with **PyRight** and **MyPy** with each change.
-- 🔋 **Ready Docker image**: With each release, a Docker image containing all browsers is automatically built and pushed.
 
 ## installation
 
@@ -83,6 +64,10 @@ Let's give you a quick glimpse of what Scrapling can do without deep diving.
    - Install the MCP server feature:
        ```bash
        pip install "scrapling[ai]"
+       ```
+   - Install dependencies for ([building RAG systems](https://scrapling.readthedocs.io/en/latest/ai/building-rag-systems.html)):
+       ```bash
+       pip install "scrapling[rag]"
        ```
    - Install shell features (Web Scraping shell and the `extract` command): 
        ```bash

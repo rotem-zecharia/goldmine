@@ -1,6 +1,6 @@
 # nyldn/claude-octopus
 
-Surface AI blindspots before you ship. Put up to 8 AI models on every research, design or coding task.
+Run multiple AI models against the same research, design, or coding task. Surface disagreements before you ship.
 
 ## installation
 
