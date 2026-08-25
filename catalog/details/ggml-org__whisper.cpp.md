@@ -183,17 +183,145 @@ This can result in significant speedup in encoder performance. Here are the inst
 
 ## requirements
 
-- Docker must be installed and running on your system.
-- Create a folder to store big models & intermediate files (ex. /whisper/models)
+Supported Platforms
 
-### Images
+- **Windows 11**
+- **Linux** (Ubuntu 24.04 LTS, Python 3.12)
 
-We have multiple Docker images available for this project:
+Install the XRT runtime and FlexML runtime for your platform:
 
-1. `ghcr.io/ggml-org/whisper.cpp:main`: This image includes the main executable file as well as `curl` and `ffmpeg`. (platforms: `linux/amd64`, `linux/arm64`)
-2. `ghcr.io/ggml-org/whisper.cpp:main-cuda`: Same as `main` but compiled with CUDA support. (platforms: `linux/amd64`)
-3. `ghcr.io/ggml-org/whisper.cpp:main-musa`: Same as `main` but compiled with MUSA support. (platforms: `linux/amd64`)
-4. `ghcr.io/ggml-org/whisper.cpp:main-vulkan`: Same as `main` but compiled with Vulkan support. (platforms: `linux/amd64`)
+- **XRT**: provides the NPU kernel driver and `xrt-smi` diagnostic tool — on Windows this is bundled with the NPU driver; on Linux install it separately following the [NPU driver installation guide](https://ryzenai.docs.amd.com/en/latest/linux.html#install-npu-drivers)
+- **FlexML runtime** (`flexmlrt`): VitisAI inference engine used by whisper.cpp — download from the [FlexML runtime releases](https://github.com/lemonade-sdk/whisper.cpp-rocm/releases/tag/deps)
+
+After installing, source the setup scripts in every shell you use to build or run whisper.cpp:
+
+```bash
+# Linux
+source /opt/xilinx/xrt/setup.sh
+source /path/to/flexmlrt/setup.sh
+```
+
+```cmd
+:: Windows
+cd /path/to/flexmlrt && call setup.bat
+```
+
+You can verify the NPU is visible with:
+
+```bash
+xrt-smi examine
+```
+
+### Download models
+
+Download the ggml model and the matching prebuilt VitisAI encoder cache:
+
+```bash
+# Linux / macOS
+sh ./models/download-ggml-model.sh base
+sh ./models/download-vitisai-model.sh base
+```
+
+```cmd
+:: Windows
+.\models\download-ggml-model.cmd base
+.\models\download-vitisai-model.cmd base
+```
+
+Use the same model name with both scripts. To see all available VitisAI encoder caches:
+
+```bash
+sh ./models/download-vitisai-model.sh --list
+```
+
+```cmd
+.\models\download-vitisai-model.cmd --list
+```
+
+The VitisAI script queries the [AMD Ryzen AI Whisper NPU collection on Hugging Face](https://huggingface.co/collections/amd/ryzen-ai-whisper-npu-optimized-onnx-models) and downloads the `.rai` encoder cache as `models/ggml-<model>-encoder-vitisai.rai`.
+
+> Depending on the `.rai` cache, VitisAI may offload the encoder only, or the encoder plus cross-projection layers. whisper.cpp detects this at runtime and logs the selected offload mode during model initialization.
+
+### Build
+
+```bash
+cmake -B build -DWHISPER_VITISAI=1
+cmake --build build -j --config Release
+```
+
+### Run
+
+```bash
+./build/bin/whisper-cli -m models/ggml-base.bin -f samples/jfk.wav
+```
+
+For more information see the [Ryzen AI documentation](https://ryzenai.docs.amd.com/en/latest/).
+
+
+## NVIDIA GPU support
+
+With NVIDIA cards the processing of the models is done efficiently on the GPU via cuBLAS and custom CUDA kernels.
+First, make sure you have installed `cuda`: https://developer.nvidia.com/cuda-downloads
+
+Now build `whisper.cpp` with CUDA support:
+
+```
+cmake -B build -DGGML_CUDA=1
+cmake --build build -j --config Release
+```
+
+or for newer NVIDIA GPU's (RTX 5000 series):
+```
+cmake -B build -DGGML_CUDA=1 -DCMAKE_CUDA_ARCHITECTURES="86"
+cmake --build build -j --config Release
+```
+
+## Vulkan GPU support
+Cross-vendor solution which allows you to accelerate workload on your GPU.
+First, make sure your graphics card driver provides support for Vulkan API.
+
+Now build `whisper.cpp` with Vulkan support:
+```
+cmake -B build -DGGML_VULKAN=1
+cmake --build build -j --config Release
+```
+
+## AMD ROCm GPU support
+
+With AMD GPUs the processing can be accelerated via HIP/ROCm.
+First, make sure you have installed [ROCm](https://rocm.docs.amd.com/en/latest/).
+
+Now build `whisper.cpp` with HIP support:
+
+```
+cmake -B build -DGGML_HIP=1 -DAMDGPU_TARGETS="gfx1201"
+cmake --build build -j --config Release
+```
+
+Replace `gfx1201` with your GPU architecture. You can find it with:
+
+```
+rocminfo | grep "gfx"
+```
+
+Common architectures: `gfx1100` (RX 7900 XTX), `gfx1101` (RX 7800 XT), `gfx1201` (RX 9070 XT).
+For multiple GPUs with different architectures: `-DAMDGPU_TARGETS="gfx1100;gfx1201"`.
+
+## BLAS CPU support via OpenBLAS
+
+Encoder processing can be accelerated on the CPU via OpenBLAS.
+First, make sure you have installed `openblas`: https://www.openblas.net/
+
+Now build `whisper.cpp` with OpenBLAS support:
+
+```
+cmake -B build -DGGML_BLAS=1
+cmake --build build -j --config Release
+```
+
+## Ascend NPU support
+
+Ascend NPU provides inference acceleration via [`CANN`](https://www.hiascend.com/en/
 
 ## limitations
 

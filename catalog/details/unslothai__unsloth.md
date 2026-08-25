@@ -4,16 +4,14 @@ Local UI to run and train LLMs and diffusion models, including Qwen3.8, Kimi K3,
 
 ## features
 
-Unsloth lets you run, train, and deploy AI models locally, with support for all types of models.
+Unsloth works on **Windows, Linux, WSL** and **macOS**. We support **Multi GPU setups, NVIDIA, AMD, Intel GPUs, CPUs** and the **Vulkan** backend.
 
 ### Run & Build with AI
 * Run and train LLMs, diffusion, embedding, audio models: [Kimi K3](https://unsloth.ai/docs/models/kimi-k3), MiniMax-H3, Qwen3.8, [Muse Glimmer](https://unsloth.ai/docs/models/muse-glimmer), [DeepSeek-V4](https://unsloth.ai/docs/models/deepseek-v4), [Gemma 4](https://unsloth.ai/docs/models/gemma-4).
 * **Agents & Tools:** Use local models with [Claude Code](https://unsloth.ai/docs/basics/claude-code), [Codex](https://unsloth.ai/docs/basics/codex), and [MCP](https://unsloth.ai/docs/basics/mcp), including tool calling and code execution.
-* **Search & RAG:** Use private and unlimited web search, deep research, and RAG.
+* **Search & RAG:** Use private and unlimited web search, deep research, auto-compaction (rolling context window) and RAG.
 * **Image and video:** Run and train [image](https://unsloth.ai/docs/basics/diffusion-image) and video diffusion or multimodal models
-* **Search:** Use private and unlimited web search, deep research, and RAG.
-* **Hardware:** Supports CPU, Apple, NVIDIA, AMD, Intel, and multi GPU setups.
-* **Remote Access:** Serve your local models remotely through secure [Cloudflare](https://unsloth.ai/docs/basics/how-to-serve-local-llms-anywhere-secure-remote-access-with-cloudflare-and-unsloth) HTTPS.
+* **Remote & LAN:** Access your local models from any device on [LAN](https://unsloth.ai/docs/basics/lan) or remotely through secure [Cloudflare](https://unsloth.ai/docs/basics/how-to-serve-local-llms-anywhere-secure-remote-access-with-cloudflare-and-unsloth) HTTPS.
 * **Connect:** Serve models through an [OpenAI compatible API](https://unsloth.ai/docs/basics/api). Also connect your ChatGPT/Codex subscription and [cloud providers](https://unsloth.ai/docs/integrations/connections)
 
 
@@ -27,13 +25,9 @@ Unsloth lets you run, train, and deploy AI models locally, with support for all 
 
 [Unsloth Start](https://unsloth.ai/docs/integrations/unsloth-start) connects [Claude Code](https://unsloth.ai/docs/basics/claude-code), [Codex](https://unsloth.ai/docs/basics/codex) and other agents to local models with one command.
 
-Start Unsloth, load a model, open your project folder, then run:
-
 ```bash
-unsloth start claude
+unsloth start claude --model unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_XL
 ```
-
-Replace `claude` with any supported agent:
 
 | Agent | Command |
 | --- | --- |
@@ -43,20 +37,11 @@ Replace `claude` with any supported agent:
 | OpenClaw | `unsloth start openclaw` |
 | OpenCode | `unsloth start opencode` |
 
-Claude Code, Codex and OpenCode can keep their current model and use Unsloth as a local
-subagent:
-
-```bash
-unsloth start claude --as-subagent --model unsloth/model-GGUF:quant
-```
-
 ## installation
 
 Unsloth can be used in three ways: **[Unsloth Desktop](https://unsloth.ai/download)**, the desktop app; **[Unsloth Studio](https://unsloth.ai/docs/new/studio/)**, the web UI; or **Unsloth Core**, the code based version.
 
 ### Unsloth Desktop (recommended)
-
-The Tauri based desktop app is the easiest way to use Unsloth and needs no setup, so start here.
 
 <table>
   <tr>
@@ -86,39 +71,90 @@ The Tauri based desktop app is the easiest way to use Unsloth and needs no setup
 </table>
 
 ### Unsloth Studio (web UI)
-Unsloth Studio (Beta) works on **Windows, Linux, WSL** and **macOS**.
-
-* **CPU:** Supported for Chat and Data Recipes currently
-* **NVIDIA:** Training works on RTX 30/40/50, Blackwell, DGX Spark, Station and more
-* **macOS:** Training, MLX and GGUF inference are ALL supported.
-* **AMD:** Training, RL, chat and deployment work on Windows, WSL and Linux. [Read the AMD guide](https://unsloth.ai/docs/basics/amd).
-* **Intel:** Training and GGUF inference are supported on Intel GPUs (XPU).
-* **Vulkan:** GGUF inference is supported on [compatible GPUs, including Intel GPUs](https://github.com/unslothai/unsloth/pull/5819). Vulkan accelerates GGUF inference only; training still requires a supported PyTorch or MLX backend.
-* **Multi-GPU:** Available now, with a major upgrade on the way
 
 #### macOS, Linux, WSL:
 ```bash
 curl -fsSL https://unsloth.ai/install.sh | sh
 ```
-Use the same command to update.
-
-The GGUF inference backend can be changed from **Settings > System > GGUF inference engine** once Studio is running: pick CPU, CUDA, ROCm or Vulkan (only the ones with a build for your machine are listed) and Apply. The choice is recorded with the install, so updates keep it, and Automatic returns to hardware detection.
-
-To pick it before the first launch instead, set `UNSLOTH_LLAMA_CPP_BACKEND` **before installing or updating**. It selects the llama.cpp binary bundle, so setting it only when launching Studio cannot replace an existing one, and it overrides whatever was chosen in Settings:
-
-```bash
-export UNSLOTH_LLAMA_CPP_BACKEND=vulkan   # or cpu, cuda, rocm, auto
-curl -fsSL https://unsloth.ai/install.sh | sh
-```
-
-On Linux and WSL this is the path for the AMD GPUs Unsloth has no ROCm PyTorch wheels for: Polaris (RX 470/480/570/580/590) and RDNA 1 (RX 5500/5600/5700). torch stays on CPU there, so training and GPU inference are unavailable, but GGUF chat runs on the GPU through Vulkan. Not every pre-RDNA 2 card is in this group: Vega 20 (Radeon VII, MI50, `gfx906`) keeps a ROCm PyTorch path and the installer routes it there. The older `UNSLOTH_FORCE_VULKAN=1` still works and is read when `UNSLOTH_LLAMA_CPP_BACKEND` is unset.
-
-macOS has no Vulkan llama.cpp bundle and does not need one: the installer always uses the Metal build, which covers Apple Silicon and the AMD GPUs in Intel Macs, and it says so and carries on if the variable is set.
 
 #### Windows:
 ```powershell
 irm https://unsloth.ai/install.ps1 | iex
 ```
-Use the same command to update.
 
-To pick the GGUF inference backend before the first launch, set the environment var
+#### Launch
+```bash
+unsloth studio
+```
+
+#### HTTP Secure Deployment
+```bash
+unsloth studio --secure
+```
+
+#### Docker
+Use our [Docker image](https://hub.docker.com/r/unsloth/unsloth) ```unsloth/unsloth``` container. Run:
+```bash
+docker run -d -e JUPYTER_PASSWORD="mypassword" \
+  -p 8888:8888 -p 8000:8000 -p 2222:22 \
+  -v $(pwd)/work:/workspace/work \
+  --gpus all \
+  unsloth/unsloth
+```
+
+#### Remote HTTPS & LAN Access
+Server-side tools are on by default - so **be careful**! Keep your password safe, or use `--disable-tools` when exposing Unsloth.
+
+**Global HTTPS Access**:
+Creates a free Cloudflare link that serves Unsloth - you can access the link globally (even on your phone!)
+```bash
+unsloth studio --secure
+```
+`-H 0.0.0.0` and different ports also work:
+```bash
+unsloth studio -H 0.0.0.0 -p 8888
+```
+**LAN Access (home network)**: `Settings > API keys > LAN access`
+
+#### Password management & headless starts
+Headless starts:
+```bash
+UNSLOTH_STUDIO_PASSWORD='your-strong-password' unsloth studio --secure   # via env var
+```
+Reset your password:
+```bash
+unsloth studio reset-password
+```
+
+#### Developer, Nightly, Uninstall
+To see developer, nightly and uninstallation etc. instructions, see [advanced installation](#-advanced-installation).
+
+### Unsloth Core (code-based)
+#### Linux, WSL:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv unsloth_env --python 3.13
+source unsloth_env/bin/activate
+uv pip install unsloth --torch-backend=auto
+```
+#### Windows:
+```powershell
+winget install -e --id Python.Python.3.13
+winget install --id=astral-sh.uv  -e
+uv venv unsloth_env --python 3.13
+.\unsloth_env\Scripts\activate
+uv pip install unsloth --torch-backend=auto
+```
+
+#### AMD, Intel, DGX Spark, Blackwell:
+See our [Blackwell guide](https://unsloth.ai/docs/blog/fine-tuning-llms-with-blackwell-rtx-50-series-and-unsloth) and [DGX Spark guide](https://unsloth.ai/docs/blog/fine-tuning-llms-with-nvidia-dgx-spark-and-unsloth). <br>
+To install Unsloth on **AMD** and **Intel** GPUs, follow our [AMD Guide](https://unsloth.ai/docs/basics/amd) and [Intel Guide](https://unsloth.ai/docs/get-started/install/intel).
+
+## 📒 Free Notebooks
+
+Train for free with our notebooks.
+Read our [guide](https://unsloth.ai/docs/get-started/fine-tuning-llms-guide). Add dataset, run, then deploy your trained model.
+
+| Model | Free Notebooks | Performance | Memory use |
+|-----------|---------|--------|----------|
+| **Unsloth Studio**      | [▶️ Start for free](https://colab.research.googl

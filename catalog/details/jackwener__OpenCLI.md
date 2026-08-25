@@ -16,7 +16,7 @@ open the app once and use the System page to install or repair the `opencli`
 command.
 
 **Option B — npm global install (CLI-only / CI / servers):**
-OpenCLI requires **Node.js >= 20** when installed through npm.
+OpenCLI requires **Node.js >= 20.18.1** when installed through npm.
 
 ```bash
 node --version
@@ -93,6 +93,7 @@ OpenCLI's browser commands are designed to be used by AI Agents — not run manu
 |----------|---------|-------------|
 | `OPENCLI_PROFILE` | — | Browser Bridge profile alias/contextId to use when multiple Chrome profiles are connected |
 | `OPENCLI_WINDOW` | command default | Set to `foreground` or `background` to override Browser Bridge window placement. Browser-backed commands also accept `--window <foreground\|background>`. |
+| `OPENCLI_SITE_SESSION` | adapter default | Set to `ephemeral` or `persistent` to override `siteSession` metadata for browser-backed adapter commands. `ephemeral` closes the one-shot automation window when the command finishes; `persistent` reuses the site's session. Per-command `--site-session` takes precedence. |
 | `OPENCLI_BROWSER_CONNECT_TIMEOUT` | `45` | Seconds to wait for browser connection |
 | `OPENCLI_BROWSER_COMMAND_TIMEOUT` | `60` | Seconds to wait for a single browser command |
 | `OPENCLI_CDP_ENDPOINT` | — | Chrome DevTools Protocol endpoint for remote browser or Electron apps |
