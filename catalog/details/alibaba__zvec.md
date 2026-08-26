@@ -23,11 +23,13 @@ Zvec offers official SDKs across multiple languages:
 - **[Rust](https://crates.io/crates/zvec-rust)**: `cargo add zvec-rust`
 - **[Dart/Flutter](https://pub.dev/packages/zvec)**: `flutter pub add zvec`
 
+Searching code or documents? Try **[zvec-grep](https://github.com/zvec-ai/zvec-grep)** (`zg`) — a local-first search CLI that unifies ripgrep, BM25, and vector search, built for humans and AI agents.
+
 Prefer a visual tool? Try **[Zvec Studio](https://github.com/zvec-ai/zvec-studio)** to browse data and debug queries — no code required.
 
 ### ✅ Supported Platforms
 
-- Linux (x86_64, ARM64)
+- Linux (x86_64, ARM64; glibc & musl)
 - macOS (ARM64)
 - Windows (x86_64)
 

@@ -84,6 +84,7 @@ Browser Use is also **#1 on the [Odysseys leaderboard](https://odysseysbench.com
 - Best stealth with proxy rotation and captcha solving
 - 1000+ integrations (Gmail, Slack, Notion, and more)
 - Persistent filesystem and memory
+- Rerunnable scripts fetch live data, even when sites change ([guide](https://docs.browser-use.com/cloud/agent/scripts))
 
 ```sh
 curl -X POST https://api.browser-use.com/api/v4/runs \
@@ -125,6 +126,4 @@ For pricing and other LLM providers, see our [supported models documentation](ht
 </details>
 
 <details>
-<summary><b>Can I use Claude / GPT / Gemini through ChatBrowserUse?</b></summary>
-
-Yes. `ChatBrowserUse` accepts provider-prefixed model ids, so a single `
+<summary><b>Can I use Claude / GPT

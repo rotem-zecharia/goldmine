@@ -72,7 +72,8 @@ docker run -d --name lightpanda -p 127.0.0.1:9222:9222 lightpanda/browser:nightl
 ./lightpanda fetch --obey-robots --dump html --log-format pretty  --log-level info https://demo-browser.lightpanda.io/campfire-commerce/
 ```
 
-You can use `--dump markdown` to convert directly into markdown.
+You can use `--dump markdown` to convert directly into markdown, or
+`--dump png > page.png` for a text-only rendering of the page.
 `--wait-until`, `--wait-ms`, `--wait-selector` and `--wait-script` are
 available to adjust waiting time before dump.
 
@@ -121,8 +122,7 @@ await browser.disconnect();
 `lightpanda agent` lets you drive the browser with a native agent. Describe what
 you want in plain English or with slash commands, and it controls the browser:
 navigating pages, clicking through flows, filling forms, extracting structured
-data. Think of it as a robot you're directing to use the web, more than a
-chatbot you're having a conversation wit
+data. Think of it as a robot you're directing to
 
 ## requirements
 
