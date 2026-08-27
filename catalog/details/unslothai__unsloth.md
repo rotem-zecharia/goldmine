@@ -7,7 +7,7 @@ Local UI to run and train LLMs and diffusion models, including Qwen3.8, Kimi K3,
 Unsloth works on **Windows, Linux, WSL** and **macOS**. We support **Multi GPU setups, NVIDIA, AMD, Intel GPUs, CPUs** and the **Vulkan** backend.
 
 ### Run & Build with AI
-* Run and train LLMs, diffusion, embedding, audio models: [Kimi K3](https://unsloth.ai/docs/models/kimi-k3), MiniMax-H3, Qwen3.8, [Muse Glimmer](https://unsloth.ai/docs/models/muse-glimmer), [DeepSeek-V4](https://unsloth.ai/docs/models/deepseek-v4), [Gemma 4](https://unsloth.ai/docs/models/gemma-4).
+* Run and train LLMs, diffusion, embedding, audio models: [Qwen3.8](https://unsloth.ai/docs/models/qwen3.8), [Kimi K3](https://unsloth.ai/docs/models/kimi-k3), MiniMax-H3, [Muse Glimmer](https://unsloth.ai/docs/models/muse-glimmer), [DeepSeek-V4](https://unsloth.ai/docs/models/deepseek-v4), [Gemma 4](https://unsloth.ai/docs/models/gemma-4).
 * **Agents & Tools:** Use local models with [Claude Code](https://unsloth.ai/docs/basics/claude-code), [Codex](https://unsloth.ai/docs/basics/codex), and [MCP](https://unsloth.ai/docs/basics/mcp), including tool calling and code execution.
 * **Search & RAG:** Use private and unlimited web search, deep research, auto-compaction (rolling context window) and RAG.
 * **Image and video:** Run and train [image](https://unsloth.ai/docs/basics/diffusion-image) and video diffusion or multimodal models
@@ -63,10 +63,6 @@ Unsloth can be used in three ways: **[Unsloth Desktop](https://unsloth.ai/downlo
   <tr>
     <td><b>Linux (AppImage)</b></td>
     <td><a href='https://github.com/unslothai/unsloth/releases/download/v0.1.803-beta/Unsloth-Desktop-0_1_803_beta-Linux.AppImage'>Download</a></td>
-  </tr>
-  <tr>
-    <td><b>Linux (Arm64)</b></td>
-    <td><a href='https://github.com/unslothai/unsloth/releases/download/v0.1.803-beta/Unsloth-Desktop-0_1_803_beta-ARM64.app.tar.gz'>Download</a></td>
   </tr>
 </table>
 
@@ -157,4 +153,5 @@ Read our [guide](https://unsloth.ai/docs/get-started/fine-tuning-llms-guide). Ad
 
 | Model | Free Notebooks | Performance | Memory use |
 |-----------|---------|--------|----------|
-| **Unsloth Studio**      | [▶️ Start for free](https://colab.research.googl
+| **Unsloth Studio**      | [▶️ Start for free](https://colab.research.google.com/github/unslothai/unsloth/blob/main/studio/Unsloth_Studio_Colab.ipynb)               |  |  |
+| **Gemma 4 (E2B)**      | [▶️ Start for free](https://colab.research.google.com/github/unslothai/note

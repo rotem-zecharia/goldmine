@@ -23,8 +23,8 @@ Code's native manual-invocation gate. Start it with `/octo:*`.
 
 > **Seeing `cannot be used with Skill tool due to disable-model-invocation`?**
 > That is the gate working as intended — the model tried to auto-invoke an
-> Octopus skill. Run the command explicitly instead: type `/octo:doctor` (the
-> command), not a model call to the `skill-doctor` skill. Slash commands are
+> Octopus skill. Invoke it explicitly instead: type `/octo:skill-doctor` (the
+> manually invokable skill), not a model call to the `skill-doctor` skill. Slash skills are
 > user-invoked, so they bypass this invocation gate; the model will not call
 > Octopus skills on its own unless you opt into the router below. Rule of thumb:
 > **invoke Octopus with
