@@ -13,8 +13,8 @@ Run these commands inside Claude Code:
 
 That installs ECC's skills, agents, commands, and plugin-managed hooks. If you choose this path, stop there. Do not also run a full manual install into Claude Code.
 
-> Guided package setup is coming in `ecc-universal` 2.2.0. Use the native
-> Claude plugin commands above while npm remains on 2.1.0.
+> ECC 2.2 includes guided package setup through `ecc-universal`. The native
+> Claude plugin commands above remain the simplest Claude Code install path.
 
 <div align="center">
 
@@ -73,7 +73,7 @@ That installs ECC's skills, agents, commands, and plugin-managed hooks. If you c
 Your agent can write code, but ECC gives it a coordinated engineering system and toolbox: it plans before it builds, verifies changes with tests, reviews its own work from a fresh context, remembers what matters, and turns repeated wins into reusable skills and workflows.
 
 ```text
-plan -> test -> impl
+
 
 ## tools
 

@@ -68,27 +68,6 @@ curl -fsSL 'https://get.archivebox.io' | bash
 
 <br/>
 
-## 🤝 Professional Integration
-
-ArchiveBox is free for everyone to self-host, but we also provide support, security review, and custom integrations to help NGOs, governments, and other organizations [run ArchiveBox professionally](https://zulip.archivebox.io/#narrow/stream/167-enterprise/topic/welcome/near/1191102):
-
-- **Journalists:**
-  `crawling during research`, `preserving cited pages`, `fact-checking & review`  
-- **Lawyers:**
-  `collecting & preserving evidence`, `detecting changes`, `tagging & review`  
-- **Researchers:**
-  `analyzing social media trends`, `getting LLM training data`, `crawling pipelines`
-- **Individuals:**
-  `saving bookmarks`, `preserving portfolio content`, `legacy / memoirs archival`
-- **Governments:**
-  `snapshotting public service sites`, `recordkeeping compliance`
-
-> ***[Contact us](https://zulip.archivebox.io/#narrow/stream/167-enterprise/topic/welcome/near/1191102)** if your org wants help using ArchiveBox professionally.*  
-> We offer: setup & support, CAPTCHA/ratelimit unblocking, SSO, audit logging/chain-of-custody, and more  
-> *ArchiveBox is a 🏛️ 501(c)(3) [nonprofit FSP](https://hackclub.com/hcb/) and all our work supports open-source development.* 
-
-<br/>
-
 <div align="center" style="text-align: center">
 <br/>
 <img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/0db52ea7-4a2c-441d-b47f-5553a5d8fe96" width="49%" alt="grass"/><img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/0db52ea7-4a2c-441d-b47f-5553a5d8fe96" width="49%" alt="grass"/>

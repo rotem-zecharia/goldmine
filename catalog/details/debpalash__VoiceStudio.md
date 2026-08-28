@@ -9,7 +9,7 @@ VoiceStudio is the open-source, fully-local ElevenLabs alternative — voice clo
 | macOS 13.3+ | DMG, Apple Silicon | [Install on macOS](docs/install/macos.md) |
 | Windows 10/11 | MSI, x64 | [Install on Windows](docs/install/windows.md) |
 | Linux | AppImage, x86_64 with glibc 2.39+ | [Install on Linux](docs/install/linux.md) |
-| Docker | CUDA, ROCm, or CPU | [Run with Docker](docs/install/docker.md) |
+| Docker | CUDA, ROCm, or CPU; worker-only GPU profiles | [Run with Docker](docs/install/docker.md) |
 
 Download packages from the [latest release](https://github.com/debpalash/VoiceStudio/releases/latest). First launch creates a managed Python environment and downloads the default model. Later launches reuse both.
 
@@ -175,6 +175,8 @@ Point an OpenAI-compatible audio client at the local backend:
 |---|---|
 | `POST /v1/audio/speech` | TTS to `mp3`, `opus`, `aac`, `flac`, `wav`, or `pcm`; select a profile with `voice` and an engine with `model` |
 | `POST /v1/audio/transcriptions` | STT to `json`, `text`, `verbose_json`, `srt`, or `vtt` |
+| `WS /v1/audio/transcriptions/stream` | Live PCM/WebM transcription with partial, utterance, and session-final events |
+| `GET /.well-known/voicestudio-speech` | Discover HTTP, WebSocket, MCP, and native dictation-control transports |
 | `GET /v1/audio/voices` | List local voice profiles and engines |
 
 ```python
@@ -191,7 +193,12 @@ with client.audio.speech.with_streaming_response.create(
     response.stream_to_file("speech.wav")
 ```
 
-The full API reference is in **Settings → OpenAPI Reference**. For LAN, Tailscale, or proxy access, read [API authentication](docs/api-auth.md) before exposing the backend.
+The bundled Rust control sidecar also lets Herdr, coding agents, VS Code,
+desktop apps, and TUIs trigger the existing system-wide dictation flow or reuse
+its safe native insertion. See the [speech platform guide](docs/speech-platform.md).
+The full API reference is in **Settings → OpenAPI Reference**. For LAN,
+Tailscale, or proxy access, read [API authentication](docs/api-auth.md) before
+exposing the backend.
 
 ### Agent skills
 
@@ -220,7 +227,7 @@ The [notebook](notebooks/OmniVoice_Studio_Colab.ipynb) runs the app and web UI o
 | Fix setup | [Troubleshooting](docs/install/troubleshooting.md) · [model downloads](docs/downloading-models.md) · [Hugging Face token](docs/setup/huggingface-token.md) |
 | Choose an engine | [Engine guides](docs/engines/README.md) · [benchmarks](docs/benchmarks.md) · [expressive speech](docs/expressive-speech.md) |
 | Tune hardware | [Performance](docs/performance.md) · [remote workers](docs/remote-workers.md) |
-| Build integrations | [API auth](docs/api-auth.md) · [MCP](docs/mcp.md) · [examples](examples/README.md) |
+| Build integrations | [Speech platform](docs/speech-platform.md) · [API auth](docs/api-auth.md) · [MCP](docs/mcp.md) · [examples](examples/README.md) |
 | Build VoiceStudio | [Contributing](.github/CONTRIBUTING.md) · [engine acceptance](docs/engine-acceptance.md) |
 | Track changes | [Changelog](CHANGELOG.md) · [roadmap](docs/ROADMAP.md) · [latest release](https://github.com/debpalash/VoiceStudio/releases/latest) |
 | Remove everything | [Uninstall guide](docs/install/uninstall.md) |
@@ -237,15 +244,4 @@ Apple Silicon is supported with MPS and MLX options. Intel Macs cannot run the l
 <summary><strong>How much VRAM do I need?</strong></summary>
 
 A GPU is optional. Use 4 GB VRAM as the minimum for accelerated work and 8 GB+ for the default multi-stage workflow. Large optional engines can require 12–16 GB or more. Check the [benchmarks](docs/benchmarks.md) and engine guide.
-</details>
-
-<details>
-<summary><strong>Why does a longer reference clip not always improve the clone?</strong></summary>
-
-Cloning is zero-shot: the clip is a prompt, not training data. Use 5–15 seconds of one speaker, close to the microphone, without music, noise, or reverb. Match the tone and pace you want in the output. For training, see [data preparation](docs/data_preparation.md) and [training](docs/training.md).
-</details>
-
-<details>
-<summary><strong>Can I use generated audio commercially?</strong></summary>
-
-Yes 
+</de
