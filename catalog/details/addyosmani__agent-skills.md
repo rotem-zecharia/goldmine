@@ -4,7 +4,7 @@ Production-grade engineering skills for AI coding agents.
 
 ## tools
 
-8 slash commands that map to the development lifecycle. Each one activates the right skills automatically.
+9 slash commands that map to the development lifecycle. Each one activates the right skills automatically.
 
 | What you're doing | Command | Key principle |
 |-------------------|---------|---------------|
@@ -12,6 +12,7 @@ Production-grade engineering skills for AI coding agents.
 | Plan how to build it | `/plan` | Small, atomic tasks |
 | Build incrementally | `/build` | One slice at a time |
 | Prove it works | `/test` | Tests are proof |
+| Set the quality bar | `/constraints` | Decide it once, enforce it everywhere |
 | Review before merge | `/review` | Improve code health |
 | Audit web performance | `/webperf` | Measure before you optimize |
 | Simplify the code | `/code-simplify` | Clarity over cleverness |
@@ -28,7 +29,7 @@ Skills also activate automatically based on what you're doing — designing an A
 **Fastest path — any agent, one command.** The open [skills CLI](https://github.com/vercel-labs/skills) installs into 70+ agents (Claude Code, Cursor, Codex, Copilot, Cline, and more):
 
 ```bash
-npx skills add addyosmani/agent-skills            # install all 24 skills
+npx skills add addyosmani/agent-skills            # install all 25 skills
 npx skills add addyosmani/agent-skills --list     # browse before installing
 ```
 

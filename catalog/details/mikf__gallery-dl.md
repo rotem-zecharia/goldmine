@@ -61,9 +61,9 @@ Standalone Executable
 Prebuilt executable files with a Python interpreter and
 required Python packages included are available for
 
-- `Windows <https://codeberg.org/mikf/gallery-dl/releases/download/v1.32.9/gallery-dl.exe>`__
+- `Windows <https://codeberg.org/mikf/gallery-dl/releases/download/v1.32.10/gallery-dl.exe>`__
   (Requires `Microsoft Visual C++ Redistributable Package (x86) <https://aka.ms/vs/17/release/vc_redist.x86.exe>`__)
-- `Linux   <https://codeberg.org/mikf/gallery-dl/releases/download/v1.32.9/gallery-dl.bin>`__
+- `Linux   <https://codeberg.org/mikf/gallery-dl/releases/download/v1.32.10/gallery-dl.bin>`__
 
 
 Nightly Builds
@@ -166,7 +166,7 @@ This will remove the container after every use so you will always have a fresh e
 You can also add an alias to your shell for "gallery-dl" or create a simple bash script and drop it somewhere in your $PATH to act as a shim for this command.
 
 Nix and Home Manager
------------------------
+---------------------
 
 ## tools
 

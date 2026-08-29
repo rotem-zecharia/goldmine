@@ -28,7 +28,7 @@ archivebox install
 # archivebox server 0.0.0.0:8000
 <br/>
 <br/>
-# Option D: Or use the optional auto setup script to install it
+# Option D: Or use the uv install shortcut for Option C
 curl -fsSL 'https://get.archivebox.io' | bash
 </code></pre>
 <br/>
@@ -114,18 +114,17 @@ See <a href="#%EF%B8%8F-cli-usage">below</a> for more usage examples using the C
 </details>
 
 <details>
-<summary><b><img src="https://user-images.githubusercontent.com/511499/117456282-08665e80-af16-11eb-91a1-8102eff54091.png" alt="curl sh automatic setup script" height="28px" align="top"/> <code>bash</code> auto-setup script</b>  (macOS/Linux)</summary>
+<summary><b><img src="https://user-images.githubusercontent.com/511499/117456282-08665e80-af16-11eb-91a1-8102eff54091.png" alt="curl sh uv install shortcut" height="28px" align="top"/> <code>bash</code> uv install shortcut</b>  (macOS/Linux/BSD)</summary>
 <br/>
 <ol>
-<li>Install <a href="https://docs.docker.com/get-docker/">Docker</a> on your system (optional, highly recommended but not required).</li>
-<li>Run the automatic setup script.
+<li>Run the shortcut for the <code>uv</code> install method. It installs <code>uv</code> first when needed.
 <pre lang="bash"><code style="white-space: pre-line">curl -fsSL 'https://get.archivebox.io' | bash</code></pre>
 <i>For more info, see <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Install#option-b-automatic-setup-script">Install: Bare Metal</a> in the Wiki. ➡️</i>
 </li>
 </ol>
 
 See <a href="#%EF%B8%8F-cli-usage">below</a> for more usage examples using the CLI, Web UI, or filesystem/SQL/Python to manage your archive.<br/>
-See <a href="https://github.com/ArchiveBox/ArchiveBox/blob/dev/bin/setup.sh"><code>setup.sh</code></a> for the source code of the auto-install script.<br/>
+See <a href="https://github.com/ArchiveBox/ArchiveBox/blob/dev/bin/setup.sh"><code>setup.sh</code></a> for the source code of the <code>uv</code> install shortcut.<br/>
 See <a href="https://docs.sweeting.me/s/against-curl-sh">"Against curl | sh as an install method"</a> blog post for my thoughts on the shortcomings of this install method.
 <br/><br/>
 </details>
@@ -143,7 +142,8 @@ See <a href="https://docs.sweeting.me/s/against-curl-sh">"Against curl | sh as a
 <ol>
 
 <li>Install <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a> on your system (if not already installed).</li>
-<li>Install the Arch
+<li>Install the ArchiveBox package using <code>uv</code>.
+<pre lang="b
 
 ## configuration
 
