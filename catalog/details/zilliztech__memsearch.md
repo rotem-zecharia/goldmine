@@ -1,10 +1,10 @@
 # zilliztech/memsearch
 
-A persistent, unified memory layer for all your AI agents (e.g. Claude Code, Codex), backed by Markdown and Milvus.
+A persistent, unified memory layer for all your AI agents (e.g. Claude Code, Codex, DSH), backed by Markdown and Milvus.
 
 ## features
 
-- 🌐 **All Platforms, One Memory** — memories flow across [Claude Code](plugins/claude-code/README.md), [OpenClaw](plugins/openclaw/README.md), [OpenCode](plugins/opencode/README.md), and [Codex CLI](plugins/codex/README.md). A conversation in one agent becomes searchable context in all others — no extra setup
+- 🌐 **All Platforms, One Memory** — memories flow across [Claude Code](plugins/claude-code/README.md), [Codex](plugins/codex/README.md), [DeepSeek Harness](plugins/dsh/README.md), [OpenClaw](plugins/openclaw/README.md), and [OpenCode](plugins/opencode/README.md). A conversation in one agent becomes searchable context in all others — no extra setup
 - 👥 **For Agent Users**, install a plugin and get persistent memory with zero effort; **for Agent Developers**, use the full [CLI](https://zilliztech.github.io/memsearch/cli/) and [Python API](https://zilliztech.github.io/memsearch/python-api/) to build memory and harness engineering into your own agents
 - 📄 **Markdown is the source of truth** — inspired by [OpenClaw](https://github.com/openclaw/openclaw). Your memories are just `.md` files — human-readable, editable, version-controllable. Milvus is a "shadow index": a derived, rebuildable cache
 - 🔍 **Progressive retrieval, hybrid search, smart dedup, live sync** — 3-layer recall (search → expand → transcript); dense vector + BM25 sparse + RRF reranking; SHA-256 content hashing skips unchanged content; file watcher auto-indexes in real time
@@ -51,7 +51,7 @@ We discussed Redis caching before, what was the TTL we chose?
 </details>
 
 <details open>
-<summary><h3>For Codex CLI Users</h3></summary>
+<summary><h3>For Codex Users</h3></summary>
 
 ```bash
 # Install
@@ -74,7 +74,37 @@ ls .memsearch/memory/
 $memory-recall what did we discuss about deployment?
 ```
 
-> 📖 [Codex CLI Plugin docs](https://zilliztech.github.io/memsearch/platforms/codex/)
+> 📖 [Codex Plugin docs](https://zilliztech.github.io/memsearch/platforms/codex/)
+
+</details>
+
+<details open>
+<summary><h3>For DeepSeek Harness Users</h3></summary>
+
+```bash
+# Install the published plugin into your DSH profile
+uv tool install "memsearch[onnx]"
+dsh plugin --profile web add @zilliz/memsearch-dsh
+# Restart that DSH profile, or start a new session
+```
+
+After installing, use DSH normally. Completed turns are captured automatically, and relevant memories are injected before the first model step only when they are useful.
+
+**Verify it's working:**
+
+```bash
+ls .memsearch/memory/
+```
+
+**Recall memories** — ask naturally or tell DSH to use the registered `memory-recall` skill:
+
+```
+Use memory-recall to find what we decided about the deployment architecture.
+```
+
+The web profile also adds a compact MemSearch dock where you can review skill candidates and browse supported files under `.memsearch/` without editing them.
+
+> 📖 [DeepSeek Harness Plugin docs](https://zilliztech.github.io/memsearch/platforms/dsh/)
 
 </details>
 
@@ -135,14 +165,7 @@ ls .memsearch/memory/    # daily .md files appear after a few conversations
 ```
 /memory-recall what did we discuss about authentication?
 ```
-Or just ask naturally — the LLM auto-invokes memory tools when it senses the question needs history:
-```
-We discussed the authentication flow before, what was the approach?
-```
-
-> 📖 [OpenCode Plugin docs](https://zilliztech.github.io/memsearch/platforms/opencode/)
-
-</details>
+Or just ask natura
 
 ## configuration
 

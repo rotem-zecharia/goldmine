@@ -119,12 +119,21 @@ pass motion-aligns the preceding accepted fill and blends
 | --- | --- |
 | ![Image with a visible Gemini watermark](demo_banana_before.png) | ![Image after visible watermark removal](demo_banana_after.png) |
 
+The `after` raster is generated from the tracked `before` raster by the public path:
+
+```bash
+uv run remove-ai-watermarks visible demo_banana_before.png \
+  --backend cv2 -o demo_banana_after.png
+```
+
 ### High quality invisible removal
 
 `qwen-zimage` is the default profile: a Qwen-Image-2512 Lightning pass under Canny
 ControlNet, followed by SAM-masked Z-Image repair of any detected face. The
 alternative, `sdxl-zimage`, swaps the global stage for SDXL and keeps the same face
-stage. Both are CUDA only.
+stage. A third profile, `chroma-zimage`, uses the Apache-2.0 Chroma1 global pass
+with its own flat vendor floors; see `docs/chroma1-engine-research.md` for the
+calibration. All are CUDA only.
 
 ```bash
 uv tool install --force "remove-ai-watermarks[qwen-zimage]"
@@ -200,28 +209,15 @@ remove-ai-watermarks batch ./images --mode all
 
 Visible mark support includes:
 
-- Google Gemini and Nano Banana sparkle;
-- Doubao, Jimeng, Qwen, Kling, Yuanbao, Baidu, LibLibAI, and RunningHub labels;
+- Google Gemini and Nano Banana visible sparkle watermark;
+- Doubao, the Jimeng wordmark and top-left `AI生成` pill, Qwen, Kling AI,
+  Yuanbao, Baidu, LiblibAI, and RunningHub labels;
+- one calibrated Microsoft top-right white AI-badge variant;
 - one calibrated Samsung Galaxy AI label variant.
 
 Metadata and provenance inspection covers C2PA, EXIF, XMP, IPTC, common
 generator parameters, China TC260 AIGC labels, and several vendor specific
-signals. Optional decoders add support for open DWT-DCT watermarks and Adobe
-TrustMark.
-
-The exact support matrix, including important locale and detector limits, lives
-in [supported signals](docs/supported-signals.md).
-
-## How it works
-
-Visible removal follows three steps:
-
-1. Detect a registered mark in its expected area.
-2. Build a mask around the mark.
-3. Fill only the masked region with OpenCV, MI-GAN, or LaMa.
-
-Metadata removal uses format aware stripping. JPEG metadata removal preserves
-the encoded image scan instea
+signals. Optional decoders add support f
 
 ## limitations
 
@@ -233,7 +229,7 @@ the encoded image scan instea
   detail.
 - Visible video removal recognizes the moving Sora 2 wordmark, the current Veo
   diamond plus legacy `Veo` text, the Seedance boxed `AI` label, and the fixed
-  Dola, Hailuo, and Kling labels. It does not recognize the older Sora Turbo
+  Dola, Hailuo AI, and Kling AI labels. It does not recognize the older Sora Turbo
   corner swirl or unregistered layouts from those providers.
   The classical OpenCV backend can smear structured backgrounds; use MI-GAN or
   LaMa when recovery quality matters.
@@ -241,7 +237,7 @@ the encoded image scan instea
   The shipped profile is oracle-certified, but no public local decoder can
   certify an arbitrary output at runtime. Recheck unusually important outputs
   after provider changes.
-- Invisible-watermark removal requires CUDA. Both profiles refuse any other
+- Invisible-watermark removal requires CUDA. All profiles refuse any other
   device at construction rather than falling back to one that cannot run them.
   Visible removal, metadata stripping and `identify` still run anywhere.
 - Provider watermark systems can change. Validate important outputs with the

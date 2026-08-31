@@ -83,6 +83,7 @@ Free transcript via youtube-transcript-api. Optional metadata + top comments via
 | `/obsidian-project` | Project note with board and daily links |
 | `/obsidian-projects` | Live project status from git + local docs -- infers all context from vault notes, no config required |
 | `/obsidian-health` | Vault audit -- contradictions, gaps, stale claims, orphans, freshness violations (the [freshness policy](references/freshness-policy.md): every fact timeless, dated, or a pointer), typed-edge lint (unknown types, dangling targets, contradiction cycles in the `relations:` graph), and a tag taxonomy audit ([opt-in](references/taxonomy-format.md) via `_meta/taxonomy.md`) |
+| `/obsidian-merge` | Merge two near-duplicate notes from `/obsidian-health` into one -- dry run by default, frontmatter union, retired note becomes a redirect (never deleted) |
 | `/obsidian-reindex` | Refreshes the incremental semantic index and reports coverage before and after, with clear embedding-backend failures |
 | `/obsidian-retrieval-eval` | Measures vault search quality -- recall@k + MRR on natural-language questions, with the concrete failures and ranked fixes |
 | `/obsidian-decide [--formal]` | Logs decisions to the right project notes; `--formal` writes a full ADR record (the vault knows why it's structured this way) |
@@ -100,9 +101,7 @@ Free transcript via youtube-transcript-api. Optional metadata + top comments via
 | `/obsidian-challenge` | Your vault argues against your idea using your own history |
 | `/obsidian-panel` | Convenes a panel of distinct perspectives on a decision, one verdict each + synthesis |
 | `/obsidian-emerge` | Surfaces patterns from 30 days of notes you never named |
-| `/obsidian-connect [A] [B]` | Bridges two unrelated domains to spark new ideas |
-| `/vault-deep-synthesis [topic]` | Cross-references every note on a topic: agreements, contradictions, stale claims, gaps |
-| `/obsidian-dist
+| `/obsidian-connect [A] [B]` | Bridges two unr
 
 ## features
 

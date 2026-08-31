@@ -4,17 +4,33 @@ The agent harness performance optimization system. Skills, instincts, memory, se
 
 ## installation
 
-Run these commands inside Claude Code:
+Run the canonical guided setup from your terminal:
+
+```bash
+npx ecc-universal setup
+```
+
+If npm reports a version or cache error, confirm the registry version before retrying:
+
+```bash
+npm view ecc-universal version
+```
+
+This path requires Node.js 18 or newer, Git, and Claude Code 2.1 or newer on
+`PATH`. It safely installs, updates, or moves one `ecc@ecc` plugin scope and
+records the hook profile you choose.
+
+Alternatively, run Claude Code's native plugin commands inside Claude Code:
 
 ```text
 /plugin marketplace add https://github.com/affaan-m/ECC
 /plugin install ecc@ecc
 ```
 
-That installs ECC's skills, agents, commands, and plugin-managed hooks. If you choose this path, stop there. Do not also run a full manual install into Claude Code.
+The native path installs ECC's skills, agents, commands, and plugin-managed hooks. If you choose it, stop there. Do not also run a full manual install into Claude Code.
 
-> ECC 2.2 includes guided package setup through `ecc-universal`. The native
-> Claude plugin commands above remain the simplest Claude Code install path.
+> Both paths install the same `ecc@ecc` plugin. Choose one and do not stack
+> another manual Claude install on top.
 
 <div align="center">
 
@@ -62,18 +78,7 @@ That installs ECC's skills, agents, commands, and plugin-managed hooks. If you c
 
 <sub><strong>Community sponsors:</strong> <a href="https://github.com/mikejmorgan-ai">Mike Morgan</a> · <a href="https://github.com/jasonwu513">@jasonwu513</a> · <a href="https://github.com/1anter">@1anter</a> · <a href="https://github.com/massimotodaro">@massimotodaro</a> · <a href="https://github.com/meadmccabe">@meadmccabe</a></sub>
 
-<sub><a href="https://github.com/sponsors/affaan-m"><strong>Become a Sponsor</strong></a> · <a href="SPONSORS.md">Sponsor Tiers</a> · <a href="SPONSORING.md">Sponsorship Program</a></sub>
-
-</div>
-
-<p align="center"><a href="#install-ecc">Jump to install ↓</a></p>
-
-# ECC
-
-Your agent can write code, but ECC gives it a coordinated engineering system and toolbox: it plans before it builds, verifies changes with tests, reviews its own work from a fresh context, remembers what matters, and turns repeated wins into reusable skills and workflows.
-
-```text
-
+<sub><a href="https://github.com/sponsors/affaan-m"><strong>Become a Sponsor</strong></a> · <a href="SPONSORS.md">Sponsor Tiers</a> · <a 
 
 ## tools
 

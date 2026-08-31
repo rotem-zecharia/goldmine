@@ -141,7 +141,7 @@ pnpm tools-dev run web
 
 Open the URL printed by `tools-dev`; development ports are allocated dynamically unless you pass explicit port flags.
 
-Node `~24`, pnpm `10.33.x`. WSL2 users, see [`docs/wsl-setup.md`](docs/wsl-setup.md); native Windows users, see [`docs/windows-troubleshooting.md`](docs/windows-troubleshooting.md). Full quickstart, env vars, Nix flake, and packaged build flow → [`QUICKSTART.md`](QUICKSTART.md).
+Node `~24`, pnpm `10.33.x`. WSL2 users, see [`docs/wsl-setup.md`](docs/wsl-setup.md); native Windows users, see [`docs/windows-troubleshooting.md`](docs/windows-troubleshooting.md). Full quickstart, env vars, and packaged build flow → [`QUICKSTART.md`](QUICKSTART.md).
 
 ### A full workflow — from brief to artifact
 
@@ -149,7 +149,7 @@ Node `~24`, pnpm `10.33.x`. WSL2 users, see [`docs/wsl-setup.md`](docs/wsl-setup
 
 1. **A PM submits a brief.** The plugin picker offers landing page · pitch deck · dashboard · social post · PM spec · OKR scorecard…
 2. **A designer (or the agent) locks the direction.** No brand? Pick from 5 curated directions. Have a brand? Drop a screenshot / URL → the agent connects GitHub, imports Figma, and codifies a reusable `DESIGN.md`.
-3. **The agent creates the first deliverable.** Plugin + functional skill or design template + `DESIGN.md` are bound. Filesystem-backed CLI runs write canonical project files and the preview follows them; BYOK/plain-API runs witho
+3. **The agent creates the first deliverable.** Plugin + functional skill or design template + `DESIGN.md` are bound. Filesystem-backed CLI runs write canonical project files and the preview follows them; BYOK/plain-API runs without file too
 
 ## limitations
 
