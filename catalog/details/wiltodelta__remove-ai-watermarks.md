@@ -7,6 +7,7 @@ Remove visible and invisible AI watermarks and provenance metadata from images a
 | Need | Install |
 | --- | --- |
 | Metadata inspection and stripping | `remove-ai-watermarks` |
+| Photograph AI-versus-camera classification | `remove-ai-watermarks[classify]` |
 | Visible detection and removal | `remove-ai-watermarks[visible]` |
 | Visible video processing | `remove-ai-watermarks[video]` |
 | Video SynthID removal | `remove-ai-watermarks[video,diffusion]` |
@@ -32,6 +33,16 @@ Inspect an image:
 ```bash
 remove-ai-watermarks identify image.png
 ```
+
+To classify a photograph from pixels (AI versus camera, optional provider),
+install the extra and call `classify`. `identify` never starts it:
+
+```bash
+uv tool install --force "remove-ai-watermarks[classify]"
+remove-ai-watermarks classify image.png
+```
+
+Guide: [photo pixel classification](docs/photo-classify.md).
 
 For visible watermark removal, install the pixel dependencies:
 
@@ -104,12 +115,7 @@ remove-ai-watermarks video visible hailuo.mp4 --mark hailuo -o hailuo_clean.mp4
 remove-ai-watermarks video visible kling.mp4 --mark kling -o kling_clean.mp4
 ```
 
-This path scans the complete sequence before changing pixels. It accepts only a
-mark that repeats at a stable position across adjacent frames, then reuses the
-same OpenCV, MI-GAN, or LaMa fill backends as image removal. Audio is copied
-without re-encoding and is allowed to reach its natural end; the video stream
-is transcoded because its pixels change. By default, a guarded optical-flow
-pass motion-aligns the preceding accepted fill and blends
+This path scans the complete sequence before chan
 
 ## tools
 
@@ -133,7 +139,8 @@ ControlNet, followed by SAM-masked Z-Image repair of any detected face. The
 alternative, `sdxl-zimage`, swaps the global stage for SDXL and keeps the same face
 stage. A third profile, `chroma-zimage`, uses the Apache-2.0 Chroma1 global pass
 with its own flat vendor floors; see `docs/chroma1-engine-research.md` for the
-calibration. All are CUDA only.
+calibration. `--pipeline auto` picks chroma-zimage for OpenAI and Microsoft
+provenance and qwen-zimage otherwise. All are CUDA only.
 
 ```bash
 uv tool install --force "remove-ai-watermarks[qwen-zimage]"
@@ -216,8 +223,7 @@ Visible mark support includes:
 - one calibrated Samsung Galaxy AI label variant.
 
 Metadata and provenance inspection covers C2PA, EXIF, XMP, IPTC, common
-generator parameters, China TC260 AIGC labels, and several vendor specific
-signals. Optional decoders add support f
+generator para
 
 ## limitations
 

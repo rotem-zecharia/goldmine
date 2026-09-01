@@ -15,39 +15,15 @@ cd FunClip
 pip install -r ./requirements.txt
 ```
 
-For a versioned snapshot, download [FunClip-2.1.1.tar.gz](https://github.com/modelscope/FunClip/releases/download/v2.1.1/FunClip-2.1.1.tar.gz) or [FunClip-2.1.1.zip](https://github.com/modelscope/FunClip/releases/download/v2.1.1/FunClip-2.1.1.zip), then verify it with the published [SHA256SUMS](https://github.com/modelscope/FunClip/releases/download/v2.1.1/SHA256SUMS). Model weights are downloaded separately when FunClip starts and are not included in these source archives.
+For a versioned snapshot, download [FunClip-2.2.1.tar.gz](https://github.com/modelscope/FunClip/releases/download/v2.2.1/FunClip-2.2.1.tar.gz) or [FunClip-2.2.1.zip](https://github.com/modelscope/FunClip/releases/download/v2.2.1/FunClip-2.2.1.zip), then verify it with the published [SHA256SUMS](https://github.com/modelscope/FunClip/releases/download/v2.2.1/SHA256SUMS). Model weights are downloaded separately when FunClip starts and are not included in these source archives.
 
-FunClip v2.1.1 supports Gradio 4 with `starlette<1.0`. Existing installations should run `pip install -U -r requirements.txt` before restarting. Container users can pass `--listen` to bind all interfaces; a public Gradio sharing tunnel is created only when `--share` is also supplied.
+FunClip v2.2.1 keeps the supported Gradio 4 runtime and renders built-in subtitles with Pillow so the selected foreground color survives video encoding. Existing installations should run `pip install -U -r requirements.txt` before restarting.
 
 FunClip's current model and subtitle compatibility paths require `funasr>=1.4.9`. This includes the MOSS vLLM adapter, long-audio generation controls, normalized `sentence_info` speaker segments, and the earlier SenseVoice and realtime fixes. If you installed FunClip before this requirement was updated, run `pip install -U "funasr>=1.4.9"` before starting the Gradio service. [Release notes](https://github.com/modelscope/FunASR/releases/tag/v1.4.9) · [PyPI](https://pypi.org/project/funasr/1.4.9/)
 
 ### imagemagick install (Optional)
 
-If you want to clip video file with embedded subtitles
-
-1. ffmpeg and imagemagick is required
-
-- On Ubuntu
-```shell
-apt-get -y update && apt-get -y install ffmpeg imagemagick
-sed -i 's/none/read,write/g' /etc/ImageMagick-6/policy.xml
-```
-- On MacOS
-```shell
-brew install imagemagick
-sed -i '' 's/none/read,write/g' "$(brew --prefix imagemagick)/etc/ImageMagick-7/policy.xml" 
-```
-- On Windows
-
-Download and install imagemagick https://imagemagick.org/script/download.php#windows
-
-Find your python install path and change the `IMAGEMAGICK_BINARY` to your imagemagick install path in file `site-packages\moviepy\config_defaults.py`
-
-2. Download font file to funclip/font
-
-```shell
-wget https://isv-data.oss-cn-hangzhou.aliyuncs.com/ics/MaaS/ClipVideo/STHeitiMedium.ttc -O font/STHeitiMedium.ttc
-```
+The built-in subtitle renderer in v2.2.1 uses Pillow and the bundled font, so standard subtitle clipping no longer requires ImageMagick. Install ImageMagick only for the legacy `funclip/test/imagemagick_test.py` example or your own MoviePy `TextClip` workflow.
 <a name="Usage"></a>
 ## Use FunClip
 
@@ -58,7 +34,7 @@ python funclip/launch.py
 # '-m fun-asr-nano' for the flagship Fun-ASR-Nano model (Mandarin, English,
 # Japanese, 7 Chinese dialect groups, and 26 regional accents)
 # '-m sensevoice' for SenseVoice model (multilingual ASR + emotion + audio event detection)
-# '--model moss' for OpenMOSS long-form ASR + speaker identity + timestamps
+# '--model moss' for OpenMOSS long-form ASR + anonymous speaker labels + timestamps
 # '-l en' for English audio recognize
 # '-p xxx' for setting port number
 # '-s True' for establishing service for public accessing
@@ -76,14 +52,18 @@ python funclip/launch.py
 
 #### MOSS-Transcribe-Diarize backend
 
-[MOSS-Transcribe-Diarize](https://github.com/OpenMOSS/MOSS-Transcribe-Diarize) is a third-party OpenMOSS model, not a FunASR or FunClip model. FunClip pins the published Hugging Face object `OpenMOSS-Team/MOSS-Transcribe-Diarize` at revision `e8681d68e7042738ffca8ac8212bc8fcb11
+[MOSS-Transcribe-Diarize](https://github.com/OpenMOSS/MOSS-Transcribe-Diarize) is a third-party OpenMOSS model, not a FunASR or FunClip model. FunClip pins the published Hugging Face object `OpenMOSS-Team/MOSS-Transcribe-Diarize` at revision `e8681d68e7042738ffca8ac8212bc8fcb1131ab8`. Start and verify the vLLM service using the [bilingual production guide](https://www.funasr.com/en/deploy/moss-transcribe-diarize.html), then run:
+
+```shell
+# vLLM is the default MOSS backend and defaults to http://127.0.0.1:8898/v1
+python funclip/launch.py --model moss --moss-backend vllm
 
 ## configuration
 
 MOSS_API_KEY=replace-me python funclip/launch.py --model moss
 ```
 
-MOSS performs segmentation and speaker diarization end to end. Do not attach an external `vad_model` or `spk_model`, because chunking would break global speaker identity. Its timestamps are segment-level: SRT, speaker clipping (`spkS01`, `spkS02`, ...), and LLM timestamp clipping are supported, while precise arbitrary text clipping still requires Paraformer's token timestamps. FunClip currently exposes the vLLM path because it is compatible with the standard Transformers 4.x environment and has an end-to-end tested OpenAI transcription contract.
+MOSS performs segmentation and speaker diarization end to end. Its `spkS01`, `spkS02`, ... values are anonymous speaker labels within the current recording; the model does not identify a known person, verify an enrolled voiceprint, or guarantee label continuity across separate recordings. Do not attach an external `vad_model` or `spk_model`, because chunking would break consistent speaker assignment within the recording. Its timestamps are segment-level: SRT, speaker clipping, and LLM timestamp clipping are supported, while precise arbitrary text clipping still requires Paraformer's token timestamps. FunClip currently exposes the vLLM path because it is compatible with the standard Transformers 4.x environment and has an end-to-end tested OpenAI transcription contract.
 
 If you only need offline speech transcription on CPU or edge devices and do not need FunClip's video clipping UI, use the FunASR llama.cpp / GGUF runtime instead: [funasr.com/llama-cpp](https://www.funasr.com/llama-cpp.html) · [Fun-ASR-Nano-GGUF](https://huggingface.co/FunAudioLLM/Fun-ASR-Nano-GGUF) · [SenseVoiceSmall-GGUF](https://huggingface.co/FunAudioLLM/SenseVoiceSmall-GGUF).
 
@@ -110,9 +90,7 @@ Set `ORCAROUTER_API_KEY` (and optionally `ORCAROUTER_API_BASE`, which defaults t
 
 #### Content-aware clipping with TwelveLabs Pegasus (optional)
 
-Besides the transcript-based LLMs above, FunClip can optionally use [TwelveLabs](https://twelvelabs.io) Pegasus, a video understanding model that reasons over the actual video (visuals + audio) rather than only the ASR transcript. This helps pick highlight segments even when the transcript alone is ambiguous (e.g. action, scene changes, on-screen events). To use it, select the `pegasus1.5` model name, paste your TwelveLabs API key, upload a video, and click 'LLM Inference' — Pegasus returns segments in the same `N. [start-end] text` format, so the existing 'AI Clip' button works unchanged. It needs `pip install twelvelabs`, and a free API key is available at https://twelvelabs.io.
-
-###
+Besides the transcript-based LLMs above, FunClip can optionally use [TwelveLabs](https://twelvelabs.io) Pegasus, a video understanding model that reasons over the actual video (visuals + audio) rather than only the ASR transcript. This helps pick highlight segments even when the transcript alone is ambiguous (e.g. action, scene changes, on-screen events). To use it, select the `pegasus1.5` model name, paste your TwelveLabs API key, upload a video, and click 'LLM
 
 ## tools
 

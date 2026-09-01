@@ -1,6 +1,6 @@
 # mem0ai/mem0
 
-Universal memory layer for AI Agents
+The Memory Layer for AI Agents - Drop-in memory infrastructure for AI agents and apps. Context that persists. Built for production.
 
 ## features
 

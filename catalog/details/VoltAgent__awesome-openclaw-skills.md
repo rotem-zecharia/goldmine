@@ -55,20 +55,14 @@ Include the ClawHub link for your skill (e.g. `https://clawhub.ai/steipete/slack
 
 ## tools
 
-### ☁️ Hosting & Deployment
+### 🕸️ Web Crawling & Data Infrastructure
 
-You can deploy OpenClaw on any VPS or cloud platform to run your skills securely on your own infrastructure, or use a managed host that handles servers, updates, and isolation for you. 
+AI agents are only as good as the web data they can reach. Crawling at scale means dealing with JavaScript-heavy pages, rotating proxies, and anti-bot systems — you can build all that yourself, or use an API that handles it and hands your agent clean, ready-to-use data.
 
-<a href="https://myclaw.ai/?utm_source=github&utm_campaign=awesome-openclaw-skills">
-<img src="https://cdn.voltagent.dev/awesome-repo/myclaw-banner.svg" alt="MyClaw"  /><br/>
-You can run these skills without managing a server — a full cloud-hosted OpenClaw instance with one-click setup, 24/7 uptime, and complete data ownership.
+<a href="https://s.getdesign.md/crawl-og">
+<img src="https://cdn.voltagent.dev/awesome-repo/crawlbase/crawlbase-sponsor-banner-560x120.png" alt="Crawlbase" width="560" /><br/>
+Crawlbase is web data infrastructure trusted by 70,000+ developers: one API to crawl any URL at scale, with JS rendering, proxy rotation and anti-bot handling. Its MCP server gives agents live web access: crawl, crawl_markdown, crawl_screenshot.
 </a>
-
-
-<br/>
-<br/>
-
-> **Tip:** If you're self-hosting, pin your OpenClaw Docker image to a specific tag and snapshot your skills volume before upgrades — makes rollbacks painless when a skill update misbehaves.
 
 
 ### 🔍 Search & Web Data
@@ -88,24 +82,6 @@ As you add more skills, custom code, and connected services, your OpenClaw setup
 <img src="https://cdn.voltagent.dev/awesome-repo/trentclaw-banner.png" alt="trentclaw"  /><br/>
 trentclaw: audits your OpenClaw config, installed skills and custom code, then returns fixes as diffs. Install with: openclaw skills install trentclaw
 </a>
-
-
-### 🤖 Model Providers
-
-OpenClaw works with **25+ LLM providers** out of the box Anthropic, OpenAI and many more. Switch between them with a single config change.
-
-<details>
-<summary><strong>Example: Using OpenAI models</strong></summary>
-
-OpenClaw supports `gpt-5.4` and `gpt-5.4-pro` via direct API key or ChatGPT/Codex OAuth. WebSocket transport is enabled by default for lower latency.
-
-```bash
-openclaw onboard --auth-choice openai-api-key
-# or use subscription-based access:
-openclaw onboard --auth-choice openai-codex
-```
-</details>
-
 
 <div align="center">
 
@@ -160,4 +136,13 @@ If you believe a skill in this list should be flagged or has a security concern,
 | [DevOps & Cloud](#devops--cloud) (393) | [Calendar & Scheduling](#calendar--scheduling) (66) | |
 | [Image & Video Generation](#image--video-generation) (170) | [Media & Streaming](#media--streaming) (86) | [PDF & Documents](#pdf--documents) (105) |
 | [Apple Apps & Services](#apple-apps--services) (44) | [Notes & PKM](#notes--pkm) (69) | [Self-Hosted & Automation](#self-hosted--automation) (33) |
-| [Search & Research](#search--research) (342) | [iOS & macOS Development](#ios--macos-development) (
+| [Search & Research](#search--research) (342) | [iOS & macOS Development](#ios--macos-development) (29) | [Security & Passwords](#security--passwords) (54) |
+| [Clawdbot Tools](#clawdbot-tools) (37) | [Transportation](#transportation) (111) | [Moltbook](#moltbook) (29) |
+| [CLI Utilities](#cli-utilities) (180) | [Personal Development](#personal-development) (53) | [Gaming](#gaming) (35) |
+| [Health & Fitness](#health--fitness) (87) | | |
+
+
+
+<br/>
+
+You ship products with AI, but every launch still dies quietly because nobody posts about it. [EveryFeed](https://everyfeed.ai/) plugs your AI assistant into a social workspace that drafts, 
