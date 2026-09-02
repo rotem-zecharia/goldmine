@@ -10,8 +10,6 @@
 <br/>
 # Option B: Or use it as a plain Docker container:
 mkdir -p ~/archivebox/data && cd ~/archivebox/data
-docker run --rm -it -v "$PWD:/data" archivebox/archivebox:dev init
-docker run --rm -it -v "$PWD:/data" archivebox/archivebox:dev install
 docker run -d --name archivebox -v "$PWD:/data" -p 8000:8000 archivebox/archivebox:dev
 # open http://admin.archivebox.localhost:8000 to finish setup
 # docker run -it -v $PWD:/data archivebox/archivebox:dev add 'https://example.com'
@@ -93,17 +91,16 @@ See <a href="#%EF%B8%8F-cli-usage">below</a> for more usage examples using the C
 <br/>
 <ol>
 <li>Install <a href="https://docs.docker.com/get-docker/">Docker</a> on your system (if not already installed).</li>
-<li>Create a new empty directory and initialize your collection (can be anywhere).
+<li>Create a new empty directory and start the server, which initializes the collection automatically (can be anywhere).
 <pre lang="bash"><code style="white-space: pre-line">mkdir -p ~/archivebox/data && cd ~/archivebox/data
-docker run --rm -v $PWD:/data -it archivebox/archivebox:dev init
-docker run --rm -v $PWD:/data -it archivebox/archivebox:dev install
+docker run -d --name archivebox -v $PWD:/data -p 8000:8000 archivebox/archivebox:dev
 </code></pre>
 </li>
-<li>Optional: Start the server, then open <code>/admin/</code> on the hostname or IP used to reach ArchiveBox (local example: <a href="http://admin.archivebox.localhost:8000/admin/">http://admin.archivebox.localhost:8000/admin/</a>) to create the first admin. If <code>BASE_URL</code> is not configured yet, continue through the web setup wizard.
-<pre lang="bash"><code style="white-space: pre-line">docker run -v $PWD:/data -p 8000:8000 archivebox/archivebox:dev
+<li>Open <code>/admin/</code> on the hostname or IP used to reach ArchiveBox (local example: <a href="http://admin.archivebox.localhost:8000/admin/">http://admin.archivebox.localhost:8000/admin/</a>) to create the first admin. If <code>BASE_URL</code> is not configured yet, continue through the web setup wizard.
+<pre lang="bash"><code style="white-space: pre-line">
 # completely optional, CLI can always be used without running a server
-# docker run -v $PWD:/data -it archivebox/archivebox:dev [subcommand] [--help]
-docker run -v $PWD:/data -it archivebox/archivebox:dev help
+# docker exec archivebox archivebox [subcommand] [--help]
+docker exec archivebox archivebox help
 </code></pre>
 <i>For more info, see <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Install#option-a-docker--docker-compose-setup-%EF%B8%8F">Install: Docker Compose</a> in the Wiki. ➡️</i>
 </li>
@@ -143,7 +140,8 @@ See <a href="https://docs.sweeting.me/s/against-curl-sh">"Against curl | sh as a
 
 <li>Install <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a> on your system (if not already installed).</li>
 <li>Install the ArchiveBox package using <code>uv</code>.
-<pre lang="b
+<pre lang="bash"><code style="white-space: pre-line">uv tool install --python 3.13 --prerelease explicit --upgrade 'archivebox>=0.9.0rc0,<0.10'
+archivebox versi
 
 ## configuration
 

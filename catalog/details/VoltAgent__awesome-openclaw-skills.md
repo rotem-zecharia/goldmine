@@ -83,6 +83,9 @@ As you add more skills, custom code, and connected services, your OpenClaw setup
 trentclaw: audits your OpenClaw config, installed skills and custom code, then returns fixes as diffs. Install with: openclaw skills install trentclaw
 </a>
 
+</br>
+</br>
+
 <div align="center">
 
 <table>
@@ -145,4 +148,4 @@ If you believe a skill in this list should be flagged or has a security concern,
 
 <br/>
 
-You ship products with AI, but every launch still dies quietly because nobody posts about it. [EveryFeed](https://everyfeed.ai/) plugs your AI assistant into a social workspace that drafts, 
+You ship products with AI, but every launch still dies quietly because nobody posts about it. [EveryFeed](https://everyfeed.ai/) plugs your AI assistant into a social workspace 

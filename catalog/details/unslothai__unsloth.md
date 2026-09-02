@@ -117,16 +117,6 @@ Headless starts:
 ```bash
 UNSLOTH_STUDIO_PASSWORD='your-strong-password' unsloth studio --secure   # via env var
 ```
-If you do not supply one, a public launch (`--secure`, `--cloudflare`, or Colab)
-generates a strong admin password and shows it once. On a terminal launch it goes
-to the console only, and the Studio server never writes it to disk or to the
-server log. In Colab it is rendered into the notebook cell instead, and Colab
-saves cell output with the notebook, so clear that cell before sharing or
-exporting the notebook. Copy it when it appears: it is not shown again, and
-recovering from a lost one means `unsloth studio reset-password`. A launch with
-no console at all (a detached service with redirected output) refuses to start
-rather than rotate a password nobody could read, as does a relaunch after a
-generated password was committed but never reached you.
 Reset your password:
 ```bash
 unsloth studio reset-password
@@ -154,4 +144,14 @@ uv pip install unsloth --torch-backend=auto
 
 #### AMD, Intel, DGX Spark, Blackwell:
 See our [Blackwell guide](https://unsloth.ai/docs/blog/fine-tuning-llms-with-blackwell-rtx-50-series-and-unsloth) and [DGX Spark guide](https://unsloth.ai/docs/blog/fine-tuning-llms-with-nvidia-dgx-spark-and-unsloth). <br>
-To install Unsloth on **AMD** and **Intel** GPUs, follow our
+To install Unsloth on **AMD** and **Intel** GPUs, follow our [AMD Guide](https://unsloth.ai/docs/basics/amd) and [Intel Guide](https://unsloth.ai/docs/get-started/install/intel).
+
+## 📒 Free Notebooks
+
+Train for free with our notebooks.
+Read our [guide](https://unsloth.ai/docs/get-started/fine-tuning-llms-guide). Add dataset, run, then deploy your trained model.
+
+| Model | Free Notebooks | Performance | Memory use |
+|-----------|---------|--------|----------|
+| **Unsloth Studio**      | [▶️ Start for free](https://colab.research.google.com/github/unslothai/unsloth/blob/main/studio/Unsloth_Studio_Colab.ipynb)               |  |  |
+| **Gemma 4 (E2B)**      | [▶️ Start for free](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Gemma4_(E2B)-Vision.ipynb)               | 1.5x faster | 50% 

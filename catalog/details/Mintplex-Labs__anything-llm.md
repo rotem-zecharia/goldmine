@@ -16,7 +16,7 @@ AnythingLLM supports multiple users as well where you can control the access and
 - [Intelligent Skill Selection](https://docs.anythingllm.com/agent/intelligent-tool-selection) Enable **unlimited** tools for your models while reducing token usage by up to 80% per query
 - [No-code AI Agent builder](https://docs.anythingllm.com/agent-flows/overview)
 - [MCP-compatibility](https://docs.anythingllm.com/mcp-compatibility/overview)
-- [Multi-modal support (both closed and open-source LLMs!)](https://docs.anythingllm.com/features/multimodal)
+- [Multi-modal support (both closed and open-source LLMs!)](https://docs.anythingllm.com/features/language-models)
 - [Custom AI Agents](https://docs.anythingllm.com/agent/custom/introduction)
 - 👤 Multi-user instance support and permissioning _Docker version only_
 - 🦾 Agents inside your workspace (browse the web, etc)
@@ -60,7 +60,7 @@ AnythingLLM supports multiple users as well where you can control the access and
 - [Z.AI (chat models)](https://z.ai/model-api)
 - [Novita AI (chat models)](https://novita.ai/model-api/product/llm-api?utm_source=github_anything-llm&utm_medium=github_readme&utm_campaign=link)
 - [PPIO](https://ppinfra.com?utm_source=github_anything-llm)
-- [Gitee AI](htt
+- [Gitee AI
 
 ## installation
 

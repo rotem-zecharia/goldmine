@@ -10,9 +10,9 @@ Chrome DevTools for agents (`chrome-devtools-mcp`) lets your coding agent (such 
 control and inspect a live Chrome browser. It acts as a Model-Context-Protocol
 (MCP) server, giving your AI coding assistant access to the full power of
 Chrome DevTools for reliable automation, in-depth debugging, and performance analysis.
-A [CLI](docs/cli.md) is also provided for use without MCP.
+A [CLI][cli] is also provided for use without MCP.
 
-## [Tool reference](./docs/tool-reference.md) | [Changelog](./CHANGELOG.md) | [Contributing](./CONTRIBUTING.md) | [Troubleshooting](./docs/troubleshooting.md) | [Design Principles](./docs/design-principles.md)
+[Tool reference][tool-reference] | [Changelog][changelog] | [Contributing][contributing] | [Troubleshooting][troubleshooting] | [Design Principles][design-principles]
 
 ## features
 
@@ -79,136 +79,21 @@ If you are interested in doing only basic browser tasks, use the `--slim` mode:
 }
 ```
 
-See [Slim tool reference](./docs/slim-tool-reference.md).
+See [Slim tool reference][slim-tool-reference].
 
 ## configuration
 
-<details>
-  <summary>Amp</summary>
-  Follow https://ampcode.com/manual#mcp and use the config provided above. You can also install the Chrome DevTools MCP server using the CLI:
+For setup instructions specific to your editor or agent (e.g. Antigravity, Claude Code, Cursor, VS Code), please see our [Client Configurations Guide][client-configurations-guide].
 
-```bash
-amp mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
+### Your first prompt
+
+Enter the following prompt in your MCP Client to check if everything is working:
+
+```
+Check the performance of https://developers.chrome.com
 ```
 
-</details>
-
-<details>
-  <summary>Antigravity</summary>
-
-To use the Chrome DevTools MCP server follow the instructions from <a href="https://antigravity.google/docs/mcp">Antigravity's docs</a> to install a custom MCP server. Add the following config to the MCP servers config:
-
-```bash
-{
-  "mcpServers": {
-    "chrome-devtools": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "chrome-devtools-mcp@latest",
-        "--browser-url=http://127.0.0.1:9222"
-      ]
-    }
-  }
-}
-```
-
-This will make the Chrome DevTools MCP server automatically connect to the browser that Antigravity is using. If you are not using port 9222, make sure to adjust accordingly.
-
-Chrome DevTools MCP will not start the browser instance automatically using this approach because the Chrome DevTools MCP server connects to Antigravity's built-in browser. If the browser is not already running, you have to start it first by clicking the Chrome icon at the top right corner.
-
-</details>
-
-<details>
-  <summary>Bob</summary>
-
-Follow the <a href="https://bob.ibm.com/docs/ide/configuration/mcp/mcp-in-bob">IBM Bob MCP guide</a> and add the Chrome DevTools MCP server to your Bob MCP configuration. Use the global config (`~/.bob/mcp.json`) to apply it across all workspaces, or a project config (`.bob/mcp.json`) to scope it to one project:
-
-```json
-{
-  "mcpServers": {
-    "chrome-devtools": {
-      "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest"]
-    }
-  }
-}
-```
-
-You can edit these files from **Bob panel → Settings → MCP → Edit Global MCP** (or **Edit Project MCP**). Bob hot-reloads on save. Once the server appears in the MCP tab, switch to the **🌎 Browser Dev** mode to get guided browser debugging directly in Bob.
-
-</details>
-
-<details>
-  <summary>Claude Code</summary>
-
-**Install via CLI (MCP only)**
-
-Use the Claude Code CLI to add the Chrome DevTools MCP server (<a href="https://code.claude.com/docs/en/mcp">guide</a>):
-
-```bash
-claude mcp add chrome-devtools --scope user npx chrome-devtools-mcp@latest
-```
-
-**Install as a Plugin (MCP + Skills)**
+Your MCP client should open the browser and record a performance trace.
 
 > [!NOTE]
-> If you already had Chrome DevTools MCP installed previously for Claude Code, make sure to remove it first from your installation and configuration files.
-
-To install Chrome DevTools MCP with skills, add the marketplace registry in Claude Code:
-
-```sh
-/plugin marketplace add ChromeDevTools/chrome-devtools-mcp
-```
-
-Then, install the plugin:
-
-```sh
-/plugin install chrome-devtools-mcp@chrome-devtools-plugins
-```
-
-Restart Claude Code to have the MCP server and skills load (check with `/skills`).
-
-> [!TIP]
-> If the plugin installation fails with a `Failed to clone repository` error (e.g., HTTPS connectivity issues behind a corporate firewall), see the [troubleshooting guide](./docs/troubleshooting.md#claude-code-plugin-installation-fails-with-failed-to-clone-repository) for workarounds, or use the CLI installation method above instead.
-
-</details>
-
-<details>
-  <summary>Cline</summary>
-  Follow https://docs.cline.bot/mcp/configuring-mcp-servers and use the config provided above.
-</details>
-
-<details>
-  <summary>Codex</summary>
-  Follow the <a href="https://developers.openai.com/codex/mcp/#configure-with-the-cli">configure MCP guide</a>
-  using the standard config from above. You can also install the Chrome DevTools MCP server using the Codex CLI:
-
-```bash
-codex mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
-```
-
-**On Windows 11**
-
-Configure the Chrome install location and increase the startup timeout by updating `.codex/config.toml` and adding the following `env` and `startup_timeout_ms` parameters:
-
-```
-[mcp_servers.chrome-devtools]
-command = "cmd"
-args = [
-    "/c",
-    "npx",
-    "-y",
-    "chrome-devtools-mcp@latest",
-]
-env = { Syste
-
-## limitations
-
-See [Troubleshooting](./docs/troubleshooting.md).
-
-## Integrating as a browser subagent
-
-If you are developing agentic tooling and want to provide an integrated browser subagent as part of your product, we recommend building on top of Chrome DevTools for agents.
-
-For a reference implementation, see the [Gemini CLI browser agent documentation](https://geminicli.com/docs/core/subagents/#browser-agent).
+> The MCP server will start the browser automatically once the MCP client uses a tool that requires a running browser instance. Connecting to the Chrome DevTools MCP server on its own will not automatically start the browser.

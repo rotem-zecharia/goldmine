@@ -113,7 +113,7 @@ Connect AstrBot to your favorite chat platform.
 | DeepSeek | LLM Services |
 | Ollama (Self-hosted) | LLM Services |
 | LM Studio (Self-hosted) | LLM Services |
-| [AIHubMix](https://aihubmix.com/?aff=4bfH) | LLM Services (API G
+| [MiraRouter](https://mirarouter.com/) | LLM Services (API Gatewa
 
 ## configuration
 
