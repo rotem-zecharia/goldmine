@@ -90,7 +90,7 @@ Put workflow skills under `.cursor/skills/` (sync from `agent-skills/skills/`) a
 <details>
 <summary><b>Antigravity CLI</b></summary>
 
-Install as a native plugin for skills, subagents, and slash commands. See [docs/antigravity-setup.md](docs/antigravity-setup.md).
+Install as a native plugin for skills and subagents. In affected Antigravity CLI releases, legacy command TOMLs are reported as converted but their wrapper commands are not discoverable; invoke the underlying namespaced skills directly. See [docs/antigravity-setup.md](docs/antigravity-setup.md#lifecycle-workflows-and-command-compatibility).
 
 **Install from the repo:**
 
@@ -136,11 +136,7 @@ Add skill contents to your Windsurf rules configuration. See [docs/windsurf-setu
 <details>
 <summary><b>OpenCode</b></summary>
 
-Copy skills to `.opencode/skills/` (or `~/.config/opencode/skills/`), add a project-local `AGENTS.md`, and use the built-in `skill` tool for agent-driven execution. Optional slash commands can be added under `.opencode/commands/`.
-
-See [docs/opencode-setup.md](docs/opencode-setup.md).
-
-</d
+Copy skills to `.opencode/skills/` (or `~/.config/opencode/skills/`), add a p
 
 ## features
 

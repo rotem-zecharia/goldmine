@@ -165,26 +165,24 @@ rtk bundle install              # Ruby gems (strip Using lines)
 rtk prisma generate             # Schema generation (no ASCII art)
 ```
 
+### Runtimes
+```bash
+rtk bun install                  # Strip progress and version lines
+rtk bun test                     # Failures only (-90%)
+rtk bun build                    # Errors only when writing to disk, else passthrough
+rtk bunx tsc                     # Smart routing to tsc filter
+rtk deno test                    # Failures only (-90%)
+rtk deno lint                    # Strip download lines + tee recovery
+rtk deno check                   # Strip download lines + tee recovery
+```
+
 ### AWS
 ```bash
 rtk aws sts get-caller-identity # One-line identity
 rtk aws ec2 describe-instances  # Compact instance list
 rtk aws lambda list-functions   # Name/runtime/memory (strips secrets)
 rtk aws logs get-log-events     # Timestamped messages only
-rtk aws cloudformation describe-stack-events  # Failures first
-rtk aws dynamodb scan           # Unwraps type annotations
-rtk aws iam list-roles          # Strips policy documents
-rtk aws s3 ls                   # Truncated with tee recovery
-```
-
-### Containers
-```bash
-rtk docker ps                   # Compact container list
-rtk docker images               # Compact image list
-rtk docker logs <container>     # Deduplicated logs
-rtk docker compose ps           # Compose services
-rtk kubectl pods                # Compact pod list
-rtk kubectl log
+rtk aws cloudformation describe-stack-events  # Fail
 
 ## configuration
 

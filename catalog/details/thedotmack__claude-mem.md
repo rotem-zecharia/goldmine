@@ -4,6 +4,14 @@ Persistent Context Across Sessions for Every Agent – Captures everything your 
 
 ## installation
 
+Install [Grok Mem](https://grok-mem.ai) for Grok Bot. The package name is still [`claude-mem`](https://www.npmjs.com/package/claude-mem).
+
+```bash
+npx claude-mem install --ide grok-bot
+```
+
+Grok Bot has no host hooks, so we watch the chat log files. Default is CMEM Pro, the hosted memory. Local observer is opt-in: `--provider host`. Installing this plugin does not install Cursor.
+
 Install with a single command:
 
 ```bash
@@ -76,13 +84,7 @@ The installer handles dependencies, plugin setup, AI provider configuration, wor
 ### Best Practices
 
 - **[Context Engineering](https://docs.claude-mem.ai/context-engineering)** - AI agent context optimization principles
-- **[Progressive Disclosure](https://docs.claude-mem.ai/progressive-disclosure)** - Philosophy behind Claude-Mem's context priming strategy
-
-### Architecture
-
-- **[Overview](https://docs.claude-mem.ai/architecture/overview)** - System components & data flow
-- **[Architecture Evolution](https://docs.claude-mem.ai/architecture-evolution)** - The journey from v3 to v5
-- **[Hooks Architecture](https://docs.claude-mem.ai/hooks-architecture)** - How Claude-Me
+- **[Progressive Disclosure](https://docs.claude-mem.ai/progressive-discl
 
 ## configuration
 

@@ -4,16 +4,16 @@ Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20
 
 ## features
 
-- **Library** — `compress(messages)` in Python or TypeScript, inline in any app
-- **Proxy** — `headroom proxy --port 8787`, zero code changes, any language
-- **Agent wrap** — `headroom wrap claude|codex|grok|copilot|cursor|aider|opencode|cline|continue|goose|openhands|openclaw|vibe|omp|zcode` in one command; undo with `headroom unwrap <tool>`
-- **MCP server** — `headroom_compress`, `headroom_retrieve`, `headroom_stats` for any MCP client
-- **Cross-agent memory** — shared store across Claude, Codex, Gemini, Grok, auto-dedup
-- **`headroom learn`** — mines failed sessions, writes corrections to `CLAUDE.local.md` (default, gitignored) or `CLAUDE.md` / `AGENTS.md` / `GEMINI.md` / `GROK.md`
-- **Output token reduction** — trims what the model *writes back* (not just what you send): drops ceremony/restated code and skips deep "thinking" on routine steps. See [Output token reduction](#output-token-reduction-cut-what-the-model-writes-back).
-- **Reversible (CCR)** — originals are cached for retrieval on demand
+- **Library** — `compress(messages)` in Python or TypeScript, inline in any app.
+- **Proxy** — `headroom proxy --port 8787`, zero code changes, any language.
+- **Agent wrap** — `headroom wrap claude|codex|grok|copilot|cursor|aider|opencode|cline|continue|goose|openhands|openclaw|vibe|omp|zcode` in one command; undo with `headroom unwrap <tool>`.
+- **MCP server** — `headroom_compress`, `headroom_retrieve`, `headroom_stats` for any MCP client.
+- **Cross-agent memory** — one shared store across Claude, Codex, Gemini and Grok, with automatic dedup.
+- **`headroom learn`** — mines failed sessions and writes corrections to `CLAUDE.local.md` (default, gitignored), `CLAUDE.md`, `AGENTS.md`, `GEMINI.md` or `GROK.md`.
+- **Output token reduction** — trims what the model *writes back*, not only what you send. See [below](#output-token-reduction).
+- **Reversible (CCR)** — originals are cached locally and retrieved on demand.
 
-## How it works (30 seconds)
+## How it works
 
 ```
  Your agent / app
@@ -35,12 +35,14 @@ Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20
  LLM provider  (Anthropic · OpenAI · Bedrock · …)
 ```
 
-- **ContentRouter** — detects content type, selects the right compressor
-- **SmartCrusher / CodeCompressor / Kompress-v2-base** — compress JSON, AST, or prose
-- **CacheAligner** - detects and warns about volatile content that can bust provider KV cache prefixes; never rewrites prompts
-- **CCR** — stores originals locally; LLM calls `headroom_retrieve` if it needs them
+- **ContentRouter** detects the content type and selects a compressor for it.
+- **SmartCrusher / CodeCompressor / Kompress-v2-base** handle JSON, source code and prose respectively.
+- **CacheAligner** flags volatile content that would bust a provider KV-cache prefix. It never rewrites prompts.
+- **CCR** stores originals locally so the model can call `headroom_retrieve` when it needs the full text.
 
-→ [Architecture](https://headroom-docs.vercel.app/docs/architecture) · [CCR reversible compression](https://headroom-docs.vercel.app/docs/ccr) · [Kompress-v2-base model card](https://huggingface.co/chopratejas/kompress-v2-base)
+→ [Architecture](https://docs.headroomlabs.ai/docs/architecture) ·
+[CCR](https://docs.headroomlabs.ai/docs/ccr) ·
+[Kompress-v2-base model card](https://huggingface.co/chopratejas/kompress-v2-base)
 
 ## Get started (60 seconds)
 
@@ -48,167 +50,93 @@ Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20
 
 ## installation
 
-uv tool install --python 3.13 "headroom-ai[all]"  # CLI as a global tool in a self-contained virtual env
+uv tool install --python 3.13 "headroom-ai[all]"  # CLI in a self-contained env
 pip install "headroom-ai[all]"                    # Python — ships the `headroom` CLI
-npm install headroom-ai                           # TypeScript SDK only — no `headroom` CLI
+npm install headroom-ai                           # TypeScript SDK only — no CLI
 
-# 2 — Pick your mode  (the `headroom` commands below come from the uv or pip install)
+# 2 — Pick a mode
 headroom deploy                         # turnkey local deployment + agent config
 headroom wrap claude                    # wrap a coding agent
 headroom proxy --port 8787              # drop-in proxy, zero code changes
-# or: from headroom import compress      # inline library
+# or: from headroom import compress     # inline library
 
-# 3 — Verify setup and see the savings
-headroom doctor                         # health check — confirms routing is working
+# 3 — Check it and watch the savings
+headroom doctor                         # health check — confirms routing works
 headroom perf
-headroom dashboard                      # live savings dashboard (proxy must be running)
+headroom dashboard                      # live savings (proxy must be running)
 ```
 
-To use headroom, it is recommended you launch a wrapped agent session each time so that all necessary setup is completed. When wrapping a coding agent, headroom starts a local proxy, installs **Serena** for semantic code navigation, and launches a coding agent session configured to proxy requests through headroom.
+Inline, in Python:
 
-Serena is registered at **user scope** (for Claude Code, in `~/.claude.json`), so it stays available in your other projects until you run `headroom unwrap`. To skip it entirely, wrap with `--code-memory none`.
+```python
+from headroom import compress
+from openai import OpenAI
 
-The `headroom` CLI ships **only** via the PyPI package. The npm `headroom-ai` is the TypeScript SDK — a library you import (`import { compress } from 'headroom-ai'`), not a CLI, so it provides no `headroom` command.
+messages = [{"role": "user", "content": "Analyze these results"}]
+result = compress(messages, model="gpt-4o")
 
-Granular extras: `[proxy]`, `[mcp]`, `[ml]`, `[code]`, `[memory]`, `[vector]` (optional HNSW backend — needs a C++ toolchain, not in `[all]`), `[relevance]`, `[image]`, `[agno]`, `[langchain]`, `[evals]`, `[pytorch-mps]` (Apple-GPU memory-embedder offload — set `HEADROOM_EMBEDDER_RUNTIME=pytorch_mps`). Requires **Python 3.10+**.
-
-### Codex / global install
-
-If Codex or another MCP client cannot inherit a shell `PATH` reliably, install Headroom as a persistent uv tool and point the client at the absolute binary path:
-
-```bash
-uv tool install "headroom-ai[all]"
-command -v headroom
+client = OpenAI()
+response = client.chat.completions.create(model="gpt-4o", messages=result.messages)
+print(f"Saved {result.tokens_saved} tokens ({result.compression_ratio:.0%})")
 ```
 
-Then use the returned path in MCP config:
+Launch a wrapped agent session each time, so the setup runs. `headroom wrap`
+starts a local proxy, installs **[Serena](https://github.com/oraios/serena)** for
+semantic code navigation, and launches the agent configured to route through
+Headroom. Serena is registered at user scope (for Claude Code, in
+`~/.claude.json`), so it stays available in your other projects until you run
+`headroom unwrap`. Skip it with `--code-memory none`.
 
-```toml
-[mcp_servers.headroom]
-command = "/absolute/path/from/command-v/headroom"
-args = ["mcp", "serve"]
-```
-
-`command = "headroom"` only works when the client starts with a `PATH` that already includes the uv tool directory.
+The `headroom` CLI ships only in the PyPI package. The npm `headroom-ai` package
+is the TypeScript SDK — a library you import
+(`import { compress } from 'headroom-ai'`) — and provides no `headroom` command.
 
 ## Proof
 
-**Savings on real agent workloads:**
-
-| Workload                      | Before | After  | Savings |
-|-------------------------------|-------:|-------:|--------:|
-| Code search (100 results)     | 17,765 |  1,408 | **92%** |
-| SRE incident debugging        | 65,694 |  5,118 | **92%** |
-| GitHub issue triage           | 54,174 | 14,761 | **73%** |
-| Codebase exploration          | 78,502 | 41,254 | **47%** |
-
-**Accuracy preserved on standard benchmarks:**
-
-| Benchmark  | Category | N   | Baseline | Headroom | Delta      |
-|------------|----------|----:|---------:|---------:|------------|
-| GSM8K      | Math     | 100 |    0.870 |    0.870 | **±0.000** |
-| TruthfulQA | Factual  | 100 |    0.530 |    0.560 | **+0.030** |
-| SQuAD v2   | QA       | 100 |        — |  **97%** | 19% compression |
-| BFCL       | Tools    | 100 |        — |  **97%** | 32% compression |
-
-Reproduce: `python -m headroom.evals suite --tier 1` · [Full benchmarks & methodology](https://headroom-docs.vercel.app/docs/benchmarks)
-
-## Output token reduction (cut what the model writes back)
-
-Everything above shrinks the prompt you **send**. But you also pay for every
-token the model **writes back** — and on Opus-class models output costs 5× input.
-A lot of that output is waste: "Great, let me…" preambles, re-printing code you
-just showed it, and deep "thinking" on routine steps like reading a file.
-
-Headroom can trim that too, from the proxy, without you changing any code:
-
-- **Verbosity steering** — appends a short 
-
-## configuration
-
-If `pip install "headroom-ai[all]"` fails with `CERTIFICATE_VERIFY_FAILED`
-(`unable to get local issuer certificate`), your network uses **SSL inspection** — a MITM
-proxy presenting a company-issued CA. The build backend (`maturin`) downloads `rustup` over a
-connection your TLS stack doesn't trust. **Install Rust first** so the build doesn't fetch it:
+Four scenarios built from real MCP server output formats, measured with the
+provider tokenizer and the shipped `compress()`. Seeded and offline, so you get
+the same numbers we did:
 
 ```bash
-# macOS / Linux
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh && rustup default stable
-# Windows
-winget install Rustlang.Rustup && rustup default stable
+uv run python benchmarks/index_proof_table.py --seed 20260902
 ```
 
-Restart your shell, then `pip install "headroom-ai[all]"`. A prebuilt wheel avoids the Rust
-build entirely where available: `pip install --only-binary headroom-ai headroom-ai`. Prebuilt
-wheels are published for Windows (`win_amd64`), Linux (`x86_64` / `aarch64`), and macOS
-(Apple Silicon and Intel), so installs on those platforms never need a local Rust toolchain — the
-Rust-first dance above is only for the platform-independent sdist fallback when no wheel matches.
+| Scenario | Before | After | Saved |
+|---|---:|---:|---:|
+| Code search (100 results) | 17,199 | 13,597 | **21%** |
+| SRE incident debugging | 55,957 | 24,340 | **57%** |
+| Codebase exploration | 58,801 | 33,895 | **42%** |
+| GitHub issue triage | 46,067 | 32,429 | **30%** |
 
-Two runtime assets are fetched over TLS; if they are blocked, trust your corporate CA via
-`REQUESTS_CA_BUNDLE` / `SSL_CERT_FILE` / `CURL_CA_BUNDLE`:
+Savings scale with how repetitive the payload is. Repeated JSON arrays and log
+lines clear 90% in `benchmarks/bench_latency.py`; prose and already-dense output
+compress very little. Run `headroom savings` against your own traffic for the
+number that applies to you.
 
-- **`cdn.pyke.io`** — the ONNX Runtime for the Rust core. Alternatively pre-provide it with
-  `ORT_STRATEGY=system` and `ORT_LIB_LOCATION=/path/to/onnxruntime`.
-- **`huggingface.co`** — the `kompress-base` compression model. Pre-download it and run with
-  `HF_HUB_OFFLINE=1`, or set `HF_ENDPOINT` to a trusted mirror.
+Compression costs **well under a millisecond** — 0.21 ms p50 on a 10K-token JSON
+search result, 1.4 ms at 100K tokens — so it does not show up in agent latency.
 
-Running with compression disabled (pure gateway) requires neither asset.
+**Accuracy.** `python -m headroom.evals suite --tier 1`:
 
-#### Intel macOS (x86_64-apple-darwin): no prebuilt ONNX Runtime binary (#941)
+| Benchmark | Category | N | Baseline | Headroom | Delta |
+|---|---|---:|---:|---:|---|
+| GSM8K | Math | 100 | 0.870 | 0.870 | ±0.000 |
+| TruthfulQA | Factual | 100 | 0.530 | 0.560 | +0.030 |
+| SQuAD v2 | QA | 100 | — | 97% | at 19% compression |
+| BFCL | Tools | 100 | — | 97% | at 32% compression |
 
-`ort-sys` ships no prebuilt ONNX Runtime binary for Intel macOS, so a source
-build fails by default even outside a corporate-proxy environment. The same
-`ORT_STRATEGY=system` mechanism above fixes it — point it at a system ONNX
-Runtime instead:
+At N=100 a delta of ±0.03 falls inside the confidence interval, so TruthfulQA
+shows no detectable difference rather than an improvement.
+[Methodology →](https://docs.headroomlabs.ai/docs/benchmarks)
 
-```bash
-brew install onnxruntime
-ORT_STRATEGY=system \
-ORT_LIB_LOCATION="$(brew --prefix onnxruntime)/lib" \
-ORT_PREFER_DYNAMIC_LINK=1 \
-  pip install "headroom-ai[all]"
+## Output token reduction
 
-# ORT is dlopen'd at runtime too:
-export ORT_DYLIB_PATH="$(brew --prefix onnxruntime)/lib/libonnxruntime.dylib"
-```
+Everything above shrinks the prompt you **send**. You also pay for every token
+the model **writes back**, and on Opus-class models output costs 5× input. Much
+of that output is ceremony: "Great, let me…" preambles, code re-printed straight
+back at you, and deep reasoning spent on routine steps like reading a file.
 
-`ORT_LIB_LOCATION` must point at `lib/` (not the bare prefix) and
-`ORT_PREFER_DYNAMIC_LINK=1` is required, or `ORT_STRATEGY=system` still
-attempts static linking, which the Homebrew keg doesn't provide.
+Headroom trims it from the proxy, with no change to your code:
 
-#### "Basic Constraints of CA cert not marked critical" (Python 3.13+ strict mode)
-
-A **different** failure from the one above. If TLS fails with:
-
-```
-[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed:
-Basic Constraints of CA cert not marked critical
-```
-
-then the corporate CA *is* found and trusted — adding it to a CA bundle changes nothing.
-Python 3.13 + OpenSSL 3.x enable `VERIFY_X509_STRICT` by default, which enforces RFC 5280
-§4.2.1.9: a CA cert's `basicConstraints` must be marked *critical*. Inspection roots like
-Zscaler set `CA:TRUE` without the critical bit, so the chain is rejected.
-
-Set **`HEADROOM_TLS_STRICT=0`** to clear *only* the strict flag from every TLS context
-Headroom controls — the proxy's httpx upstream client **and** the urllib3/`huggingface_hub`
-path used for model downloads. Chain validation, signature, expiry, and hostname checks all
-stay on; this is strictly narrower than disabling verification.
-
-```bash
-HEADROOM_TLS_STRICT=0 headroom proxy --port 8787
-```
-
-The Rust core's ONNX download (`cdn.pyke.io`) uses a separate TLS stack (rustls / OS trust
-store), unaffected by `HEADROOM_TLS_STRICT`. On Windows the corporate root must be in the
-**machine** certificate store (browsers already trust it there); or pre-provision ONNX
-Runtime with `ORT_STRATEGY=system` + `ORT_LIB_LOCATION=/path/to/onnxruntime` to skip the
-download entirely.
-
-## headroom learn
-
-<p align="center">
-  <img src="headroom_learn.gif" alt="headroom learn in action" width="720">
-</p>
-
-`headroom learn` — mines failed sessions, writes corrections to `CLAUDE.local.md` (default, gitignored; use `--target CLAUDE.
+- **Verbosity steering** appends a short "be terse, don't restate context" note to the *end* of the system prompt, so your prompt cache still hits.
+- **Effort routing** dials thinking effort down when a turn is only the model resuming after a tool result — a file read, a pa

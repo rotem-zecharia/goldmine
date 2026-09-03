@@ -1,6 +1,6 @@
 # unslothai/unsloth
 
-Local UI to run and train LLMs and diffusion models. Supports GGUF, MLX, Qwen3.8, Kimi K3, MiniMax-H3, Gemma 4, FLUX and more.
+Local UI to run and train LLMs and diffusion models. Supports GGUF, MLX, Qwen3.8, DeepSeek-V4, MiniMax-H3, Gemma 4, FLUX and more.
 
 ## features
 
@@ -36,6 +36,7 @@ unsloth start claude --model unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_XL
 | Hermes Agent | `unsloth start hermes` |
 | OpenClaw | `unsloth start openclaw` |
 | OpenCode | `unsloth start opencode` |
+| DeepSeek Harness | `unsloth start dsh` |
 
 ## installation
 
