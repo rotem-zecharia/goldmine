@@ -1,6 +1,6 @@
 # code-yeongyu/oh-my-openagent
 
-omo/lazycodex: The coding agent for tokenmaxxers;the one and only agent harness for complex codebases. For your Codex, for your OpenCode
+OmO: Drop your tokens. Ultrawork. Done.
 
 ## installation
 

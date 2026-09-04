@@ -14,7 +14,31 @@ The headless browser for AI agents and web scraping
 | Puppeteer    | **Yes**      | Yes              |
 | Playwright   | **Yes**      | Yes              |
 
-## 🎉 10,000 stars and what's next
+<table>
+  <tr>
+    <td width="90" align="center">
+      <a href="https://blog.cloudflare.com/kitesurf/">
+        <img
+          src="https://cdn.simpleicons.org/cloudflare/F38020"
+          alt="Cloudflare"
+          width="54"
+        />
+      </a>
+    </td>
+    <td>
+      <strong>Obscura inspired Cloudflare Kitesurf’s first prototype</strong>
+      <br>
+      Cloudflare began by porting Obscura to Workers while developing its
+      new agent-first browser.
+      <br>
+      <a href="https://blog.cloudflare.com/kitesurf/">
+        Read Cloudflare’s engineering story →
+      </a>
+    </td>
+  </tr>
+</table>
+
+## Obscura Cloud
 
 We are working on **Obscura Cloud** the hosted version, with managed infrastructure, residential proxies, and dedicated support. For people who want the engine without operating it themselves.
 
@@ -33,18 +57,21 @@ Want to sponsor? Email [hello@obscura.sh](mailto:hello@obscura.sh).
 <table>
    <tr>
     <td width="200" align="center" valign="middle">
-      <a href="https://go.nodemaven.com/obscura" target="_blank">
-        <img alt="NodeMaven" src="assets/sponsors/nodemaven.svg" width="180"/>
+      <a href="https://go.nodemaven.com/obscuraRMaugust" target="_blank">
+        <img alt="NodeMaven" src="assets/sponsors/nodemaven2.png" width="180"/>
       </a>
     </td>
     <td valign="middle">
-      <a href="https://go.nodemaven.com/obscuraread"><b>NodeMaven</b></a> — the most reliable proxy provider with the highest quality IPs on the market. Built for automation, web scraping, SEO research, and social media management.<br><br>
-      <b>99.9% uptime<br>
-      Sticky sessions up to 7 days<br>
-      IP filtering on every proxy<br>
+      <a href="https://go.nodemaven.com/obscuraRMaugust" target="_blank"><b>NodeMaven</b></a>: The most efficient proxy provider for Web Scraping and Automation with the Highest Quality IP on the market.<br><br>
+      <b>Why <a href="https://go.nodemaven.com/obscuraRMaugust" target="_blank">NodeMaven</a>?</b><br>
+      ZIP targeting<br>
+      99.9% uptime<br>
+      IP filtering: all proxies have fraud score &lt;97%<br>
       No KYC required<br>
-      Cashback on traffic — earn up to 10% back<br><br></b>
-      🎁 Use code <b>OBSCURA35</b> for 35% off Mobile & Residential, or <b>OBSCURA40</b> for 40% off ISP (Static) proxies.
+      Unique free tools: Proxy Bandwidth Checker, Meta Tag Checker, IP Lookup and others!<br><br>
+      🎁 <b>Special codes for Obscura users:</b><br>
+      <b>OBSCURA35</b> - 35% off to Mobile and Residential Proxies<br>
+      <b>OBSCURA40</b> - 40% off to ISP (Static) Proxies
     </td>
   </tr>
   <tr>
@@ -72,21 +99,7 @@ Want to sponsor? Email [hello@obscura.sh](mailto:hello@obscura.sh).
     </td>
     <td valign="middle">
       🚀 <b>Obscura × Thordata</b><br>
-      Need more stable proxies for automation, public web scraping, SEO, or ad verification? Power your workflow with <a href="https://www.thordata.com/?ls=dob&lk=dob"><b>Thordata</b></a>.<br><br>
-      <b>🌍 Residential Proxies: 100M+ real residential IPs in 190+ countries<br>
-      ♾️ Unlimited Proxies: for heavy traffic and high concurrency<br>
-      ✨ Recently upgraded residential IP pool<br>
-      ✨ Unlimited Concurrent Sessions<br>
-      🔁 Rotating & Sticky Sessions<br>
-      📍 Flexible GEO targeting<br>
-      ⚡ Stable HTTP(S) connections<br><br>
-      🎁 Use code <b>obscura</b> for <b>10% off</b>.<br><br></b>
-      Get started with a 3-day free trial and test Thordata with your own workflow.
-    </td>
-  </tr>
- <tr>
-    <td width="200" align="center" valign="middle">
-      <a href="https://niuproxy.com/?utm_source=obscura&utm_medium=obscura&ref=obscura" 
+      Need more stable proxies for automation, public web scraping, SEO, or ad verificat
 
 ## installation
 
@@ -212,11 +225,10 @@ obscura fetch https://example.com --screenshot page.png
 
 # The screenshot flag also has a short form
 obscura fetch https://example.com -s page.png
-```
 
-## Rendering
+### Testing against localhost / LAN dev servers
 
-Official release archives and the Docker image include the rendering eng
+Obscura blocks fetches to private/interna
 
 ## tools
 

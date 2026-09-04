@@ -14,10 +14,7 @@ Convert documents to structured data effortlessly. Unstructured is open-source E
 
 5. **Describe what you need in plain language.** Tell the agent your intent (e.g. "parse and chunk this contract for a vector store") and Transform partitions, enriches, chunks, and embeds the file, returning structured data ready to use. 
 
-15,000 free pages a month, 3 cents per page after!
-
-📄 Full docs: https://docs.unstructured.io/transform/overview
-
+⚡ [Get Started for Free](https://transform.unstructured.io/?entry=cta)
 
 ## Unstructured Pipelines
 
@@ -70,4 +67,6 @@ make docker-build
 make docker-start-bash
 ```
 
-Once in the running container, you can try things directly in Python interpreter's int
+Once in the running container, you can try things directly in Python interpreter's interactive mode.
+```bash
+# this will drop you
