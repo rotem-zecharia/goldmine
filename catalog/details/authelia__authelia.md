@@ -1,12 +1,13 @@
 # authelia/authelia
 
-The Single Sign-On Multi-Factor portal for web apps, now OpenID Certified™
+The Single Sign-On Multi-Factor portal for web apps. OpenID Certified™ and Post-Quantum Cryptography Ready.
 
 ## features
 
 This is a list of the key features of Authelia:
 
 * [OpenID Connect 1.0 / OAuth 2.0](#openid-connect-10--oauth-20)
+* Post-Quantum Cryptography
 * Several second factor methods:
   * **[Security Keys](https://www.authelia.com/overview/authentication/security-key/)** that support
     [FIDO2]&nbsp;[WebAuthn] with devices like a [YubiKey].
@@ -67,8 +68,7 @@ Authelia works in combination with [nginx], [Traefik], [Caddy], [Skipper], [Envo
   <img src="https://www.authelia.com/images/logos/nginx.png" height="50"/>
   <img src="https://www.authelia.com/images/logos/traefik.png" height="50"/>
   <img src="https://www.authelia.com/images/logos/caddy.png" height="50"/>
-  <img src="https://www.authelia.com/images/logos/envoy.png" height="50"/>
-  <img
+  <img src="https://www.authelia.com/images/logos/env
 
 ## installation
 

@@ -11,7 +11,7 @@ Production-grade platform for building agentic IM bots - 生产级多平台智�
 - **Web Management Panel** — Configure, manage, and monitor your bots through an intuitive browser interface. No YAML editing required.
 - **Multi-Pipeline Architecture** — Different bots for different scenarios, with comprehensive monitoring and exception handling.
 
-[→ Learn more about all features](https://link.langbot.app/en/docs/features)
+[→ Learn more about all features](https://langbot.app/docs/en/insight/features)
 
 📍 Practical guides: [deploy a multi-platform AI bot in 5 minutes](https://langbot.app/en/blog/deploy-ai-bot-in-5-minutes/), [connect DeepSeek to WeChat, Discord, and Telegram](https://langbot.app/en/blog/connect-deepseek-to-wechat/), [run a Dify Agent in Discord, Telegram, and Slack](https://langbot.app/en/blog/dify-agent-discord-telegram-slack/), and [build an n8n-powered chatbot](https://langbot.app/en/blog/n8n-multi-platform-ai-chatbot/).
 
@@ -51,7 +51,7 @@ docker compose --profile all up -d
 [![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/en-US/templates/ZKTBDH)
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.app/template/yRrAyL?referralCode=vogKPF)
 
-**More options:** [Docker](https://link.langbot.app/en/docs/docker) · [Manual](https://link.langbot.app/en/docs/manual-deploy) · [BTPanel](https://link.langbot.app/en/docs/bt-panel) · [Kubernetes](https://docs.langbot.app/en/deploy/langbot/kubernetes)
+**More options:** [Docker](https://langbot.app/docs/en/deploy/langbot/docker) · [Manual](https://langbot.app/docs/en/deploy/langbot/manual) · [BTPanel](https://langbot.app/docs/en/deploy/langbot/one-click/bt) · [Kubernetes](https://langbot.app/docs/en/deploy/langbot/kubernetes)
 
 ---
 
@@ -103,4 +103,4 @@ _Note: Public demo environment. Do not enter sensitive information._
 | [MCP](https://modelcontextprotocol.io/)                                                                           | Protocol     | ✅     |
 | [SiliconFlow](https://siliconflow.cn/)                                                                            | Gateway      | ✅     |
 | [Aliyun Bailian](https://bailian.console.aliyun.com/)                                                             | Gateway      | ✅     |
-| [Volc Engine Ark](https://console.volcengine.com/ark/region:ark+cn-beijing/model?vendor=Bytedance&view=LIST_VIEW) | Ga
+| [Volc Engine Ark](https://console.volcengine.com/ark/region:ark+cn-beijing/model?vendor=Byt

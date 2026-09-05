@@ -16,12 +16,9 @@
 
 ## Contributing
 
-If you're interested in this project, we welcome your contributions. Our development follows this workflow:
-
-- **dev branch**: Latest development code, may contain features in progress
-- **main branch**: Stable release code, regularly merged from dev branch
-
-Please submit bug fixes and features to dev branch; for major new features or UI changes, please open an issue for discussion first. See [full contribution guide](./docs/user-docs/en/GUIDE.md#contributor-guide).
+Contributions through issues and pull requests are welcome. Read the Chinese
+[contribution guide](./CONTRIBUTING.md) for the development workflow and pull
+request requirements.
 
 ### AI Coding
 

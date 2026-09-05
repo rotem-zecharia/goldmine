@@ -91,15 +91,14 @@ Want to sponsor? Email [hello@obscura.sh](mailto:hello@obscura.sh).
       🎁 Use code <b>OBSCURA35</b> for a <b>35% recurring discount</b>.<br><br></b>
       Better proxies. Fewer blocks. More scalable automation.
     </td>
-    </tr>
+ <tr>
     <td width="200" align="center" valign="middle">
-      <a href="https://www.thordata.com/?ls=dob&lk=dob" target="_blank">
-        <img alt="Thordata" src="/assets/sponsors/thordatalogo.png" width="180"/>
+      <a href="https://niuproxy.com/?utm_source=obscura&utm_medium=obscura&ref=obscura" target="_blank">
+        <img alt="NiuProxy" src="assets/sponsors/niuproxlogo.png" width="180"/>
       </a>
     </td>
     <td valign="middle">
-      🚀 <b>Obscura × Thordata</b><br>
-      Need more stable proxies for automation, public web scraping, SEO, or ad verificat
+      <a href="https://niuproxy.com/?utm_source=obscura&utm_medium=obscura&ref=obscura"><b>NiuProxy<
 
 ## installation
 
