@@ -21,7 +21,7 @@ User: "Generate a Mem0 memory architecture diagram, dark style"
 <table>
   <tr>
     <td width="200" align="center"><a href="https://aigocode.app/invite/yizhiyanhua"><img src="assets/sponsors/aigocode.png" alt="AIGoCode" width="160" /></a></td>
-    <td>Thanks to <strong>AIGoCode</strong> for sponsoring this project! AIGoCode is an all-in-one platform that integrates Claude Code, Codex, and the latest Gemini models, providing you with stable, efficient, and highly cost-effective AI coding services. The platform offers flexible subscription plans, zero risk of account suspension, direct access with no VPN required, and lightning-fast responses. AIGoCode has prepared a special benefit for <strong>fireworks-tech-graph</strong> users: if you register via <a href="https://aigocode.app/invite/yizhiyanhua">this link</a>, you'll receive an extra <strong>10% bonus credit</strong> on your first top-up!</td>
+    <td>Thanks to <strong>AIGoCode</strong> for sponsoring this project! AIGoCode is an all-in-one platform that integrates Claude Code, Codex, and the latest Gemini models, providing you with stable, efficient, and highly cost-effective AI coding services. The sponsor advertises flexible subscriptions and direct access without a VPN; availability and account conditions follow its own service terms. AIGoCode has prepared a special benefit for <strong>fireworks-tech-graph</strong> users: if you register via <a href="https://aigocode.app/invite/yizhiyanhua">this link</a>, you'll receive an extra <strong>10% bonus credit</strong> on your first top-up!</td>
   </tr>
   <tr>
     <td width="200" align="center"><a href="https://go.apimart.ai/gh-fireworks-tech-graph"><img src="assets/sponsors/apimart.png" alt="APIMart" width="160" /></a></td>
@@ -51,7 +51,7 @@ If you are building agent infrastructure, AI IDEs, internal copilots, developer 
 
 ![Animated 12-style showcase — one distinct engineering scenario per style](assets/samples/showcase-12-styles.gif)
 
-The v1.2.0 overview above and every full-size animated sample below come from the approved regression set. Each style keeps a distinct scenario while sharing the same geometry, text-fi
+The v1.2.0 overview above and every full-size animated sample below come from the approved regression set. Each style keeps a distinct scenario while sharing the same geometry, text-fit, 
 
 ## installation
 
@@ -116,7 +116,7 @@ git -C ~/.local/share/agent-skills/fireworks-tech-graph pull
 
 After the first install, restart Codex and Claude Code so both discover the skill. Later `SKILL.md` edits are detected automatically; restart the runtime after changing bundled scripts or references if the update is not visible.
 
-The shell commands above target macOS, Linux, WSL, and Git Bash. On native Windows, use the equivalent `%USERPROFILE%\.agents\skills` and `%USERPROFILE%\.claude\skills` paths. Python 3.9+ is required; the optional Puppeteer path requires Node.js 18+.
+The shell commands above target macOS, Linux, WSL, and Git Bash. On native Windows, use the equivalent `%USERPROFILE%\.agents\skills` and `%USERPROFILE%\.claude\skills` paths. Python 3.9+ is required; the optional Puppeteer path requires Node.js 22.12+.
 
 ---
 
@@ -135,7 +135,7 @@ python3 "$SKILL_ROOT/scripts/fireworks.py" animate diagram.svg diagram.gif
 
 The HTML export is one offline file. It sanitizes the SVG, adds pan/zoom/reset, light and dark themes, SVG source copy, and SVG/PNG/JPEG/WebP downloads at 1×–4×.
 
-For motion, say **“Generate a GIF”**, **“Animate this diagram”**, `生成 GIF`, `制作 GIF`
+For motion, say **“Generate a GIF”**, **“Animate this diagram”**, `生成 GIF`, `制作 G
 
 ## requirements
 

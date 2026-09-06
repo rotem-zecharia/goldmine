@@ -64,6 +64,10 @@ codex plugin add claude-octopus@nyldn-plugins
 
 Restart Codex. Skills appear automatically — invoke with `$skill-doctor`, `$skill-debug`, etc.
 
+See [plugin compatibility](docs/PLUGIN-COMPATIBILITY.md) for invocation policy,
+hook trust, and the distinction between local Codex support and public-directory
+submission.
+
 Codex owns the versioned cache. To refresh an existing installation without
 editing cache files or symlinks directly, exit Codex and run these commands in
 a separate terminal:
@@ -87,10 +91,7 @@ Cursor uses Octopus as an **MCP server** (not a plugin — Cursor doesn't have C
 
 ```bash
 # 1. Clone the repo
-git clone --depth 1 https://github.com/nyldn/claude-octopus.git ~/.cursor/claude-octopus
-
-# 2. Install MCP server dependencies
-cd ~/.cursor/claude-octopus/mcp-server && npm install
+git clone --depth 1 https:
 
 ## configuration
 
@@ -103,7 +104,6 @@ cd ~/.cursor/claude-octopus/mcp-server && npm install
       "command": "npx",
       "args": ["tsx", "${userHome}/.cursor/claude-octopus/mcp-server/src/index.ts"],
       "env": {
-        "OCTO_CLAW_ENABLED": "true",
         "OPENAI_API_KEY": "${env:OPENAI_API_KEY}"
       }
     }

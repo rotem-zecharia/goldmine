@@ -30,7 +30,7 @@ codex plugin add waza@waza
 
 ## Chaining Skills
 
-Skills chain together, but every transition is a manual step you trigger. Each skill finishes its task and stops, waiting for you to decide what comes next.
+You decide how skills chain together. Each skill stops at the requested outcome; an explicitly authorized workflow continues without asking you to approve every transition.
 
 **Common workflows:**
 
@@ -92,5 +92,4 @@ Three independent toggles. Copy the ones you want (swap `claude-code` for `codex
   # Anti-patterns: always-on cross-skill guardrails (read before acting, no scope creep, no unsolicited summaries)
   bash "$WAZA_RULE_SCRIPT" anti-patterns claude-code
 
-  # Routing hint: tells non-Claude hosts to prefer Waza skills when a request matches their triggers
-  ba
+  # Routing hint: tells non-Claude hosts to prefer Waza skills when a request matches the

@@ -38,6 +38,7 @@ $ ./bin/yt-dlp \
   --prefer-free-formats \
   --add-header='user-agent:googlebot' \
   --add-header='referer:youtube.com' \
+  -- \
   'https://www.youtube.com/watch?v=6xKWiCMKKJg'
 ```
 

@@ -64,16 +64,19 @@ gdown "$url" -O "my_name.${filename##*.}"
 
 ```bash
 # Download an entire folder
-gdown https://drive.google.com/drive/folders/15uNXeRBIhVvZJIhL4yTw4IsStMhUaaxl -O /tmp/folder --folder
+gdown https://drive.google.com/drive/folders/15uNXeRBIhVvZJIhL4yTw4IsStMhUaaxl -O /tmp/folder
 
 # List folder contents as a JSON array (each entry has url and path)
-gdown https://drive.google.com/drive/folders/15uNXeRBIhVvZJIhL4yTw4IsStMhUaaxl --folder --json
+gdown https://drive.google.com/drive/folders/15uNXeRBIhVvZJIhL4yTw4IsStMhUaaxl --json
 
 # Filter by path and download matches
-gdown https://drive.google.com/drive/folders/15uNXeRBIhVvZJIhL4yTw4IsStMhUaaxl --folder --json \
+gdown https://drive.google.com/drive/folders/15uNXeRBIhVvZJIhL4yTw4IsStMhUaaxl --json \
   | jq -r '.[] | select(.path | test("shad")) | .url' \
   | xargs -n1 gdown
 ```
+
+Folder URLs are detected automatically. A bare folder ID still requires
+`--folder` because file and folder IDs have the same format.
 
 #### Google Docs, Sheets, Slides
 
@@ -106,7 +109,13 @@ gdown https://drive.google.com/uc?id=1l_5RK28JRL19wpT22B-DY9We3TVXnnQQ --proxy h
 # Skip TLS certificate verification
 gdown https://drive.google.com/uc?id=1l_5RK28JRL19wpT22B-DY9We3TVXnnQQ --no-check-certificate
 
-# Don't use cookies from ~/.cache/gdown/cookies.txt
+# Download as your signed-in Google account, reusing your browser's cookies
+gdown https://drive.google.com/uc?id=1l_5RK28JRL19wpT22B-DY9We3TVXnnQQ --cookies-from-browser firefox
+
+# Read and save cookies in a file other than ~/.cache/gdown/cookies.txt
+gdown https://drive.google.com/uc?id=1l_5RK28JRL19wpT22B-DY9We3TVXnnQQ --cookies ./cookies.txt
+
+# Don't read or save cookies
 gdown https://drive.google.com/uc?id=1l_5RK28JRL19wpT22B-DY9We3TVXnnQQ --no-cookies
 
 # Use a custom User-Agent
@@ -144,18 +153,4 @@ gdown.download(url=url, output="fcn8s_from_caffe.npz")
 gdown.download(id="0B9P1L--7Wd2vNm9zMTJWOGxobkU", output="output.npz")
 
 # Download from a share link
-url = "https://drive.google.com/file/d/0B9P1L--7Wd2vNm9zMTJWOGxobkU/view?usp=sharing"
-gdown.download(url=url, output="output.npz")
-
-# Download with hash verification and caching
-gdown.cached_download(
-    url=url,
-    path="output.npz",
-    hash="md5:fa837a88f0c40c513d975104edf3da17",
-    postprocess=gdown.extractall,
-)
-
-# Track download progress
-def on_progress(bytes_so_far: int, bytes_total: int | None) -> None:
-    if bytes_total is not None:
-        print(f"\r{bytes_so_far / bytes_total * 100:.1
+url = "https://drive.google.com/file/d/0B9P1L--7Wd2vNm9zMTJWOGxobkU/view?

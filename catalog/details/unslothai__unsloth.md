@@ -94,11 +94,11 @@ Use our [Docker image](https://hub.docker.com/r/unsloth/unsloth) ```unsloth/unsl
 ```bash
 docker run -d --gpus all --ipc=host \
   -p 8000:8000 -p 8888:8888 \
-  -e JUPYTER_PASSWORD="mypassword" \
+  -e UNSLOTH_STUDIO_PASSWORD="mypassword" -e JUPYTER_PASSWORD="mypassword" \
   -v "$PWD":/workspace/host \
   unsloth/unsloth
 ```
-Studio is at `http://localhost:8000`, JupyterLab at `http://localhost:8888`. Tags (`unsloth/unsloth:core` for notebooks only), GPU support and options: [Docker Hub](https://hub.docker.com/r/unsloth/unsloth).
+Follow startup with `docker logs -f`. Studio is at `http://localhost:8000` (user `unsloth`), JupyterLab at `http://localhost:8888`. Tags (`unsloth/unsloth:core` for notebooks only), GPU support and options: [Docker Hub](https://hub.docker.com/r/unsloth/unsloth).
 
 #### Remote HTTPS & LAN Access
 Server-side tools are on by default - so **be careful**! Keep your password safe, or use `--disable-tools` when exposing Unsloth.
@@ -153,6 +153,4 @@ To install Unsloth on **AMD** and **Intel** GPUs, follow our [AMD Guide](https:/
 Train for free with our notebooks.
 Read our [guide](https://unsloth.ai/docs/get-started/fine-tuning-llms-guide). Add dataset, run, then deploy your trained model.
 
-| Model | Free Notebooks | Performance | Memory use |
-|-----------|---------|--------|----------|
-| **Unsloth Studio**      | [▶️
+| Model | Free Notebooks | Perform

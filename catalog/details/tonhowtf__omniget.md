@@ -2,66 +2,141 @@
 
 Download Udemy and Hotmart courses, YouTube videos, music and books — 1,800+ sites, no terminal. Free open-source desktop app for Windows, macOS and Linux, with a built-in course player, PDF/EPUB read
 
+## features
+
+You bought a course and want it on your disk before the platform pulls it. You keep a yt-dlp cheat sheet because the flags never stick. You have one site for Instagram stories, another for X videos, a Chrome extension for Pinterest, a Python script for subtitles, and none of them remember your login.
+
+OmniGet puts all of that behind one text box. Paste a link, see a preview with quality options, click download. The same window then plays the course, reads the PDF, transcribes the audio and backs up the Pinterest board. yt-dlp and FFmpeg install themselves and stay updated, so there is nothing to configure and no terminal to open.
+
+<p align="center">
+  <img src="assets/readme/workflow.svg" alt="How OmniGet works: paste a link or press the hotkey, OmniGet detects the site and fetches with yt-dlp or a native extractor, the file lands in your folder and opens in the built-in player, reader or tools." width="100%" />
+</p>
+
+### How it compares
+
+| | OmniGet | yt-dlp alone | Single-site web downloaders | Paid course downloaders |
+|---|---|---|---|---|
+| Sites | Courses, Instagram, X, Pinterest, Bilibili, Telegram, torrents natively, plus 1,800+ through yt-dlp | 1,800+ | One | One or two platforms |
+| Setup | Download one file, open it | Python, PATH, FFmpeg, flags | None | Installer, license key |
+| Logged-in content | Cookies from your browser through the extension | Manual `--cookies` export | Rarely | Sometimes |
+| Queue | Resume, retry with backoff, rules, followed channels | One command at a time | No | Varies |
+| After the download | Player, reader, flashcards, notes, 108 tools | Files | Files, often re-encoded | Files |
+| Price and license | Free, GPL-3.0 | Free, Unlicense | Free with ads | Subscription |
+
+yt-dlp is the engine OmniGet runs on, and OmniGet would not exist without it. If you live in a terminal and only want files, yt-dlp alone is the right tool.
+
+---
+
 ## installation
 
-Pick your system, download the latest release, and open it. There is no installer to click through and no admin rights are needed.
+Pick your system. Every build is published on the [Releases page](https://github.com/tonhowtf/omniget/releases/latest). Updates arrive inside the app.
 
 <table>
   <tr>
-    <th>Platform</th>
-    <th>How to install</th>
+    <th align="left">System</th>
+    <th align="left">What to download</th>
+    <th align="left">Other ways</th>
   </tr>
   <tr>
-    <td><strong>Windows</strong></td>
-    <td>
-      <a href="https://github.com/tonhowtf/omniget/releases/latest"><img alt="Download OmniGet for Windows" src="https://img.shields.io/badge/Windows-Portable_EXE-0078D6?style=for-the-badge&logo=windows&logoColor=white" height="38"></a>
-      <br/>
-      <sub>Download the <code>.exe</code> from Releases and double click it. It is portable, so it runs from anywhere. There is also an <code>.msi</code> installer, and <code>winget install -e --id tonhowtf.OmniGet</code> if you prefer the command line.</sub>
-    </td>
+    <td><b>Windows 10 / 11</b></td>
+    <td><code>omniget_x.y.z_x64-setup.exe</code> (installer)<br/><code>omniget_x.y.z_x64-portable.exe</code> (no install, runs from anywhere)<br/><code>omniget_x.y.z_x64_en-US.msi</code> (for IT deployments)</td>
+    <td><code>winget install -e --id tonhowtf.OmniGet</code></td>
   </tr>
   <tr>
-    <td><strong>macOS</strong></td>
-    <td>
-      <a href="https://github.com/tonhowtf/omniget/releases/latest"><img alt="Download OmniGet for macOS" src="https://img.shields.io/badge/macOS-DMG-000000?style=for-the-badge&logo=apple&logoColor=white" height="38"></a>
-      <br/>
-      <sub>Open the <code>.dmg</code> and drag OmniGet into your Applications folder. Read the first launch note below.</sub>
-    </td>
+    <td><b>macOS 10.15+</b></td>
+    <td><code>omniget_x.y.z_aarch64.dmg</code> for Apple Silicon (M1 and later)<br/><code>omniget_x.y.z_x64.dmg</code> for Intel Macs</td>
+    <td><code>brew install --cask tonhowtf/tap/omniget</code></td>
   </tr>
   <tr>
-    <td><strong>Linux</strong></td>
-    <td>
-      <a href="https://github.com/tonhowtf/omniget/releases/latest"><img alt="Download OmniGet for Linux as deb, rpm or AppImage" src="https://img.shields.io/badge/Linux-deb_·_rpm_·_AppImage-FFAA33?style=for-the-badge&logo=linux&logoColor=white" height="38"></a>
-      <br/>
-      <sub>Debian and Ubuntu: download the <code>.deb</code>. Fedora and openSUSE: the <code>.rpm</code>. Everything else: the <code>.AppImage</code>. x86_64 and ARM64 builds are both published.</sub>
-    </td>
+    <td><b>Linux</b></td>
+    <td><code>.deb</code> for Debian and Ubuntu (amd64 and arm64)<br/><code>.rpm</code> for Fedora, openSUSE and RHEL family (x86_64 and aarch64)<br/><code>.AppImage</code> for everything else (amd64 and aarch64)</td>
+    <td>AppImage self-updates through the <code>.zsync</code> files</td>
   </tr>
 </table>
 
-<sub><strong>AppImage on Debian 12+ or Ubuntu 24.04+:</strong> those releases ship without FUSE 2, which AppImage needs. If <code>./omniget.AppImage</code> fails with a libfuse error, run <code>sudo apt install libfuse2</code>, or start it with <code>./omniget.AppImage --appimage-extract-and-run</code>. The <code>.deb</code> avoids this entirely.</sub>
+### The first launch warning, and how to clear it
 
-### ⚠️ Please read this before the first launch
+OmniGet is not signed with a paid certificate, so each system shows a warning the first time. This is normal for open source desktop apps and you handle it once.
 
-OmniGet is open source and is not signed with a paid certificate, so the first time you open it your system may warn you. This is expected, and the steps below clear it for good. Your files stay local either way.
+**Windows.** SmartScreen shows a blue box. Click **More info**, then **Run anyway**.
 
-**macOS (this is the big one, the app will not open on the first try).** macOS Gatekeeper blocks unsigned apps. After you move OmniGet to Applications, open Terminal and run these two lines:
+**macOS.** Gatekeeper refuses to open the app and may say it is "damaged". After you drag OmniGet into Applications, open Terminal (Spotlight, type "Terminal") and paste these two lines:
 
 ```bash
 xattr -cr /Applications/omniget.app
 codesign --force --deep --sign - /Applications/omniget.app
 ```
 
-Then open OmniGet normally. You only do this once.
+Then open OmniGet from Launchpad as usual.
 
-**Windows.** SmartScreen may show a blue warning on the first run. Click **More info**, then **Run anyway**. This is standard for open source apps without a paid code signing certificate.
+**Linux, AppImage on Debian 12+ or Ubuntu 24.04+.** Those releases ship without FUSE 2, which AppImage needs. If the file fails with a libfuse error, run `sudo apt install libfuse2`, or launch it with `./omniget.AppImage --appimage-extract-and-run`. The `.deb` avoids this entirely.
 
-### Portable mode, for a USB stick or a locked-down PC
+### Portable mode
 
-Create an empty file named `portable.txt` (or `.portable`) next to the `.exe` and relaunch. OmniGet then keeps settings, the database, cookies, plugins, caches, and the bundled yt-dlp and FFmpeg in a `data` folder beside the executable. Nothing is written to `AppData\Roaming` or any other user folder, so the whole install travels on the stick. Without that file, OmniGet uses the standard per-user data directory.
-
-Free and open source under GPL-3.0. Updates run quietly in the background. The bundled tools (yt-dlp and FFmpeg) install themselves, and yt-dlp is verified by SHA256 before it runs. Plugins install on first launch and update themselves too, with nothing for you to configure.
+Create an empty file named `portable.txt` (or `.portable`) next to the Windows `.exe` and relaunch. Settings, the database, cookies, plugins, caches, yt-dlp and FFmpeg all move to a `data` folder next to the executable. Nothing touches `AppData`, so the whole install fits on a USB stick.
 
 ---
 
-## One keypress, and it is downloading
+## Your first download in one minute
 
-This is the part people fall in love with. Copy any link, a YouTube video, a tweet, a Discord message, a track, a magnet, then press the global hotkey **`Ctrl+Shift+D`** (**`Cmd+Shift+D`** on macOS). OmniGet reads your clipboard and downloads it in the background. You do n
+1. Open OmniGet. The setup screen asks for your language and theme, then installs yt-dlp and FFmpeg with one click. yt-dlp is checked against its SHA-256 before it runs.
+2. Copy any link: a YouTube video, an Instagram reel, an X post, a Pinterest board, a magnet, a direct file URL.
+3. Paste it in the box on the home screen. OmniGet detects the site and shows the title, thumbnail and available qualities. Pick one and press Enter.
+
+The Downloads page shows speed, phase and ETA read straight from the downloader, so a stalled download looks stalled instead of frozen at "3 seconds left". Interrupted downloads resume where they stopped. Rate-limited sites get retried with backoff, and connections per site adapt on their own, so YouTube gets up to 16 parallel fragments while a site that answers 429 gets fewer. When a Python 3.10 or newer is present, yt-dlp runs as a zipapp on it and starts in under a second instead of unpacking the bundled binary on every launch.
+
+<p align="center">
+  <img src="assets/readme/downloads.png" alt="OmniGet Downloads page with an active 4K YouTube download showing phase, speed, ETA and the exact yt-dlp command, plus queued and finished items" width="900" />
+</p>
+
+### Skip the window entirely
+
+Copy a link anywhere on your system and press **Ctrl+Shift+D** (**Cmd+Shift+D** on macOS). OmniGet reads the clipboard and starts the download in the background. A second hotkey, **Ctrl+Shift+M**, grabs audio only, so a YouTube link becomes an MP3 without opening anything. It
+
+## tools
+
+Tools is the part of OmniGet that grew beyond downloading. Each tile is one job: an isolated Rust command with JSON in and JSON out, which is also what lets AI agents drive them through the built-in MCP server. The hub has a search box that understands English and Portuguese ("legenda" finds subtitle tools) and a platform filter, and tools that only run on Windows say so on the tile and stay hidden elsewhere.
+
+<p align="center">
+  <img src="assets/readme/tools.png" alt="OmniGet Tools hub with 16 categories: YouTube, Speech and subtitles, Video editing, Instagram, X, Pinterest, Spotify, PDF, Documents, Images, System, Files, Downloads, Automation, Phone and AI" width="900" />
+</p>
+
+Status legend: no mark means ready, **beta** means it works but has not been tested against every account type, **planned** means the tile exists so you can see where things are going and does nothing yet.
+
+<table>
+  <tr>
+    <td><img src="assets/readme/tools-instagram.png" alt="Instagram tools in OmniGet: download post, bulk download, reel audio, stories, highlights, story viewers, profile viewer, HD avatar, profile download, unfollowers, fans, mutuals, who unfollowed, ghost followers, whitelist, data export, analytics, compare profiles, hashtag explorer, comments, likers, giveaway picker, publish and schedule" /></td>
+    <td><img src="assets/readme/tools-x.png" alt="X / Twitter tools in OmniGet: download post, unroll thread, post to image, profile X-ray, profile media, advanced search, export bookmarks, who doesn't follow back, your X archive and Grok" /></td>
+  </tr>
+  <tr>
+    <td><img src="assets/readme/tools-pinterest.png" alt="Pinterest tools in OmniGet: download pin, board backup, profile backup, search without AI or ads, similar pins, find the source, duplicates, color palette, offline gallery and keyword ideas" /></td>
+    <td><img src="assets/readme/tools-speech.png" alt="Speech and subtitles tools in OmniGet: transcribe with whisper.cpp, text to speech, translate subtitles, dub from subtitles, and planned voice cloning, voice design, vocal isolation and dictation" /></td>
+  </tr>
+</table>
+
+### YouTube (11)
+
+- **Download video.** Paste a link and pick quality, format and subtitles. Same engine as the home screen.
+- **Metadata.** Save the info, description and thumbnail without the video.
+- **Thumbnails.** Browse every cover image and save it at any resolution.
+- **Subtitles.** Download subtitles, or merge two languages into one bilingual file.
+- **Comments and chapters.** Fetch comments or chapter markers, filter them, export JSON or CSV.
+- **Live chat.** Save the chat replay of a stream as JSON or CSV.
+- **Subtitle workshop.** Edit, translate and re-time SRT, VTT and ASS files with a waveform, two-point sync, find and replace, an auto fix, and AI grammar and translation.
+- **SponsorBlock.** See sponsor, intro and outro segments and get the yt-dlp flags to skip them.
+- **Dislikes.** Likes, dislikes and rating from Return YouTube Dislike.
+- **Real thumbnail.** The frames the CDN already has at 25, 50 and 75 percent, instead of the clickbait cover.
+- **Force H.264.** A switch in the browser extension that keeps YouTube on H.264 instead of VP9 and AV1, for machines that stutter on newer codecs.
+
+### Speech and subtitles (8)
+
+- **Transcribe.** Audio or video to subtitles with whisper.cpp, offline. Models download on demand, Metal acceleration on macOS.
+- **Text to speech.** Natural voices from Microsoft Edge, free, with a synced subtitle file.
+- **Translate subtitles.** Translate an SRT with your AI provider or a LibreTranslate server, keeping the timing.
+- **Dub from subtitles.** Turn an SRT into a voice track that fits each line and optionally replace the video's audio. *beta*
+- **Clone a voice**, **Design a voice** and **Isolate vocals** through a VoiceStudio install running on your machine. *beta*
+- **Dictation.** Press a global shortcut, speak, and whisper types the text where your cursor is. *beta*
+
+### Video editing (6)
+
+- **Cut a clip
