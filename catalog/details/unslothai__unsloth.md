@@ -90,7 +90,7 @@ unsloth studio --secure
 ```
 
 #### Docker
-Use our [Docker image](https://hub.docker.com/r/unsloth/unsloth) ```unsloth/unsloth``` (needs the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)). Run:
+Use our [Docker image](https://hub.docker.com/r/unsloth/unsloth) ```unsloth/unsloth```. On Linux, set up GPU access once with `curl -fsSL https://raw.githubusercontent.com/unslothai/unsloth/main/docker/install_nvidia_toolkit.sh -o install_nvidia_toolkit.sh && sudo -E bash install_nvidia_toolkit.sh` (Windows: Docker Desktop with WSL 2). Run:
 ```bash
 docker run -d --gpus all --ipc=host \
   -p 8000:8000 -p 8888:8888 \
@@ -151,6 +151,4 @@ To install Unsloth on **AMD** and **Intel** GPUs, follow our [AMD Guide](https:/
 ## 📒 Free Notebooks
 
 Train for free with our notebooks.
-Read our [guide](https://unsloth.ai/docs/get-started/fine-tuning-llms-guide). Add dataset, run, then deploy your trained model.
-
-| Model | Free Notebooks | Perform
+Read our [guide](https://unsloth.ai/docs/get-

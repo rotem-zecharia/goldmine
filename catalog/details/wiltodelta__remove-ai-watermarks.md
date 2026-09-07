@@ -44,6 +44,11 @@ remove-ai-watermarks classify image.png
 
 Guide: [photo pixel classification](docs/photo-classify.md).
 
+Signed provenance is the supported route for SynthID and `identify` reads it.
+There is no local SynthID pixel detector in the package. Research on a
+periodic lattice expert is in `scripts/synthid_runtime/` and
+[synthid-detector-research.md](docs/synthid-detector-research.md).
+
 For visible watermark removal, install the pixel dependencies:
 
 ```bash
@@ -110,12 +115,7 @@ Remove a supported visible video mark:
 remove-ai-watermarks video visible input.mp4 -o clean.mp4
 remove-ai-watermarks video visible veo.mp4 --mark veo -o veo_clean.mp4
 remove-ai-watermarks video visible seedance.mp4 --mark seedance -o seedance_clean.mp4
-remove-ai-watermarks video visible dola.mp4 --mark dola -o dola_clean.mp4
-remove-ai-watermarks video visible hailuo.mp4 --mark hailuo -o hailuo_clean.mp4
-remove-ai-watermarks video visible kling.mp4 --mark kling -o kling_clean.mp4
-```
-
-This path scans the complete sequence before chan
+remove-
 
 ## tools
 
@@ -235,7 +235,7 @@ generator para
   detail.
 - Visible video removal recognizes the moving Sora 2 wordmark, the current Veo
   diamond plus legacy `Veo` text, the Seedance boxed `AI` label, and the fixed
-  Dola, Hailuo AI, and Kling AI labels. It does not recognize the older Sora Turbo
+  Doubao, Dola, Hailuo AI, and Kling AI labels. It does not recognize the older Sora Turbo
   corner swirl or unregistered layouts from those providers.
   The classical OpenCV backend can smear structured backgrounds; use MI-GAN or
   LaMa when recovery quality matters.
@@ -275,8 +275,11 @@ reinterpret the pixel result returned `UNAVAILABLE`; that follow-up was not a
 verifier rerun and does not invalidate the built-in verdicts. A 2026-07-31
 full-clip check on a public eight-second Veo sample found `0.10` still detected
 and `0.15` not detected, so `0.15` is now the certified default. The
-reproducible hashes and verdicts live in
-`data/evaluations/video-synthid-oracle.csv`.
+reproducible hashes and verdicts for that full-clip check -- one carrier, two
+rows -- live in `data/evaluations/video-synthid-oracle.csv`. The earlier
+two-clip calibration is narrative only: its verdicts were not recorded in a
+tracked manifest, so treat the certified default as resting on the 2026-07-31
+rows.
 
 ## Documentation
 
@@ -290,6 +293,7 @@ Start with the [documentation index](docs/index.md).
 - [Scope, safety, and legal notes](docs/legal-and-safety.md)
 - [Module internals](docs/module-internals.md)
 - [Release and distribution](docs/release-and-distribution.md)
+- [Agent skill](docs/agent-skill.md)
 
 Research notes and historical experiments are listed separately in the
 [documentation index](docs/index.md). They explain past decisions but do not

@@ -120,6 +120,7 @@ uipro versions              # List available versions
 uipro update                # Refresh skill files from installed CLI package
 uipro update --global       # Refresh global skill files from installed CLI package
 uipro init --offline        # Compatibility flag; installs bundled templates
+uipro init --dry-run        # Preview install actions without writing files
 uipro uninstall             # Remove skill (auto-detect platform)
 uipro uninstall --ai claude # Remove specific platform
 uipro uninstall --global    # Remove from global install

@@ -158,33 +158,32 @@ relative links inside lesson docs.
 ░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒
 ```
 
+<a id="supporters"></a>
+
 ## Sponsor the work
 
-Free, MIT-licensed, 523 lessons. The curriculum is maintained through cash sponsorships
-and approved Hardware Lab Partners.
+Free, MIT-licensed, 523 lessons. Thank you to the sponsors and backers who make the work possible.
+[See all sponsors and backers](BACKERS.md).
 
-**Reach:** 114,584 monthly visitors · 181,995 page views (Vercel Web Analytics verified
-2026-08-29) · 50,728 GitHub stars (verified 2026-08-29).
+Want to support the work? See [sponsorship options](SPONSORS.md), including
+[hardware sponsorships](SPONSORS.md#hardware-lab-partner), or
+[sponsor on GitHub](https://github.com/sponsors/rohitg00).
 
-### Current sponsors
+```text
+░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒
+```
 
-| Sponsor | What they support |
-|---|---|
-| [CodeRabbit](https://coderabbit.link/rohit-ghumare) · [iii](https://iii.dev?utm_source=ai-engineering-from-scratch&utm_medium=readme&utm_campaign=sponsor) | Current sponsors supporting curriculum maintenance and open-source development. |
-| [![Vercel OSS Program](https://vercel.com/oss/program-badge-2026.svg)](https://vercel.com/open-source-program) | Open-source infrastructure support through the Vercel Open Source Program. |
+If this manual helped you, star the repo. It keeps the project alive.
 
-| Tier | $/mo | What you get |
-|------|------|---|
-| Backer | $25 | Name in BACKERS.md |
-| Bronze | $250 | Text-only row in README sponsor block + launch-day tweet |
-| Silver | $750 | Small logo in README + listed as one supported provider in API lessons |
-| Gold | $2,000 | Medium logo in README + sponsor page + quarterly X / LinkedIn co-feature |
-| Platinum | $5,000 | Hero logo above the fold + one dedicated integration lesson, max 1 partner |
-| Diamond / Title Partner | $10,000 | Sole title-partner placement + hero logo + quarterly reporting and co-feature, max 1 partner |
+## License
 
-Hardware manufacturers can support the course through the separate
-[Hardware Lab Partner policy](SPONSORS.md#hardware-lab-partner). Equipment is in-kind
-support and does not automatically grant a cash sponsorship tier.
+MIT. Use it however you want — fork it, teach it, sell it, ship it. Attribution appreciated,
+not required.
 
-Full rate card, hard rules, pricing anchors, and reach data: [SPONSORS.md](SPONSORS.md).
-Sign up via [GitHub Spon
+Maintained by [Rohit Ghumare](https://github.com/rohitg00) and the community.
+
+<sub>
+  <a href="https://x.com/ghumare64">@ghumare64</a> &nbsp;·&nbsp;
+  <a href="https://aiengineeringfromscratch.com">aiengineeringfromscratch.com</a> &nbsp;·&nbsp;
+  <a href="https://github.com/rohitg00/ai-engineering-from-scratch/issues/new/choose">Report / Suggest</a>
+</sub>
