@@ -89,6 +89,8 @@ Four strategies applied per command type:
 3. **Truncation** - Keeps relevant context, cuts redundancy
 4. **Deduplication** - Collapses repeated log lines with counts
 
+> **Does RTK break Claude's prompt cache?** No. RTK filters output once per command. The result is stored in history and cached normally on subsequent API calls, so the cache keeps working as expected. Smaller outputs also mean cheaper cache writes and reads. See [Troubleshooting](docs/guide/resources/troubleshooting.md#does-rtk-break-claudes-prompt-cache) for details.
+
 ## tools
 
 > Percentages below are **reductions in bash output**, not reductions in your bill. See [How Savings Work](#how-savings-work).
@@ -142,6 +144,8 @@ rtk test <cmd>                  # Generic test wrapper - failures only (-90%)
 ```bash
 rtk lint                        # ESLint grouped by rule/file
 rtk lint biome                  # Supports other linters
+rtk sqlfluff lint               # SQL linting (JSON, -75%)
+rtk sqlfluff lint models/       # Lint a specific directory (pass path after `lint`)
 rtk tsc                         # TypeScript errors grouped by file
 rtk next build                  # Next.js build compact
 rtk prettier --check .          # Files needing formatting
@@ -181,9 +185,7 @@ rtk deno check                   # Strip download lines + tee recovery
 ```bash
 rtk aws sts get-caller-identity # One-line identity
 rtk aws ec2 describe-instances  # Compact instance list
-rtk aws lambda list-functions   # Name/runtime/memory (strips secrets)
-rtk aws logs get-log-events     # Timestamped messages only
-rtk aws cloudformation describe-stack-events  # Fail
+rtk aws lambda list-functions   # Name/
 
 ## configuration
 

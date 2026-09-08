@@ -4,77 +4,45 @@ Enterprise-grade (40m+ LOC) codebase intelligence, zero-setup, local & private P
 
 ## installation
 
-> **Only [Docker](https://www.docker.com/products/docker-desktop/) (running) required.**
+> **Requirements:** [Node.js 18.17 or newer](https://nodejs.org/) with `npx` on `PATH`, plus [Docker](https://www.docker.com/products/docker-desktop/) running for the default local Qdrant and Ollama stack.
 
-**One-click install** — Claude Code, VS Code and Cursor:
+**Quick install guidance for Claude Code, VS Code, and Cursor:**
 
 [![Install Claude Code Plugin](https://img.shields.io/badge/Claude_Code-Install_Plugin-CC785C?style=flat-square&logoColor=white)](#claude-code-plugin-recommended-for-claude-code-users)
-[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=socraticode&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22socraticode%22%5D%7D) [![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_MCP_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=socraticode&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22socraticode%22%5D%7D&quality=insiders) [![Install in Cursor](https://img.shields.io/badge/Cursor-Install_MCP_Server-F14C28?style=flat-square&logo=cursor&logoColor=white)](cursor://anysphere.cursor-deeplink/mcp/install?name=socraticode&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsInNvY3JhdGljb2RlIl19) 
+[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://vscode.dev/redirect/mcp/install?name=socraticode&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22--prefer-online%22%2C%22socraticode%40latest%22%5D%7D) [![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_MCP_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=socraticode&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22--prefer-online%22%2C%22socraticode%40latest%22%5D%7D&quality=insiders) [![Install in Cursor](https://img.shields.io/badge/Cursor-Install_MCP_Server-F14C28?style=flat-square&logo=cursor&logoColor=white)](cursor://anysphere.cursor-deeplink/mcp/install?name=socraticode&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIi0tcHJlZmVyLW9ubGluZSIsInNvY3JhdGljb2RlQGxhdGVzdCJdfQ==)
 
-**All MCP hosts** — add the following to your `mcpServers` (Claude Desktop, Windsurf, Cline, Roo Code) or `servers` (VS Code project-local `.vscode/mcp.json`) config:
-
-```json
-"socraticode": {
-  "command": "npx",
-  "args": ["-y", "socraticode"]
-}
-```
-
-**Claude Code** — install the plugin (recommended, includes workflow skills for best results):
-
-From your shell:
-
-```bash
-claude plugin marketplace add giancarloerra/socraticode
-claude plugin install socraticode@socraticode
-```
-
-Or from within Claude Code:
-
-```
-/plugin marketplace add giancarloerra/socraticode
-/plugin install socraticode@socraticode
-```
-
-> **Auto-updates:** After installing, enable automatic updates by opening `/plugin` → Marketplaces → select `socraticode` → Enable auto-update.
-
-Or as MCP only (without skills):
-
-```bash
-claude mcp add socraticode -- npx -y socraticode
-```
-
-> **Updating:** `npx` caches the package after the first run. To get the latest version, clear the cache and restart your MCP host: `rm -rf ~/.npm/_npx && claude mcp restart socraticode`. Alternatively, use `npx -y socraticode@latest` in your config to always check for updates on startup (slightly slower).
-
-**OpenCode** — add to your `opencode.json` (or `opencode.jsonc`):
+**MCP hosts with a JSON `mcpServers` object** can use this complete configuration:
 
 ```json
 {
-  "mcp": {
+  "mcpServers": {
     "socraticode": {
-      "type": "local",
-      "command": ["npx", "-y", "socraticode"],
-      "enabled": true
+      "command": "npx",
+      "args": ["-y", "--prefer-online", "socraticode@latest"]
     }
   }
 }
 ```
 
-**OpenAI Codex CLI** — add to `~/.codex/config.toml`:
+Configuration schemas are host-specific. Continue, VS Code, Zed, OpenCode, Gemini CLI, Cline, and Roo Code have dedicated examples in [Plugins and host integrations](#plugins-and-host-integrations).
 
-```toml
-[mcp_servers.socraticode]
-command = "npx"
-args = ["-y", "socraticode"]
-```
+### Keeping SocratiCode up to date
 
-Restart your host. On first use SocratiCode automatically pulls Docker images, starts its own Qdrant and Ollama containers, and downloads the embedding model — one-time setup, ~5 minutes depending on your connection. After that, it starts in seconds.
+SocratiCode has two independent update paths. The **MCP engine** is the `socraticode` package published to npm. Every npm-backed configuration below uses `npx -y --prefer-online socraticode@latest`, which checks npm for the current `latest` release whenever the MCP server starts. A running server cannot replace itself, and a newly published version can only be downloaded while the npm registry is reachable, so restart or reconnect the server after a release.
 
-**First time on a project** — ask your AI: **"Index this codebase"**. Indexing runs in the background; ask **"What is the codebase index status?"** to monitor progress. Depending on codebase size and whether you're using GPU-accelerated Ollama or cloud embeddings, first-time indexing can take anywhere from a few seconds to a few minutes (it takes under 10 minutes to first-index +3 million lines of code on a Macbook Pro M4). Once complete it doesn't need to be run again, you can search, explore the dependency graph, and query context artifacts.
+Native plugins and extensions also contain **skills, instructions, manifests, or UI files**. Update those through the host as shown below, then start a new session so the new plugin files load. Direct MCP installations contain only the engine and do not install SocratiCode's plugin skills.
 
-**Every time after that** — just use the tools (search, graph, etc.). On server startup SocratiCode automatically detects previously indexed projects, restarts the file watcher, and runs an incremental update to catch any changes made while the server was down. If indexing was interrupted, it resumes automatically from the last checkpoint. You can also explicitly start or restart the watcher with `codebase_watch { action: "start" }`.
+| Integration | Update plugin, skills, and integration files |
+|:------------|:---------------------------------------------|
+| Claude Code plugin | Enable marketplace auto-update, or run `claude plugin marketplace update socraticode` followed by `claude plugin update --scope user socraticode@socraticode` |
+| OpenAI Codex plugin | Run `codex plugin marketplace upgrade socraticode`, then `codex plugin add socraticode@socraticode` and start a new task |
+| VS Code Agent Plugin | Leave `extensions.autoUpdate` enabled for daily checks, or run **Extensions: Check for Extension Updates**, then start a new Chat |
+| VS Code editor extension | Update it through the Extensions view or **Extensions: Check for Extension Updates**, then reload the window |
+| Cursor local plugin | Update to the latest GitHub release tag using the commands in the [Cursor section](#cursor), then reload Cursor |
+| Gemini CLI extension | Install with `--auto-update`, or run `gemini extensions update socraticode`, then restart Gemini |
+| Direct MCP only | No separate plugin files are installed; restart or reconnect the MCP server to resolve the current npm release |
 
-> **mac
+`@latest` refers to npm's published `latest` distribution tag; it does not refer to a Git branch. `--prefer-online` forces npm to check for updated package metadata even w
 
 ## features
 
@@ -119,7 +87,7 @@ On VS Code's 2.45M‑line codebase, SocratiCode answers architectural questions 
 | Dependency | Purpose | Install |
 |------------|---------|---------|
 | [Docker](https://www.docker.com/products/docker-desktop/) | Runs Qdrant (vector DB) and by default Ollama (embeddings) | [docker.com](https://www.docker.com/products/docker-desktop/) |
-| Node.js 18+ | Runs the MCP server | [nodejs.org](https://nodejs.org/) |
+| Node.js 18.17+ with `npx` on `PATH` | Runs the MCP server | [nodejs.org](https://nodejs.org/) |
 
 Docker must be **running** when you use the server in the default `managed` mode. 
 
@@ -187,17 +155,15 @@ User: "What does the server entry point actually do?"
           └── ...
 
 User: "Who calls bcryptCompare and what does it call?"
-→ codebase_symbol { name: "bcryptCompare"
+→ codebase_symbol
 
 ## configuration
 
-> All `env` options below apply equally to the `npx` install. Just add the `"env"` block to the npx config shown above.
-
-Add to your MCP settings - `mcpServers` (Claude Desktop, Windsurf, Cline, Roo Code) or `servers` (VS Code project-local `.vscode/mcp.json`):
+The examples below use the conventional JSON `mcpServers` shape to show SocratiCode settings. Apply the same command and environment values through the host-specific schema documented in [Plugins and host integrations](#plugins-and-host-integrations). Continue, Gemini CLI, VS Code, Zed, and OpenCode use different configuration paths or wrappers.
 
 #### Default (zero config, from source)
 
-> Using **npx**? Your config is already in [Quick Start](#quick-start). Add any `"env"` block from the examples below as needed.
+> Using **npx**? Replace the `node` command and source path below with `"command": "npx"` and `"args": ["-y", "--prefer-online", "socraticode@latest"]`.
 
 ```json
 {
@@ -320,12 +286,8 @@ or when you want a Mac/Windows-friendly desktop UI for managing GGUF models).
 > fails fast if either is missing.
 >
 > Optional: `LMSTUDIO_URL` (default `http://localhost:1234/v1`) for non-default ports;
-> `LMSTUDIO_API_KEY` if you've enabled API key auth in LM Studio.
-
-#### LiteLLM (proxy gateway, 100+ providers)
-
-[LiteLLM](https://docs.litellm.ai/docs/simple_proxy) Proxy Server exposes an OpenAI-compatible
-`/v1/embeddings` end
+> `LMSTUDIO_API_KEY` if you've enabled API key auth in LM Studio;
+> `LMSTUDIO_ALLOW_MISSING_MODEL_LISTING=true` for Op
 
 ## tools
 
@@ -357,7 +319,7 @@ Once connected, 21 tools are available to your AI assistant:
 | `codebase_graph_stats` | Get graph statistics (most connected files, orphans, language breakdown) |
 | `codebase_graph_circular` | Detect circular dependencies |
 | `codebase_graph_visualize` | Generate a Mermaid diagram (`mode=mermaid`, default) or an interactive HTML explorer (`mode=interactive`) of the dependency graph. Interactive mode writes a self-contained page (vendored Cytoscape.js + Dagre, works offline) and opens it in your default browser — file + symbol views, blast-radius overlay, live search, PNG export. |
-| `codebase_graph_status` | Check graph build progress or persisted graph metadata |
+| `codebase_graph_status` | Check graph build progress or persisted graph metadata (advises when few captured imports resolved, so a near-empty graph is not read as a healthy one, and names the version that built the graph so one left behind by an upgrade is not read as a resolver bug) |
 | `codebase_graph_remove` | Remove a project's persisted code graph (waits for in-flight graph build to finish first) |
 
 #### Impact Analysis (symbol-level call graph)
@@ -379,5 +341,4 @@ and methods call which. Use these tools BEFORE refactoring, renaming, or deletin
 Ask your AI *"show me an interactive graph of this project"* (or invoke `codebase_graph_visualize` with `mode: "interactive"`) and SocratiCode generates a self-contained HTML page and opens it in your default browser:
 
 - **File view** — every source file as a node, imports as edges, language-coloured, circular deps in red.
-- **Symbol view** — toggle to see functions/classes/methods as nodes with call edges (available when the symbol graph fits within the embed cap; above that threshold the file view remains and the banner points at `codebase_impact` for symbol-level queries).
-- **Sidebar** — click a node to see imports / dependents / symbols-in-file / line numbers, wit
+- **Symbol view** — toggle to see functions/classes/methods as nodes with call edges (available when the symbol graph fits within the embed cap; abo

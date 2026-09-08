@@ -118,12 +118,13 @@ await browser.disconnect();
 ```
 </details>
 
-### Agent mode
+#### Start a webdriver Bidi server
 
-`lightpanda agent` lets you drive the browser with a native agent. Describe what
-you want in plain English or with slash commands, and it controls the browser:
-navigating pages, clicking through flows, filling forms, extracting structured
-data. Think of it as 
+Use `--protocol webdriver` to enable Bidi support.
+You can start both, CDP and Bidi, with `--protocol webdriver --protocol cdp`
+
+```console
+./lightpanda serve --obey-robots --log-format pretty  --log-level info --host 127.0.0.1 --port 9222 
 
 ## requirements
 

@@ -1,12 +1,12 @@
 # code-yeongyu/oh-my-openagent
 
-OmO: Drop your tokens. Ultrawork. Done.
+OmO: Just type "mass ulw" keyword with your prompt. Now you are the master of graph engineering.
 
 ## installation
 
 oh-my-openagent ships in three editions of the same product: two plugins that load into a host you already run, plus one standalone edition.
 
-- **Ultimate Edition (omo for OpenCode)** — full omo. 11 agents, 54+ lifecycle hooks, 5 built-in MCPs, all slash commands, Team Mode, `/goal`, ultrawork — everything. Hashline edits are opt-in (`hashline_edit: true`).
+- **Ultimate Edition (omo for OpenCode)** — full omo. 11 agents, 54+ lifecycle hooks, 4 built-in MCPs (websearch, context7, grep_app, lsp), all slash commands, Team Mode, `/goal`, ultrawork — everything. Hashline edits are opt-in (`hashline_edit: true`).
 - **Light Edition (omo for Codex CLI)** — the portable components that fit Codex's plugin system: `rules`, `comment-checker`, `git-bash`, `lsp`, `ultrawork`, `ulw-loop`, `ulw-execute-continuation`, and `telemetry` at the core, plus `teammode` and supporting components (`bootstrap`, `lcx`, and more), plugin-scoped MCPs for `grep_app`, `context7`, `git_bash`, and `lsp`, and the shared `ast-grep` skill. It installs Codex agent TOMLs into `~/.codex/agents/`. No OpenCode `team_*` tools — Codex CLI's own spawn/collaboration surface does that work.
 - **Senpi Edition (standalone, beta)** — the native `omo` command with the OMO extension built in. It installs from `omo-ai@beta` rather than loading into OpenCode or Codex.
 
@@ -59,7 +59,7 @@ For the Light edition, Bun is not required. Use `npx lazycodex-ai install` from 
 Fetch the full guide and follow it step by step:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/code-yeongy
+curl -fsSL https://
 
 ## limitations
 
@@ -87,12 +87,12 @@ Even with only the following subscriptions, `ultrawork` works well (this project
 | :---: | :------------------------------------------------------- | :------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |   🤖   | **Discipline Agents**                                    | Ultimate | Sisyphus orchestrates Hephaestus, Oracle, Librarian, Explore. A full AI dev team in parallel.                                                                                                                    |
 |   🧩   | **Codex CLI Light Edition**                              | Light    | Portable OMO components (rules, comment-checker, git-bash, LSP, ultrawork, ulw-loop, ulw-execute continuation, telemetry, teammode, and more) running inside OpenAI Codex CLI. Install via `npx lazycodex-ai install`.             |
-|   👥   | **Team Mode** (v4.0, opt-in)                             | Ultimate | Lead agent + up to 8 parallel members, real-time tmux visualization, dedicated `team_*` tools. Powers `hyperplan` (5 hostile critics) and `security-research` (3 hunters + 2 PoC engineers). [Docs →](docs/guide/team-mode.md) |
+|   👥   | **Team Mode** (opt-in)                                   | Ultimate | Lead agent + up to 8 parallel members, real-time tmux visualization, dedicated `team_*` tools. Powers `hyperplan` (5 hostile critics) and `security-research` (3 hunters + 2 PoC engineers). [Docs →](docs/guide/team-mode.md) |
 |   ⚡   | **`ultrawork` / `ulw`**                                  | Both     | One word. Every agent activates. Doesn't stop until done.                                                                                                                                                        |
-|   🚪   | **[IntentGate](https://factory.ai/news/terminal-bench)** | Ultimate | Analyzes true user intent before classifying or acting. No more literal misinterpretations. (Light edition only recognises the `ultrawork`/`ulw` keyword.)                                                       |
+|   🚪   | **[IntentGate](https://factory.ai/news/terminal-bench)** | Ultimate | Keyword detection for `ultrawork`/`ulw`, `team`, and `hyperplan` (does not semantically classify intent). (Light edition only recognises the `ultrawork`/`ulw` keyword.)                                                       |
 |   🔗   | **Hash-Anchored Edit Tool**                              | Ultimate | Hashline (`LINE#ID`) edit/read tagging. Opt-in: set `hashline_edit: true` in `~/.omo/omo.jsonc`. Zero stale-line errors. Inspired by [oh-my-pi](https://github.com/can1357/oh-my-pi). [The Harness Problem →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
 |   🛠️   | **LSP integration**                                      | Both     | Diagnostics, navigation, symbols, workspace rename. IDE precision for agents. Same LSP MCP server in both editions.                                                                                              |
-|   🔎   | **AST-Grep**                                             |   Both   | Pattern-aware code search and rewriting across 25 languages. Ultimate uses the MCP tools; Light uses the shared `ast-gr
+|   🔎   | **AST-Grep**                                             |   Both   | Pattern-aware code search and rewriting across 25 languages. Both editions use the shared `ast-grep` skil
 
 ## tools
 
@@ -126,8 +126,6 @@ Inspired by [oh-my-pi](https://github.com/can1357/oh-my-pi), we built **Hashline
 ```
 
 The agent edits by referencing those tags. If the file has changed since the last read, the hash won't match and the edit is rejected before any corruption. No whitespace reproduction. No stale-line errors.
-
-Grok Code Fast 1: **6.7% → 68.3%** success rate, just from changing the edit tool.
 
 ### Deep Initialization. `/init-deep`
 
@@ -181,7 +179,7 @@ See full [Features Documentation](docs/reference/features.md).
 - **Hash-anchored Edit Tool** (opt-in via `hashline_edit: true`): `LINE#ID` references validate content before applying every change. Surgical edits, zero stale-line errors
 - **Context Injection**: Auto-inject AGENTS.md, README.md, conditional rules
 - **Claude Code Compatibility**: Full hook system, commands, skills, agents, MCPs
-- **Built-in MCPs**: websearch (Exa), context7 (docs), grep_app (GitHub search) — injected at runtime by the plugin; not visible in `opencode mcp list` (see [MCP docs](docs/reference/features.md#native-vs-plugin-injected-mcps))
+- **Built-in MCPs**: websearch (Exa), context7 (docs), grep_app (GitHub search), lsp — injected at runtime by the plugin; not visible in `opencode mcp list` (see [MCP docs](docs/reference/features.md#native-vs-plugin-injected-mcps))
 - **Session Tools**: List, read, search, and analyze session history
 - **Productivity Features**: Goal, Todo Enforcer, Comment Checker, Think Mode, and more
 - **Doctor Command**: Built-in diagnostics (`bunx oh-my-opencode doctor`) verify plugin registration, config, models, and environment
@@ -205,9 +203,9 @@ See [Configuration Documentation](docs/reference/configuration.md).
 - **Background Tasks**: Configure concurrency limits per provider/model
 - **Categories**: Domain-specific task delegation (`visual-engineering`, `ultrabrain`, `deep`, `artistry`, `quick`, `unspecified-low`, `unspecified-high`, `writing`, plus custom names)
 - **Hooks**: 54+ lifecycle hooks (61 with Team Mode), all configurable via `disabled_hooks`
-- **MCPs**: Built-in websearch (Exa), context7 (docs), grep_app (GitHub search) — runtime-injected, not shown in `opencode mcp list`
+- **MCPs**: Built-in websearch (Exa), context7 (docs), grep_app (GitHub search), lsp — runtime-injected, not shown in `opencode mcp list`
 - **LSP**: Full LSP support with refactoring tools
-- **Experimental**: Aggressive truncation, auto-resume, and more
+- **Experimental**: Aggressive truncation, preemptive compaction, and more
 
 
 ## Author's Note

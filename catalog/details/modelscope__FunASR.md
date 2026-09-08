@@ -88,11 +88,11 @@ model = AutoModelVLLM(model="FunAudioLLM/Fun-ASR-Nano-2512", tensor_parallel_siz
 results = model.generate(["audio1.wav", "audio2.wav"], language="auto")
 ```
 
-> **Deploy as API server:** `funasr-server --device cuda` → OpenAI-compatible endpoint at localhost:8000
+> **Deploy as API server:** [Local SenseVoice CPU recipe](#deploy) · [Nano GPU serving and pinned vLLM setup](./docs/vllm_guide.md)
 >
 > **Use with AI agents:** [MCP Server](examples/mcp_server/) for Claude/Cursor · [OpenAI API](examples/openai_api/) for LangChain/Dify/AutoGen
 >
-> **Use with voice agents:** [OpenClaw realtime plugin](integrations/openclaw/) for self-hosted Talk and V
+> **Use with voice agents:** [OpenClaw realtime plugin](integrations/openclaw/)
 
 ## features
 
