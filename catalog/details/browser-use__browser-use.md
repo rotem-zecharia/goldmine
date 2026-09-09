@@ -1,6 +1,6 @@
 # browser-use/browser-use
 
-🌐 Make websites accessible for AI agents. Automate tasks online with ease.
+Agents that use the browser.
 
 ## installation
 
