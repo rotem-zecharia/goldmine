@@ -4,6 +4,14 @@ Open-source speech recognition toolkit for training, inference, streaming ASR, V
 
 ## installation
 
+### Native Transformers
+
+For Fun-ASR-Nano transcription with the Hugging Face API, start with the [Transformers 5.17.0 CPU quickstart](./docs/transformers_native.md). No FunASR toolkit or remote Python code is needed.
+
+[Space](https://huggingface.co/spaces/FunAudioLLM/Fun-ASR-Nano) · [Notebook](https://colab.research.google.com/github/QwenAudio/Fun-ASR/blob/main/examples/colab/fun_asr_nano_transformers.ipynb) · [Python / batch examples](https://github.com/QwenAudio/Fun-ASR/tree/main/examples/transformers)
+
+### FunASR toolkit and pipelines
+
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/modelscope/FunASR/blob/main/examples/colab/funasr_quickstart.ipynb)
 
 No local setup? Open the [Colab quickstart](./examples/colab/) to transcribe a public sample or upload your own audio in a browser.
@@ -30,7 +38,7 @@ PY
 Only use `device="cuda"` when this prints `True`; otherwise use `device="cpu"`
 or reinstall PyTorch with the correct CUDA wheel.
 
-**Flagship model — Fun-ASR-Nano** (LLM-ASR for Chinese, English, and Japanese, plus Chinese dialect groups and regional accents; needs a GPU):
+**FunASR toolkit GPU example: Fun-ASR-Nano** (Chinese, English, Japanese, and Chinese dialect groups and regional accents; the separate native Transformers CPU path is linked above):
 
 ```python
 from funasr import AutoModel
@@ -81,18 +89,6 @@ verifying a compatible GPU environment as described above.
 
 At scale, accelerate Fun-ASR-Nano with vLLM (batch processing):
 
-```python
-from funasr.auto.auto_model_vllm import AutoModelVLLM
-
-model = AutoModelVLLM(model="FunAudioLLM/Fun-ASR-Nano-2512", tensor_parallel_size=1)
-results = model.generate(["audio1.wav", "audio2.wav"], language="auto")
-```
-
-> **Deploy as API server:** [Local SenseVoice CPU recipe](#deploy) · [Nano GPU serving and pinned vLLM setup](./docs/vllm_guide.md)
->
-> **Use with AI agents:** [MCP Server](examples/mcp_server/) for Claude/Cursor · [OpenAI API](examples/openai_api/) for LangChain/Dify/AutoGen
->
-> **Use with voice agents:** [OpenClaw realtime plugin](integrations/openclaw/)
 
 ## features
 

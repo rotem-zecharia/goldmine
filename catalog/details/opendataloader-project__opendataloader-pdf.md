@@ -145,9 +145,11 @@ Output in JSON:
 
 > Uses SmolVLM (256M), a lightweight vision model. Custom prompts supported via `--picture-description-prompt`.
 
-### Hancom Data Loader Integration — Coming Soon
+### Heading Hierarchy
 
-Enterprise-grade AI document analysis via [Hancom Data Loader](https://sdk.hancom.com/en/services/1?utm_source=github&utm_medium=readme&utm_campaign=opendataloader-pdf) — customer-customized models trained on your domain-specific do
+The layout model labels a region as a section header without a depth, so by default every
+heading comes back at level 1 and subsections sit at the same depth as the document title.
+Flat headings make it hard to tell a section title from a document title when 
 
 ## features
 
