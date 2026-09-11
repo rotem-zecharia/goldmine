@@ -85,14 +85,14 @@ Even with only the following subscriptions, `ultrawork` works well (this project
 
 |       | Feature                                                  | Edition  | What it does                                                                                                                                                                                                     |
 | :---: | :------------------------------------------------------- | :------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|   🤖   | **Discipline Agents**                                    | Ultimate | Sisyphus orchestrates Hephaestus, Oracle, Librarian, Explore. A full AI dev team in parallel.                                                                                                                    |
+|   🤖   | **Discipline Agents**                                    | Ultimate | The main agent orchestrates the architect consult, Librarian, Explore and category workers. A full AI dev team in parallel.                                                                                     |
 |   🧩   | **Codex CLI Light Edition**                              | Light    | Portable OMO components (rules, comment-checker, git-bash, LSP, ultrawork, ulw-loop, ulw-execute continuation, telemetry, teammode, and more) running inside OpenAI Codex CLI. Install via `npx lazycodex-ai install`.             |
 |   👥   | **Team Mode** (opt-in)                                   | Ultimate | Lead agent + up to 8 parallel members, real-time tmux visualization, dedicated `team_*` tools. Powers `hyperplan` (5 hostile critics) and `security-research` (3 hunters + 2 PoC engineers). [Docs →](docs/guide/team-mode.md) |
 |   ⚡   | **`ultrawork` / `ulw`**                                  | Both     | One word. Every agent activates. Doesn't stop until done.                                                                                                                                                        |
 |   🚪   | **[IntentGate](https://factory.ai/news/terminal-bench)** | Ultimate | Keyword detection for `ultrawork`/`ulw`, `team`, and `hyperplan` (does not semantically classify intent). (Light edition only recognises the `ultrawork`/`ulw` keyword.)                                                       |
 |   🔗   | **Hash-Anchored Edit Tool**                              | Ultimate | Hashline (`LINE#ID`) edit/read tagging. Opt-in: set `hashline_edit: true` in `~/.omo/omo.jsonc`. Zero stale-line errors. Inspired by [oh-my-pi](https://github.com/can1357/oh-my-pi). [The Harness Problem →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
 |   🛠️   | **LSP integration**                                      | Both     | Diagnostics, navigation, symbols, workspace rename. IDE precision for agents. Same LSP MCP server in both editions.                                                                                              |
-|   🔎   | **AST-Grep**                                             |   Both   | Pattern-aware code search and rewriting across 25 languages. Both editions use the shared `ast-grep` skil
+|   🔎   | **AST-Grep**                                             |   Both   | Pattern-aware code search and rewriting across 25 languages. Both editions use the shared `ast-grep` skill
 
 ## tools
 
@@ -142,11 +142,11 @@ project/
 
 Agents auto-read relevant context. Zero manual management.
 
-### Planning. Prometheus
+### Planning. The Ultrawork Planner
 
 Complex task? Don't prompt and pray.
 
-Prometheus **interviews you like a real engineer**, identifies scope and ambiguities, and writes a verified plan to `.omo/plans/` before touching code. `/ulw-execute` then starts an **Atlas** work session from that plan. The agent knows what it's building before it starts.
+The Ultrawork Planner (`/ulw-plan`) **interviews you like a real engineer**, identifies scope and ambiguities, and writes a verified plan to `.omo/plans/` before touching code. `/ulw-execute` then has the main agent execute that plan in the same session. The agent knows what it's building before it starts.
 
 ### Skills
 
@@ -173,7 +173,7 @@ Features you'll think should've always existed. Once you use them, you can't go 
 See full [Features Documentation](docs/reference/features.md).
 
 **Quick Overview:**
-- **Agents**: Sisyphus (the main agent), Prometheus (planner), Oracle (architecture/debugging), Librarian (docs/code search), Explore (fast codebase grep), Multimodal Looker
+- **Agents**: the main agent (orchestrator), the Ultrawork Planner (`/ulw-plan`), the architect consult (architecture/debugging), Librarian (docs/code search), Explore (fast codebase grep), Multimodal Looker
 - **Background Agents**: Run multiple agents in parallel like a real dev team
 - **LSP & AST Tools**: Refactoring, rename, diagnostics, AST-aware code search
 - **Hash-anchored Edit Tool** (opt-in via `hashline_edit: true`): `LINE#ID` references validate content before applying every change. Surgical edits, zero stale-line errors
@@ -199,7 +199,7 @@ See [Configuration Documentation](docs/reference/configuration.md).
 - **JSONC Support**: Comments and trailing commas supported
 - **Agents**: Override models, temperatures, prompts, and permissions for any agent
 - **Built-in Skills**: `playwright` (browser automation), `git-master` (atomic commits)
-- **Sisyphus Agent**: Main orchestrator with Prometheus (Planner) and Metis (Plan Consultant)
+- **Main Agent**: Orchestrator with the Ultrawork Planner (`/ulw-plan`) and the Plan Consultant
 - **Background Tasks**: Configure concurrency limits per provider/model
 - **Categories**: Domain-specific task delegation (`visual-engineering`, `ultrabrain`, `deep`, `artistry`, `quick`, `unspecified-low`, `unspecified-high`, `writing`, plus custom names)
 - **Hooks**: 54+ lifecycle hooks (61 with Team Mode), all configurable via `disabled_hooks`

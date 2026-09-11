@@ -4,33 +4,7 @@ The agent harness performance optimization system. Skills, instincts, memory, se
 
 ## installation
 
-Run the canonical guided setup from your terminal:
-
-```bash
-npx ecc-universal setup
-```
-
-If npm reports a version or cache error, confirm the registry version before retrying:
-
-```bash
-npm view ecc-universal version
-```
-
-This path requires Node.js 18 or newer, Git, and Claude Code 2.1 or newer on
-`PATH`. It safely installs, updates, or moves one `ecc@ecc` plugin scope and
-records the hook profile you choose.
-
-Alternatively, run Claude Code's native plugin commands inside Claude Code:
-
-```text
-/plugin marketplace add https://github.com/affaan-m/ECC
-/plugin install ecc@ecc
-```
-
-The native path installs ECC's skills, agents, commands, and plugin-managed hooks. If you choose it, stop there. Do not also run a full manual install into Claude Code.
-
-> Both paths install the same `ecc@ecc` plugin. Choose one and do not stack
-> another manual Claude install on top.
+Use the [guided setup](#install-ecc) or [native plugin commands](#claude-code-details). Both install the same `ecc@ecc` plugin. Choose one and do not stack a full manual Claude install on top.
 
 <div align="center">
 
@@ -78,17 +52,25 @@ The native path installs ECC's skills, agents, commands, and plugin-managed hook
 
 <sub><strong>Community sponsors:</strong> <a href="https://github.com/mikejmorgan-ai">Mike Morgan</a> · <a href="https://github.com/jasonwu513">@jasonwu513</a> · <a href="https://github.com/1anter">@1anter</a> · <a href="https://github.com/massimotodaro">@massimotodaro</a> · <a href="https://github.com/meadmccabe">@meadmccabe</a></sub>
 
-<sub><a href="https://github.com/sponsors/affaan-m"><strong>Become a Sponsor</strong></a> · <a href="SPONSORS.md">Sponsor Tiers<
+<sub><a href="https://github.com/sponsors/affaan-m"><strong>Become a Sponsor</strong></a> · <a href="SPONSORS.md">Sponsor Tiers</a> · <a href="SPONSORING.md">Sponsorship Program</a></sub>
 
-## tools
+</div>
 
-- **Python/Django support**: Django patterns, security, TDD, and verification skills
-- **Java Spring Boot skills**: Patterns, security, TDD, and verification for Spring Boot
-- **Session management**: `/sessions` command for session history
-- **Continuous learning v2**: Instinct-based learning with confidence scoring, import/export, evolution
+<p align="center"><a href="#install-ecc">Jump to install ↓</a></p>
 
-See the full changelog in [Releases](https://github.com/affaan-m/ECC/releases).
-</details>
+# ECC
+
+Your agent can write code, but ECC gives it a coordinated engineering system and toolbox: it plans before it builds, verifies changes with tests, reviews its own work from a fresh context, remembers what matters, and turns repeated wins into reusable skills and workflows.
+
+```text
+plan -> test -> implement -> review -> verify -> remember -> improve
+```
+
+Instead of rebuilding that process in every prompt, you install it once and make it part of how your agent works.
+
+> Optimize the context window. Persist everything else.
+
+ECC 
 
 ## features
 
@@ -132,8 +114,10 @@ Rules, skills, agents, and hooks solve different problems. Keeping those jobs se
 
 ECC's Memory Vault gives Claude, Codex, Hermes, OpenClaw, Kimi, and other harnesses one local, inspectable Markdown format for durable context and handoffs. Project and team memories live under `.ecc/memory/`; user memories live under `~/.ecc/memory/`.
 
+Skill-only, minimal, manual, and Claude plugin installs do not put the Memory Vault runtime on `PATH`. Install the npm runtime separately before using the CLI or optional MCP server:
+
 ```bash
-npm install -g ecc-universal
+npm install -g ecc-universal@2.2.1
 ecc memory init --scope project
 ecc memory search "authentication migration" --target-harness codex
 ecc memory doctor
@@ -148,125 +132,130 @@ Memory is unreviewed context, not executable policy. Verify important claims aga
 
 The Memory Vault stores portable `ecc.memory.v1` Markdown documents instead of copying vendor transcripts or emailing context between agents. Project memories are protected by a fail-closed `.gitignore`; use the team scope only for human-inspected, version-controlled sharing. Team memories remain unreviewed context even after they are committed.
 
-Skill-only, minimal, manual, and Claude plugin installs do not put the Memory Vault runtime on `PATH`. Install the npm runtime separately before using the CLI or optional MCP server:
+After installing the runtime above, check that the CLI and optional MCP entry point are available:
 
 ```bash
-npm install -g ecc-universal
 ecc memory --help
 command -v ecc-memory-mcp
 ```
 
 ```bash
 # Initialize the project vault.
-ecc memory init --scope project
-
-# Write a handoff body to a regular file, then
+ec
 
 ## configuration
 
-npx ecc-agentshield init
+export CLAUDE_PACKAGE_MANAGER=pnpm
+
+# Via global config
+node scripts/setup-package-manager.js --global pnpm
+
+# Via project config
+node scripts/setup-package-manager.js --project bun
+
+# Detect current setting
+node scripts/setup-package-manager.js --detect
 ```
 
-**What it scans:** CLAUDE.md, settings.json, MCP configs, hooks, agent definitions, and skills across 5 categories: secrets detection (14 patterns), permission auditing, hook injection analysis, MCP server risk profiling, and agent config review.
-
-**The `--opus` flag** runs three Claude Opus 4.6 agents in a red-team/blue-team/auditor pipeline. The attacker finds exploit chains, the defender evaluates protections, and the auditor synthesizes both into a prioritized risk assessment. Adversarial reasoning, not just pattern matching.
-
-**Output formats:** Terminal (color-graded A-F), JSON (CI pipelines), Markdown, HTML. Exit code 2 on critical findings for build gates.
-
-Use `/security-scan` in Claude Code to run it, or add to CI with the [GitHub Action](https://github.com/affaan-m/agentshield).
-
-[GitHub](https://github.com/affaan-m/agentshield) | [npm](https://www.npmjs.com/package/ecc-agentshield)
+Or use the `/setup-pm` command.
 </details>
 
 <details>
-<summary><strong>Continuous Learning v2: instincts</strong></summary>
+<summary><strong>Hook runtime controls (env vars)</strong></summary>
 
-The instinct-based learning system automatically learns your patterns:
+Use runtime flags to tune strictness or disable specific hooks temporarily:
 
 ```bash
-/instinct-status        # Show learned instincts with confidence
-/instinct-import <file> # Import instincts from others
-/instinct-export        # Export your instincts for sharing
-/evolve                 # Cluster related instincts into skills
+# Hook strictness profile (default: standard)
+export ECC_HOOK_PROFILE=standard
+
+# Comma-separated hook IDs to disable
+export ECC_DISABLED_HOOKS="pre:bash:tmux-reminder,post:edit:typecheck"
+
+# Cap SessionStart additional context (default: 8000 chars)
+export ECC_SESSION_START_MAX_CHARS=4000
+
+## tools
+
+export ECC_CONTEXT_MONITOR_COST_WARNINGS=off
 ```
 
-See `skills/continuous-learning-v2/` for full documentation. Keep `continuous-learning/` only when you explicitly want the legacy v1 Stop-hook learned-skill flow.
-</details>
+Windows PowerShell:
 
-## Key Concepts
+```powershell
+[Environment]::SetEnvironmentVariable('ECC_CONTEXT_MONITOR_COST_WARNINGS', 'off', 'User')
+[Environment]::SetEnvironmentVariable('ECC_SESSION_RETENTION_DAYS', '14', 'User')
+```
+</details>
 
 <details>
-<summary><strong>Agents, skills, hooks, and rules explained</strong></summary>
+<summary><strong>Agent data home (multi-harness isolation)</strong></summary>
 
-### Agents
+Memory persistence hooks (session summaries, learned skills, session aliases, metrics) store data under a single agent data root. By default that root is `~/.claude`. When you use ECC in both Claude Code and Cursor on the same machine, set a separate root for Cursor so the two environments do not overwrite each other's session files:
 
-Subagents handle delegated tasks with limited scope. Example:
-
-```markdown
----
-name: code-reviewer
-description: Reviews code for quality, security, and maintainability
-tools: Read, Grep, Glob, Bash
-model: opus
----
-
-You are a senior code reviewer...
+```bash
+# Cursor-only boundary (Claude Code keeps the default ~/.claude)
+export ECC_AGENT_DATA_HOME="$HOME/.cursor/ecc"
 ```
 
-### Skills
+Paths resolved under that root include:
 
-Skills are the primary workflow surface. They can be invoked directly, suggested automatically, and reused by agents. ECC still ships maintained `commands/` during migration, while retired short-name shims live under `legacy-command-shims/` for explicit opt-in only. New workflow development should land in `skills/` first.
+- `$ECC_AGENT_DATA_HOME/session-data/`: session summaries
+- `$ECC_AGENT_DATA_HOME/skills/learned/`: learned skills from evaluate-session
+- `$ECC_AGENT_DATA_HOME/session-aliases.json`: session aliases
+- `$ECC_AGENT_DATA_HOME/metrics/`: cost and activity metrics
 
-```markdown
-# TDD Workflow
-
-1. Define interfaces first
-2. Write failing tests (RED)
-3. Implement minimal code (GREEN)
-4. Refactor (IMPROVE)
-5. Verify 80%+ coverage
-```
-
-### Hooks
-
-Hooks fire on tool events. Example: warn about console.log:
-
-```json
-{
-  "matcher": "tool == \"Edit\" && tool_input.file_path matches \"\\\\.(ts|tsx|js|jsx)$\"",
-  "hooks": [{
-    "type": "command",
-    "command": "#!/bin/bash\ngrep -n 'console\\.log' \"$file_path\" && echo '[Hook] Remove console.log' >&2"
-  }]
-}
-```
-
-### Rules
-
-Rules are always-follow guidelines, organized into `common/` (language-agnostic) + language-specific directories:
-
-```
-rules/
-  common/          # Universal principles (always install)
-  typescript/      # TS/JS specific patterns and tools
-  python/          # Python specific patterns and tools
-  golang/          # Go specific patterns and tools
-  swift/           # Swift specific patterns and tools
-  php/             # PHP specific patterns and tools
-  arkts/           # HarmonyOS / ArkTS patterns and constraints
-```
-
-See [`rules/README.md`](rules/README.md) for installation and structure details.
+See [affaan-m/ECC#2065](https://github.com/affaan-m/ECC/issues/2065).
 </details>
 
-## Cross-Platform Support
+<details>
+<summary><strong>Cross-tool capability map and per-harness notes</strong></summary>
 
-ECC's core Node.js CLI and managed installers run on **Windows, macOS, and Linux**, but optional capabilities are not at full parity. Some continuous-learning, GAN, and orchestration paths still require Bash or Python; harnesses also expose different hook, agent, and skill APIs.
+### Cross-tool capability map
 
-| Platform | Status | Current limitation |
-|---|---|---|
-| Linux | Supported core | Optional features may require Bash, Python, or provider-specific tools. |
-| macOS | Supported core | The standalone GAN shell path is not compatible with the system Bash 3.2 and currently has a score-parsing defect ([#2674](https://git
+| Capability | Claude Code | Codex | Cursor | OpenCode | GitHub Copilot |
+|---|---|---|---|---|---|
+| Instructions | Native | Native `AGENTS.md` | Project rules | Plugin instructions | Native instruction file |
+| Skills | Native installed set | Native plugin set | Build-dependent/project set | Built subset | Prompt/instruction references only |
+| Agents/delegation | Native agents | Codex multi-agent roles; Claude agent files are not installed as roles | Build-dependent project agents | Plugin agents | Not supported |
+| ECC hooks | Native plugin hooks | Native reviewed subset with explicit trust | Cursor hook adapter; install-path differences remain | Plugin events | Not supported |
+| MCP configuration | Available, explicit activation | Native plugin manifest; legacy sync can merge TOML | Explicit project/user config | Provider/plugin config | Not supplied by ECC |
+| Parity with Claude Code | Primary reference | Partial | Partial | Partial | Not a parity target |
+
+**Key architectural decisions:**
+- **AGENTS.md** at root is the universal cross-tool file (read by Claude Code, Cursor, Codex, and OpenCode; GitHub Copilot uses `.github/copilot-instructions.md` instead)
+- **DRY adapter pattern** lets Cursor reuse Claude Code's hook scripts without duplication
+- **Skills format** (SKILL.md with YAML frontmatter) works across Claude Code, Codex, and OpenCode
+- Codex's narrower native hook set is supplemented by `AGENTS.md`, optional `model_instructions_file` overrides, and sandbox permissions
+
+<details>
+<summary><strong>Cursor IDE support in depth</strong></summary>
+
+ECC provides Cursor IDE support with hooks, rules, agents, skills, commands, and MCP configs adapted for Cursor's project layout.
+
+```bash
+# macOS/Linux
+./install.sh --target cursor typescript
+./install.sh --target cursor python golang swift php
+```
+
+```powershell
+# Windows PowerShell
+.\install.ps1 --target cursor typescript
+.\install.ps1 --target cursor python golang swift php
+```
+
+#### What's included for Cursor
+
+| Component | Count | Details |
+|-----------|-------|---------|
+| Hook Events | 15 | sessionStart, beforeShellExecution, afterFileEdit, beforeMCPExecution, beforeSubmitPrompt, and 10 more |
+| Hook Scripts | 16 | Thin Node.js scripts delegating to `scripts/hooks/` via shared adapter |
+| Rules | 34 | 9 common (alwaysApply) + 25 language-specific (TypeScript, Python, Go, Swift, PHP) |
+| Agents | 48 | `.cursor/agents/ecc-*.md` when installed; prefixed to avoid collisions with user or marketplace agents |
+| Skills | Shared + Bundled | `.cursor/skills/` for translated additions |
+| Commands | Shared | `.cursor/commands/` if installed |
+| MCP Config | Shared |
 
 ## requirements
 
@@ -305,10 +294,10 @@ Install ECC only from official sources:
 - GitHub App: <https://github.com/apps/ecc-tools>
 - Website: <https://ecc.tools>
 
-Scan a project with AgentShield:
+Scan a project with an already installed, reviewed AgentShield binary (see [runner provenance](#agentshield-runner-provenance)):
 
 ```bash
-npx -y ecc-agentshield scan --path .
+agentshield scan --path .
 ```
 
 - **Report a vulnerability.** Use the private process in [SECURITY.md](SECURITY.md) (GitHub private vulnerability reporting). Please do not open public issues for security reports.
@@ -334,23 +323,3 @@ Security references:
 - [Security guide](./the-security-guide.md)
 - [MCP connector policy](docs/MCP-CONNECTOR-POLICY.md)
 - [Supply-chain incident response](docs/security/supply-chain-incident-response.md)
-
-## Troubleshooting
-
-<details>
-<summary><strong>ECC appears twice or hooks fire twice</strong></summary>
-
-The usual cause is installing the Claude plugin and then running `./install.sh --profile full` on top of it.
-
-1. Remove the Claude Code plugin install.
-2. Run `node scripts/ecc.js uninstall --dry-run` from the ECC checkout.
-3. Remove extra rule folders you manually copied and no longer want.
-4. Reinstall once, using one path.
-
-For hook-specific checks, see the [hooks README](hooks/README.md).
-</details>
-
-<details>
-<summary><strong>My hooks aren't working / "Duplicate hooks file" errors</strong></summary>
-
-**Do NOT add a `"hooks"` field to `.claude-plugin/plugin.json`.** Claude Code v2.1+ automatically loads `hooks/hooks.json` from installed plugins. Explicitly declaring it causes duplicate detection errors. See [#29](https://github

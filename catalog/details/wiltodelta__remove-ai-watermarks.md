@@ -16,7 +16,7 @@ Remove visible and invisible AI watermarks and provenance metadata from images a
 | Every production feature available on the active Python | `remove-ai-watermarks[all]` |
 
 Lower-level and specialized extras include `pixels`, `heif`, `trustmark`,
-`migan`, `lama`, and `diffusion`. The
+`migan`, `lama`, `diffusion`, and `classify-onnx`. The
 [installation guide](docs/installation.md#feature-extras) documents their exact
 dependency composition, Python compatibility, and model requirements.
 
@@ -114,8 +114,7 @@ Remove a supported visible video mark:
 ```bash
 remove-ai-watermarks video visible input.mp4 -o clean.mp4
 remove-ai-watermarks video visible veo.mp4 --mark veo -o veo_clean.mp4
-remove-ai-watermarks video visible seedance.mp4 --mark seedance -o seedance_clean.mp4
-remove-
+remove-ai-watermarks video visible seedance.mp4 --mark seedance -o seedance_
 
 ## tools
 
