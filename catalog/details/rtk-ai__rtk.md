@@ -10,6 +10,14 @@ CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. S
 brew install rtk
 ```
 
+### winget (Windows)
+
+Easiest way to install on Windows — one command, no PATH setup needed:
+
+```powershell
+winget install rtk-ai.rtk
+```
+
 ### Quick Install (Linux/macOS)
 
 ```bash
@@ -89,7 +97,7 @@ Four strategies applied per command type:
 3. **Truncation** - Keeps relevant context, cuts redundancy
 4. **Deduplication** - Collapses repeated log lines with counts
 
-> **Does RTK break Claude's prompt cache?** No. RTK filters output once per command. The result is stored in history and cached normally on subsequent API calls, so the cache keeps working as expected. Smaller outputs also mean cheaper cache writes and reads. See [Troubleshooting](docs/guide/resources/troubleshooting.md#does-rtk-break-claudes-prompt-cache) for details.
+> **Does RTK break Claude's prompt cache?** No. RTK filters output once per command. The result is stored in history and cached normally on subsequent API calls, so the cache keeps working as expected. Smaller outputs also mean cheaper cache writes and reads. 
 
 ## tools
 

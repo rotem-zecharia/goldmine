@@ -1,6 +1,6 @@
 # langfuse/langfuse
 
-🪢 Open source AI engineering platform: LLM evals, observability, metrics, prompt management, playground, datasets. Integrates with OpenTelemetry, LangChain, OpenAI SDK, LiteLLM, and more. 🍊YC W23
+🪢 Open source agent evals & observability: Trace, evaluate, and improve LLM applications with one open platform.
 
 ## features
 
