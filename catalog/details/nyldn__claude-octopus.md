@@ -52,46 +52,36 @@ Safety guards that prevent invalid direct Codex, Qwen, or retired Gemini CLI
 dispatch remain available, but host-side command filters keep them out of
 unrelated tool calls.
 
-Claude Code **v2.1.14+** is the minimum supported runtime. Newer Claude Code releases unlock additional Octopus diagnostics and release checks automatically; the current plugin tracks 183 Claude Code capability flags through **Claude Code v2.1.219**.
+### Installation health
 
-<details>
-<summary>Install for Codex CLI</summary>
+Not sure which command to use? Run `/octo:guide` or `/octo:auto help` to browse
+the commands in your installed version. Neither starts a provider workflow.
+
+Octopus records non-secret install metadata for each host. Claude Code and
+Codex keep separate entries, so switching hosts or updating one cache does not
+make the other look current. SessionStart refreshes the active host entry when
+the loaded root, version, scope, or profile changes.
 
 ```bash
-codex plugin marketplace add https://github.com/nyldn/plugins.git
-codex plugin add claude-octopus@nyldn-plugins
+octopus capabilities --json    # provider readiness and supported interfaces
+octopus doctor installation    # loaded root, stable root, and saved metadata
+octopus cache-check --json     # active, newest, stale, and stable plugin roots
+octopus repair --dry-run       # explain a broken or stale stable link
+octopus repair --apply         # repair that link and refresh install metadata
+octopus security-audit --json  # offline checks of the installed plugin files
+octopus handoff export --json  # redacted checkpoint for another supported host
 ```
 
-Restart Codex. Skills appear automatically — invoke with `$skill-doctor`, `$skill-debug`, etc.
+`repair --apply` changes only the Octopus-owned stable plugin root and install
+metadata. On platforms without symlink support, the stable root contains
+generated wrappers for Octopus script entry points. Repair does not delete host
+caches. The security audit checks the plugin itself; use `/octo:security` when
+you want a multi-model review of your project.
 
-See [plugin compatibility](docs/PLUGIN-COMPATIBILITY.md) for invocation policy,
-hook trust, and the distinction between local Codex support and public-directory
-submission.
-
-Codex owns the versioned cache. To refresh an existing installation without
-editing cache files or symlinks directly, exit Codex and run these commands in
-a separate terminal:
-
-```bash
-codex plugin marketplace upgrade nyldn-plugins
-codex plugin add claude-octopus@nyldn-plugins
-```
-
-Restart Codex after the update. Replacing the cache from the session that is
-using it can leave hooks and skills bound to a removed version directory.
-
-</details>
-
-<details>
-<summary>Install for Cursor IDE</summary>
-
-Cursor uses Octopus as an **MCP server** (not a plugin — Cursor doesn't have Claude Code's plugin system). You get MCP tools like `octopus_discover`, `octopus_review`, etc. instead of `/octo:*` slash commands.
-
-> **Important:** Just cloning the repo is not enough. You must complete all three steps below — install dependencies and configure the MCP server — for Cursor to pick up Octopus tools.
-
-```bash
-# 1. Clone the repo
-git clone --depth 1 https:
+The `core` context profile keeps optional context hooks off. Use
+`octopus profile orchestration` to enable context reinforcement and post-tool
+coordination during active Octopus workflows, or `octopus profile full` to
+allow every profile-managed context hook. Profil
 
 ## configuration
 

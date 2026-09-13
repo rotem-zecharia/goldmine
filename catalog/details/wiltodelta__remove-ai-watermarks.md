@@ -84,6 +84,8 @@ inspection includes the native TC260 `AIGC` tag in
 `moov.udta.meta.keys/ilst`, including a `moov` placed after the media payload,
 plus the QuickTime-form `meta` variants Doubao's iOS export writes (a bare
 `meta` box as a direct `moov` child, and a keyless `hdlr=mdir` metadata list).
+Keyed `workflow` and `prompt` entries in the same metadata-list structure are
+also detected and removed, including ComfyUI exports.
 MKV and WebM inspection reads the normative
 `Segment.Tags.Tag.SimpleTag` placement. AVI uses `LIST/INFO/AIGC`, while FLV
 uses `script.onMetaData.AIGC`. The non-ISOBMFF formats are remuxed with stream
@@ -113,8 +115,7 @@ Remove a supported visible video mark:
 
 ```bash
 remove-ai-watermarks video visible input.mp4 -o clean.mp4
-remove-ai-watermarks video visible veo.mp4 --mark veo -o veo_clean.mp4
-remove-ai-watermarks video visible seedance.mp4 --mark seedance -o seedance_
+remove-ai-water
 
 ## tools
 

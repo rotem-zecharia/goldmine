@@ -13,7 +13,7 @@
 - :battery: Support for [Model Context Protocol (MCP)](https://codecompanion.olimorris.dev/model-context-protocol#model-context-protocol-mcp-support)
 - :rocket: [Inline transformations](https://codecompanion.olimorris.dev/usage/inline.html), code creation and refactoring
 - :art: [Editor Context](https://codecompanion.olimorris.dev/usage/chat-buffer/editor-context.html), [Slash Commands](https://codecompanion.olimorris.dev/usage/chat-buffer/slash-commands.html), [Agents/Tools](https://codecompanion.olimorris.dev/usage/chat-buffer/agents-tools) and [Workflows](https://codecompanion.olimorris.dev/usage/workflows.html) to improve LLM output
-- :brain: Support for [rules](https://codecompanion.olimorris.dev/usage/chat-buffer/rules.html) files like `CLAUDE.md`, `.cursor/rules` and your own custom ones
+- :brain: Support for [skills](https://codecompanion.olimorris.dev/usage/chat-buffer/skills) and [rules](https://codecompanion.olimorris.dev/usage/chat-buffer/rules.html) (like `CLAUDE.md`, `.cursor/rules` and your own custom ones)
 - :sparkles: Built-in [prompt library](https://codecompanion.olimorris.dev/usage/action-palette.html) for common tasks like advice on LSP errors and code explanations
 - :building_construction: Create your own [custom prompts](https://codecompanion.olimorris.dev/configuration/prompt-library.html#creating-prompts), Editor Context and Slash Commands
 - :inbox_tray: Have [multiple chats](https://codecompanion.olimorris.dev/usage/introduction.html#quickly-accessing-a-chat-buffer) open at the same time
@@ -31,11 +31,13 @@
   </p>
   <p>
     <h3><a href="https://github.com/user-attachments/assets/362b7cfd-e794-4d9c-9a74-90d5e2a87a32">Tools + Agentic Workflows</a></h3>
-    <video controls muted src="https://github.com/user-attachments/asset
+ 
 
 ## installation
 
 Everything you need to know about CodeCompanion (installation, configuration and usage) is within the [docs](https://codecompanion.olimorris.dev).
+
+You can use the [@{search_help}](https://codecompanion.olimorris.dev/usage/chat-buffer/agents-tools#search-help) tool to ask an LLM to search the CodeCompanion docs for you.
 
 ## :toolbox: Troubleshooting
 
