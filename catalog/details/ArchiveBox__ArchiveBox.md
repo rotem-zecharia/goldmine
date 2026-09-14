@@ -275,7 +275,7 @@ archivebox manage createsuperuser
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Publishing-Your-Archive">Wiki: Publishing Your Archive</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview">Wiki: Security Overview</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Chromium-Install#setting-up-a-chromium-user-profile">Wiki: Chromium Install (Setting Up a User Profile)</a></li>
-<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Personas">Wiki: Personas (browser profiles and cookies)</a></li>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Chromium-Install#import-an-existing-browser-profile">Wiki: Chrome profiles and cookies</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Configuration#default_persona">Wiki: Configuration (<code>DEFAULT_PERSONA</code>)</a></li>
 </ul>
 
@@ -310,4 +310,4 @@ archivebox config --set SERVER_SECURITY_MODE=safe-onedomain-nojsreplay
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview">Wiki: Security Overview</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/issues/239">ArchiveBox Github Issue: #239</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/security/advisories/GHSA-cr45-98w9-gwqx">Security Advisory: <code>CVE-2023-45815</code></a></li>
-<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview#publishing">Wiki: Security Overview (Publishing)
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview#publishing">Wiki:

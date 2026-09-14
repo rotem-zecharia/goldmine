@@ -41,83 +41,6 @@ decision_id = graph.record_decision(
     confidence=0.93,
 )
 
-## configuration
-
-```
-
-<div align="center">
-
-If Semantica solves a real problem for you, a star helps others find it.
-
-**[⭐ Star on GitHub](https://github.com/semantica-agi/semantica)** &nbsp;·&nbsp; **[Join Discord](https://discord.gg/sV34vps5hH)**
-
-</div>
-
----
-
-## Architecture
-
-Semantica is a real end-to-end pipeline, not a single library with a marketing name. Every stage below is a shipping module, independently importable:
-
-```
-Sources → Ingest → Parse → Normalize → Split → Extract → Conflict Detection → Deduplication
-   → Knowledge Graph → [ Ontology · Reasoning · Provenance · Decisions ] → Enriched KG
-   → Vector Store + Polyglot Graph Store (RDF & LPG) → Export / Visualize / REST · MCP · CLI
-```
-
-- **Ingest:** files, web, databases, enterprise data platforms (Databricks, Snowflake), cloud (Google Drive, Elasticsearch), streams (Kafka, Kinesis), Git, email, MCP
-- **Parse → Normalize → Split:** document parsing, text/entity/date normalization, GraphRAG-native entity-aware chunking
-- **Extract → Conflict Detection → Deduplication:** NER, relations, events, triplets; conflicting facts flagged and resolved before they merge
-- **Knowledge Graph:** `GraphBuilder` constructs the graph; bi-temporal facts and full graph analytics (centrality, communities, link prediction) run on top of it
-- **Ontology · Reasoning · Provenance · Decisions:** the intelligence layer sitting on the KG, with SHACL/OWL governance, Rete/Datalog/SPARQL inference, W3C PROV-O lineage, and first-class decision records
-- **Storage:** polyglot by design, with RDF triple stores (embedded Oxigraph, Blazegraph, Apache Jena, Eclipse RDF4J), Labeled Property Graphs (Neo4j, FalkorDB, Apache AGE, AWS Neptune), and vector stores, all swappable without touching your code
-- **Outputs:** export (RDF, OWL, Parquet, Cypher, JSON-LD), interactive visualization, and access via REST API, MCP server, or CLI
-
-**→ [Full Mermaid diagrams for the pipeline and the decision intelligence lifecycle](ARCHITECTURE.md)**
-
----
-
-## Decision Intelligence
-
-Decision Intelligence turns every AI choice from an ephemeral inference into a permanent, auditable, queryable record. It answers *"what did your AI decide, why, and what happened next?"*: the question regulators and enterprise risk teams ask with increasing urgency.
-
-In Semantica, a decision is not a log line. It is a first-class graph node with a full lifecycle. In regulated domains, every AI decision must be traceable to a source and defensible to an auditor: `record_decision()` creates a permanent, structured record exportable as W3C PROV-O, the format most compliance frameworks accept for regulator submission.
-
-```
-record_decision()             → stored as a graph node with full structured context
-add_causal_relationship()     → linked to upstream causes and downstream effects
-find_similar_decisions()      → semantic precedent search across all past decisions
-trace_decision_chain()        → full causal ancestry back to root causes
-analyze_decision_impact()     → downstream influence map - everything this decision affected
-check_decision_rules()        → policy compliance gate against configurable rule sets
-export / audit trail          → W3C PROV-O, CSV, or JSON for regulator submission
-```
-
-```python
-from semantica.context import ContextGraph
-
-graph = ContextGraph(advanced_analytics=True)
-
-# Record decisions with full structured context
-app_id = graph.record_decision(
-    category="credit_application",
-    scenario="Personal loan, $85k income, 31% DTI, 3yr employment",
-    reasoning="Income meets threshold; employment stable; no adverse credit events",
-    outcome="proceed_to_underwriting",
-    confidence=0.88,
-    metadata={"applicant_id": "A-7291"},
-)
-uw_id = graph.record_decision(
-    category="loan_underwriting",
-    scenario="Underwriting review for A-7291",
-    reasoning="DTI within policy; clean 36-month credit history",
-    outcome="approved",
-    confidence=0.94,
-)
-rate_id = graph.record_decision(
-    category="interest_rate",
-    scenario=
-
 ## tools
 
 vs  = VectorStore(backend="faiss")
@@ -132,7 +55,7 @@ retrieved = ctx.retrieve("who approved the Acme contract?")
 
 ## Recipe: Audit Trail for a Regulated Decision
 
-The flagship pattern: record a causally-linked decision chain, attach provenance to every entity, and export a regulator-ready audit trail.
+One pattern built on the same Context Graph: record a causally-linked decision chain, attach provenance to every entity, and export a regulator-ready audit trail.
 
 ```python
 from semantica.context import ContextGraph
@@ -175,7 +98,7 @@ Every module below is independently importable, with working code samples verifi
 
 | Module | What it does |
 | --- | --- |
-| [`semantica.ingest`](#semanticaingest-multi-source-ingestion) | Files, web, databases, APIs, streams, email, Git, Parquet, Databricks, Snowflake, MCP |
+| [`semantica.ingest`](#semanticaingest-multi-source-ingestion) | Files, web, databases, APIs, streams, email, Git, Parquet, Databricks, Snowflake, SAP, MCP |
 | [`semantica.semantic_extract`](#semanticasemantic_extract-ner-relations-events-triplets) | NER, relation extraction, event detection, triplet generation |
 | [`semantica.kg`](#semanticakg-knowledge-graph-construction--analysis) | Graph construction, centrality, communities, link prediction |
 | [`semantica.reasoning`](#semanticareasoning-forward-chaining-rete-datalog-sparql) | Forward chaining, Rete, Datalog, SPARQL, fully explainable |
@@ -185,4 +108,4 @@ Every module below is independently importable, with working code samples verifi
 | [`semantica.ontology`](#semanticaontology-owl-generation-shacl-validation) | OWL generation, SHACL validation, SKOS vocabularies |
 | [`semantica.conflicts`](#semanticaconflicts-conflict-detection--resolution) | Detect and resolve conflicting facts across sources |
 | [`semantica.deduplication`](#semanticadeduplication-entity-resolution-at-scale) | Entity resolution at scale |
-| [`semantica.normalize`](#semanticanormalize-data-normalization--cleaning) | Text, entity, date, and number normali
+| [`semantica.normalize`](#semanticanormalize-data-normalization--cleaning) | Text, enti

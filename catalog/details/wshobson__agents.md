@@ -1,6 +1,6 @@
 # wshobson/agents
 
-Multi-harness agentic plugin marketplace for Claude Code, Codex, Cursor, OpenCode, GitHub Copilot, and Google Antigravity
+Multi-harness agentic plugin marketplace for Claude Code, Codex, Cursor, OpenCode, GitHub Copilot, Google Antigravity, and Pi
 
 ## installation
 
@@ -10,12 +10,12 @@ Pick your harness:
 
 ```bash
 /plugin marketplace add wshobson/agents
-/plugin install python-development          # or any of 92 plugins
+/plugin install python-development          # or any of 94 plugins
 ```
 
 [→ Full Claude Code setup, troubleshooting, and plugin catalog](docs/usage.md)
 
-### Codex CLI · Cursor · OpenCode · Antigravity CLI · Copilot
+### Codex CLI · Cursor · OpenCode · Antigravity CLI · Copilot · Pi
 
 Codex and Cursor install natively from the committed registries (which point at the source `plugins/`):
 
@@ -24,12 +24,23 @@ npx codex-marketplace add wshobson/agents        # Codex; then install individua
 # Cursor: add the marketplace, then `/plugin install <name>` (reads .cursor-plugin/ + source)
 ```
 
-Antigravity and OpenCode install via clone + generate (the transformed trees are gitignored):
+Antigravity, OpenCode, and Pi install via clone + generate (the transformed trees are gitignored):
 
 ```bash
 gh repo clone wshobson/agents ~/agents && cd ~/agents
 make generate HARNESS=antigravity && make install-antigravity  # Antigravity (agy)
 make install-opencode                                          # OpenCode (runs generate + symlinks)
+make generate HARNESS=pi && make install-pi                    # Pi
+```
+
+### Skills only: `gh skill` · `npx skills`
+
+Both Agent Skills installers read `plugins/*/skills/` straight from GitHub, into whichever agent you use. No clone, no marketplace, no generate step. Skills only: no agents, commands, or hooks.
+
+```bash
+gh skill install wshobson/agents                                 # browse, then pick a skill or --all
+gh skill install wshobson/agents python-testing-patterns --agent claude-code
+npx skills add wshobson/agents --skill python-testing-patterns   # add -a claude-code, -g for user scope
 ```
 
 Setup details and per-harness gotchas: [docs/harnesses.md](docs/harnesses.md).
@@ -38,9 +49,9 @@ Setup details and per-harness gotchas: [docs/harnesses.md](docs/harnesses.md).
 
 | | Count | What it is |
 |---|---:|---|
-| **Plugins** | 92 | Granular, single-purpose installable units (91 local + 1 external via git-subdir) |
+| **Plugins** | 94 | Granular, single-purpose installable units (92 local + 2 external via git-subdir) |
 | **Agents** | 202 | Domain experts (architecture, languages, infra, security, data, ML, docs, business, SEO) |
-| **Skills** | 181 | Modular knowledge packages with progressive disclosure (load when activated) |
+| **Skills** | 183 | Modular knowledge packages with progressive disclosure (load when activated) |
 | **Commands** | 105 | Slash commands: scaffolding, security scans, test gen, infrastructure setup |
 | **Orchestrators** | 16 | Multi-agent coordination workflows (full-stack, security, ML, incident response) |
 
@@ -74,18 +85,11 @@ Tiered model strategy:
 
 ## Multi-harness support
 
-This marketplace ships to five agentic harnesses from one Markdown source. Each adapter
+This marketplace ships to seven agentic harnesses from one Markdown source. Each adapter
 emits harness-native artifacts (not lowest-common-denominator translations):
 
 | Harness | Generates | Notes |
 |---|---|---|
 | **Claude Code** | (source-of-truth) | Native `marketplace.json` + `plugins/` |
 | **Codex CLI** | `.agents/plugins/marketplace.json` + `plugins/*/.codex-plugin/plugin.json` (committed); `.codex/skills/`, `.codex/agents/` (gitignored) | 8 KB skill cap respected; commands → skills |
-| **Cursor** | `.cursor-plugin/`, `.cursor/rules/` | Thin marketplace + curated rules; reuses `.claude/` |
-| **OpenCode** | `.opencode/agents/`, `.opencode/commands/`, `.opencode/skills/` | `permission:` block from `tools:` allowlist; OpenCode-safe skill names |
-| **Antigravity CLI** | `.antigravity/plugins/<p>/{skills/,agents/,commands/}` | Self-contained agy plugin per source plugin; model tier alias (`inherit`/`flash`/`pro`) |
-| **Copilot** | `.copilot/agents/`, `.copilot/skills/`, `.copilot/commands/` | Markdown agent profiles + SKILL.md skills + commands-as-skills; model maps to native Claude models |
-
-```bash
-make generate-all                        # all five
-make validate                      
+| **Cursor** | `.cursor-plugin/`, `.cursor/rules/` | Thin marketplace + curated rules; reuses `

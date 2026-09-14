@@ -6,11 +6,11 @@
 
 - 🚀 Out of the box, automatic language recognition
 - 🖱️ Auto select with mouse and shortcut key
-- 📸 OCR screenshot translation and slient screenshot OCR
+- 📸 OCR screenshot translation and silent screenshot OCR
 - 🔊 Multiple TTS voice services
-- 📚 Support 🍎 [Apple System Dictionary](./docs/user-docs/en/How-to-use-macOS-system-dictionary-in-Easydict.md) and [System Translation](./docs/user-docs/en/How-to-use-macOS-system-translation-in-Easydict.md)
-- 🌐 Support 20+ translation services (OpenAI, Gemini, DeepL, Google, Ollama, Groq, etc.)
-- 🗣️ Support for 48 languages
+- 📚 Support 🍎 [Apple Dictionary](./docs/user-docs/en/How-to-use-macOS-system-dictionary-in-Easydict.md) and [Apple Translate](./docs/user-docs/en/How-to-use-macOS-system-translation-in-Easydict.md)
+- 🌐 Support 20+ dictionary, translation, AI, local-model, and CLI services
+- 🗣️ Support 52 selectable translation languages
 
 **If you like this app, please consider giving it a [Star](https://github.com/tisfeng/Easydict) ⭐️, thanks! (^-^)**
 
@@ -63,11 +63,12 @@ brew install --cask easydict
 
 ## Documentation
 
-- 📚 [Public Documentation Index](./docs/user-docs/README.md) - English and Chinese guides
 - 📖 [Complete Usage Guide](./docs/user-docs/en/GUIDE.md) - Detailed features, configuration and tips
+- 🌐 [Services Overview](./docs/user-docs/en/SERVICES.md) - Complete service list and access requirements
 - 🔧 [Developer Build Guide](./docs/user-docs/en/GUIDE.md#developer-build) - Build and run from source code
-- 🍎 [How to use macOS System Dictionary](./docs/user-docs/en/How-to-use-macOS-system-dictionary-in-Easydict.md)
-- 🍎 [How to use macOS System Translation](./docs/user-docs/en/How-to-use-macOS-system-translation-in-Easydict.md)
+- 🍎 [How to use Apple Dictionary](./docs/user-docs/en/How-to-use-macOS-system-dictionary-in-Easydict.md)
+- 📚 [How to use MDict](./docs/user-docs/en/How-to-use-MDict-in-Easydict.md)
+- 🍎 [How to use Apple Translate](./docs/user-docs/en/How-to-use-macOS-system-translation-in-Easydict.md)
 - 🌍 [How to translate Easydict](./docs/user-docs/en/How-to-translate-Easydict.md)
 
 ---
@@ -80,8 +81,4 @@ brew install --cask easydict
 
 ## Statement
 
-Easydict is licensed under the [GPL-3.0](https://github.com/tisfeng/Easydict/blob/main/LICENSE) open source license, which is for learning and communication only. Anyone can get this product and source code for free. If you believe that your legal rights have been violated, please contact the [author](https://github.com/tisfeng) immediately. You can use the source code freely, but you must attach the corresponding license and copyright.
-
-## Sponsor
-
-Easydict is a free
+Easydict is licensed under the [GPL-3.0](https://github.com/tisfeng/Easydict/blob/main/LICENSE) open source license, which is for learning and communication only. Anyone can get this product and source code for free. If you believe that your legal rights have been violated, please contact the [author](https://github.com/tisfeng) immediately. You can use the source code freely, but you must atta
