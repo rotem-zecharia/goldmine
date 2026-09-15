@@ -223,8 +223,7 @@ Playwright MCP server supports following arguments. They can be provided in the 
 | --grant-permissions <permissions...> | List of permissions to grant to the browser context, for example "geolocation", "clipboard-read", "clipboard-write".<br>*env* `PLAYWRIGHT_MCP_GRANT_PERMISSIONS` |
 | --headless | run browser in headless mode, headed by default<br>*env* `PLAYWRIGHT_MCP_HEADLESS` |
 | --host <host> | host to bind server to. Default is localhost. Use 0.0.0.0 to bind to all interfaces.<br>*env* `PLAYWRIGHT_MCP_HOST` |
-| --ignore-https-errors | ignore https errors<br>*env* `PLAYWRIGHT_MCP_IGNORE_HTTPS_ERRORS` |
-| --init-page <path...> | path to TypeScript file to evaluate on Playw
+| --idle-timeout <timeout> | close the browser after this many milliseconds without a completed tool call, the next tool call relaunches it. Defaults to one hour fo
 
 ## tools
 
@@ -262,7 +261,7 @@ Playwright MCP server supports following arguments. They can be provided in the 
   - Parameters:
     - `level` (string): Level of the console messages to return. Each level includes the messages of more severe levels. Defaults to "info".
     - `all` (boolean, optional): Return all console messages since the beginning of the session, not just since the last navigation. Defaults to false.
-    - `filename` (string, optional): Filename to save the console messages to. If not provided, messages are returned as text.
+    - `filename` (string, optional): File name to save the console messages to. Relative file names are resolved against the workspace root. If not provided, messages are returned as text.
   - Read-only: **true**
 
 <!-- NOTE: This has been generated via update-readme.js -->
@@ -298,13 +297,11 @@ Playwright MCP server supports following arguments. They can be provided in the 
     - `element` (string, optional): Human-readable element description used to obtain permission to interact with the element
     - `target` (string, optional): Exact target element reference from the page snapshot, or a unique element selector
     - `function` (string): () => { /* code */ } or (element) => { /* code */ } when element is provided
-    - `filename` (string, optional): Filename to save the result to. If not provided, result is returned as text.
+    - `filename` (string, optional): File name to save the result to. Relative file names are resolved against the workspace root. If not provided, result is returned as text.
   - Read-only: **false**
 
 <!-- NOTE: This has been generated via update-readme.js -->
 
 - **browser_file_upload**
   - Title: Upload files
-  - Description: Upload one or multiple files
-  - Parameters:
-    - `paths` (array, optional): The absolute paths to the files t
+  - 

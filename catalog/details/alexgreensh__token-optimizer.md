@@ -17,6 +17,19 @@ Then in Claude Code: `/token-optimizer`
 >
 > After install, run `/token-optimizer` once to set up hooks. From there, everything runs automatically: compression, checkpoints, quality scoring, dashboard updates. You don't need to run any command again unless you want an audit.
 
+> **Claude Code cloud sessions (claude.ai/code).** A cloud session runs in a fresh container and never reads the plugins installed on your machine, so the two commands above are not enough there (`/plugin` itself is not available in cloud sessions). Either enable Token Optimizer for your claude.ai account (Desktop app → **Customize** → plugins), or commit this to the repo's `.claude/settings.json` so every cloud session on that repo installs it at start:
+>
+> ```json
+> {
+>   "extraKnownMarketplaces": {
+>     "alexgreensh-token-optimizer": { "source": { "source": "github", "repo": "alexgreensh/token-optimizer" } }
+>   },
+>   "enabledPlugins": { "token-optimizer@alexgreensh-token-optimizer": true }
+> }
+> ```
+>
+> Hooks, compression and redaction behave the same inside the container. Each cloud session starts with an empty state directory, so the dashboard and audit history there cover that session only.
+
 <details>
 <summary><b>Other platforms and install methods</b></summary>
 
@@ -53,6 +66,30 @@ bash install.sh --copilot
 ```
 See [`docs/copilot.md`](docs/copilot.md).
 
+**Cursor:**
+```bash
+git clone --depth 1 https://github.com/alexgreensh/token-optimizer.git
+cd token-optimizer
+bash install.sh --cursor
+```
+See [`docs/cursor.md`](docs/cursor.md).
+
+**Google Antigravity:**
+```bash
+git clone --depth 1 https://github.com/alexgreensh/token-optimizer.git
+cd token-optimizer
+bash install.sh --antigravity
+```
+See [`docs/antigravity.md`](docs/antigravity.md).
+
+**Grok Build (beta, contract-only):**
+```bash
+git clone --depth 1 https://github.com/alexgreensh/token-optimizer.git
+cd token-optimizer
+bash install.sh --grok
+```
+See [`docs/grok.md`](docs/grok.md).
+
 **macOS/Linux script install (alternative to plugin):**
 ```bash
 tmp="$(mktemp -d)"
@@ -65,86 +102,57 @@ rm -rf "$tmp"
 
 **Windows users:** Use the plugin install only. Do not run `install.sh` on Windows. If you hit `EBUSY` errors, close all Claude Code and Git Bash windows, kill lingering `git.exe` processes, delete `C:\Users\<you>\.claude\token-optimizer` and `C:\Users\<you>\.claude\plugins\marketplaces\alexgreensh-token-optimizer`, then retry.
 
-**If `install.sh` fails with `$'\r': command not found`** (a clone made before LF line endings were enforced converted the script to CRLF), strip the carriage returns once and re-run — the repo now ships a `.gitattributes` that prevents this on fresh clones:
-```bash
-sed -i 's/\r$//' ~/.claude/token-optimizer/install.sh
-# already have the repo? re-normalize line endings in place:
-git -C ~/.claude/token-optimizer add --renormalize . && git -C ~/.claude/token-optimizer checkout -- .
-```
-
-</details>
-
-<details>
-<summary>Uninstall</summary>
-
-Token Optimizer is additive and reversible. Every runtime has a clean uninstall
-that removes only what we installed, leaving your own hooks, config, and session
-data intact. Full per-runtime steps live in **[docs/uninstall.md](docs/uninstall.md)**.
-
-Quickest path (Claude Code plugin install):
-
-```
-/plugin uninstall token-optimizer@alexgreensh-token-optimizer
-```
-
-</details>
-
-## What You Get
-
-**Runs automatically, every session, you do nothing:**
-
-- 🔄 **Smart Compaction**: checkpoints before auto-compact, restores after
-- 🗄️ **Session Continuity**: cross-session hints, cold-resume, checkpoint scoring
-- 📦 **Active Compression**: 9 features, all on by default (delta diffs, skeletons, bash/search compression, lean-output nudges, quality nudges, loop detection, activity mode, decision extraction)
-- 📊 **Quality Scoring**: 7 signals, real-time, letter grades S–F
-- 🗃️ **Session Database**: SQLite, 15 tables, full audit trail, zero network
-- 🔍 **Progressive Disclosure**: large outputs archived, expand on 
+**If `install.sh` fails with `$'\r': command not fou
 
 ## tools
 
-<details>
-<summary><b>Show all commands</b></summary>
+[filters.exclude]
+commands = ["git status", "ls -la"]
+```
 
-| Command | What it does | Docs |
-|---|---|---|
-| `/token-optimizer` | Full audit with 6 parallel agents, guided fixes | [→](https://alexgreensh.github.io/token-optimizer/start/quickstart/) |
-| `/token-coach` | 30-day trend analysis, prioritized fixes | [→](https://alexgreensh.github.io/token-optimizer/features/token-coach/) |
-| `quick` | 10-second health check | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `doctor` | Installation check, score out of 10 | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `dashboard` | Open the HTML dashboard | [→](https://alexgreensh.github.io/token-optimizer/features/dashboard/) |
-| `savings` | Dollar savings report | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `report` | Per-component token breakdown | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `quality` | Context-quality analysis of live session | [→](https://alexgreensh.github.io/token-optimizer/features/quality-signals/) |
-| `trends` | Skill adoption, model mix, overhead over time | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `compression-stats` | Measured savings from active compression | [→](https://alexgreensh.github.io/token-optimizer/features/active-compression/) |
-| `memory-review` | MEMORY.md structural audit | [→](https://alexgreensh.github.io/token-optimizer/features/memory-health/) |
-| `git-context` | Suggest files for your current diff | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `drift` | Side-by-side comparison vs your last snapshot | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `conversation` | Per-message token and cost breakdown | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `pricing-tier` | View or switch pricing tiers | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `expand` | Retrieve an archived tool result (progressive disclosure) | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
-| `resume-lean` | Reopen a cold session with token-free reconstruction | [→](https://alexgreensh.github.io/token-optimizer/reference/cli/) |
+Safety is immutable: the loader rejects `add` entries that name a shell
+interpreter (`bash`, `python`, `node`, ...), a privilege-escalation wrapper
+(`sudo`, `su`, `doas`), a destructive write subcommand (`rm`, `chmod`, `dd`,
+...), or any command containing shell metacharacters (`;`, `|`, `$`, ...).
+Categorical exclusions (dangerous chars, git write subcommands, interpreters)
+are enforced in the hook and dispatch code and cannot be overridden by user
+config. Built-in detection always runs first, so a user `add` only extends
+the set, never replaces a built-in handler for the same command.
 
-[Full CLI reference →](https://alexgreensh.github.io/token-optimizer/reference/cli/)
+### Search Result Compression
 
-</details>
+When the AI runs grep, rg, or web searches that return long result lists, the output is condensed to the top hits plus a count. A 500-line grep result becomes 20 lines plus a summary.
 
-## License
+Disable: `TOKEN_OPTIMIZER_BASH_COMPRESS=0` (search compression is part of bash compression; it has no separate switch)
 
-**PolyForm Noncommercial 1.0.0**. Source-available. Personal, research, educational, and non-commercial use requires no license purchase.
+### Lean-Output Nudges
 
-### Personal / hobby / research / education?
-Go for it. Full source, runs locally, no license purchase needed.
+When context fills past 25%, a short nudge tells the model to reason deeply but keep visible output lean. Fill is the only condition — quality no longer gates it, so an ordinary healthy session gets the nudge too, not just a long degraded one. The saving is **estimated at 10-15%, not measured**: the counterfactual (what the model would have written without the nudge) cannot be observed, so Token Optimizer reports this in the estimated tier and never folds it into metered savings. Cache-safe: injected as `additionalContext`, never modifies the existing prefix.
 
-### Small team (under 5 people OR under $20k/month revenue)?
-Small teams get a no-cost commercial license automatically. Just use it.
+No on/off switch today (not a `v5` feature). Tune the trigger point with `TOKEN_OPTIMIZER_VERBOSITY_MIN_FILL` (default `25`).
 
-### Started personal, now it's turning into a business?
-Your past use is totally fine. The license has a built-in 32-day grace period after any written notice. Reach out for a commercial license when you're ready.
+### Quality Nudges
 
-### Larger company / commercial use?
-Contact [Alex Greenshpun](https://linkedin.com/in/alexgreensh) or me@alexgreenshpun.com.
+Watches context quality in real time. When the score drops more than 15 points or crosses below 60, an inline note enters the context. Claude sees it on the next turn and surfaces the warning or adjusts behavior. Cooldown of 5 minutes, max 3 per session.
 
----
+Disable: `TOKEN_OPTIMIZER_QUALITY_NUDGES=0`
 
-Created by [Alex Greenshpun](https://linkedin.com/in/alexgreensh).
+### Loop Detection
+
+Catches the AI getting stuck on a retry loop. Compares the last 4 user messages and last 5 tool results for similarity. Fires at confidence ≥0.7, session cap of 2 notes. Savings measured from actual loop turn content.
+
+Also catches the edit-compile-fail cycle: when the same command fails 3 times in a row with different output, a nudge suggests changing approach instead of re-running. Tunable with `TOKEN_OPTIMIZER_FAIL_STREAK_THRESHOLD` (default `3`).
+
+Also catches inline-script repeats: when a command with a heredoc body >= 300 chars has been run 8 times in a session, a nudge suggests saving the script to a file and running that instead, so the body is not re-sent as input tokens every turn. Tunable with `TOKEN_OPTIMIZER_INLINE_SCRIPT_THRESHOLD` (default `8`).
+
+Disable: `TOKEN_OPTIMIZER_LOOP_DETECTION=0`
+
+### UserPromptSubmit Hook
+
+Every prompt fires the `UserPromptSubmit` hook, which runs the per-turn work: prompt-continuity hint, verbosity steer, quality-cache warn tick, and (in harness/container/Cowork contexts) the once-per-session ensure-health, forced cache warm, and compact-restore pointer. These six subcommands share one `measure.py` import inside a single dispatcher (`hooks/userpromptsubmit_runner.py`), so one prompt spawns three processes, not eighteen. The dispatcher uses one shared deadline (18s, 2s margin under the 20s hooks.json timeout) with fair-share budgeting across subcommands, and buffers all stdout through a single emitter for controlled, host-consumable output.
+
+Disable the entire `UserPromptSubmit` path: `TOKEN_OPTIMIZER_HOOKS_USERPROMPTSUBMIT=0`. Checked before `measure.py` is imported, so the opt-out costs zero per prompt. The other hook events (PreToolUse, PostToolUse, SessionStart, Stop, etc.) are unaffected.
+
+### Activity Mode Detection
+
+Classifies your session into one of five modes (code, debug, review, infra, general) using the last 10 tool calls. The mode feeds into compaction guidance 

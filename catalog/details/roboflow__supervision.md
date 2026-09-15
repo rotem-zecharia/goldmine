@@ -10,7 +10,7 @@ Pip install the supervision package in a [**Python>=3.10**](https://www.python.o
 pip install supervision
 ```
 
-Read more about conda, mamba, and installing from source in our [guide](https://roboflow.github.io/supervision/).
+Read more about conda, mamba, and installing from source in our [guide](https://supervision.roboflow.com/).
 
 ## 🔥 Quickstart
 
@@ -158,4 +158,4 @@ for path, image, annotation in ds:
   ```python
   dataset.as_yolo(
       images_directory_path=...,
-      annotations_directory
+      annotations_directory_path=

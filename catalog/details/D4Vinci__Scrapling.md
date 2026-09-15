@@ -1,6 +1,6 @@
 # D4Vinci/Scrapling
 
-🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!
+🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here: https://discord.gg/EMgGbDceNQ
 
 ## features
 

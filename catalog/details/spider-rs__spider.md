@@ -1,6 +1,6 @@
 # spider-rs/spider
 
-Get web data for AI agents and LLMs - fast, efficient, and reliable with Rust
+Foundational low latency web data collecting in Rust
 
 ## installation
 

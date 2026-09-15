@@ -55,17 +55,6 @@ docker compose --profile all up -d
 
 ---
 
-## Live Demo
-
-**Try it now:** https://demo.langbot.dev/
-
-- Email: `demo@langbot.app`
-- Password: `langbot123456`
-
-_Note: Public demo environment. Do not enter sensitive information._
-
----
-
 ## Supported Platforms
 
 | Platform | Status | Notes |
@@ -103,4 +92,6 @@ _Note: Public demo environment. Do not enter sensitive information._
 | [MCP](https://modelcontextprotocol.io/)                                                                           | Protocol     | ✅     |
 | [SiliconFlow](https://siliconflow.cn/)                                                                            | Gateway      | ✅     |
 | [Aliyun Bailian](https://bailian.console.aliyun.com/)                                                             | Gateway      | ✅     |
-| [Volc Engine Ark](https://console.volcengine.com/ark/region:ark+cn-beijing/model?vendor=Byt
+| [Volc Engine Ark](https://console.volcengine.com/ark/region:ark+cn-beijing/model?vendor=Bytedance&view=LIST_VIEW) | Gateway      | ✅     |
+| [ModelScope](https://modelscope.cn/docs/model-service/API-Inference/intro)                                        | Gateway      | ✅     |
+

@@ -12,6 +12,7 @@ Remove visible and invisible AI watermarks and provenance metadata from images a
 | Visible video processing | `remove-ai-watermarks[video]` |
 | Video SynthID removal | `remove-ai-watermarks[video,diffusion]` |
 | Torch-free DWT-DCT detection | `remove-ai-watermarks[detect]` |
+| Direct local Paint InvisMark disruption | `remove-ai-watermarks[pixels]` |
 | Invisible image removal (needs CUDA) | `remove-ai-watermarks[qwen-zimage]` |
 | Every production feature available on the active Python | `remove-ai-watermarks[all]` |
 
@@ -113,9 +114,7 @@ remove-ai-watermarks video batch ./videos --mode all
 
 Remove a supported visible video mark:
 
-```bash
-remove-ai-watermarks video visible input.mp4 -o clean.mp4
-remove-ai-water
+```b
 
 ## tools
 
@@ -243,9 +242,10 @@ Metadata and provenance inspection covers C2
   The shipped profile is oracle-certified, but no public local decoder can
   certify an arbitrary output at runtime. Recheck unusually important outputs
   after provider changes.
-- Invisible-watermark removal requires CUDA. All profiles refuse any other
-  device at construction rather than falling back to one that cannot run them.
-  Visible removal, metadata stripping and `identify` still run anywhere.
+- Invisible-watermark removal through the CLI and high-level API requires CUDA.
+  All diffusion profiles refuse any other device at construction rather than
+  falling back to one that cannot run them. The specialized local Paint API,
+  visible removal, metadata stripping and `identify` run without CUDA.
 - Provider watermark systems can change. Validate important outputs with the
   provider's own verifier when one is available.
 
@@ -309,8 +309,4 @@ bash maintain.sh
 ```
 
 See [module internals](docs/module-internals.md) before changing a subsystem
-with documented invariants.
-
-## License
-
-[Apache 2.0](LICENSE). Copyright 2025-2026 wiltodelta.
+with documented inv
