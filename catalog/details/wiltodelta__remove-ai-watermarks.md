@@ -8,6 +8,7 @@ Remove visible and invisible AI watermarks and provenance metadata from images a
 | --- | --- |
 | Metadata inspection and stripping | `remove-ai-watermarks` |
 | Photograph AI-versus-camera classification | `remove-ai-watermarks[classify]` |
+| OpenAI/Google/unknown source-export classification | `remove-ai-watermarks[source-classify]` |
 | Visible detection and removal | `remove-ai-watermarks[visible]` |
 | Visible video processing | `remove-ai-watermarks[video]` |
 | Video SynthID removal | `remove-ai-watermarks[video,diffusion]` |
@@ -17,7 +18,7 @@ Remove visible and invisible AI watermarks and provenance metadata from images a
 | Every production feature available on the active Python | `remove-ai-watermarks[all]` |
 
 Lower-level and specialized extras include `pixels`, `heif`, `trustmark`,
-`migan`, `lama`, `diffusion`, and `classify-onnx`. The
+`migan`, `lama`, `diffusion`, `classify-onnx`, and `source-classify`. The
 [installation guide](docs/installation.md#feature-extras) documents their exact
 dependency composition, Python compatibility, and model requirements.
 
@@ -44,6 +45,19 @@ remove-ai-watermarks classify image.png
 ```
 
 Guide: [photo pixel classification](docs/photo-classify.md).
+
+For a lightweight, abstaining OpenAI/Google/unknown source-export signal after
+metadata removal, use the separate Python API. It is not a SynthID detector:
+
+```python
+import remove_ai_watermarks as raiw
+
+result = raiw.classify_source("image.png")
+print(result.label, result.reason)
+```
+
+Install `remove-ai-watermarks[source-classify]`. Guide:
+[source-pipeline classification](docs/source-classify.md).
 
 Signed provenance is the supported route for SynthID and `identify` reads it.
 There is no local SynthID pixel detector in the package. Research on a
@@ -100,21 +114,7 @@ remove-ai-watermarks video identify input.mp4
 remove-ai-watermarks video all input.mp4 -o clean.mp4
 ```
 
-`video all` removes a stable registered visible mark when present and always
-strips verified AI metadata. If neither signal is found, it still writes a
-same-container passthrough, so application callers get one predictable output
-contract. Proprietary invisible-video removal is excluded by default.
-`--invisible` opts into the lossy, oracle-certified video SynthID profile.
-
-Process a directory with the same contract:
-
-```bash
-remove-ai-watermarks video batch ./videos --mode all
-```
-
-Remove a supported visible video mark:
-
-```b
+`video all` 
 
 ## tools
 
@@ -138,8 +138,8 @@ ControlNet, followed by SAM-masked Z-Image repair of any detected face. The
 alternative, `sdxl-zimage`, swaps the global stage for SDXL and keeps the same face
 stage. A third profile, `chroma-zimage`, uses the Apache-2.0 Chroma1 global pass
 with its own flat vendor floors; see `docs/chroma1-engine-research.md` for the
-calibration. `--pipeline auto` picks chroma-zimage for Microsoft
-provenance and qwen-zimage otherwise. All are CUDA only.
+calibration. `--pipeline auto` picks sdxl-zimage for Google, chroma-zimage for
+Microsoft, and qwen-zimage otherwise. All are CUDA only.
 
 ```bash
 uv tool install --force "remove-ai-watermarks[qwen-zimage]"
@@ -222,7 +222,7 @@ Visible mark support includes:
 - one calibrated Microsoft top-right white AI-badge variant;
 - one calibrated Samsung Galaxy AI label variant.
 
-Metadata and provenance inspection covers C2
+Metadata and provenance inspec
 
 ## limitations
 
