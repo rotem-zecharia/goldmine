@@ -37,9 +37,33 @@ Calling all developers and GenAI innovators! The **DocsGPT Lighthouse Program** 
 ## installation
 
 > [!Note]
-> Make sure you have [Docker](https://docs.docker.com/engine/install/) installed
+> DocsGPT runs on [Docker](https://docs.docker.com/engine/install/). The installer checks for it first.
 
-A more detailed [Quickstart](https://docs.docsgpt.cloud/quickstart) is available in our documentation
+**macOS and Linux:**
+
+```bash
+curl -fsSL https://docs.ac/install | bash
+```
+
+**Windows (PowerShell):**
+
+```powershell
+irm https://docs.ac/install.ps1 | iex
+```
+
+The installer gets [uv](https://docs.astral.sh/uv/), installs the `docsgpt` Python package with it, and runs `docsgpt up`. That asks who should reach DocsGPT (only this computer, your network, or a domain with HTTPS) and which model provider to use, then starts it, at http://localhost:7091 for a local install. Afterwards, `docsgpt status`, `docsgpt logs`, `docsgpt upgrade`, `docsgpt down` and `docsgpt uninstall` manage it.
+
+To read the script before running it:
+
+```bash
+curl -fsSL https://docs.ac/install -o install.sh
+less install.sh
+bash install.sh
+```
+
+A more detailed [Quickstart](https://docs.docsgpt.cloud/quickstart) is available in our documentation.
+
+### From a clone, with the setup script
 
 1. **Clone the repository:**
 
@@ -120,7 +144,4 @@ The source code license is [MIT](https://opensource.org/license/mit/), as descri
 </p>
 <p>
   <a href="https://get.neon.com/docsgpt">
-    <img width="201" alt="color" src="https://github.com/user-attachments/assets/7d9813b7-0e6d-403f-b5af-68af066b326f" />
-  </a>
-  
-</p>
+    <img width="201" alt="color" src="https://github.com/user-attachments/

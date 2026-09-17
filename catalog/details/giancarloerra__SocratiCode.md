@@ -291,7 +291,7 @@ or when you want a Mac/Windows-friendly desktop UI for managing GGUF models).
 
 ## tools
 
-Once connected, 21 tools are available to your AI assistant:
+Once connected, the following tools are available to your AI assistant:
 
 #### Indexing
 
@@ -301,6 +301,7 @@ Once connected, 21 tools are available to your AI assistant:
 | `codebase_stop` | Gracefully stop an in-progress indexing operation (current batch finishes and checkpoints; resume with `codebase_index`) |
 | `codebase_update` | Incremental update — only re-indexes changed files |
 | `codebase_remove` | Remove a project's index (safely stops watcher, cancels in-flight indexing/update, waits for graph build) |
+| `codebase_prune` | Inventory every stored project identity with its collections and metadata; delete one only by exact identity, fresh confirmation token and shared-store acknowledgement (see [Reclaiming stored identities](#reclaiming-stored-identities)) |
 | `codebase_watch` | Start/stop file watching — on start, catches up missed changes then watches for future ones |
 
 #### Search
@@ -334,11 +335,4 @@ and methods call which. Use these tools BEFORE refactoring, renaming, or deletin
 | `codebase_symbol` | 360° view of one symbol — its definition, callers, and callees |
 | `codebase_symbols` | List symbols in a file or search by name across the project |
 
-> **Accepted limits.** The call graph is static-analysis-based — no type inference. Dynamic dispatch (`getattr`, `obj[key](...)`, reflection, `eval`), unexpanded macros, and framework magic (Spring `@Autowired`, Angular DI, Rails `has_many`, decorator-driven routing) are invisible. Callers that reach a method only through these mechanisms will not appear in `codebase_impact`. Treat "zero callers" as a hint to double-check on DI-heavy codebases. `codebase_graph_status` reports `unresolvedEdgePct` as a quality signal. See [DEVELOPER.md § Impact Analysis](DEVELOPER.md) for the full list.
-
-#### Interactive graph explorer
-
-Ask your AI *"show me an interactive graph of this project"* (or invoke `codebase_graph_visualize` with `mode: "interactive"`) and SocratiCode generates a self-contained HTML page and opens it in your default browser:
-
-- **File view** — every source file as a node, imports as edges, language-coloured, circular deps in red.
-- **Symbol view** — toggle to see functions/classes/methods as nodes with call edges (available when the symbol graph fits within the embed cap; abo
+> **Accepted limits.** The call graph is static-analysis-based — no type inference. Dynamic dispatch (`getattr`, `obj[key](...)`, reflection, `eval`), unexpanded macros, and framework magic (Spring `@Autowired`, Angular DI, Rails `has_many`, decorator-driven routing) are invisible. Callers that reach a method only through these mechanisms will not appear in `codebase_impact`. Treat "zero callers" as a hint to double-check on DI-heavy codebases. `codebase_graph_status` reports the unresolved share (`unresolvedEdgePct`) as a quality signal: the percentage of captured symbol edges (calls, imports, re-exports and type or value references) that matched no project symbol, GDScript engine calls excluded. That share includes edges into runtime builtins and external libraries (`setTimeout`, `JSON.stringify`, an SDK client's me

@@ -1,6 +1,6 @@
 # firecrawl/firecrawl
 
-The context API to search, scrape, and interact with the web at scale. 🔥
+The web data API to search, scrape, and interact at scale. 🔥
 
 ## features
 

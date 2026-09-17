@@ -4,7 +4,7 @@ Persistent Context Across Sessions for Every Agent – Captures everything your 
 
 ## installation
 
-Install [Grok Mem](https://grok-mem.ai) for Grok Bot. The package name is still [`claude-mem`](https://www.npmjs.com/package/claude-mem).
+Install claude-mem for Grok Bot:
 
 ```bash
 npx claude-mem install --ide grok-bot
@@ -80,7 +80,8 @@ The installer handles dependencies, plugin setup, AI provider configuration, wor
 
 - **[Installation Guide](https://docs.claude-mem.ai/installation)** - Quick start & advanced installation
 - **[Usage Guide](https://docs.claude-mem.ai/usage/getting-started)** - How Claude-Mem works automatically
-- **[Search Tools](https://docs.claude-mem.ai/usage/search-tools)** - Query yo
+- **[Search Tools](https://docs.claude-mem.ai/usage/search-tools)** - Query your project history with natural language
+- **[Cloud Sync](https://docs.claude-mem.ai/cloud-sync)** - Back
 
 ## configuration
 
