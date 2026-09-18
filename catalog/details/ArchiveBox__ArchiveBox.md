@@ -149,6 +149,20 @@ archivebox versi
 </details>
 
 <br/>
+
+<details>
+<summary><b><img src="https://archivebox.github.io/ios-archivebox/docs/icons/apple.svg" alt="Apple" height="22px" align="top"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/windows11/windows11-original.svg" alt="Windows" height="22px" align="top"/> 🐧&nbsp; Desktop / Mobile / Extension Usage</b></summary>
+<br/>
+
+- 📱 [<code>ArchiveBox</code> iOS Mobile App](https://archivebox.github.io/ios-archivebox/)
+- 🖥️ [<code>ArchiveBox.app</code> macOS Desktop App](https://archivebox.github.io/ios-archivebox/)
+- 🧩 [ArchiveBox Browser Extension](https://archivebox.github.io/archivebox-browser-extension/)
+- 💻 [Linux/Windows Desktop App (Requires Docker Desktop)](https://github.com/ArchiveBox/electron-archivebox)
+
+<br/>
+</details>
+
+<br/>
 <br/>
 
 > [!TIP]

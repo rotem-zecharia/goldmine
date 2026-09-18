@@ -18,7 +18,13 @@ conda create -n tradingagents python=3.12
 conda activate tradingagents
 ```
 
-Install the package and its dependencies:
+Or with [uv](https://docs.astral.sh/uv/):
+```bash
+uv venv --python 3.12
+source .venv/bin/activate
+```
+
+Install the package and its dependencies (`uv pip install .` with uv):
 ```bash
 pip install .
 ```
@@ -30,6 +36,8 @@ Alternatively, run with Docker:
 cp .env.example .env  # add your API keys
 docker compose run --rm tradingagents
 ```
+
+After updating the repository, rebuild the image with `docker compose build`.
 
 For local models with Ollama:
 ```bash
@@ -53,6 +61,11 @@ export ZHIPU_CN_API_KEY=...        # GLM via BigModel (China, open.bigmodel.cn)
 export MINIMAX_API_KEY=...         # MiniMax — Global (api.minimax.io)
 export MINIMAX_CN_API_KEY=...      # MiniMax — China (api.minimaxi.com)
 export OPENROUTER_API_KEY=...      # OpenRouter
+export MISTRAL_API_KEY=...         # Mistral
+export MOONSHOT_API_KEY=...        # Kimi (Moonshot)
+export GROQ_API_KEY=...            # Groq
+export NVIDIA_API_KEY=...          # NVIDIA NIM
+export FRED_API_KEY=...            # FRED macro data (free, optional)
 export ALPHA_VANTAGE_API_KEY=...   # Alpha Vantage
 ```
 
@@ -76,7 +89,7 @@ Launch the interactive CLI:
 tradingagents          # installed command
 python -m cli.main     # alternative: run directly from source
 ```
-You will see a screen where you can select your desired tickers, analysis date, LLM provider, research depth, and more.
+You will see a screen where you can select your desired tickers, analysis date, LLM provider, research depth, and more. Your previous run's answers come back as the defaults, so pressing Enter accepts them. The `TRADINGAGENTS_*` variables in `.env` still skip their step entirely.
 
 ### Markets and tickers
 
@@ -106,11 +119,4 @@ An interface will appear showing results as they load, letting you track the age
 
 ### Implementation Details
 
-We built TradingAgents with LangGraph to ensure flexibility and modularity. The framework supports multiple LLM providers: OpenAI, Google, Anthropic, xAI, DeepSeek, Qwen (Alibaba DashScope, international and China endpoints), GLM (Zhipu), MiniMax (global + China), OpenRouter, Ollama for local models, and Azure OpenAI for enterprise.
-
-### Python Usage
-
-To use TradingAgents inside your code, you can import the `tradingagents` module and initialize a `TradingAgentsGraph()` object. The `.propagate()` function will return a decision. You can run `main.py`, here's also a quick example:
-
-```python
-from trad
+We built TradingAgents with LangGraph to ensure flexibility and modularity. The framework supports multiple LLM providers: OpenAI, Google, Anthropic, xAI, DeepSeek, Qwen (Alibaba DashScope

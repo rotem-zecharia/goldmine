@@ -174,12 +174,10 @@ speed-up - more than x3 faster compared with CPU-only execution. Here are the in
 
 For more information about the Core ML implementation please refer to PR [#566](https://github.com/ggml-org/whisper.cpp/pull/566).
 
-## OpenVINO support
+## ANEForge support
 
-On platforms that support [OpenVINO](https://github.com/openvinotoolkit/openvino), the Encoder inference can be executed
-on OpenVINO-supported devices including x86 CPUs and Intel GPUs (integrated & discrete).
-
-This can result in significant speedup in encoder performance. Here are the instructions for generating the Open
+On Apple Silicon, the Encoder can also run on the Apple Neural Engine via [ANEForge](https://github.com/sbryngelson/ANEForge), which dispatches to the ANE directly instead of through Core ML.
+It is about 2x faster than the Core ML encoder from `tiny` to `medium` ([benchmarks](https://github.com/sbryngelson/ANEForge/tree/m
 
 ## requirements
 

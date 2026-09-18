@@ -101,6 +101,9 @@ gdown https://drive.google.com/uc?id=1l_5RK28JRL19wpT22B-DY9We3TVXnnQQ --speed 1
 
 # Download via proxy
 gdown https://drive.google.com/uc?id=1l_5RK28JRL19wpT22B-DY9We3TVXnnQQ --proxy http://proxy:8080
+
+# Give up when the server sends nothing for 30 seconds
+gdown https://drive.google.com/uc?id=1l_5RK28JRL19wpT22B-DY9We3TVXnnQQ --timeout 30
 ```
 
 #### Other options
@@ -150,7 +153,4 @@ url = "https://drive.google.com/uc?id=1l_5RK28JRL19wpT22B-DY9We3TVXnnQQ"
 gdown.download(url=url, output="fcn8s_from_caffe.npz")
 
 # Download by file ID
-gdown.download(id="0B9P1L--7Wd2vNm9zMTJWOGxobkU", output="output.npz")
-
-# Download from a share link
-url = "https://drive.google.com/file/d/0B9P1L--7Wd2vNm9zMTJWOGxobkU/view?
+gdown.download(id="0B9P1L--7Wd2vNm

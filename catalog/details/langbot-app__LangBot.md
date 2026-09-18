@@ -27,7 +27,11 @@ Click the Star and Watch buttons in the top-right corner of the repository to ge
 
 ### ☁️ LangBot Cloud (Recommended)
 
-**[LangBot Cloud](https://space.langbot.app/cloud)** — Zero deployment, ready to use.
+[![Deploy on LangBot Cloud](res/langbot-cloud.svg)](https://cloud.langbot.app)
+
+[cloud.langbot.app](https://cloud.langbot.app)
+
+Zero deployment, ready to use.
 
 ### One-Line Launch
 
@@ -93,5 +97,4 @@ docker compose --profile all up -d
 | [SiliconFlow](https://siliconflow.cn/)                                                                            | Gateway      | ✅     |
 | [Aliyun Bailian](https://bailian.console.aliyun.com/)                                                             | Gateway      | ✅     |
 | [Volc Engine Ark](https://console.volcengine.com/ark/region:ark+cn-beijing/model?vendor=Bytedance&view=LIST_VIEW) | Gateway      | ✅     |
-| [ModelScope](https://modelscope.cn/docs/model-service/API-Inference/intro)                                        | Gateway      | ✅     |
-
+| [ModelScope](https://modelscope.cn/docs/model-service/API-Inferenc
