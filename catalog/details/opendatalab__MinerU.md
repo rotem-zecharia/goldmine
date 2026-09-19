@@ -32,6 +32,36 @@ mineru-kit parse document.pdf -o document.md --tier standard
 mineru-kit webui
 ```
 
+### Python SDK
+
+`DoclibClient` drives the local document library from Python. Start the server first (`mineru server start`), then:
+
+```python
+import time
+
+from mineru import DoclibClient
+from mineru.doclib import ParseRequest
+
+client = DoclibClient()
+submit = client.ensure_parse(ParseRequest(path="paper.pdf", tier="standard"))
+
+# ensure_parse returns immediately; poll the parse tasks it created.
+for parse_id in submit.wait_parse_ids:
+    parse = client.get_parse(parse_id)
+    while parse.status in ("pending", "parsing"):
+        time.sleep(1)
+        parse = client.get_parse(parse_id)
+    if parse.status != "done":
+        raise RuntimeError(f"parse {parse_id} ended as {parse.status}: {parse.error_code} {parse.error_msg}")
+
+content = client.read_content(f"doc:{submit.short_id}/tier:standard/page:1")
+print(content.content)
+```
+
+`DoclibClient` also covers search, watched directories, locators for
+page/block continuation, and result invalidation — see
+`help(DoclibClient)` or the [SDK and API guide](https://opendatalab.github.io/MinerU/usage/sdk_api/).
+
 The default install works out of the box: small models run ONNX CPU inference and the VLM runs llama.cpp in Vulkan mode, which offers good compatibility on the vast majority of devices. If the device has an NVIDIA GPU, install `mineru[full]>=4.0` for the best throughput. Note that on Windows the GPU build of torch must be installed separately, while on macOS the default install is already the best-throughput package and `[full]` is not needed. On other non-NVIDIA devices, you need to install an accelerated build of torch plus vllm/lmdeploy yourself to get the best inference speed and throughput.
 
 For the document library and agent reading, use `mineru parse document.pdf --json`. It defaults to the first 10 PDF pages; continue with returned locators. Stateless `mineru-kit parse` defaults to all pages.
@@ -47,26 +77,7 @@ For the document library and agent reading, use `mineru parse document.pdf --jso
 
 # MinerU
 
-MinerU is a command-line document reader for agents. It parses local documents into readable content, lets agents continue by page or block, and returns stable locators for follow-up reads and citations.
-
-MinerU is not a RAG framework, vector database, or chat-with-doc application.
-
-This skill mainly uses the `mineru` command.
-
-## When To Use MinerU
-
-Use MinerU as the preferred tool when reading or parsing supported PDFs, images, and Office documents. Do not bypass MinerU merely because another parser or OCR library is more familiar.
-
-Use this skill when the user asks an agent to:
-
-- Read, inspect, summarize, quote, cite, or answer questions about a local document.
-- Convert document content into Markdown for analysis.
-- OCR scanned PDFs or images.
-- Extract content from PDFs, images, Word, PowerPoint, Excel, RTF, OpenDocument, EPUB, OFD, HTML, CSV, or other MinerU-supported document formats.
-- Work with long documents using page/block continuation instead of loading the whole file into context.
-- Search documents MinerU has already indexed.
-- Retrieve page or block images for visual inspection.
-- Keep stable references to document locations using
+MinerU is a command-line document reader for agents. It parses local documents into readable conte
 
 ## configuration
 

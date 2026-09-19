@@ -4,117 +4,62 @@ Build voice agents with open-source models
 
 ## installation
 
-```bash
-pip install speech-to-speech
-export OPENAI_API_KEY=...
-speech-to-speech serve
-```
+Choose where the language model should run. All three configurations use local Parakeet TDT speech recognition and Qwen3-TTS speech output **by default**. You can change the STT, LLM, and TTS models and backends; see [Supported components](#supported-components). Each configuration runs from one terminal with the packaged microphone/speaker client.
 
-This starts an OpenAI Realtime-compatible server at `ws://localhost:8765/v1/realtime` using Parakeet TDT for local STT, an OpenAI-compatible LLM, and Qwen3-TTS for local speech output.
+| Starting configuration | Hardware to plan for | Conversation data sent to a provider |
+|---|---|---|
+| [Apple Silicon, fully local](#apple-silicon-fully-local) | Apple Silicon Mac; budget 16 GB or more of unified memory | None |
+| [NVIDIA GPU, fully local](#nvidia-gpu-fully-local) | Linux with an NVIDIA GPU; budget 24 GB of VRAM for the unquantized LLM, speech models, and caches below, plus system RAM | None |
+| [Local speech with a hosted LLM](#local-speech-with-a-hosted-llm) | Apple Silicon: budget ~8 GB of available unified memory (16 GB total recommended); Linux/NVIDIA: ~8 GB of available VRAM, plus system RAM | Transcribed text, instructions, and conversation history; microphone audio stays local |
 
-Talk to it from a second terminal:
+The memory figures are planning estimates for one conversation, not measured minimum requirements. Actual use depends on context length, audio length, and backend versions. All configurations need internet access for the first model downloads; the hosted LLM also needs an API key and internet access during conversations.
 
-```bash
-speech-to-speech talk --url ws://127.0.0.1:8765/v1/realtime
-```
+### Install for these examples
 
-To start the server and packaged microphone/speaker client in one command:
+Use Python 3.10+ (Python 3.11 recommended) and install the package in a virtual environment.
 
-```bash
-speech-to-speech local
-```
-
-Prefer to keep the LLM on your own machine? Serve Gemma 4 with llama.cpp:
+On Ubuntu, install the local audio libraries first: `sudo apt-get install libportaudio2 libsndfile1`. The default Linux Qwen3-TTS wheel targets CUDA 12.8 and glibc 2.39 (Ubuntu 24.04); check the [CUDA installation note](#cuda-note-for-qwen3-tts) if your system differs.
 
 ```bash
-llama-server -hf ggml-org/gemma-4-E4B-it-GGUF -np 2 -c 65536 -fa on --swa-full
-```
-
-Then point the OpenAI-compatible LLM backend at it:
-
-```bash
-speech-to-speech serve \
-    --model_name "ggml-org/gemma-4-E4B-it-GGUF" \
-    --responses_api_base_url "http://127.0.0.1:8080/v1" \
-    --responses_api_api_key ""
-```
-
-Clients using the implemented core Realtime event set can connect. The official OpenAI Agents SDK is tested over both stock transports; see [Realtime API](#realtime-api) for the tested surface and [LLM backends](#llm-backends) for provider and local-server options.
-
-## Index
-
-* [How it works](#how-it-works)
-* [Installation](#installation)
-* [Offline operation](#offline-operation)
-* [Supported components](#supported-components)
-* [Commands](#commands)
-* [Realtime API](#realtime-api)
-* [LLM backends](#llm-backends)
-* [Multi-language support](#multi-language-support)
-* [Pocket TTS](#pocket-tts)
-* [CLI reference](#cli-reference)
-* [Contributing](#contributing)
-* [Star history](#star-history)
-* [Citations](#citations)
-
-## How it works
-
-The pipeline is a cascade of four components, each running in its own thread and connected by queues:
-
-1. **Voice Activity Detection (VAD)**: [Silero VAD v5](https://github.com/snakers4/silero-vad) detects speech boundaries and turn-taking.
-2. **Speech to Text (STT)**: transcribes the user's turn, with optional live partial transcripts.
-3. **Language Model (LLM)**: generates the response, streaming text and tool calls.
-4. **Text to Speech (TTS)**: synthesizes audio and streams it back to the client.
-
-Every stage has multiple interchangeable backends, selected via CLI flags. The code is designed for easy modification, with a focus on models available through Transformers and the Hugging Face Hub.
-
-## Installation
-
-Requires Python 3.10+.
-
-```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install speech-to-speech
 ```
 
-The default install covers the standard realtime path:
+Run the configuration you chose with this environment activated. Activate the same environment in any additional terminal where you run `speech-to-speech`. The first run downloads and warms up the models before connecting the microphone. Allow microphone access if prompted, use headphones to avoid speaker feedback, then speak and pause for a reply. Stop with `Ctrl+C`.
 
-- Parakeet TDT for STT
-- OpenAI-compatible API for the language model
-- Qwen3-TTS for speech output, using the GGML backend by default on non-macOS platforms and `mlx-audio` on Apple Silicon
-- local audio and realtime server modes
+If speaker feedback interrupts replies, add `--local_audio_block_mic_during_playback` to your `speech-to-speech local` command. This pauses microphone capture during playback, so you cannot interrupt the assistant while it speaks.
 
-macOS and non-macOS dependencies are resolved automatically via platform markers in `pyproject.toml`.
+### Apple Silicon, fully local
 
-### CUDA Note for Qwen3-TTS
-
-On Linux, the Qwen3-TTS GGML backend comes from `faster-qwen3-tts[ggml]`. Its default `qwentts-cpp-python` wheel on PyPI targets CUDA 12.8. If your machine does not have the CUDA 12 runtime that wheel expects, install the matching wheel from the Hugging Face wheelhouse before installing `speech-to-speech`:
+Run all three models locally on an Apple Silicon Mac, using a quantized LLM through MLX. No API key is needed.
 
 ```bash
-# CUDA 13.x
-pip install "qwentts-cpp-python==0.3.1+cu130" \
-  -f https://huggingface.co/datasets/andito/qwentts-cpp-python-wheels/tree/main/whl/cu130
-
-# CUDA 12.4
-pip install "qwentts-cpp-python==0.3.1+cu124" \
-  -f https://huggingface.co/datasets/andito/qwentts-cpp-python-wheels/tree/main/whl/cu124
-
-# CPU-only fallback
-pip install "qwentts-cpp-python==0.3.1+cpu" \
-  -f https://huggingface.co/datasets/andito/qwentts-cpp-python-wheels/tree/main/whl/cpu
-
-pip install speech-to-speech
+speech-to-speech local \
+    --mac-optimal-settings \
+    --model_name mlx-community/Qwen3-4B-Instruct-2507-4bit
 ```
 
-To use the previous CUDA-graphs implementation instead of GGML, pass `--qwen3_tts_backend torch`.
+The Mac preset selects Parakeet TDT through MLX, the 4-bit Qwen3-4B language model through MLX LM, and the 6-bit Qwen3-TTS CustomVoice model through MLX Audio. The core model weights total approximately **7.5 GB**: [STT](https://huggingface.co/mlx-community/parakeet-tdt-0.6b-v3/tree/main), [LLM](https://huggingface.co/mlx-community/Qwen3-4B-Instruct-2507-4bit/tree/main), and [TTS](https://huggingface.co/mlx-community/Qwen3-TTS-12Hz-1.7B-CustomVoice-6bit/tree/main). Allow additional disk space for dependencies and auxiliary model assets.
 
-### Optional Components
+For a separate local LLM server, see [Combining with llama.cpp](#combining-with-llamacpp). For a model that accepts audio directly, see the [Gemma 4 12B example](./examples/gemma4-12b-macos/README.md).
 
-Optional components are installed with pip extras:
+### NVIDIA GPU, fully local
+
+Run all three models locally on a Linux workstation with a CUDA-capable NVIDIA GPU. Transformers loads the LLM in the speech process, so no separate LLM server or API key is needed.
 
 ```bash
-pip install "speech-to-speech[kokoro]"          # Kokoro-82M TTS on non-macOS
-pip install "speech-to-speech[pocket]"          # Pocket TTS
-pip install "speech-to-s
+speech-to-speech local \
+    --device cuda \
+    --stt parakeet-tdt \
+    --llm_backend transformers \
+    --model_name Qwen/Qwen3-4B-Instruct-2507 \
+    --llm_torch_dtype float16 \
+    --tts qwen3 \
+    --qwen3_tts_backend ggml
+```
+
+The [LLM weights alone are approximately **8 G
 
 ## tools
 
@@ -125,6 +70,15 @@ pip install "speech-to-s
 | `local` | Composes `serve` and `talk` in-process over loopback. | You want to run the server and talk to it from one command. |
 
 `serve` binds to `127.0.0.1` by default; pass `--host 0.0.0.0` explicitly for network exposure. `local` always binds to loopback and connects the same packaged client at `ws://127.0.0.1:<port>/v1/realtime`.
+
+The packaged `local` client buffers 196 ms of received audio when using the
+OpenAI-compatible TTS backend, which absorbs short delivery gaps from HTTP
+speech inference. Other `local` backends and `talk` start playback immediately
+by default. Use `--playback-buffer-ms <milliseconds>` to override either
+default: a larger value resists stuttering but delays the start of each
+response, while a smaller value starts sooner but is more sensitive to jitter.
+This setting only controls the packaged Python client's speakers; browser and
+other Realtime clients manage their own playback buffers.
 
 The packaged client can opt in to local Python tools with `talk --tool-module <module>` or `local --tool-module <module>`. The module contract, programmatic API, and a Serper web-search example are documented in [Tool calling design](./src/speech_to_speech/api/openai_realtime/README.md#packaged-python-client-tools).
 
@@ -163,28 +117,11 @@ The default model is `gpt-5.6-terra` through the OpenAI Responses API with reaso
 
 ### Local Mac
 
-```bash
-speech-to-speech local --mac-optimal-settings
-```
-
-Optionally with a specific LLM:
-
-```bash
-speech-to-speech local \
-    --mac-optimal-settings \
-    --model_name mlx-community/Qwen3-4B-Instruct-2507-bf16
-```
-
-This setting:
-
-- Uses MPS defaults for supported model components.
-- Sets Parakeet TDT for STT.
-- Sets MLX LM as the LLM backend.
-- Sets Qwen3-TTS for TTS, using `mlx-audio` with the `6bit` MLX variant by default.
+Start with [Apple Silicon, fully local](#apple-silicon-fully-local). Its `--mac-optimal-settings` preset supplies MPS defaults for supported components, Parakeet TDT for STT, MLX LM for the LLM, and Qwen3-TTS through `mlx-audio` with the `6bit` variant.
 
 The preset supplies these as defaults only: explicit `--device`, component-device flags such as `--qwen3_tts_device`, and `--stt`, `--llm_backend`, `--model_name`, and `--tts` all win. Use it with `serve` instead of `local` when you want to expose the server without starting the microphone/speaker client.
 
-`--tts pocket` and `--tts kokoro` are also valid on macOS.
+`--tts pocket`, `--tts kokoro`, and `--tts omnivoice` are also valid on macOS.
 
 To compare the MLX quantization variants locally:
 
@@ -203,19 +140,4 @@ Install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-
 docker compose up
 ```
 
-The compose file starts a llama.cpp server with Gemma 4 and the Realtime server, exposing ports `8080` and `8765`.
-
-## Realtime API
-
-Realtime mode supports the OpenAI Realtime protocol over WebSocket and WebRTC, with live transcription and low-latency turn-taking. WebSocket clients connect at `/v1/realtime`:
-
-```python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="http://localhost:8765/v1",
-    websocket_base_url="ws://localhost:8765/v1",
-    api_key="not-needed",
-)
-
-with client.realtime.connect(model="lo
+The compose file starts a llama.cpp server with Gemma 4 and the Realtime server, exposing

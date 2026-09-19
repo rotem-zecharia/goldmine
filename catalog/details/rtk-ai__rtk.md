@@ -70,6 +70,8 @@ rtk init -g --agent pi          # Pi
 rtk init --agent omp            # Oh My Pi (OMP)
 rtk init --agent hermes         # Hermes
 rtk init -g --agent droid       # Factory Droid
+rtk init --agent trae           # Trae (project: .trae/hooks.json)
+rtk init -g --agent trae        # Trae global: ~/.trae and existing ~/.trae-cn
 
 # 2. Restart your AI tool, then test
 git status  # Automatically rewritten to rtk git status
@@ -97,7 +99,7 @@ Four strategies applied per command type:
 3. **Truncation** - Keeps relevant context, cuts redundancy
 4. **Deduplication** - Collapses repeated log lines with counts
 
-> **Does RTK break Claude's prompt cache?** No. RTK filters output once per command. The result is stored in history and cached normally on subsequent API calls, so the cache keeps working as expected. Smaller outputs also mean cheaper cache writes and reads. 
+> **Does RTK break Claude's prompt cache?** No. RTK filters output once per command. The result is stored in histo
 
 ## tools
 

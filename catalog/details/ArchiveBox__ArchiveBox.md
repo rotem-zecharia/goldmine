@@ -10,8 +10,8 @@
 <br/>
 # Option B: Or use it as a plain Docker container:
 mkdir -p ~/archivebox/data && cd ~/archivebox/data
-docker run -d --name archivebox -v "$PWD:/data" -p 8000:8000 archivebox/archivebox:dev
-# open http://admin.archivebox.localhost:8000 to finish setup
+docker run -d --name archivebox -v "$PWD:/data" -p 5797:5797 archivebox/archivebox:dev
+# open http://admin.archivebox.localhost:5797 to finish setup
 # docker run -it -v $PWD:/data archivebox/archivebox:dev add 'https://example.com'
 # docker run -it -v $PWD:/data archivebox/archivebox:dev help
 <br/>
@@ -23,14 +23,14 @@ archivebox init
 archivebox install
 # archivebox add 'https://example.com'
 # archivebox help
-# archivebox server 0.0.0.0:8000
+# archivebox server 0.0.0.0:5797
 <br/>
 <br/>
 # Option D: Or use the uv install shortcut for Option C
 curl -fsSL 'https://get.archivebox.io' | bash
 </code></pre>
 <br/>
-<sub>Open <a href="http://web.archivebox.localhost:8000"><code>http://web.archivebox.localhost:8000</code></a> for the public UI and <a href="http://admin.archivebox.localhost:8000"><code>http://admin.archivebox.localhost:8000</code></a> for the admin UI ➡️</sub><br/>
+<sub>Open <a href="http://web.archivebox.localhost:5797"><code>http://web.archivebox.localhost:5797</code></a> for the public UI and <a href="http://admin.archivebox.localhost:5797"><code>http://admin.archivebox.localhost:5797</code></a> for the admin UI ➡️</sub><br/>
 <sub>Set <code>BASE_URL</code> to change the public base domain. The default <code>auto</code> mode uses <code>web.</code> and <code>admin.</code> subdomains on <code>*.localhost</code>, but one host for ordinary DNS names. <code>BIND_ADDR</code> only controls the local listen address.</sub>
 </details>
 <br/>
@@ -93,10 +93,10 @@ See <a href="#%EF%B8%8F-cli-usage">below</a> for more usage examples using the C
 <li>Install <a href="https://docs.docker.com/get-docker/">Docker</a> on your system (if not already installed).</li>
 <li>Create a new empty directory and start the server, which initializes the collection automatically (can be anywhere).
 <pre lang="bash"><code style="white-space: pre-line">mkdir -p ~/archivebox/data && cd ~/archivebox/data
-docker run -d --name archivebox -v $PWD:/data -p 8000:8000 archivebox/archivebox:dev
+docker run -d --name archivebox -v $PWD:/data -p 5797:5797 archivebox/archivebox:dev
 </code></pre>
 </li>
-<li>Open <code>/admin/</code> on the hostname or IP used to reach ArchiveBox (local example: <a href="http://admin.archivebox.localhost:8000/admin/">http://admin.archivebox.localhost:8000/admin/</a>) to create the first admin. If <code>BASE_URL</code> is not configured yet, continue through the web setup wizard.
+<li>Open <code>/admin/</code> on the hostname or IP used to reach ArchiveBox (local example: <a href="http://admin.archivebox.localhost:5797/admin/">http://admin.archivebox.localhost:5797/admin/</a>) to create the first admin. If <code>BASE_URL</code> is not configured yet, continue through the web setup wizard.
 <pre lang="bash"><code style="white-space: pre-line">
 # completely optional, CLI can always be used without running a server
 # docker exec archivebox archivebox [subcommand] [--help]
@@ -151,12 +151,12 @@ archivebox versi
 <br/>
 
 <details>
-<summary><b><img src="https://archivebox.github.io/ios-archivebox/docs/icons/apple.svg" alt="Apple" height="22px" align="top"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/windows11/windows11-original.svg" alt="Windows" height="22px" align="top"/> 🐧&nbsp; Desktop / Mobile / Extension Usage</b></summary>
+<summary><b><img src="https://app.archivebox.io/docs/icons/apple.svg" alt="Apple" height="22px" align="top"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/windows11/windows11-original.svg" alt="Windows" height="22px" align="top"/> 🐧&nbsp; Desktop / Mobile / Extension Usage</b></summary>
 <br/>
 
-- 📱 [<code>ArchiveBox</code> iOS Mobile App](https://archivebox.github.io/ios-archivebox/)
-- 🖥️ [<code>ArchiveBox.app</code> macOS Desktop App](https://archivebox.github.io/ios-archivebox/)
-- 🧩 [ArchiveBox Browser Extension](https://archivebox.github.io/archivebox-browser-extension/)
+- 📱 [<code>ArchiveBox</code> iOS Mobile App](https://app.archivebox.io/)
+- 🖥️ [<code>ArchiveBox.app</code> macOS Desktop App](https://app.archivebox.io/)
+- 🧩 [ArchiveBox Browser Extension](https://extension.archivebox.io/)
 - 💻 [Linux/Windows Desktop App (Requires Docker Desktop)](https://github.com/ArchiveBox/electron-archivebox)
 
 <br/>

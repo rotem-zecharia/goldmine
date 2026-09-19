@@ -220,10 +220,10 @@ Playwright MCP server supports following arguments. They can be provided in the 
 | --executable-path <path> | path to the browser executable.<br>*env* `PLAYWRIGHT_MCP_EXECUTABLE_PATH` |
 | --extension | Connect to a running browser instance (Edge/Chrome only). Requires the "Playwright Extension" to be installed.<br>*env* `PLAYWRIGHT_MCP_EXTENSION` |
 | --endpoint <endpoint> | Bound browser endpoint to connect to.<br>*env* `PLAYWRIGHT_MCP_ENDPOINT` |
+| --file-paths <mode> | how file paths are rendered in tool results, "relative" to the workspace root or "absolute". Default is "relative".<br>*env* `PLAYWRIGHT_MCP_FILE_PATHS` |
 | --grant-permissions <permissions...> | List of permissions to grant to the browser context, for example "geolocation", "clipboard-read", "clipboard-write".<br>*env* `PLAYWRIGHT_MCP_GRANT_PERMISSIONS` |
 | --headless | run browser in headless mode, headed by default<br>*env* `PLAYWRIGHT_MCP_HEADLESS` |
-| --host <host> | host to bind server to. Default is localhost. Use 0.0.0.0 to bind to all interfaces.<br>*env* `PLAYWRIGHT_MCP_HOST` |
-| --idle-timeout <timeout> | close the browser after this many milliseconds without a completed tool call, the next tool call relaunches it. Defaults to one hour fo
+| --host <host> | host to bind server to. Default is localhost. Use 0.0.0.0 to bind to all interfaces.<br>*env* `PLAYWRIG
 
 ## tools
 
@@ -290,18 +290,19 @@ Playwright MCP server supports following arguments. They can be provided in the 
 
 <!-- NOTE: This has been generated via update-readme.js -->
 
-- **browser_evaluate**
-  - Title: Evaluate JavaScript
-  - Description: Evaluate JavaScript expression on page or element
+- **browser_emulate_media**
+  - Title: Emulate media features
+  - Description: Emulate CSS media features for the page, for example switch between the light and dark color scheme. Omitted parameters are left unchanged; null clears an override.
   - Parameters:
-    - `element` (string, optional): Human-readable element description used to obtain permission to interact with the element
-    - `target` (string, optional): Exact target element reference from the page snapshot, or a unique element selector
-    - `function` (string): () => { /* code */ } or (element) => { /* code */ } when element is provided
-    - `filename` (string, optional): File name to save the result to. Relative file names are resolved against the workspace root. If not provided, result is returned as text.
+    - `colorScheme` (optional): Emulates the prefers-color-scheme media feature
+    - `reducedMotion` (optional): Emulates the prefers-reduced-motion media feature
+    - `forcedColors` (optional): Emulates the forced-colors media feature
+    - `contrast` (optional): Emulates the prefers-contrast media feature
+    - `media` (optional): Changes the CSS media type of the page
   - Read-only: **false**
 
 <!-- NOTE: This has been generated via update-readme.js -->
 
-- **browser_file_upload**
-  - Title: Upload files
-  - 
+- **browser_evaluate**
+  - Title: Evaluate JavaScript
+  - Description: Evaluate 
