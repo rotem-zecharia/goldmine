@@ -1,6 +1,6 @@
 # tonhowtf/omniget
 
-Download Udemy and Hotmart courses, YouTube videos, music and books — 1,800+ sites, no terminal. Free open-source desktop app for Windows, macOS and Linux, with a built-in course player, PDF/EPUB read
+Udemy & Hotmart course downloader, YouTube downloader (yt-dlp GUI, 1,800+ sites) + desktop app for AI agents: Claude Code, Codex, Gemini CLI, Ollama. Permissions, undo, jobs, loops until tests pass, M
 
 ## features
 
@@ -20,10 +20,10 @@ OmniGet puts all of that behind one text box. Paste a link, see a preview with q
 | Setup | Download one file, open it | Python, PATH, FFmpeg, flags | None | Installer, license key |
 | Logged-in content | Cookies from your browser through the extension | Manual `--cookies` export | Rarely | Sometimes |
 | Queue | Resume, retry with backoff, rules, followed channels | One command at a time | No | Varies |
-| After the download | Player, reader, flashcards, notes, 158 tools | Files | Files, often re-encoded | Files |
+| After the download | Player, reader, flashcards, notes, 156 tools | Files | Files, often re-encoded | Files |
 | Price and license | Free, GPL-3.0 | Free, Unlicense | Free with ads | Subscription |
 
-yt-dlp is the engine OmniGet runs on, and OmniGet would not exist without it. If you live in a terminal and only want files, yt-dlp alone is the right tool.
+yt-dlp is the engine OmniGet runs on, and OmniGet would not exist without it.
 
 ---
 
@@ -56,7 +56,7 @@ Pick your system. Every build is published on the [Releases page](https://github
 
 ### The first launch warning, and how to clear it
 
-OmniGet is not signed with a paid certificate, so each system shows a warning the first time. This is normal for open source desktop apps and you handle it once.
+Like most open source desktop apps, OmniGet ships without a paid code-signing certificate, so each system asks for confirmation the first time. You handle it once.
 
 **Windows.** SmartScreen shows a blue box. Click **More info**, then **Run anyway**.
 
@@ -93,7 +93,7 @@ Create an empty file named `portable.txt` (or `.portable`) next to the Windows `
 
 1. Open OmniGet. The setup screen asks for your language and theme, then installs yt-dlp and FFmpeg with one click. yt-dlp is checked against its SHA-256 before it runs.
 2. Copy any link: a YouTube video, an Instagram reel, an X post, a Pinterest board, a magnet, a direct file URL.
-3. Paste it in the box on the home screen. OmniGet detects the site and shows the title, thumbnail and available qualities. Pick one 
+3. Paste it in the box on the home screen. OmniGet detects the site and shows the title, thumbnail and available qualities. Pick on
 
 ## tools
 
@@ -104,10 +104,10 @@ Tools is the part of OmniGet that grew beyond downloading. Each tile is one job:
 </p>
 
 <p align="center">
-  <img src="assets/readme/tools.png" alt="OmniGet Tools hub with 25 categories: YouTube, Speech and subtitles, Video editing, Audio, Instagram, X, Facebook, Reddit, Pinterest, Twitch, Bilibili, Spotify, Music, LinkedIn, Games, PDF, Documents, Images, System, Files, Downloads, Automation, Phone, AI and CTF and analysis" width="900" />
+  <img src="assets/readme/tools.png" alt="OmniGet Tools hub with 24 categories: YouTube, Speech and subtitles, Video editing, Audio, Instagram, X, Reddit, Pinterest, Twitch, Bilibili, Spotify, Music, LinkedIn, Games, PDF, Documents, Images, System, Files, Downloads, Automation, Phone, AI and CTF and analysis" width="900" />
 </p>
 
-Status legend: no mark means ready, **beta** means it works but has not been tested against every account type, **planned** means the tile exists so you can see where things are going and does nothing yet.
+Status legend: no mark means ready, **beta** marks the newest tools, **planned** marks what is next on the roadmap.
 
 <table>
   <tr>
@@ -136,4 +136,4 @@ Status legend: no mark means ready, **beta** means it works but has not been tes
 - **SponsorBlock.** See sponsor, intro and outro segments and get the yt-dlp flags to skip them.
 - **Dislikes.** Likes, dislikes and rating from Return YouTube Dislike.
 - **Real thumbnail.** The frames the CDN already has at 25, 50 and 75 percent, instead of the clickbait cover.
-- **Force H.264.** A s
+- **Force H.264.** A switch in the browser extension that keeps YouTube on H.264 instead of VP9 and AV1, for machines that

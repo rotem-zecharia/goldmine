@@ -14,6 +14,8 @@
 
 <a href="https://github.com/JuliusBrussee/caveman/stargazers"><img src="https://img.shields.io/github/stars/JuliusBrussee/caveman?style=flat-square&color=F0A63C&label=stars" alt="GitHub stars"></a>
 <a href="https://www.npmjs.com/package/@caveman-ai/cli"><img src="https://img.shields.io/npm/dm/@caveman-ai/cli?style=flat-square&color=F0A63C&label=cli%20downloads" alt="npm downloads"></a>
+<a href="https://www.npmjs.com/package/@caveman-ai/middleware"><img src="https://img.shields.io/npm/v/@caveman-ai/middleware?style=flat-square&color=F0A63C&label=middleware%20npm" alt="middleware on npm"></a>
+<a href="https://pypi.org/project/caveman-middleware/"><img src="https://img.shields.io/pypi/v/caveman-middleware?style=flat-square&color=F0A63C&label=middleware%20pypi" alt="middleware on PyPI"></a>
 <a href="./INSTALL.md"><img src="https://img.shields.io/badge/works_with-30%2B_agents-orange?style=flat-square" alt="30+ agents"></a>
 <a href="#wrap-any-agent"><img src="https://img.shields.io/badge/wraps-10_agents_natively-blue?style=flat-square" alt="10 native wrap profiles"></a>
 <a href="#-license"><img src="https://img.shields.io/badge/license-MIT_%2B_BSL-green?style=flat-square" alt="License"></a>
@@ -36,7 +38,7 @@
 
 <div align="center">
 
-**[See it](#-see-it) · [Quick Start](#-quick-start) · [The Numbers](#-the-numbers) · [In the Wild](#-in-the-wild) · [The Skill](#-the-skill-unpacked) · [The Proxy](#-the-proxy-unpacked) · [Wrap](#wrap-any-agent) · [When to Skip](#-when-to-use--when-to-skip) · [Docs](./docs/README.md)**
+**[See it](#-see-it) · [Quick Start](#-quick-start) · [The Numbers](#-the-numbers) · [How it compares](#-how-it-compares) · [In the Wild](#-in-the-wild) · [The Skill](#-the-skill-unpacked) · [The Proxy](#-the-proxy-unpacked) · [Wrap](#wrap-any-agent) · [Your own app](#-caveman-in-your-own-app) · [When to Skip](#-when-to-use--when-to-skip) · [Docs](./docs/README.md)**
 
 </div>
 
@@ -52,18 +54,7 @@
 <tr>
 <td valign="top">
 
-> The reason your React component is re-rendering is likely because you're creating a new object reference on each render cycle. When you pass an inline object as a prop, React's shallow comparison sees it as a different object every time, which triggers a re-render. I'd recommend using useMemo to memoize the object.
-
-</td>
-<td valign="top">
-
-> New object ref each render. Inline object prop = new ref = re-render. Wrap in `useMemo`.
-
-</td>
-</tr>
-</table>
-
-Same diagnosis. Same fix. Same `useMemo`. The only thing that died was the throa
+> The reason your React component is re-renderi
 
 ## installation
 
@@ -87,6 +78,17 @@ Runs on your machine, between your agent and the AI provider, and shrinks what t
 npm install -g @caveman-ai/cli && caveman setup --install
 caveman claude        # or codex · gemini · aider · kilo · qwen · opencode · hermes · openclaw · pi
 ```
+
+### Your own app: the middleware
+
+Building an agent in code instead of running one in a terminal? Same shrinking, one wrapper around the call you already make. MIT client, alpha today:
+
+```bash
+npm install @caveman-ai/middleware @caveman-ai/sdk        # TypeScript, plus your framework (ai, openai, …)
+pip install 'caveman-middleware[langchain]' caveman-sdk   # Python 3.13+, swap the extra for your framework
+```
+
+Six lines of code and a local runtime. [Full walkthrough below](#-caveman-in-your-own-app).
 
 They stack. Most people start with the small rock and graduate.
 
@@ -147,6 +149,4 @@ The full 30+ agent matrix, dry runs, flags, and verification live in [INSTALL.md
 
 1. **Find out where your tokens go.** `caveman learn` reads months of agent history already on your disk, locally, and ranks your token sinks worst-first with a one-line fix behind each. Do this before anything else. It is the most useful five minutes in this README.
 2. **Let it fix them.** `caveman learn implement` hands each fix to Claude Code or Codex one diff at a time, applied only on your yes, and reverts anything that did not lower tokens per turn.
-3. **Wrap your agent.** `caveman claude` (or `codex`, `gemini`, `aider`, `opencode`, `pi`, …) puts the proxy in front of it. Logs, test output, JSON, and diffs get shrunk before the provider sees them. Originals stay on disk, and the agent can pull any of them back.
-4. **Shrink the noisy stuff.** `caveman shrink -- pnpm test` compresses command output. `caveman browse <url>` gives the agent a compressed view of a web page instead of a 15,000-token accessibility dump.
-5. **Prove it on your own work.** `caveman
+3. **W

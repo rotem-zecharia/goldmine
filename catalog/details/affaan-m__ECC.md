@@ -115,7 +115,7 @@ ECC's Memory Vault gives Claude, Codex, Hermes, OpenClaw, Kimi, and other harnes
 Skill-only, minimal, manual, and Claude plugin installs do not put the Memory Vault runtime on `PATH`. Install the npm runtime separately before using the CLI or optional MCP server:
 
 ```bash
-npm install -g ecc-universal@2.2.1
+npm install -g ecc-universal@2.2.2
 ecc memory init --scope project
 ecc memory search "authentication migration" --target-harness codex
 ecc memory doctor

@@ -1,10 +1,10 @@
 # soxoj/maigret
 
-🕵️‍♂️ Collect a dossier on a person by username from 3000+ sites
+🕵️‍♂️ Collect a dossier on a person by username from 6K websites
 
 ## features
 
-- Supports 3,000+ sites ([see full list](https://github.com/soxoj/maigret/blob/main/sites.md)). A default run checks the 500 highest-ranked sites by traffic; pass `-a` to scan everything, or `--tags` to narrow by category/country.
+- Supports 5,900 sites ([see full list](https://github.com/soxoj/maigret/blob/main/sites.md)). A default run checks the 500 highest-ranked sites by traffic; pass `-a` to scan everything, or `--tags` to narrow by category/country.
 - Embeddable in Python projects — import `maigret` and run searches programmatically (see [library usage](https://maigret.readthedocs.io/en/latest/library-usage.html)).
 - [Extracts](https://github.com/soxoj/socid_extractor) all available information about the account owner from profile pages and site APIs, including links to other accounts.
 - Performs recursive search using discovered usernames and other IDs.
