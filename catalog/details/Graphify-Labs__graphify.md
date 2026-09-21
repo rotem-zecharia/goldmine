@@ -64,6 +64,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 > **Official package:** The PyPI package is `graphifyy` (double-y). Other `graphify*` packages on PyPI are not affiliated. The CLI command is still `graphify`.
 
+The official source repository is [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
+
 **Step 1 — install the package:**
 
 ```bash
@@ -120,9 +122,7 @@ for example `graphify claude install --project` or `graphify codex install --pro
 | CodeBuddy | `graphify install --platform codebuddy` |
 | Codex | `graphify install --platform codex` |
 | OpenCode | `graphify install --platform opencode` |
-| Kilo Code | `graphify install --platform kilo` |
-| GitHub Copilot CLI | `graphify install --platform copilot` |
-| VS Code Copilot Chat | `g
+| Kilo Code | `graphify install --pla
 
 ## tools
 

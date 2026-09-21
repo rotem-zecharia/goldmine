@@ -118,6 +118,9 @@ claude plugin marketplace add JuliusBrussee/caveman && claude plugin install cav
 # Gemini CLI
 gemini extensions install https://github.com/JuliusBrussee/caveman
 
+# Oh My Pi (OMP)
+npx -y github:JuliusBrussee/caveman -- --only omp
+
 # Qwen Code CLI, then its Caveman wrapper
 npm i -g @qwen-code/qwen-code
 caveman qwen
@@ -148,5 +151,4 @@ The full 30+ agent matrix, dry runs, flags, and verification live in [INSTALL.md
 **Big rock.** The proxy, right after `npm install -g @caveman-ai/cli`:
 
 1. **Find out where your tokens go.** `caveman learn` reads months of agent history already on your disk, locally, and ranks your token sinks worst-first with a one-line fix behind each. Do this before anything else. It is the most useful five minutes in this README.
-2. **Let it fix them.** `caveman learn implement` hands each fix to Claude Code or Codex one diff at a time, applied only on your yes, and reverts anything that did not lower tokens per turn.
-3. **W
+2. **Let it fix them.** `caveman learn implement` hands each fix to Claude Code or Codex one diff at a time, applied only on your 

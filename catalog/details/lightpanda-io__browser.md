@@ -217,7 +217,7 @@ Tests](https://web-platform-tests.org/).
 We use [a fork](https://github.com/lightpanda-io/wpt/tree/fork) including a custom
 [`testharnessreport.js`](https://github.com/lightpanda-io/wpt/blob/fork/resources/testharnessreport.js). Results are [published](https://perf.lightpanda.io/wpt) daily.
 
-For reference, you can easily execute a WPT test case with your browser via
+For reference, you can execute a WPT test case with your browser via
 [wpt.live](https://wpt.live).
 
 #### Configure WPT HTTP server
@@ -260,7 +260,14 @@ First start the WPT's HTTP server from your `wpt/` clone dir.
 Run a Lightpanda browser
 
 ```
-zig build run -- --insecure-disable-tls-host-verification
+zig build -Dwpt_extensions run -- serve \
+    --ws-max-concurrent 64 \
+    --insecure-disable-tls-host-verification \
+    --load-resources iframe \
+    --load-resources image \
+    --load-resources worker \
+    --load-resources stylesheet \
+    --experimental-features cors
 ```
 
 Then you can start the wptrunner from the demo's clone dir:
@@ -272,12 +279,7 @@ Or one specific test:
 
 ```
 cd wptrunner && go run . Node-childNodes.html
-```
 
-`wptrunner` command accepts `--summary` and `--json` options modifying output.
-Also `--concurrency` define the concurrency limit.
-
-:warning: Running the whole test suite will take a long time. In this cas
 
 ## features
 

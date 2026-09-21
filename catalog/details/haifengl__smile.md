@@ -196,7 +196,7 @@ For visualization examples, see [plot/README.md](plot/README.md).
 
 ## SMILE Studio
 
-SMILE Studio is an agentic IDE for data science using Python or [SMILE](https://haifengl.github.io/) on JVM.
+SMILE Studio is an agentic IDE for data science using Python or [SMILE](https://www.aihalo.dev/) on JVM.
 See [studio/README.md](studio/README.md) for full documentation.
 
 Download a pre-packaged release from the
@@ -250,4 +250,4 @@ try (var in = new ObjectInputStream(new FileInputStream("model.ser"))) {
 SMILE provides two visualization layers:
 
 - **`smile.plot.swing`** — Swing-based interactive 2D/3D plots.  See [plot/README.md](plot/README.md).
-- **`smile.plot.vega`** — Declarative Vega-Lite charts for browsers and Jupyter.  See [plot/VEGA.md](plo
+- **`smile.plot.vega`** — Declarative Vega-Lite charts for browsers and Jupyter.  See [plot/VEGA.md](plot/VE
