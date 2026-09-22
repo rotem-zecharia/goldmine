@@ -52,9 +52,9 @@ Free transcript via youtube-transcript-api. Optional metadata + top comments via
 |---|---|---|
 | Saving decisions | Copy-paste or lose them | Auto-saved to the right project note |
 | Daily notes | Write it yourself, forget half the time | Created automatically |
-| Finding patterns | Re-read dozens of notes | `/emerge` finds them for you |
-| Challenging yourself | Nobody pushes back | `/challenge` uses your own history against you |
-| Session continuity | Re-e
+| Finding patterns | Re-read dozens of notes | `/obsidian-emerge` finds them for you |
+| Challenging yourself | Nobody pushes back | `/obsidian-challenge` uses your own history against you |
+| Session
 
 ## tools
 

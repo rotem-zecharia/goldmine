@@ -220,9 +220,8 @@ Visible mark support includes:
   Yuanbao, Baidu, LiblibAI's bottom-center wordmark and compact top-left pill,
   and RunningHub labels;
 - one calibrated Microsoft top-right white AI-badge variant;
-- one calibrated Samsung Galaxy AI label variant.
-
-Metadata and provenance inspec
+- one calibrated Samsung Galaxy AI label variant;
+- a generic brand-less bottom-r
 
 ## limitations
 

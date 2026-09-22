@@ -4,7 +4,7 @@ Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns
 
 ## features
 
-AI agent skills (used by Claude Code, Codex CLI, Gemini CLI, etc.) execute with implicit trust and minimal vetting. Research shows that **26.1% of skills contain vulnerabilities** and **5.2% show likely malicious intent**.
+AI agent skills (used by Claude Code, Codex CLI, Gemini CLI, etc.) execute with implicit trust and minimal vetting. In the 31,132-skill analyzed subset of the research dataset, **26.1% of skills contain vulnerabilities** and **5.2% show likely malicious intent**.
 
 SkillSpector helps you answer: **"Is this skill safe to install?"**
 
@@ -16,11 +16,12 @@ SkillSpector is part of the [NVIDIA Verified Skills pipeline](https://docs.nvidi
 - **[Development guide](docs/DEVELOPMENT.md)** — Architecture, package layout, and how to extend the analyzer pipeline.
 - **[Analysis resource bounds](docs/ANALYSIS_RESOURCE_BOUNDS.md)** — Fail-closed bundle, parser, nested-artifact, ledger, and finding ceilings.
 - **[Pi extension](docs/PI_EXTENSION.md)** — Install SkillSpector as a Pi tool for scanning skills from inside agent sessions.
+- **[OpenCode extension](docs/OPENCODE_EXTENSION.md)** — Install SkillSpector as an OpenCode tool and `/skillspector` command for scanning skills from inside agent sessions.
 
 ## Features
 
 - **Multi-format input**: Scan Git repos, URLs, zip files, directories, or single files
-- **70 vulnerability patterns** across 17 categories: prompt injection, data exfiltration, privilege escalation, supply chain, excessive agency, output handling, system prompt leakage, memory poisoning, tool misuse, rogue agent, anti-refusal, trigger abuse, dangerous code (AST), taint tracking, YARA signatures, MCP least privilege, and MCP tool poisoning
+- **71 vulnerability patterns** across 17 categories: prompt injection, data exfiltration, privilege escalation, supply chain, excessive agency, output handling, system prompt leakage, memory poisoning, tool misuse, rogue agent, anti-refusal, trigger abuse, dangerous code (AST), taint tracking, YARA signatures, MCP least privilege, and MCP tool poisoning
 - **Two-stage analysis**: Fast static analysis + optional LLM semantic evaluation
 - **Live vulnerability lookups**: SC4 queries [OSV.dev](https://osv.dev) for real-time CVE data with automatic offline fallback
 - **Multiple output formats**: Terminal, JSON, Markdown, and SARIF reports
@@ -168,7 +169,7 @@ sibling files remain in normal scan scope.
 
 Based on research from "Agent Skills in the Wild: An Empirical Study of Security Vulnerabilities at Scale" (Liu et al., 2026):
 
-- **Dataset**: 42,447 skills from major marketplaces
-- **Vulnerable**: 26.1% contain at least one vulnerability
-- **High-severity**: 5.2% show likely malicious intent
+- **Dataset**: 42,447 skills from major marketplaces; 31,132 were analyzed for the following rates
+- **Vulnerable**: 26.1% of the analyzed subset contain at least one vulnerability
+- **High-severity**: 5.2% of the analyzed subset show likely malicious intent
 - **Key finding**: Skills with executable scripts are 2.12x more likely to be vulnerable

@@ -10,7 +10,7 @@ oh-my-openagent ships in three editions of the same product: two plugins that lo
 
 **Light Edition (omo for Codex CLI)** carries the portable components that fit Codex's plugin system: `rules`, `comment-checker`, `git-bash`, `lsp`, `ultrawork`, `ulw-loop`, `ulw-execute-continuation`, and `telemetry` at the core, plus `teammode` and supporting components (`bootstrap`, `lcx`, and more), plugin-scoped MCPs for `grep_app`, `context7`, `git_bash`, and `lsp`, and the shared `ast-grep` skill. It installs Codex agent TOMLs into `~/.codex/agents/`. There are no OpenCode `team_*` tools; Codex CLI's own spawn/collaboration surface does that work.
 
-**Senpi Edition (standalone, beta)** is the native `omo` command with the OMO extension built in. It installs from `omo-ai@beta` and loads into neither OpenCode nor Codex.
+**OmO Native (standalone, beta)** is the `omo` command with the OMO extension built in. It installs from `omo-ai@beta` and loads into neither OpenCode nor Codex.
 
 Pick the edition(s) you want.
 
@@ -21,13 +21,13 @@ Pick the edition(s) you want.
 | **Ultimate** (OpenCode) | `bunx oh-my-openagent install` (TUI walks you through it) | Plugin registered in `opencode.json` + agent/model config + provider auth prompts |
 | **Light** (Codex CLI) | `npx lazycodex-ai install` | `~/.codex/plugins/cache/sisyphuslabs/omo/` + local Codex marketplace cache + `~/.codex/config.toml` marketplace/plugin/agent blocks + optional autonomous permissions + component CLIs in `~/.local/bin` |
 | **Both** | `bunx oh-my-openagent install --platform=both` | Both of the above |
-| **Senpi edition** (beta) | `bun add -g omo-ai@beta`, then `omo` | The `omo` command: pinned senpi release with the OMO extension built in. Beta channel only; a bare `bun add -g omo-ai` fails by design. See the [install guide](docs/guide/installation.md#senpi-edition-beta-omo-via-npm-omo-ai). |
+| **OmO Native** (beta) | `bun add -g omo-ai@beta`, then `omo` | The `omo` command: pinned senpi engine with the OMO extension built in. Beta channel only; a bare `bun add -g omo-ai` fails by design. See the [install guide](docs/guide/installation.md#omo-native-beta-omo-via-omo-ai). |
 
 `lazycodex-ai` defaults to the Codex Light installer and runs through Node/npm. `--platform` on the shared `omo-agent-toolkit` CLI still defaults to `opencode` (Ultimate).
 
 ### Which edition should I pick?
 
-Already on OpenCode, or want the most-tested path? **Ultimate**. Already on Codex CLI? **Light**. Want one command without installing a host first? The **Senpi edition**, which ships a pinned Senpi engine with OMO built in; bun is the recommended runtime for it, and the `@beta` tag is required. Do not install plain `omo` from npm; that is an unrelated package by a different author.
+Already on OpenCode, or want the most-tested path? **Ultimate**. Already on Codex CLI? **Light**. Want one command without installing a host first? **OmO Native**, which ships a pinned senpi engine with OMO built in; bun is the recommended runtime for it, and the `@beta` tag is required. Do not install plain `omo` from npm; that is an unrelated package by a different author.
 
 ### For Humans
 
@@ -58,7 +58,7 @@ Fetch the full guide and follow it step by step:
 curl -fsSL https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
 ```
 
-The guide covers: platform selection, the subscription interview, provider authenticatio
+The guide covers: platform selection, the subscription interview, provider authentication (Anthropic / Google / Copi
 
 ## limitations
 
