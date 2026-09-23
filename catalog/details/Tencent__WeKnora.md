@@ -39,6 +39,8 @@ Once started, visit **http://localhost** to get started.
 
 > To use a local Ollama model, run `ollama serve > /dev/null 2>&1 &` first.
 
+For Ollama embedding model name, `OLLAMA_BASE_URL`, and RAM notes, see [configuration](./website-docs/01-getting-started/04-configuration.md).
+
 ### 🔄 Upgrading
 
 If you already have WeKnora running and downloaded a newer release:
@@ -91,11 +93,11 @@ WeKnora serves as the core technology framework for the [WeChat Dialog Open Plat
 
 **Official website and product documentation**: [`website-docs/`](./website-docs/README.md) contains the product homepage and the complete documentation set organized as Getting Started → Architecture → Features → API → Clients → Development. With Node.js 24, run `cd website-docs && npm run setup && npm run build && npm run preview` to preview both together. The unified static output serves the homepage at `/` and documentation at `/docs/`; see the directory's README for Nginx and Docker deployment.
 
-Troubleshooting FAQ: [Troubleshooting FAQ](./docs/QA.md)
+Troubleshooting FAQ: [Troubleshooting FAQ](./website-docs/01-getting-started/05-troubleshooting.md)
 
-Detailed API documentation is available at: [API Docs](./docs/api/README.md)
+Detailed API documentation is available at: [API Docs](./website-docs/04-api/01-api-overview.md)
 
-Product plans and upcoming features: [Roadmap](./docs/ROADMAP.md)
+Product capabilities: [Introduction](./website-docs/01-getting-started/01-introduction.md)
 
 ## 🧭 Developer Guide
 
@@ -120,7 +122,7 @@ make dev-frontend
 - ✅ No need to rebuild Docker images
 - ✅ Support IDE breakpoint debugging
 
-**Detailed Documentation:** [Development Environment Quick Start](./docs/开发指南.md)
+**Detailed Documentation:** [Development Environment Quick Start](./website-docs/06-development/01-dev-guide.md)
 
 
 ## 🤝 Contributing
