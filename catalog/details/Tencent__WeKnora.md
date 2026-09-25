@@ -4,71 +4,74 @@ Open-source LLM knowledge platform: turn raw documents into a queryable RAG, an 
 
 ## features
 
-[**WeKnora**](https://weknora.weixin.qq.com) is an open-source, LLM-powered knowledge framework built for enterprise-grade document understanding, semantic retrieval, and autonomous reasoning.
+[WeKnora](https://weknora.weixin.qq.com) is an open-source, LLM-powered knowledge framework for enterprise document understanding, semantic retrieval and reasoning. It brings a team's documents together so they can be searched, reasoned over and kept up to date.
 
-https://github.com/user-attachments/assets/19b28ce2-a62f-4f54-b289-c983576259bc
+https://github.com/user-attachments/assets/5722b10d-d04d-49ed-a6cc-635a8c77d91f
 
-*2:25 · 1080p · English narration & captions.*
+<p align="center"><sub>1:52 · 1080p · No narration, English on-screen text</sub></p>
 
-It is organized around three core capabilities: **RAG-based Quick Q&A** for everyday lookups, a **ReAct Agent** that autonomously orchestrates retrieval, MCP tools, a **tenant skill catalog**, session-persistent **Docker / E2B / Cube sandboxes**, the user's own browser via **BrowserSkill** and web search to handle complex multi-step tasks, and a brand-new **Wiki Mode** in which agents distill raw documents into a self-maintaining, interlinked markdown knowledge base with an interactive knowledge graph, complete with manual editing, revision history and one-click rollback. **Cross-session long-term memory** remembers who you are and what you keep asking about. Knowledge curation is equally hands-on: a **tree-structured folder view** preserves the directory layout of uploads, and **chunk editing with revision history** lets retrieval chunks be edited, diffed and reverted like documents. Combined with multi-source ingestion (Feishu wiki / Feishu Drive / Confluence / GitLab / Tencent IMA / Notion / Yuque / DingTalk Docs / RSS, and growing), **website embed widgets** for publishing agents to external sites, a **built-in MCP Server** that publishes knowledge bases to Cursor, Claude and other AI tools, **scoped API keys with a principal model** for programmatic integrations, **multi-instance storage backends** per workspace for flexible data placement, 27 built-in model vendors backed by a generated model catalog (including LiteLLM), full Langfuse observability plus a **runtime task-queue dashboard with worker-pool governance**, **enterprise-ready multi-workspace RBAC** (4-tier role matrix + per-resource ownership + per-workspace audit log), and a fully self-hostable modular architecture, WeKnora turns scattered documents into a queryable, reasoning-capable, continuously evolving knowledge asset.
+Use RAG to look things up, the agent for multi-step tasks, and the wiki to organize knowledge. All three work on the same knowledge bases.
 
-The framework supports auto-syncing knowledge from Feishu, Confluence, DingTalk Docs, GitLab, Tencent IMA, Notion, and Yuque (more data sources coming soon), handles 10+ document formats including PDF, Word, images, Excel and XMind, and can serve Q&A directly through IM channels like WeCom, Feishu, Slack, and Telegram. It is compatible with major LLM providers including OpenAI, DeepSeek, Qwen (Alibaba Cloud), Zhipu, Hunyuan, Gemini, MiniMax, NVIDIA, LiteLLM, and Ollama. Office files can be parsed in-process with **anydoc**. Its fully modular design allows swapping LLMs, vector databases, and storage backends, with support for local and private cloud deployment ensuring complete data sovereignty. WeKnora also integrates with **Langfuse** for comprehensive observability into agent reasoning, token usage, and pipeline tracing.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/images/readme/capabilities-en-dark.svg">
+  <img src="./docs/images/readme/capabilities-en-light.svg" alt="01 RAG: answers you can check, with hybrid search, multimodal parsing and citations. 02 Agent: tasks done with knowledge and tools, with multi-step reasoning, skills and sandbox, the local browser, MCP tools and memory. 03 Wiki: documents organized into a wiki, with a knowledge graph and rollback." width="100%">
+</picture>
 
+**The agent's toolbox.** Skills installed from ClawHub / SkillHub / Git / ZIP run in session-persistent Docker / E2B / Cube sandboxes, with an interactive terminal and graphical desktop beside the chat. Through the BrowserSkill extension the agent operates the user's own Chrome or Edge, and external MCP services (OAuth included) can be connected and enabled tool by tool.
 
-## ✨ Latest Updates
+Beyond the three modes:
 
-- **v0.8.2** — **Local Browser (BrowserSkill)**: agents drive the user's own Chrome / Edge through the open-source BrowserSkill extension, with a live task preview, pause / resume and hand-off for logins and CAPTCHAs; **built-in MCP Server** (per-workspace `/mcp/<endpoint_id>` endpoints over Streamable HTTP, each with its own token, knowledge-base scope, rate limit and tool groups; the Python `mcp-server/` is deprecated); a sidebar **Toolbox** for skills, MCP services and the browser connection; **conversation control** (append requirements to a running turn, fork from any earlier question, rewind in place with sandbox checkpoints, per-session reasoning effort); **artifacts library**; sandbox **interactive terminal** and **graphical desktop**; macOS **Lite host sandbox** with project folders; rebuilt **model catalog** (27 built-in vendors with generated context-window, max-output, reasoning and vision metadata); agent retrieval tools consolidated into `search_knowledge` / `read_doc
-
-## requirements
-
-- [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
-- [Git](https://git-scm.com/)
+- **Memory and curation**: cross-session long-term memory keeps the profile, preferences and facts a user has confirmed. Folder uploads keep their directory tree, and retrieval chunks can be edited, diffed and rolled back.
+- **Data sources and formats**: auto-sync from Feishu wiki / Feishu Drive / Confluence / GitLab / Tencent IMA / Notion / Yuque / DingTalk Docs / RSS, with more on the way. 10+ document formats including PDF, Word, images, Excel and XMind; Office files are parsed in-process by anydoc.
+- **Channels and integrations**: Q&A in WeCom, Feishu, Slack, Telegram and other IM apps; an embed widget for external websites; a built-in MCP Server for Cursor, Claude and other AI tools; scoped API keys with a principal model for programmatic access.
+- **Models**: 27 built-in vendors with a generated model catalog, including OpenAI, DeepSeek, Qwen (Alibaba Cloud), Zhipu, Hunyuan, Gemini, MiniMax, NVIDIA, LiteLLM and Ollama.
+- **Permissions and operations**: multi-workspace RBAC (four roles, per-resource ownership, per-workspace audit log), several storage instances per workspace, a runtime task-queue dashboard with worker-pool governance, and Langfuse tracing for agent steps, token usage and pipelines.
+- **Deployment**: LLMs, vector databases and storage backends are all swappable. Deploy locally or on a private cloud and keep the data in your own environment.
 
 ## installation
+
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <img src="./website-docs/homepage/public/docs/_home/brands/wechat-dialog.png" width="28" height="28" alt=""><br/>
+      <sub>ONLINE</sub><br/>
+      <b>WeChat Dialog Open Platform</b><br/>
+      Manage knowledge bases online and connect Q&A to Official Accounts, Mini Programs and other WeChat scenarios.<br/><br/>
+      <a href="https://chatbot.weixin.qq.com/login">Open the platform →</a>
+    </td>
+    <td width="33%" valign="top">
+      <img src="./website-docs/homepage/public/docs/_home/brands/tencent-cloud.ico" width="28" height="28" alt=""><br/>
+      <sub>CLOUD</sub><br/>
+      <b>Tencent Cloud Lighthouse</b><br/>
+      Deploy WeKnora from an application template and run it on your own cloud server.<br/><br/>
+      <a href="https://mc.tencent.com/s69nKCVz">Deploy on Tencent Cloud →</a>
+    </td>
+    <td width="33%" valign="top">
+      <img src="./docs/images/readme/icons/server.svg" width="28" height="28" alt=""><br/>
+      <sub>SELF-HOSTED</sub><br/>
+      <b>Your own environment</b><br/>
+      Deploy with Docker or Kubernetes and configure models, storage and networking yourself.<br/><br/>
+      <a href="#run-with-docker-compose">Run with Docker Compose ↓</a>
+    </td>
+  </tr>
+</table>
+
+### Run with Docker Compose
+
+Requires [Docker](https://www.docker.com/), [Docker Compose](https://docs.docker.com/compose/) and [Git](https://git-scm.com/).
 
 ```bash
 git clone https://github.com/Tencent/WeKnora.git
 cd WeKnora
-cp .env.example .env   # Edit .env as needed, see comments in the file
+cp .env.example .env    # Edit .env as needed, see comments in the file
 docker compose pull     # Pull the latest images
 docker compose up -d    # Start core services
 ```
 
-Once started, visit **http://localhost** to get started.
+Then open **http://localhost** and follow the onboarding guide. A walkthrough with sample data is in the [Quickstart](https://weknora.weixin.qq.com/docs/01-getting-started/03-quickstart).
 
-> To use a local Ollama model, run `ollama serve > /dev/null 2>&1 &` first.
-
-For Ollama embedding model name, `OLLAMA_BASE_URL`, and RAM notes, see [configuration](./website-docs/01-getting-started/04-configuration.md).
-
-### 🔄 Upgrading
-
-If you already have WeKnora running and downloaded a newer release:
-
-```bash
-# Set WEKNORA_VERSION in .env to the target release (e.g. 0.7.0), or keep latest
-docker compose pull     # Pull images matching WEKNORA_VERSION
-docker compose up -d    # Recreate containers with new images
-```
-
-> `docker compose up -d` alone reuses locally cached images and may leave the UI version out of sync with the release you downloaded.
-
-### 🔧 Optional Services (Docker Compose Profiles)
-
-Add `--profile` flags to enable additional components. Multiple profiles can be combined:
-
-| Profile | Description | Command |
-|---------|-------------|---------|
-| _(default)_ | Core services | `docker compose pull && docker compose up -d` |
-| `full` | All features | `docker compose --profile full pull && docker compose --profile full up -d` |
-| `neo4j` | Knowledge Graph (Neo4j) | `docker compose --profile neo4j pull && docker compose --profile neo4j up -d` |
-| `minio` | Object Storage (MinIO) | `docker compose --profile minio pull && docker compose --profile minio up -d` |
-| `langfuse` | Tracing (Langfuse) | `docker compose --profile langfuse pull && docker compose --profile langfuse up -d` |
-
-Combine profiles: `docker compose --profile neo4j --profile minio pull && docker compose --profile neo4j --profile minio up -d`
-
-Stop services: `docker compose down`
-
-### 🌐 Service URLs
+> [!TIP]
+> To use a local Ollama model, run `ollama serve > /dev/null 2>&1 &` first. For the Ollama embedding model name, `OLLAMA_BASE_URL`, and RAM notes, see [Configuration](https://weknora.weixin.qq.com/docs/01-getting-started/04-configuration).
 
 | Service | URL |
 |---------|-----|
@@ -76,101 +79,44 @@ Stop services: `docker compose down`
 | Backend API | `http://localhost:8080` |
 | Langfuse Tracing | `http://localhost:3000` |
 
-## MCP Server
+### Optional services
 
-WeKnora has a built-in MCP Server: create an endpoint under Settings → Publish & Integrations → MCP Server and connect clients over Streamable HTTP at `/mcp/<endpoint_id>`. See the [MCP guide](./website-docs/03-features/08-mcp.md). The standalone Python server in [`mcp-server/`](./mcp-server/MCP_CONFIG.md) is deprecated and kept only for existing deployments.
+Add `--profile` flags to enable additional components; multiple profiles can be combined.
 
-## 🔌 Using WeChat Dialog Open Platform
-
-WeKnora serves as the core technology framework for the [WeChat Dialog Open Platform](https://chatbot.weixin.qq.com), providing a more convenient usage approach:
-
-- **Zero-code Deployment**: Simply upload knowledge to quickly deploy intelligent Q&A services within the WeChat ecosystem, achieving an "ask and answer" experience
-- **Efficient Question Management**: Support for categorized management of high-frequency questions, with rich data tools to ensure accurate, reliable, and easily maintainable answers
-- **WeChat Ecosystem Integration**: Through the WeChat Dialog Open Platform, WeKnora's intelligent Q&A capabilities can be seamlessly integrated into WeChat Official Accounts, Mini Programs, and other WeChat scenarios, enhancing user interaction experiences
-
-## tools
-
-**Official website and product documentation**: [`website-docs/`](./website-docs/README.md) contains the product homepage and the complete documentation set organized as Getting Started → Architecture → Features → API → Clients → Development. With Node.js 24, run `cd website-docs && npm run setup && npm run build && npm run preview` to preview both together. The unified static output serves the homepage at `/` and documentation at `/docs/`; see the directory's README for Nginx and Docker deployment.
-
-Troubleshooting FAQ: [Troubleshooting FAQ](./website-docs/01-getting-started/05-troubleshooting.md)
-
-Detailed API documentation is available at: [API Docs](./website-docs/04-api/01-api-overview.md)
-
-Product capabilities: [Introduction](./website-docs/01-getting-started/01-introduction.md)
-
-## 🧭 Developer Guide
-
-### ⚡ Fast Development Mode (Recommended)
-
-If you need to frequently modify code, **you don't need to rebuild Docker images every time**! Use fast development mode:
+| Profile | Adds |
+|---------|------|
+| _(default)_ | Core services |
+| `full` | All features |
+| `neo4j` | Knowledge Graph (Neo4j) |
+| `minio` | Object Storage (MinIO) |
+| `langfuse` | Tracing (Langfuse) |
 
 ```bash
-# Start infrastructure
-make dev-start
-
-# Start backend (new terminal)
-make dev-app
-
-# Start frontend (new terminal)
-make dev-frontend
+docker compose --profile neo4j --profile minio pull
+docker compose --profile neo4j --profile minio up -d
+docker compose down     # Stop services
 ```
 
-**Development Advantages:**
-- ✅ Frontend modifications auto hot-reload (no restart needed)
-- ✅ Backend modifications quick restart (5-10 seconds, supports Air hot-reload)
-- ✅ No need to rebuild Docker images
-- ✅ Support IDE breakpoint debugging
+### Upgrading
 
-**Detailed Documentation:** [Development Environment Quick Start](./website-docs/06-development/01-dev-guide.md)
-
-
-## 🤝 Contributing
-
-Welcome to submit [Issues](https://github.com/Tencent/WeKnora/issues) or Pull Requests.
-
-**Process:** Fork → Create branch → Commit changes → Open PR
-
-**Standards:** Format code with `gofmt`, follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat:` / `fix:` / `docs:` / `test:` / `refactor:`)
-
-### Validation
-
-For a focused PR, validate the changed scope first:
+If you already have WeKnora running and downloaded a newer release:
 
 ```bash
-git fetch origin main
-git diff --check origin/main...HEAD
-golangci-lint run --new-from-rev=origin/main ./...
-go test ./path/to/changed/package -count=1
+# Set WEKNORA_VERSION in .env to the target release (e.g. 0.8.2), or keep latest
+docker compose pull     # Pull images matching WEKNORA_VERSION
+docker compose up -d    # Recreate containers with new images
 ```
 
-Run `gofmt` on changed Go files before committing. For frontend changes, run the relevant tests from `frontend/` and use `npm run type-check` when the change affects TypeScript or Vue components.
+> [!NOTE]
+> `docker compose up -d` alone reuses locally cached images and may leave the UI version out of sync with the release you downloaded. Read the [upgrade notes](https://weknora.weixin.qq.com/docs/07-releases/v0.8.2#upgrade-notes) before moving from v0.8.0.
 
-The full maintainer gate remains:
+### Other ways to deploy
 
-```bash
-make fmt
-make lint
-make test
-```
+| Option | When to use it |
+|--------|----------------|
+| **Docker Compose** | The standard deployment above: all features, multiple services |
+| **Kubernetes (Helm)** | Production clusters; the chart is in [`helm/`](./helm) |
+| **Lite single binary** | Local or low-resource use with no external dependencies (SQLite + in-memory queue); see [Lite vs. standard](./docs/LITE.md) |
+| **Desktop app** | The Lite runtime with a GUI, login-free start and a macOS host sandbox; no installer is published yet, so build it from source |
 
-`make fmt` formats the entire Go repository, so run it only with a clean worktree and review the resulting diff. Some full-suite tests require local infrastructure or service configuration. If a full check fails for an unrelated baseline or environment reason, include the exact command and failure in the PR while still providing passing targeted tests for your change.
-
-## 🔒 Security Notice
-
-**Important:** Starting from v0.1.3, WeKnora includes login authentication functionality to enhance system security. For production deployments, we strongly recommend:
-
-- Deploy WeKnora services in internal/private network environments rather than public internet
-- Avoid exposing the service directly to public networks to prevent potential information leakage
-- Configure proper firewall rules and access controls for your deployment environment
-- Regularly update to the latest version for security patches and improvements
-
-## 👥 Contributors
-
-Thanks to these excellent contributors:
-
-[![Contributors](https://contrib.rocks/image?repo=Tencent/WeKnora)](https://github.com/Tencent/WeKnora/graphs/contributors)
-
-## 📄 License
-
-This project is licensed under the [MIT License](./LICENSE).
-You are free to use, modify, and distribute the code with proper attribution.
+All options, hardware requirements and deployment topologies: [Installation guide](https://weknora.weixin.qq.com/docs/01-getting-star

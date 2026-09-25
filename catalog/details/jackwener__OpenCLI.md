@@ -68,7 +68,6 @@ Use OpenCLI directly when you want a reliable command instead of a live browser 
 
 - `opencli list` shows every registered command.
 - `opencli <site> <command>` runs a built-in or generated adapter.
-- `opencli external register mycli` exposes a local CLI through the same discovery surface.
 - `opencli doctor` helps diagnose browser connectivity.
 
 ## Extending OpenCLI
@@ -81,7 +80,6 @@ If you want to add your own commands, start with the [Extending OpenCLI guide](.
 | Quickly draft a private local adapter | `opencli browser init <site>/<command>` in `~/.opencli/clis/` |
 | Modify an official adapter locally | `opencli adapter eject <site>` + `opencli adapter reset <site>` |
 | Publish or install third-party commands | `opencli plugin install github:user/repo` |
-| Wrap an existing local binary | `opencli external register <name>` |
 
 ## For AI Agents
 

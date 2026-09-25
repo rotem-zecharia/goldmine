@@ -53,16 +53,11 @@ Run Langfuse on your own infrastructure:
 
 See [self-hosting documentation](https://langfuse.com/self-hosting) to learn more about architecture and configuration options.
 
-> [!TIP]
-> **Self-hosting Langfuse?** Subscribe to the [self-hosting update list](https://langfuse.com/self-hosting#subscribe) to get an email about important features and new releases for open source Langfuse — self-hosting updates only, no marketing.
+#### Docker log rotation
 
-## 🔌 Integrations
+The default `docker-compose.yml` inherits the [Docker daemon's logging configuration](https://docs.docker.com/engine/logging/configure/). Docker's default `json-file` driver does not rotate logs unless configured, which can exhaust disk space. Set its [`max-size` and `max-file` options](https://docs.docker.com/engine/logging/drivers/json-file/), or keep your chosen logging backend and configure retention there. Do not rotate or truncate Docker-managed JSON log files with external tools.
 
-<img width="2400" alt="integrations" src="https://github.com/user-attachments/assets/b85c9a45-68f0-4f76-b545-0e8632abef9f" />
-
-### Main Integrations:
-
-| Integration                                                                  | Supports                   | Description                                        
+After changing daemon logging defaults, restart Docker and recreat
 
 ## installation
 
