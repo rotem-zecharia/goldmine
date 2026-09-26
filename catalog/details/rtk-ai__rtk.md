@@ -113,7 +113,7 @@ rtk read file.rs -l aggressive  # Signatures only (strips bodies)
 rtk smart file.rs               # 2-line heuristic code summary
 rtk find "*.rs" .               # Compact find results
 rtk grep "pattern" .            # Grouped search results
-rtk diff file1 file2            # Condensed diff (exit 1 if files differ)
+rtk diff file1 file2            # Condensed diff (exit 0: identical, 1: different, 2: read error)
 ```
 
 ### Git
@@ -195,7 +195,7 @@ rtk deno check                   # Strip download lines + tee recovery
 ```bash
 rtk aws sts get-caller-identity # One-line identity
 rtk aws ec2 describe-instances  # Compact instance list
-rtk aws lambda list-functions   # Name/
+rtk aws lambda 
 
 ## configuration
 

@@ -2,72 +2,82 @@
 
 Self-hosted video downloader for YouTube and other sites (web UI for yt-dlp)
 
-## configuration
-
-Certain values can be set via environment variables, using the `-e` parameter on the docker command line, or the `environment:` section in Docker Compose.
-
-### 🏠 Runtime & Permissions
-
-* __PUID__: User under which MeTube will run. Defaults to `1000` (legacy `UID` also supported).
-* __PGID__: Group under which MeTube will run. Defaults to `1000` (legacy `GID` also supported).
-* __UMASK__: Umask value used by MeTube. Defaults to `022`.
-* __DEFAULT_THEME__: Default theme to use for the UI, can be set to `light`, `dark`, or `auto`. Defaults to `auto`.
-* __LOGLEVEL__: Log level, can be set to `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`, or `NONE`. Defaults to `INFO`.
-* __ENABLE_ACCESSLOG__: Whether to enable access log. Defaults to `false`.
-
-### ⬇️ Download Behavior
-
-* __MAX_CONCURRENT_DOWNLOADS__: Maximum number of simultaneous downloads; further downloads wait for a free slot. Defaults to `3`.
-* __DELETE_FILE_ON_TRASHCAN__: if `true`, downloaded files are deleted on the server, when they are trashed from the "Completed" section of the UI. Defaults to `false`.
-* __DEFAULT_OPTION_PLAYLIST_ITEM_LIMIT__: Maximum number of playlist items that can be downloaded. Defaults to `0` (no limit).
-* __SUBSCRIPTION_DEFAULT_CHECK_INTERVAL__: Default minutes between automatic checks for each subscription. Defaults to `60`.
-* __SUBSCRIPTION_SCAN_PLAYLIST_END__: Maximum playlist/channel entries to fetch per subscription check (newest-first). Defaults to `50`.
-* __SUBSCRIPTION_MAX_SEEN_IDS__: Cap on stored video IDs per subscription to limit state file growth. Defaults to `50000`.
-* __CLEAR_COMPLETED_AFTER__: Number of seconds after which completed (and failed) downloads are automatically removed from the "Completed" list. Defaults to `0` (disabled).
-
-### 📁 Storage & Directories
-
-* __DOWNLOAD_DIR__: Path to where the downloads will be saved. Defaults to `/downloads` in the Docker image, and `.` otherwise.
-* __AUDIO_DOWNLOAD_DIR__: Path to where audio-only downloads will be saved, if you wish to separate them from the video downloads. Defaults to the value of `DOWNLOAD_DIR`.
-* __CUSTOM_DIRS__: Whether to allow downloading into custom directories within the __DOWNLOAD_DIR__ (or __AUDIO_DOWNLOAD_DIR__). When enabled, a **Download Folder** field under **Advanced Options** sets the directory per download. Defaults to `true`.
-* __CREATE_CUSTOM_DIRS__: Whether to create directories within the __DOWNLOAD_DIR__ (or __AUDIO_DOWNLOAD_DIR__) that do not exist yet. When enabled, the folder field accepts free text and the directory is created recursively. Defaults to `true`.
-* __CUSTOM_DIRS_EXCLUDE_REGEX__: Regular expression to exclude some custom directories from the folder field's suggestions. Empty regex disables exclusion. Defaults to `(^|/)[.@].*$`, which means directories starting with `.` or `@`.
-* __DEFAULT_FOLDER__: Custom directory to pre-select in the download folder field, relative to __DOWNLOAD_DIR__ (or __AUDIO_DOWNLOAD_DIR__), for when most downloads go to the same place. It is only a starting value — the field stays editable, so any other folder can still be picked per download. Requires __CUSTOM_DIRS__; ignored with a warning otherwise. Defaults to empty, i.e. the base download directory.
-* __DOWNLOAD_DIRS_INDEXABLE__: If `true`, the download directories (__DOWNLOAD_DIR__ and __AUDIO_DOWNLOAD_DIR__) are indexable on the web server. Defaults to `false`.
-* __STATE_DIR__: Path to where MeTube will store its persistent state files (`queue.json`, `pending.json`, `completed.json`, `subscriptions.json`). Defaults to `/downloads/.metube` in the Docker image, and `.` otherwise.
-* __TEMP_DIR__: Path where intermediary download files will be saved. Defaults to `/downloads` in the Docker image, and `.` otherwise.
-  * Set this to an SSD or RAM filesystem (e.g., `tmpfs`) for better performance.
-  * __Note__: Using a RAM filesystem may prevent downloads from being resumed.
-* __CHOWN_DIRS__: If `false`, ownership of `DOWNLOAD_DIR`, `STATE_DIR`, and `TEMP_DI
-
-## features
-
-MeTube development relies on community contributions. If you need additional features, please submit a PR. Create an issue first to discuss the implementation before writing code — MeTube's scope is deliberately narrow: it downloads well and stops once the file is written. Features that improve the download itself are welcome; post-download file management (tag editing, metadata lookups, library organization) is out of scope regardless of implementation quality — see [AGENTS.md](AGENTS.md) for the full policy. Feature requests without an accompanying PR are unlikely to be fulfilled.
-
-## 🛠️ Building and running locally
-
-Make sure you have Node.js 22+ and Python 3.13 installed.
-
-```bash
-
 ## installation
 
-cd ui
-curl -fsSL https://get.pnpm.io/install.sh | sh -
-pnpm install
-pnpm run build
-# install python dependencies
-cd ..
-curl -LsSf https://astral.sh/uv/install.sh | sh
-uv sync
-# run
-uv run python3 app/main.py
-```
-
-A Docker image can be built locally (it will build the UI too):
-
 ```bash
-docker build -t metube .
+docker run -d -p 8081:8081 -v /path/to/downloads:/downloads ghcr.io/alexta69/metube
 ```
 
-Note that if you're running the server in VSCode, your downloads will go to your user's Downloads folder (this is configured via the environment in `.vscode/launch.json`).
+Or with Docker Compose:
+
+```yaml
+services:
+  metube:
+    image: ghcr.io/alexta69/metube
+    container_name: metube
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    volumes:
+      - /path/to/downloads:/downloads
+```
+
+Then open `http://<host>:8081` in your browser. Images are multi-arch (amd64/arm64), and also published on Docker Hub as `alexta69/metube`.
+
+## configuration
+
+MeTube is configured with environment variables: `-e NAME=value` on the `docker run` command line, or the `environment:` section in Compose. Defaults are the Docker image's; outside Docker, the directories default to the working directory.
+
+### Runtime and permissions
+
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `PUID` / `PGID` | `1000` | User and group MeTube runs as and writes files with. Legacy `UID`/`GID` also work. |
+| `UMASK` | `022` | Umask for the files MeTube creates. |
+| `CHOWN_DIRS` | `true` | Make `PUID:PGID` the owner of the download, state and temp directories at startup. With `false`, MeTube's user must already have access. |
+| `LOGLEVEL` | `INFO` | `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL` or `NONE`. |
+| `ENABLE_ACCESSLOG` | `false` | Log every HTTP request. |
+| `DEFAULT_THEME` | `auto` | UI theme: `light`, `dark`, or `auto` to follow the system. |
+
+### Downloads
+
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `MAX_CONCURRENT_DOWNLOADS` | `3` | Downloads that run at once; the rest wait their turn. |
+| `DEFAULT_OPTION_PLAYLIST_ITEM_LIMIT` | `0` | Default for the **Items Limit** field: how many entries of a playlist or channel to download (`0` = all). |
+| `CLEAR_COMPLETED_AFTER` | `0` | Seconds before finished and failed downloads leave the Completed list (`0` = never). |
+| `DELETE_FILE_ON_TRASHCAN` | `false` | Also delete the file from disk when its entry is removed from Completed. |
+| `SUBSCRIPTION_DEFAULT_CHECK_INTERVAL` | `60` | Default minutes between checks of a [subscription](https://github.com/alexta69/metube/wiki/Subscriptions). |
+| `SUBSCRIPTION_SCAN_PLAYLIST_END` | `50` | Newest entries fetched each time a subscription is checked. |
+| `SUBSCRIPTION_MAX_SEEN_IDS` | `50000` | Video IDs remembered per subscription, to bound the state file's size. |
+
+### Directories
+
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `DOWNLOAD_DIR` | `/downloads` | Where downloads are saved. |
+| `AUDIO_DOWNLOAD_DIR` | same as `DOWNLOAD_DIR` | Where audio-only downloads are saved, to keep them apart from video. |
+| `TEMP_DIR` | `/downloads` | Where files are written while downloading. An SSD or `tmpfs` is faster, but on a RAM disk interrupted downloads can't resume. |
+| `STATE_DIR` | `/downloads/.metube` | Where MeTube keeps its queue, history, subscriptions and uploaded cookies. |
+| `CUSTOM_DIRS` | `true` | Show a **Download Folder** field under Advanced Options, to save into a subfolder of the download directory. |
+| `CREATE_CUSTOM_DIRS` | `true` | Let that field create folders that don't exist yet. |
+| `CUSTOM_DIRS_EXCLUDE_REGEX` | `(^\|/)[.@].*$` | Folders left out of the field's suggestions; the default hides names starting with `.` or `@`. Empty hides none. |
+| `DEFAULT_FOLDER` | | Folder the field starts with, relative to the download directory. Requires `CUSTOM_DIRS`. |
+| `DOWNLOAD_DIRS_INDEXABLE` | `false` | Serve browsable listings of the download directories. |
+
+### File naming
+
+Templates use [yt-dlp's output template syntax](https://github.com/yt-dlp/yt-dlp/blob/master/README.md#output-template). How MeTube applies them is explained in [Output templates](https://github.com/alexta69/metube/wiki/Output-templates).
+
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `OUTPUT_TEMPLATE` | `%(title)s.%(ext)s` | Filename for downloads. |
+| `OUTPUT_TEMPLATE_PLAYLIST` | `%(playlist_title)s/%(title)s.%(ext)s` | Filename for items added from a playlist. Empty means `OUTPUT_TEMPLATE`. |
+| `OUTPUT_TEMPLATE_CHANNEL` | `%(channel)s/%(title)s.%(ext)s` | Filename for items added from a channel. Empty means `OUTPUT_TEMPLATE`. |
+| `OUTPUT_TEMPLATE_CHAPTER` | `%(title)s - %(section_number)02d - %(section_title)s.%(ext)s` | Default filename for each chapter when **Split by chapters** is on. |
+
+### yt-dlp
+
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `YTDL_OPTIONS` | `{}` | Options for every download, as a JSON object — see [yt-dlp options](#yt-dlp-options).
