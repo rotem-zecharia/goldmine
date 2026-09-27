@@ -99,6 +99,7 @@ uipro init --ai kilocode    # KiloCode
 uipro init --ai warp        # Warp
 uipro init --ai augment     # Augment
 uipro init --ai codewhale   # CodeWhale
+uipro init --ai zcode       # ZCode
 uipro init --ai universal   # Universal / Agent Standard (.agents/skills/)
 uipro init --ai all         # All assistants
 ```
@@ -110,6 +111,7 @@ The npm package is `ui-ux-pro-max-cli`; it still installs the `uipro` command. O
 ```bash
 uipro init --ai claude --global   # Install to ~/.claude/skills/
 uipro init --ai cursor --global   # Install to ~/.cursor/skills/
+uipro init --ai zcode --global    # Install to ~/.zcode/skills/
 uipro init --ai universal --global # Install to ~/.agents/skills/
 ```
 

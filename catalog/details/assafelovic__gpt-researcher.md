@@ -129,30 +129,12 @@ GPT Researcher now includes Deep Research - an advanced recursive research workf
 
 [Learn more about Deep Research](https://docs.gptr.dev/docs/gpt-researcher/gptr/deep_research) in our documentation.
 
-## Run with Docker
+## 🎯 Smart Context Filtering with Jev
 
-> **Step 1** - [Install Docker](https://docs.gptr.dev/docs/gpt-researcher/getting-started/getting-started-with-docker)
+Every research run scrapes dozens of pages, and only some of each page helps answer the question. Before anything reaches the LLM, GPT Researcher decides which passages to keep. By default it uses **[Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev)** by TypeSafe, a model that scores how useful each passage is for the question, rather than how similar its words or embedding are.
 
-> **Step 2** - Clone the '.env.example' file, add your API Keys to the cloned file and save the file as '.env'
+**Jev's context is 59% more relevant than embeddings, at the same cost** (73% of kept passages relevant vs 46%). We benchmarked every option on 28 research tasks, replaying the same scraped sources so that only the filter changed:
 
-> **Step 3** - Within the docker-compose file comment out services that you don't want to run with Docker.
-
-```bash
-docker-compose up --build
-```
-
-If that doesn't work, try running it without the dash:
-```bash
-docker compose up --build
-```
-
-> **Step 4** - By default, if you haven't uncommented anything in your docker-compose file, this flow will start 2 processes:
- - the Python server running on localhost:8000<br>
- - the React app running on localhost:3000<br>
-
-Visit localhost:3000 on any browser and enjoy researching!
-
-
-## 📄 Research on Local Documents
-
-You can instruct the GPT Researcher to run research tasks based on your lo
+| Context filter | Relevant passages kept | Head-to-head vs embeddings | Filter time | Cost per report | Needs |
+|---|---|---|---|---|---|
+| **Jev** (default) | **73%** | **15 wins · 10 ties · 3 losses** | 1.7s | $

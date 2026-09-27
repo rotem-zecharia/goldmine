@@ -57,8 +57,8 @@ This repository provides fast automatic speech recognition (70x realtime with la
 
 - 1st place at [Ego4d transcription challenge](https://eval.ai/web/challenges/challenge-page/1637/leaderboard/3931/WER) 🏆
 - _WhisperX_ accepted at INTERSPEECH 2023
-- v3 transcript segment-per-sentence: using nltk sent_tokenize for better subtitlting & better diarization
-- v3 released, 70x speed-up open-sourced. Using batched whisper with [faster-whisper](https://github.com/guillaumekln/faster-whi
+- v3 released, 70x speed-up open-sourced. Using batched whisper with [faster-whisper](https://github.com/guillaumekln/faster-whisper) backend!
+- Context-Aware Batching Released 2026: We successfully enable condition_on_previous_context
 
 ## installation
 
@@ -137,19 +137,22 @@ To label the transcript with speaker ID's (set number of speakers if known e.g. 
 
     whisperx path/to/audio.wav --model large-v2 --diarize --highlight_words True
 
+To maintain continuous context (ideal for technical language / punctuation), set interleaved_context=True:
+
+    whisperx path/to/audio.wav --model large-v2 --interleaved_context
+
 To run on CPU instead of GPU (and for running on Mac OS X):
 
     whisperx path/to/audio.wav --compute_type int8 --device cpu
+
+For conditioning on previous context (This allows context to be passed from the previous segment, leading to better results on long audio):
+
+    whisperx path/to/audio.wav --model large-v2 --interleaved_context
+
 
 ### Other languages
 
 The phoneme ASR alignment model is _language-specific_, for tested languages these models are [automatically picked from torchaudio pipelines or huggingface](https://github.com/m-bain/whisperX/blob/f2da2f858e99e4211fe4f64b5f2938b007827e17/whisperx/alignment.py#L24-L58).
 Just pass in the `--language` code, and use the whisper `--model large`.
 
-Currently default models provided for `{en, fr, de, es, it}` via torchaudio pipelines and many other languages via Hugging Face. Please find the list of currently supported languages under `DEFAULT_ALIGN_MODELS_HF` on [alignment.py](https://github.com/m-bain/whisperX/blob/main/whisperx/alignment.py). If the detected language is not in this list, you need to find a phoneme-based ASR model from [huggingface model hub](https://huggingface.co/models) and test it on your data.
-
-#### E.g. German
-
-    whisperx --model large-v2 --language de path/to/audio.wav
-
-https://user-images.githubusercontent.com/36994049/20
+Currently default models provided for `{en, fr, de, es, it}` via torchaudio pipelines and many other languages via Hugging Face. Please find the list of currently supported languages under `DEFAULT_ALIGN_MODELS_HF` on [a

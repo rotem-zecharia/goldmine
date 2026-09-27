@@ -4,60 +4,42 @@ Clone any website with one command using AI coding agents
 
 ## installation
 
-> **Important:** Start by making your own copy with GitHub's **Use this template** button. Do not clone this template repository directly for your website project, and do not open pull requests here with your generated website.
+### 1. Set up your project
 
-1. **Create your own repository from this template**
+**Recommended: ask your agent.** Paste this into Codex, Claude Code, or your coding agent:
 
-   On the GitHub page for this project, click **Use this template**, then click **Create a new repository**.
+```text
+Set up https://github.com/JCodesMore/ai-website-cloner-template
+as a standalone project in a new folder on my computer.
+Ask me where to put it. Clone the repository, remove its origin remote,
+install dependencies, and run npm run check. Leave it ready for me
+to clone a website.
+```
 
-   Give your new repository a name, choose whether it should be public or private, then click **Create repository**. If GitHub shows an **Include all branches** option, you can leave it off.
+**Or create your own GitHub repository:**
 
-   This gives you your own separate project to work in, so your website changes stay in your account instead of coming back to the main template.
+[![Use this template](https://img.shields.io/badge/Use_this_template-Create_your_copy-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JCodesMore/ai-website-cloner-template/generate)
 
-2. **Open your new repository on your computer**
+Give it a name and click **Create repository**. Then give your agent the new repository's link and ask it to clone it onto your computer, install dependencies, and run `npm run check`.
 
-   After GitHub creates your copy, open that new repository. Click **Code** and open or clone your new repository with your preferred coding tool.
+### 2. Clone a website
 
-   If you use the terminal, the command will look like this:
+Open the project in your agent with browser access enabled. In Claude Code or Cursor, run:
 
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/YOUR-NEW-REPOSITORY.git
-   cd YOUR-NEW-REPOSITORY
-   ```
+```text
+/clone-website https://example.com
+```
 
-3. **Install dependencies**
-   ```bash
-   npm install
-   ```
-4. **Start your AI agent** — Claude Code recommended:
-   ```bash
-   claude --chrome
-   ```
-5. **Run the skill**:
-   ```
-   /clone-website <target-url1> [<target-url2> ...]
-   ```
-6. **Customize** (optional) — after the base clone is built, modify as needed
-
-> Most supported clients expose `/clone-website` directly. If your client activates skills from natural-language requests, enter `Clone <target-url> using the clone-website workflow`. Project instructions are in `AGENTS.md`.
+Replace the URL with the website you want to recreate. Once it's built, ask your agent for any changes you want.
 
 ## Supported Platforms
 
 | Agent                                                         | Status                     |
 | ------------------------------------------------------------- | -------------------------- |
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | **Recommended** — Opus 5   |
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | **Recommended** — Opus 5.5 |
 | [Codex CLI](https://github.com/openai/codex)                  | Supported                  |
 | [OpenCode](https://opencode.ai/)                              | Supported                  |
-| [GitHub Copilot](https://github.com/features/copilot)         | Supported                  |
-| [Kiro](https://kiro.dev/)                                    | Supported                  |
 | [Cursor](https://cursor.com/)                                 | Supported                  |
-| [Windsurf](https://codeium.com/windsurf)                      | Supported                  |
-| [Gemini CLI](https://github.com/google-gemini/gemini-cli)     | Supported                  |
-| [Cline](https://github.com/cline/cline)                       | Supported                  |
-| [Roo Code](https://github.com/RooCodeInc/Roo-Code)            | Supported                  |
-| [Continue](https://continue.dev/)                             | Supported                  |
-| [Amazon Q](https://aws.amazon.com/q/developer/)               | Supported                  |
-| [Augment Code](https://www.augmentcode.com/)                  | Supported                  |
 
 ## requirements
 
@@ -74,14 +56,6 @@ Clone any website with one command using AI coding agents
 ## How It Works
 
 The `/clone-website` skill runs a multi-phase pipeline:
-
-```mermaid
-flowchart LR
-    P1["1. Reconnaissance"] --> P2["2. Foundation"]
-    P2 --> P3["3. Component Specs"]
-    P3 --> P4["4. Parallel Build"]
-    P4 --> P5["5. Assembly and QA"]
-```
 
 1. **Reconnaissance** — screenshots, design token extraction, interaction sweep (scroll, click, hover, responsive)
 2. **Foundation** — updates fonts, colors, globals, downloads all assets
@@ -121,16 +95,12 @@ public/
 docs/
   research/         # Extraction output & component specs
   design-references/ # Screenshots
-scripts/
-  sync-agent-rules.sh  # Regenerate agent instruction files
-  sync-skills.mjs      # Regenerate /clone-website for all platforms
-.kiro/skills/          # Generated Kiro workspace skill
-.cline/skills/         # Generated Cline workspace skill
-.roo/skills/           # Generated Roo Code workspace skill
-.roo/commands/         # Generated Roo Code slash command
+.agents/skills/
+  clone-website/    # Canonical skill and inspection reference
+.claude/commands/
+  clone-website.md  # Thin Claude Code bridge
 AGENTS.md           # Agent instructions (single source of truth)
 CLAUDE.md           # Claude Code config (imports AGENTS.md)
-GEMINI.md           # Gemini CLI config (imports AGENTS.md)
 ```
 
 ## tools
@@ -150,17 +120,9 @@ docker compose up app --build # build and run the app
 docker compose up dev --build # run the app in dev mode on port 3001
 ```
 
-## Updating for Other Platforms
+## Agent Support
 
-Two source-of-truth files power all platform support. Edit the source, then run the sync script:
-
-| What                   | Source of truth                         | Sync command                       |
-| ---------------------- | --------------------------------------- | ---------------------------------- |
-| Project instructions   | `AGENTS.md`                             | `bash scripts/sync-agent-rules.sh` |
-| `/clone-website` skill | `.claude/skills/clone-website/SKILL.md` | `node scripts/sync-skills.mjs`     |
-
-Each script regenerates the platform-specific copies automatically. Agents that read the source files natively need no regeneration.
-
+The project keeps one portable Agent Skill at `.agents/skills/clone-website/`. Codex, Cursor, and OpenCode read it directly. Claude Code uses the small command bridge at `.claude/commands/clone-website.md` so `/clone-website` and its arguments continue to work without exposing a duplicate skill to the other agents.
 
 ## Star History
 
@@ -169,5 +131,3 @@ Each script regenerates the platform-specific copies automatically. Agents that 
 ## License
 
 MIT
-
-<sub>Translations: <a href="README.ja.md">日本語</a> · <a href="README.zh-CN.md">Simplified Chinese</a></sub>

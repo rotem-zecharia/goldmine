@@ -52,6 +52,7 @@ For command-line usage, see the **[CLI Guide](CLI.md)** with complete reference,
 - **[AutoSubs-App README](AutoSubs-App/README.md)** - Technical architecture and code organization
 - **[Resolve Integration](Resolve-Integration/README.md)** - DaVinci Resolve integration architecture and development
 - **[Adobe Extension](Adobe-Extension/README.md)** - Adobe Premiere Pro/After Effects integration details
+- **[Arch Linux](docs/arch-linux.md)** - Dependencies, Wayland compositing, and Resolve paths on Arch
 
 > [!TIP]
 > I highly recommend checking out **[DeepWiki](https://deepwiki.com/tmoroney/auto-subs)** for asking questions and understanding the codebase.
@@ -87,6 +88,4 @@ Useful Sensors' Moonshine, via ONNX Runtime. The `tiny` English model is quantiz
 |---|---|---|---|---|
 | moonshine-tiny | 60 MB | 1 GB | English | ★ |
 | moonshine-tiny-ar | 120 MB | 1 GB | Arabic | ★★★ |
-| moonshine-tiny-zh | 120 MB | 1 GB | Chinese | ★★★ |
-| moonshine-tiny-ja | 120 MB | 1 GB | Japanese | ★★★ |
-| moonshine-ti
+| moonshine-tiny-zh |

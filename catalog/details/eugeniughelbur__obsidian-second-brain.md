@@ -105,7 +105,7 @@ Free transcript via youtube-transcript-api. Optional metadata + top comments via
 
 ## features
 
-Command reference: https://eugeniughelbur.github.io/obsidian-second-brain/ - every command, with the plain-language phrases that trigger it in English, Spanish, Portuguese and Simplified Chinese.
+Command reference: https://eugeniughelbur.github.io/obsidian-second-brain/ - every command, with the plain-language phrases that trigger it in English, German, Spanish, Portuguese and Simplified Chinese.
 
 Retrieval benchmark: [scripts/eval/BENCHMARK.md](scripts/eval/BENCHMARK.md) - a reproducible 300-note synthetic corpus and three query sets, so the search numbers are something you can run yourself rather than something this README claims.
 
@@ -174,4 +174,4 @@ Built by **Eugeniu Ghelbur**, AI Automation Engineer @ Single Grain
 
 *If this skill helped you, the best thanks is following along.*
 
-<a href="https://x.com/eugeniu_ghelbur"><img src="https://img.shields.io/bad
+<a href="https://x.com/eugeniu_ghelbur"><img src="https://img.shield
