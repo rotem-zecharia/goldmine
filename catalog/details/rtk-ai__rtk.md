@@ -146,8 +146,9 @@ rtk go test                     # Go tests (NDJSON, -90%)
 rtk cargo test                  # Cargo tests (-90%)
 rtk rake test                   # Ruby minitest (-90%)
 rtk rspec                       # RSpec tests (JSON, -60%+)
-rtk err <cmd>                   # Filter errors only from any command
-rtk test <cmd>                  # Generic test wrapper - failures only (-90%)
+rtk err <cmd> [args...]         # Direct argv execution, errors/warnings only
+rtk test <cmd> [args...]        # Direct argv execution, failures only (-90%)
+rtk err --shell fish '<script>' # Explicit shell for shell-specific syntax
 ```
 
 ### Build & Lint
@@ -193,9 +194,7 @@ rtk deno check                   # Strip download lines + tee recovery
 
 ### AWS
 ```bash
-rtk aws sts get-caller-identity # One-line identity
-rtk aws ec2 describe-instances  # Compact instance list
-rtk aws lambda 
+rtk aws sts get-caller-identity # One-li
 
 ## configuration
 

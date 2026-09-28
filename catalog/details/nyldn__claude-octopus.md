@@ -17,7 +17,8 @@ That's it. Setup detects installed providers, shows what's missing, and walks yo
 
 **Supported platforms:** Linux and macOS run natively. On Windows, run Claude
 Octopus inside [WSL](#using-cursor-on-wsl); native Git Bash, MSYS2, and Cygwin
-are not supported.
+are not supported. Under Codex on native Windows, Octopus hooks exit without
+running, so an installed plugin stays inert rather than opening shell windows.
 
 ### Dormant by default
 
@@ -80,10 +81,7 @@ octopus handoff export --json  # redacted checkpoint for another supported host
 metadata. On platforms without symlink support, the stable root contains
 generated wrappers for Octopus script entry points. Repair does not delete host
 caches. The security audit checks the plugin itself; use `/octo:security` when
-you want a multi-model review of your project.
 
-The `core` context profile keeps optional context hooks off. Use
-`octopus profile orchest
 
 ## configuration
 

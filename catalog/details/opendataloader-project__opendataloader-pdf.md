@@ -136,20 +136,21 @@ opendataloader-pdf --hybrid docling-fast --hybrid-mode full file1.pdf file2.pdf 
 Output in JSON:
 ```json
 {
-  "type": "picture",
+  "type": "image",
+  "pdfua_tag": "Figure",
+  "id": 285,
   "page number": 1,
   "bounding box": [72.0, 400.0, 540.0, 650.0],
-  "description": "A bar chart showing waste generation by region from 2016 to 2030..."
+  "alt": "A bar chart showing waste generation by region from 2016 to 2030...",
+  "alt_source": "ai-generated"
 }
 ```
 
-> Uses SmolVLM (256M), a lightweight vision model. Custom prompts supported via `--picture-description-prompt`.
+`alt_source` says where the text came from: `original` (the PDF's own /Alt), `ai-generated`,
+or `missing` — and when it is `missing`, there is no `alt` field at all.
 
-### Heading Hierarchy
-
-The layout model labels a region as a section header without a depth, so by default every
-heading comes back at level 1 and subsections sit at the same depth as the document title.
-Flat headings make it hard to tell a section title from a document title when 
+With `--enrich-picture-description`, every picture goes to the model whatever its size. The
+server reports the tally per request, so a picture that came back without a 
 
 ## features
 
