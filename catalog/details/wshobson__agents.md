@@ -51,7 +51,7 @@ Setup details and per-harness gotchas: [docs/harnesses.md](docs/harnesses.md).
 |---|---:|---|
 | **Plugins** | 94 | Granular, single-purpose installable units (92 local + 2 external via git-subdir) |
 | **Agents** | 202 | Domain experts (architecture, languages, infra, security, data, ML, docs, business, SEO) |
-| **Skills** | 183 | Modular knowledge packages with progressive disclosure (load when activated) |
+| **Skills** | 184 | Modular knowledge packages with progressive disclosure (load when activated) |
 | **Commands** | 105 | Slash commands: scaffolding, security scans, test gen, infrastructure setup |
 | **Orchestrators** | 16 | Multi-agent coordination workflows (full-stack, security, ML, incident response) |
 
