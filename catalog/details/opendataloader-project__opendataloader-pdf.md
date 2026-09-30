@@ -95,62 +95,36 @@ For non-English documents, specify the language:
 opendataloader-pdf-hybrid --port 5002 --force-ocr --ocr-lang "ko,en"
 ```
 
-Supported languages: `en`, `ko`, `ja`, `ch_sim`, `ch_tra`, `de`, `fr`, `ar`, and more.
+The language codes above are for the default engine (EasyOCR): `en`, `ko`, `ja`, `ch_sim`, `ch_tra`, `de`, `fr`, `ar`, and more.
 
-### Formula Extraction (LaTeX)
+#### Choosing an OCR Engine
 
-Extract mathematical formulas as LaTeX from scientific PDFs:
+OCR quality varies with the engine, the language, and the document itself (scan resolution, fonts, layout). No engine is best for every document, so run a few representative pages through several engines and compare the output before processing a whole collection.
 
-```bash
-# Server: enable formula enrichment
-opendataloader-pdf-hybrid --enrich-formula
+Select the engine with `--ocr-engine`. Each engine uses its own language code system for `--ocr-lang`:
 
-# Batch all files in one call — each invocation spawns a JVM process, so repeated calls are slow
-opendataloader-pdf --hybrid docling-fast --hybrid-mode full file1.pdf file2.pdf folder/
-```
+| Engine | `--ocr-engine` | `--ocr-lang` example | Platform / extra install |
+|--------|----------------|----------------------|--------------------------|
+| EasyOCR (default) | `easyocr` | `ko,en` (ISO 639-1) | Included in `opendataloader-pdf[hybrid]` |
+| RapidOCR | `rapidocr` | `korean` (RapidOCR codes: `en`, `ch`, `japan`, `korean`, ...) | `pip install rapidocr onnxruntime` |
+| Tesseract (CLI) | `tesseract` | `kor,eng` (ISO 639-2) | Tesseract binary + language data (e.g. `tesseract-ocr-kor`) |
+| Tesseract (Python binding) | `tesserocr` | `kor,eng` (ISO 639-2) | `pip install tesserocr` + libtesseract |
+| Apple Vision | `ocrmac` | `ko-KR,en-US` (BCP-47) | macOS only, `pip install ocrmac` |
+| NVIDIA Nemotron OCR | `nemotron-ocr` | `multilingual` or `english` | Linux x86_64 + CUDA, `pip install "docling[feat-ocr-nemotron]"` |
+| Automatic | `auto` | Not configurable | Docling picks an available engine |
 
-Output in JSON:
-```json
-{
-  "type": "formula",
-  "page number": 1,
-  "bounding box": [226.2, 144.7, 377.1, 168.7],
-  "content": "\\frac{f(x+h) - f(x)}{h}"
-}
-```
+To compare engines on a sample, start one server per engine and send the same file to each.
 
-> **Note**: Formula and picture description enrichments require `--hybrid-mode full` on the client side.
-
-### Chart & Image Description
-
-Generate AI descriptions for charts and images — useful for RAG search and accessibility alt text:
+**Terminal 1** — EasyOCR server:
 
 ```bash
-# Server
-opendataloader-pdf-hybrid --enrich-picture-description
-
-# Batch all files in one call — each invocation spawns a JVM process, so repeated calls are slow
-opendataloader-pdf --hybrid docling-fast --hybrid-mode full file1.pdf file2.pdf folder/
+opendataloader-pdf-hybrid --port 5002 --force-ocr --ocr-engine easyocr --ocr-lang "ko,en"
 ```
 
-Output in JSON:
-```json
-{
-  "type": "image",
-  "pdfua_tag": "Figure",
-  "id": 285,
-  "page number": 1,
-  "bounding box": [72.0, 400.0, 540.0, 650.0],
-  "alt": "A bar chart showing waste generation by region from 2016 to 2030...",
-  "alt_source": "ai-generated"
-}
-```
+**Terminal 2** — Tesseract server:
 
-`alt_source` says where the text came from: `original` (the PDF's own /Alt), `ai-generated`,
-or `missing` — and when it is `missing`, there is no `alt` field at all.
-
-With `--enrich-picture-description`, every picture goes to the model whatever its size. The
-server reports the tally per request, so a picture that came back without a 
+```bash
+openda
 
 ## features
 
@@ -333,12 +307,12 @@ Yes. OpenDataLoader runs 100% locally. No API calls, no data transmission — yo
 
 ### Does it support OCR for scanned PDFs?
 
-Yes, via hybrid mode. Install with `pip install "opendataloader-pdf[hybrid]"`, start the backend with `--force-ocr`, then process as usual. Supports multiple languages including Korean, Japanese, Chinese, Arabic, and more via `--ocr-lang`.
+Yes, via hybrid mode. Install with `pip install "opendataloader-pdf[hybrid]"`, start the backend with `--force-ocr`, then process as usual. Supports multiple languages including Korean, Japanese, Chinese, Arabic, and more via `--ocr-lang`, with a choice of OCR engines via `--ocr-engine`. Quality varies by engine, language, and document — see [Choosing an OCR Engine](#choosing-an-ocr-engine).
 
 ### Does it work with Korean, Japanese, or Chinese documents?
 
-Yes. For digital PDFs, text extraction works out of the box. For scanned PDFs, use hybrid mode with `--force-ocr --ocr-lang "ko,en"` (or `ja`, `ch_sim`, `ch_tra`). Coming soon: [Hancom Data Loader](https://sdk.hancom.com/en/services/1?utm_source=github&utm_medium=readme&utm_campaign=opendataloader-pdf) integration — enterprise-grade AI document analysis with built-in production-grade OCR and customer-customized models optimized for your specific document types and workflows.
+Yes. For digital PDFs, text extraction works out of the box. For scanned PDFs, use hybrid mode with `--force-ocr --ocr-lang "ko,en"` (or `ja`, `ch_sim`, `ch_tra`), and compare OCR engines on a sample of your documents — see [Choosing an OCR Engine](#choosing-an-ocr-engine). Coming soon: [Hancom Data Loader](https://sdk.hancom.com/en/services/1?utm_source=github&utm_medium=readme&utm_campaign=opendataloader-pdf) integration — enterprise-grade AI document analysis with built-in production-grade OCR and customer-customized models optimized for your specific document types and workflows.
 
 ### How fast is it?
 
-Local mode processes 60+ pages per second on CPU (0.02s/page). Hybrid mode processes 2+ pages per second (0.46s/page) with significantly higher accuracy for complex documents. No GPU required. Benchmarked on Apple M4. [Full benchmark details](https://github.com/opendataloader-project/opendataloader-bench). With multi-process batch processing, thr
+Local mode processes 60+ pages per second on CPU (0.02s/page). Hybrid mode process

@@ -4,18 +4,14 @@ MockServer is an HTTP(S) mock server and proxy for testing that lets you mock AP
 
 ## features
 
-- **Mock any API** — HTTP/1.1, HTTPS, HTTP/2, HTTP/3, gRPC, gRPC-Web, JSON-RPC, WebSockets, raw TCP, and message brokers (Kafka, MQTT). Match requests on method, path, query, headers, cookies and body (JSON, XML, JSONPath, XPath, regex, OpenAPI) and return configured responses.
-- **Proxy & record** — port forwarding, web (HTTP) proxy, HTTPS tunneling (CONNECT) and SOCKS, with full visibility of even TLS-encrypted traffic.
-- **Dynamic responses** — response templating (Velocity, Mustache, JavaScript), class/closure callbacks and webhooks.
-- **OpenAPI** — generate expectations directly from an OpenAPI/Swagger specification.
-- **Verification** — assert which requests were received, in what order, and how many times.
-- **Chaos & resilience testing** — inject latency, dropped/slow connections and failures to test how your system copes with a misbehaving dependency.
-- **LLM / AI mocking** — mock chat-completion APIs for OpenAI, Anthropic, Gemini, Bedrock, Azure OpenAI and Ollama (including streaming), plus a built-in MCP server for AI coding assistants.
-- **Live dashboard** — watch requests, expectations and logs in real time at `/mockserver/dashboard`.
-- **Clients & integrations** — Java, JavaScript/Node, Python and Ruby clients, plus JUnit and Spring support.
-- **Run anywhere** — Docker, Helm/Kubernetes, JAR or WAR, with optional clustered state for multi-instance deployments.
+- **One port, every protocol** — HTTP/1.1, HTTPS, HTTP/2, gRPC & gRPC-Web, WebSockets and raw TCP are auto-detected from the first bytes of each connection. Beyond that: HTTP/3 (QUIC, experimental), JSON-RPC for MCP/A2A mocking, and AsyncAPI-driven testing against Kafka/MQTT brokers.
+- **Mock, proxy, or both** — return canned/templated/callback responses, or sit as a proxy (port forwarding, HTTP proxy, HTTPS tunneling, SOCKS) and record, inspect, and modify real traffic in flight, with full visibility into TLS-encrypted exchanges.
+- **Chaos engineering built in** — inject latency, dropped connections, and errors on demand to see how your application copes when a dependency misbehaves.
+- **Mock AI too** — chat-completion APIs for OpenAI, Anthropic, Gemini, Bedrock, Azure OpenAI and Ollama (including streaming), plus a built-in MCP server so AI coding assistants can drive MockServer directly.
+- **Generate mocks, don't hand-write them** — from an OpenAPI/Swagger spec, with request matching on method, path, query, headers, cookies, and body (JSON, XML, JSONPath, XPath, regex).
+- **Fits your stack** — Java, JavaScript/Node, Python, Ruby, Go, .NET, Rust, and PHP clients, plus JUnit and Spring support; runs as Docker, Helm/Kubernetes, a JAR, or a WAR, with a live dashboard and optional clustered state for multi-instance deployments.
 
-See the [changelog](changelog.md) for what has shipped in each version.
+See the [changelog](changelog.md) for what shipped in each version.
 
 ## installation
 
@@ -39,16 +35,18 @@ curl http://localhost:1080/hello
 # -> Hello World
 ```
 
-…or, on macOS / Linux, install it with [Homebrew](https://brew.sh/) and run the `mockserver` command directly:
+…or, on macOS / Linux, install with [Homebrew](https://brew.sh/) and run the `mockserver` command directly:
 
 ```bash
 brew install mockserver
 mockserver run --port 1080
 ```
 
-#### One-command recipes
+For every way to run MockServer — Docker, docker-compose recipes, the `mockserver` CLI, a JVM-less binary bundle, Helm/Kubernetes, the JAR, and Testcontainers — see the [Self-Hosting MockServer guide](https://www.mock-server.com/mock_server/self_hosting_mockserver.html). The same setup can be driven from any client library or the dashboard at <http://localhost:1080/mockserver/dashboard>.
 
-For common end-to-end setups, the [`examples/docker-compose`](examples/docker-compose) recipes are a single `docker compose up` each — mock from an OpenAPI spec, a record/replay proxy, a contract-validating proxy, or a chaos proxy:
+### One-command recipes
+
+The [`examples/docker-compose`](examples/docker-compose) recipes are a single `docker compose up` each — mock from an OpenAPI spec, a record/replay proxy, a contract-validating proxy, or a chaos proxy:
 
 ```bash
 cd examples/docker-compose/mock-from-openapi
@@ -56,84 +54,65 @@ docker compose up
 curl http://localhost:1080/pets
 ```
 
-The same can be done from any client library or the dashboard at <http://localhost:1080/mockserver/dashboard>. For more configuration options see the [Docker documentation](https://www.mock-server.com/where/docker.html).
-
-For every way to run MockServer yourself — Docker, docker-compose recipes, the `mockserver` CLI, the JVM-less binary bundle, Helm/Kubernetes, the JAR, and Testcontainers — see the [Self-Hosting MockServer guide](https://www.mock-server.com/mock_server/self_hosting_mockserver.html).
-
-#### Drive it from Postman or Bruno
-
-Explore MockServer's REST control plane from an API client — create expectations, verify requests, and inspect recorded traffic:
+### Drive it from Postman or Bruno
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/3256712-63a2d67a-46d6-41fd-a544-0535e7393e7d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D3256712-63a2d67a-46d6-41fd-a544-0535e7393e7d%26entityType%3Dcollection%26workspaceId%3D1739eeee-5da1-4112-86a7-b6c094f2b527)
 
 - **Postman** — click the button above, or import [`examples/postman`](examples/postman) ([guide](https://www.mock-server.com/where/postman.html)).
 - **Bruno** (open-source, git-native) — open [`examples/bruno`](examples/bruno) in [Bruno](https://www.usebruno.com/) via **Open Collection** ([guide](https://www.mock-server.com/where/bruno.html)).
 
-### Documentation
+## Install
 
-For usage guide please see: [www.mock-server.com](https://www.mock-server.com/)
+| Channel | Command |
+|---------|---------|
+| Docker | `docker run -d --rm -p 1080:1080 mockserver/mockserver` |
+| Homebrew (macOS/Linux) | `brew install mockserver` |
+| Helm ([chart guide](helm/mockserver/README.md)) | `helm upgrade --install --namespace mockserver mockserver oci://ghcr.io/mock-server/charts/mockserver` |
+| Maven Central [![mockserver](https://img.shields.io/maven-central/v/org.mock-server/mockserver-netty.svg)](https://central.sonatype.com/search?q=g:org.mock-server) | `org.mock-server:mockserver-netty-no-dependencies` — see [all Maven artifacts](https://www.mock-server.com/where/maven_central.html) (server, WARs, JUnit 4/5, Spring, Maven plugin) |
+| npm | [`mockserver-node`](https://www.npmjs.org/package/mockserver-node) (start/stop) |
 
-### Developer Documentation
+**Client libraries** (create expectations, verify requests, drive the control plane from your tests):
 
-Architecture, code structure, infrastructure, and operations documentation is available in the [docs/](docs/README.md) directory.
-
-### AI Integration
-
-MockServer includes a built-in [MCP](https://modelcontextprotocol.io) server for AI coding assistant integration at `/mockserver/mcp`. See [llms.txt](https://www.mock-server.com/llms.txt) and [AI Integration docs](https://www.mock-server.com/mock_server/ai_mcp_setup.html).
-
-### Change Log
-
-Please see: [Change Log](https://github.com/mock-server/mockserver-monorepo/blob/master/changelog.md)
-
-### Community
-
-<table>
-    <tr>
-        <td>Discussions</td>
-        <td><a href="https://github.com/mock-server/mockserver-monorepo/discussions"><img height="20px" src="https://mock-server.com/images/GitHub_Logo-md.png" alt="GitHub Discussions"></a></td>
-    </tr>
-    <tr>
-        <td>Issues, Bugs &amp; Feature Requests</td>
-        <td><a href="https://github.com/mock-server/mockserver-monorepo/issues"><img height="20px" src="https://mock-server.com/images/GitHub_Logo-md.png" alt="GitHub Issues"></a></td>
-    </tr>
-    <tr>
-        <td>Roadmap</td>
-        <td><a href="https://github.com/orgs/mock-server/projects/1"><img height="20px" src="https://mock-server.com/images/GitHub_Logo-md.png" alt="GitHub Project"></a></td>
-    </tr>
-    <tr>
-        <td>Security</td>
-        <td><a href="https://github.com/mock-server/mock
+[![Java](https://img.shields.io/maven-central/v/org.mock-server/mockserver-client-java.svg?label=Java)](https://central.sonatype.com/artifact/org.mock-server/mockserver-client-java)
+[![Node](https://img.shields.io/npm/v/mockserver-client.svg?label=Node)](https://www.npmjs.org/package/mockserver-client)
+[![PyPI](https://img.shields.io/pypi/v/mockserver-client.svg?label=Python)](https://pypi.org/project/mockserver-client/)
+[![Gem](https://badge.fury.io/rb/mockserver-client.png)](https://rubygems.org/gems/mockserver-client)
+[![Go](https://pkg.go.dev/badge/github.com/mock-server/mockserver-monorepo/mockserver-client-go/v7.svg)](https://pkg.go.dev/github.com/mock-server/mockserver-monorepo/mockserver-client-go/v7)
+[![Packagist](https://img.shields.io/packagist/v/mock-server/mockserver-client.svg?label=PHP)](https://packagist.org/packages/mock-server/mockserver-client)
+[![NuGet](https://img.shield
 
 ## requirements
 
-**Runtime:** MockServer 6.x requires **Java 17+**. The minimum was raised from Java 11 as part of the Jakarta EE 10 / Spring 7 platform modernisation — see the [Java 17 / Jakarta upgrade guide](docs/operations/migration-java17-jakarta.md). If you are still on Java 11, pin to the `5.15.x` line (no longer receiving security updates). The official Docker image bundles its own Java 26 runtime, so containerised users need no JVM of their own.
+**Runtime:** Java 17+ (raised from Java 11 in MockServer 6.0.0 — see the [Java 17 / Jakarta upgrade guide](docs/operations/migration-java17-jakarta.md); pin to `5.15.x` if you need Java 11). The official Docker image bundles its own JVM, so containerised users need no JVM of their own.
 
-**Building from source:** requires **JDK 17+**; the produced bytecode targets Java 17.
+**Building from source:** JDK 17+.
 
-**Security Note:** MockServer is a **development and testing tool only**. See [SECURITY.md](SECURITY.md) for important security considerations.
+**Security note:** MockServer is a **development and testing tool only** — see [SECURITY.md](SECURITY.md).
 
-### Versions
+## Documentation
 
-##### Maven Central [![mockserver](https://img.shields.io/maven-central/v/org.mock-server/mockserver-netty.svg)](https://central.sonatype.com/search?q=g:org.mock-server)
+- Usage guide: [www.mock-server.com](https://www.mock-server.com/)
+- Architecture, code structure, infrastructure, and operations docs: [docs/](docs/README.md)
+- AI/MCP integration: built-in [MCP](https://modelcontextprotocol.io) server at `/mockserver/mcp` — see [llms.txt](https://www.mock-server.com/llms.txt) and the [AI Integration docs](https://www.mock-server.com/mock_server/ai_mcp_setup.html)
 
-Maven Central contains the following MockServer artifacts under the `org.mock-server` groupId. Every artifact ships in two forms — `-no-dependencies` (shaded, zero transitive deps, **recommended**) and the plain form (transitive deps declared in the POM, for the rare case where you need to override versions yourself).
+## Versions
 
-**Server:**
-* [mockserver-netty-no-dependencies](https://central.sonatype.com/artifact/org.mock-server/mockserver-netty-no-dependencies) / [mockserver-netty](https://central.sonatype.com/artifact/org.mock-server/mockserver-netty) — Netty-based HTTP(S) mock + proxy server (embed in tests or run standalone)
-* [mockserver-war](https://central.sonatype.com/artifact/org.mock-server/mockserver-war) — deployable WAR for hosting MockServer in a servlet container (mock mode)
-* [mockserver-proxy-war](https://central.sonatype.com/artifact/org.mock-server/mockserver-proxy-war) — deployable WAR for hosting MockServer in a servlet container (proxy mode)
+[![Latest release](https://img.shields.io/maven-central/v/org.mock-server/mockserver-netty.svg?label=latest)](https://github.com/mock-server/mockserver-monorepo/releases)
 
-**Java client:**
-* [mockserver-client-java-no-dependencies](https://central.sonatype.com/artifact/org.mock-server/mockserver-client-java-no-dependencies) / [mockserver-client-java](https://central.sonatype.com/artifact/org.mock-server/mockserver-client-java) — Java client for the MockServer REST API
+- **What changed:** [changelog](changelog.md) and [GitHub releases](https://github.com/mock-server/mockserver-monorepo/releases) (every version is also a [git tag](https://github.com/mock-server/mockserver-monorepo/tags) `mockserver-<version>`).
+- **API docs for a version:** Java API at `https://mock-server.com/versions/<version>/apidocs/index.html`; REST API on [SwaggerHub](https://app.swaggerhub.com/apis/jamesdbloom/mock-server-openapi) (one spec per `major.minor.x`).
+- **Java 11:** the last Java 11-compatible release is [5.15.0](https://github.com/mock-server/mockserver-monorepo/tree/mockserver-5.15.0) (January 2023).
 
-**Test framework integrations:**
-* [mockserver-junit-rule-no-dependencies](https://central.sonatype.com/artifact/org.mock-server/mockserver-junit-rule-no-dependencies) / [mockserver-junit-rule](https://central.sonatype.com/artifact/org.mock-server/mockserver-junit-rule) — JUnit 4 `@Rule`
-* [mockserver-junit-jupiter-no-dependencies](https://central.sonatype.com/artifact/org.mock-server/mockserver-junit-jupiter-no-dependencies) / [mockserver-junit-jupiter](https://central.sonatype.com/artifact/org.mock-server/mockserver-junit-jupiter) — JUnit 5 extension (`@MockServerSettings`, `@MockServerTest`)
-* [mockserver-spring-test-listener-no-dependencies](https://central.sonatype.com/artifact/org.mock-server/mockserver-spring-test-listener-no-dependencies) / [mockserver-spring-test-listener](https://central.sonatype.com/artifact/org.mock-server/mockserver-spring-test-listener) — Spring `TestExecutionListener`
-* [mockserver-spring-boot-starter](https://central.sonatype.com/artifact/org.mock-server/mockserver-spring-boot-starter) — Spring Boot auto-configuration; set `mockserver.enabled=true` to start MockServer and expose a `MockServerClient` bean (dev/test)
-* [mockserver-integration-testing-no-dependencies](https://central.sonatype.com/artifact/org.mock-server/mockserver-integration-testing-no-dependencies) / [mockserver-integration-testing](https://central.sonatype.com/artifact/org.mock-server/mockserver-integration-testing) — shared integration-test helpers
+> **6.0.0 breaking change:** the `<classifier>shaded</classifier>` Maven form was removed. Replace `mockserver-netty:<version>:shaded` with `mockserver-netty-no-dependencies:<version>` (same shaded bytes, new coordinates).
 
-**Build-tool plugin:**
-* [mockserver-maven-plugin](https://central.sonatype.com/artifact/org.mock-server/mockserver-maven-plugin) — Maven plugin to start, stop, and fork MockServer during the build lifecycle
+## Community & Contributing
 
-> **Tip:** The `-no-dependencies` artifacts bundle all dependencies into a single JAR with packages relocated under `shaded_package.*`, so they declare zero transitive dependencies. T
+- **Issues / bugs / feature requests:** [GitHub Issues](https://github.com/mock-server/mockserver-monorepo/issues?state=open) — please include your MockServer version, how you're running it (Docker, Maven plugin, etc.), and INFO-level (or higher) log output.
+- **Discussions:** [GitHub Discussions](https://github.com/mock-server/mockserver-monorepo/discussions)
+- **Roadmap:** [GitHub Project](https://github.com/orgs/mock-server/projects/1)
+- **Security policy:** [SECURITY.md](SECURITY.md)
+- **Community tools:** [MockServer Browser Admin](https://github.com/johnnywang1994/mockserver-browser-admin), a React + TypeScript web UI for managing expectations
+- **Contributing:** pull requests are very welcome — read [CONTRIBUTING.md](CONTRIBUTING.md) first, then check the [open issues](https://github.com/mock-server/mockserver-monorepo/issues?state=open) and let us know if you intend to work on something.
+
+### Maintainers
+* [James D Bloom](https://blog.jamesdbloom.com)

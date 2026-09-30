@@ -16,7 +16,7 @@
 - :brain: Support for [skills](https://codecompanion.olimorris.dev/usage/chat-buffer/skills) and [rules](https://codecompanion.olimorris.dev/usage/chat-buffer/rules.html) (like `CLAUDE.md`, `.cursor/rules` and your own custom ones)
 - :sparkles: Built-in [prompt library](https://codecompanion.olimorris.dev/usage/action-palette.html) for common tasks like advice on LSP errors and code explanations
 - :building_construction: Create your own [custom prompts](https://codecompanion.olimorris.dev/configuration/prompt-library.html#creating-prompts), Editor Context and Slash Commands
-- :inbox_tray: Have [multiple chats](https://codecompanion.olimorris.dev/usage/introduction.html#quickly-accessing-a-chat-buffer) open at the same time
+- :inbox_tray: Have [multiple chats](https://codecompanion.olimorris.dev/usage/chat-buffer/#multiple-chats) open at the same time
 - :art: Support for [images](https://codecompanion.olimorris.dev/usage/chat-buffer/#images-vision) and PDFs as input
 - :muscle: Async execution for fast performance
 
@@ -31,7 +31,7 @@
   </p>
   <p>
     <h3><a href="https://github.com/user-attachments/assets/362b7cfd-e794-4d9c-9a74-90d5e2a87a32">Tools + Agentic Workflows</a></h3>
- 
+    <video controls mut
 
 ## installation
 

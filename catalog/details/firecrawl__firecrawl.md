@@ -1,6 +1,6 @@
 # firecrawl/firecrawl
 
-The web data API to search, scrape, and interact at scale. 🔥
+🔥 Supercharge your AI agents with data from the web and beyond. A web data API to search, scrape, and access more sources.
 
 ## features
 

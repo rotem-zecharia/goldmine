@@ -48,6 +48,12 @@ The open-source engine stays Apache-2.0, fully featured. No feature gating, ever
 <br>
 **[📅 Book a demo →](https://cal.com/obscura/quick-chat)**
 
+### Open Source Support
+
+<a href="https://vercel.com/open-source-program">
+  <img alt="Vercel OSS Program" src="https://vercel.com/oss/program-badge-2026.svg" />
+</a>
+
 ## Sponsors
 
 **Obscura** is supported by organizations helping us build independent open-source browser infrastructure.
@@ -96,11 +102,7 @@ Want to sponsor? Email [hello@obscura.sh](mailto:hello@obscura.sh).
    </tr>
     <td width="200" align="center" valign="middle">
       <a href="https://niuproxy.com/?utm_source=obscura&utm_medium=obscura&ref=obscura" target="_blank">
-        <img alt="NiuProxy" src="assets/sponsors/niuproxlogo.png" width="180"/>
-      </a>
-    </td>
-    <td valign="middle">
-      <a href="https://niuproxy.com/?utm_source=obscura&utm_medium=obscura&re
+        <img alt="NiuProxy" src="as
 
 ## installation
 
