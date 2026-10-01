@@ -98,11 +98,12 @@ Want to sponsor? Email [hello@obscura.sh](mailto:hello@obscura.sh).
     </b>
     Better proxies. Fewer blocks. More scalable automation.
   </td>
-</tr>
-   </tr>
+    <tr>
     <td width="200" align="center" valign="middle">
-      <a href="https://niuproxy.com/?utm_source=obscura&utm_medium=obscura&ref=obscura" target="_blank">
-        <img alt="NiuProxy" src="as
+      <a href="https://masklabs.io" target="_blank">
+        <img alt="Masklabs" src="assets/sponsors/Masklabs.png" width="180"/>
+      </a>
+    <
 
 ## installation
 

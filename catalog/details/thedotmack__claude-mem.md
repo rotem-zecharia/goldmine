@@ -36,6 +36,12 @@ Or install for Antigravity CLI ([setup guide](https://docs.claude-mem.ai/antigra
 npx claude-mem install --ide antigravity
 ```
 
+Or install for OMP (Oh My Pi):
+
+```bash
+npx claude-mem install --ide omp
+```
+
 Or install from the plugin marketplace inside Claude Code:
 
 ```bash
@@ -80,8 +86,7 @@ The installer handles dependencies, plugin setup, AI provider configuration, wor
 
 - **[Installation Guide](https://docs.claude-mem.ai/installation)** - Quick start & advanced installation
 - **[Usage Guide](https://docs.claude-mem.ai/usage/getting-started)** - How Claude-Mem works automatically
-- **[Search Tools](https://docs.claude-mem.ai/usage/search-tools)** - Query your project history with natural language
-- **[Cloud Sync](https://docs.claude-mem.ai/cloud-sync)** - Back up y
+- **[Search Tools](https://docs.claude-mem.ai/usage/search-tools)** - Query your project history with natural 
 
 ## configuration
 

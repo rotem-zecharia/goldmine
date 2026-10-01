@@ -18,7 +18,7 @@
 <a href="https://pypi.org/project/caveman-middleware/"><img src="https://img.shields.io/pypi/v/caveman-middleware?style=flat-square&color=F0A63C&label=middleware%20pypi" alt="middleware on PyPI"></a>
 <a href="./INSTALL.md"><img src="https://img.shields.io/badge/works_with-30%2B_agents-orange?style=flat-square" alt="30+ agents"></a>
 <a href="#wrap-any-agent"><img src="https://img.shields.io/badge/wraps-10_agents_natively-blue?style=flat-square" alt="10 native wrap profiles"></a>
-<a href="#-license"><img src="https://img.shields.io/badge/license-MIT_%2B_BSL-green?style=flat-square" alt="License"></a>
+<a href="#-license"><img src="https://img.shields.io/badge/license-Apache--2.0-green?style=flat-square" alt="License"></a>
 <a href="https://skills.sh/JuliusBrussee/caveman"><img src="https://skills.sh/b/JuliusBrussee/caveman" alt="skills.sh"></a>
 
 🏆 **#1 on GitHub Trending · July 2026** &nbsp;·&nbsp; 🥇 **#1 Repository of the Day on [Trendshift](https://trendshift.io/repositories/25391) · April 2026**
@@ -62,7 +62,7 @@ Caveman come in two sizes. Start small.
 
 ### Small rock: the skill
 
-A rule file that makes your agent answer in caveman. MIT, free forever, works in [30+ agents](./INSTALL.md) (Claude Code, Codex, Gemini, Cursor, Windsurf, Cline, Copilot, more). One command:
+A rule file that makes your agent answer in caveman. Apache-2.0, free forever, works in [30+ agents](./INSTALL.md) (Claude Code, Codex, Gemini, Cursor, Windsurf, Cline, Copilot, more). One command:
 
 ```bash
 npx skills add JuliusBrussee/caveman -g
@@ -72,7 +72,7 @@ Type `/caveman` if your agent doesn't wake up on its own. That the whole install
 
 ### Big rock: the proxy
 
-Runs on your machine, between your agent and the AI provider, and shrinks what the agent *reads* before every call. MIT CLI, BSL-1.1 runtime:
+Runs on your machine, between your agent and the AI provider, and shrinks what the agent *reads* before every call. Apache-2.0, CLI and runtime both:
 
 ```bash
 npm install -g @caveman-ai/cli && caveman setup --install
@@ -81,11 +81,11 @@ caveman claude        # or codex · gemini · aider · kilo · qwen · opencode 
 
 ### Your own app: the middleware
 
-Building an agent in code instead of running one in a terminal? Same shrinking, one wrapper around the call you already make. MIT client, alpha today:
+Building an agent in code instead of running one in a terminal? Same shrinking, one wrapper around the call you already make. Apache-2.0 client, stable 1.0:
 
 ```bash
 npm install @caveman-ai/middleware @caveman-ai/sdk        # TypeScript, plus your framework (ai, openai, …)
-pip install 'caveman-middleware[langchain]' caveman-sdk   # Python 3.13+, swap the extra for your framework
+pip install 'caveman-middleware[langchain]' caveman-sdk   # Python 3.11+, swap the extra for your framework
 ```
 
 Six lines of code and a local runtime. [Full walkthrough below](#-caveman-in-your-own-app).
@@ -100,13 +100,13 @@ They stack. Most people start with the small rock and graduate.
 The full installer wires up Claude Code hooks and the statusline badge, finds every supported agent on your machine, and skips agents you no have. Safe to re-run. Needs Node.js 22.13+.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/v2.7.0/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/v3.0.0/install.sh | bash
 ```
 
 Windows, PowerShell 5.1+:
 
 ```powershell
-irm https://raw.githubusercontent.com/JuliusBrussee/caveman/v2.7.0/install.ps1 | iex
+irm https://raw.githubusercontent.com/JuliusBrussee/caveman/v3.0.0/install.ps1 | iex
 ```
 
 Just one agent:
@@ -150,5 +150,5 @@ The full 30+ agent matrix, dry runs, flags, and verification live in [INSTALL.md
 
 **Big rock.** The proxy, right after `npm install -g @caveman-ai/cli`:
 
-1. **Find out where your tokens go.** `caveman learn` reads months of agent history already on your disk, locally, and ranks your token sinks worst-first with a one-line fix behind each. Do this before anything else. It is the most useful five minutes in this README.
-2. **Let it fix them.** `caveman learn implement` hands each fix to Claude Code or Codex one diff at a time, applied only on your 
+1. **Find out where your tokens go.** `caveman learn` reads months of agent history already on your disk, locally, and ranks the places your tokens go, biggest first, with a one-line fix behind each. Do this before anything else. It is the most useful five minutes in this README. After step 3 it keeps watching by itself and speaks up only when something new appears.
+2. **Let

@@ -6,9 +6,9 @@ Record your screen, ship a demo. Free and open-source, GPU-accelerated, no water
 
 - Record a specific window, or your whole screen.
 - Record microphone and system audio.
-- Webcam overlay with picture-in-picture, drag-to-position, mirroring, and shape options.
+- Webcam overlay with picture-in-picture, eight snap positions, adjustable roundness, mirroring, and shape options.
 - Auto or manual zooms with adjustable depth, duration, easing, and pixel-precise position; auto-zoom follows your cursor as you work.
-- Custom cursor size, smoothing, and click effects, with cursor themes and post-recording path smoothing.
+- Custom cursor size, smoothing, and click effects, with post-recording path smoothing.
 - Automatic captions for voiceovers, transcribed on-device with no upload (works offline), with an editable transcript you can cut from and optional subtitle translation.
 - AI editing assistant: describe the edit you want in chat and it applies to the timeline — cuts, zooms, speed ramps, annotations, camera framing. Bring your own key (Claude, OpenAI, Gemini, Mistral, OpenRouter, MiniMax, or any OpenAI-compatible endpoint); nothing is enabled by default.
 - Wallpapers, solid colors, gradients, or your own background image.
@@ -18,7 +18,7 @@ Record your screen, ship a demo. Free and open-source, GPU-accelerated, no water
 - Timeline snapping guides and an audio waveform to make trimming easier.
 - Customizable keyboard shortcuts.
 - Export to MP4 or GIF in multiple aspect ratios and resolutions, rendered and encoded on the GPU (Metal on macOS, D3D11 on Windows, Vulkan on Linux) with an automatic CPU fallback.
-- Languages supported: Arabic, English, Spanish, French, Italian, Japanese, Korean, Portuguese (Brazil), Russian, Turkish, Vietnamese, Simplified Chinese, and Traditional Chinese.
+- Languages supported: Arabic, Czech, English, Spanish, French, German, Italian, Japanese, Korean, Portuguese (Brazil), Russian, Turkish, Vietnamese, Simplified Chinese, and Traditional Chinese.
 
 ## Command-line interface (headless)
 
@@ -32,7 +32,7 @@ openscreen record --duration 20 --project demo.openscreen --json
 openscreen export demo.openscreen -o demo.mp4 --json
 ```
 
-See [docs/cli.md](./docs/cli.md).
+See the [CLI reference](https://getopenscreen.com/docs/cli/).
 
 ## installation
 
