@@ -1,6 +1,6 @@
 # zhayujie/CowAgent
 
-Open-source super AI assistant & Agent Harness. Plans tasks, runs tools and skills, self-evolves with memory and knowledge. Multi-agent, multi-model, multi-channel. Lightweight, extensible, one-line i
+Open-source personal AI assistant & Agent Harness. Plans tasks, runs tools and skills, self-evolves with memory and knowledge. Multi-agent, multi-model, multi-channel. Lightweight, extensible, one-lin
 
 ## installation
 
@@ -62,8 +62,8 @@ CowAgent supports all mainstream LLM providers. **Chat, vision, image generation
 | Provider | Featured Models | Chat | Vision | Image Gen | ASR | TTS | Embedding |
 | --- | --- | :-: | :-: | :-: | :-: | :-: | :-: |
 | [DeepSeek](https://docs.cowagent.ai/models/deepseek) | deepseek-flash (V4.1) / pro | ✅ | ✅ | | | | |
-| [Claude](https://docs.cowagent.ai/models/claude) | claude-opus-5 / fable-5.1 | ✅ | ✅ | | | | |
-| [OpenAI](https://docs.cowagent.ai/models/openai) | gpt-6-astra / gpt-5.6 series | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [Claude](https://docs.cowagent.ai/models/claude) | claude-opus-5-5 / fable-5.1 | ✅ | ✅ | | | | |
+| [OpenAI](https://docs.cowagent.ai/models/openai) | gpt-6.1-sol / gpt-6 series | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [Gemini](https://docs.cowagent.ai/models/gemini) | gemini-3.8-flash | ✅ | ✅ | ✅ | | | |
 | [MiniMax](https://docs.cowagent.ai/models/minimax) | MiniMax-M3 | ✅ | ✅ | ✅ | | ✅ | |
 | [GLM](https://docs.cowagent.ai/models/glm) | glm-5.3-flash, glm-5v-turbo | ✅ | ✅ | | ✅ | | ✅ |
@@ -115,6 +115,8 @@ Learn more: [Skills overview](https://docs.cowagent.ai/skills/index) · [Creatin
 
 ## 🏷 Changelog
 
+> **2026.09.30:** [v2.2.0](https://github.com/zhayujie/CowAgent/releases/tag/2.2.0) — Capabilities center, multi-Agent collaboration improvements, Web console rebuild, higher model cache hit rates, broad stability and security hardening.
+
 > **2026.09.14:** [v2.1.9](https://github.com/zhayujie/CowAgent/releases/tag/2.1.9) — Multi-Agent collaboration refinements, configurable model lists and multiple fallback models, channel integration fixes, new image models (gpt-image-2.5), plus voice fixes.
 
 > **2026.09.10:** [v2.1.8](https://github.com/zhayujie/CowAgent/releases/tag/2.1.8) — Multi-Agent teams, manual scheduled task creation, context-usage visualization, new models and search providers, workspace file editing.
@@ -131,6 +133,4 @@ Learn more: [Skills overview](https://docs.cowagent.ai/skills/index) · [Creatin
 
 > **2026.06.18:** [v2.1.2](https://github.com/zhayujie/CowAgent/releases/tag/2.1.2) — Web console upgrades (scheduled task management, knowledge base categories, multiple custom model providers), Self-Evolution improvements, new models (kimi-k2.7-code, glm-5.2), security hardening and refinements.
 
-> **2026.06.09:** [v2.1.1](https://github.com/zhayujie/CowAgent/releases/tag/2.1.1) — Self-Evolution, Web console upgrades (message management, parallel sessions), cross-platform MCP enhancements with concurrent calls, new models (MiniMax-M3, qwen3.7-plus), Python 3.13 support.
-
-> **2026.06.01:** [v2.1.0](https://github.com/zhayujie/CowAgent/releases/tag/2.1.0) — Internationalization, new channels (Telegram, Discord, Slack, WeChat Cus
+> **2026.06.09:** [v2.1.1](https://github.com/zhayujie/CowAgent/releases/tag/2.1.1) — Self-Evolution, Web console upgrades (message management, parallel sessions), cross-platform MCP enhancements wit

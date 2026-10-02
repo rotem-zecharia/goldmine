@@ -4,167 +4,77 @@ A Claude Code plugin that shows what's happening - context usage, active tools, 
 
 ## installation
 
-Inside a Claude Code instance, run the following commands:
+Inside Claude Code, run:
 
-**Step 1: Add the marketplace**
 ```
 /plugin marketplace add jarrodwatts/claude-hud
-```
-
-**Step 2: Install the plugin**
-
-<details>
-<summary><strong>⚠️ Linux users: Click here if install fails with an EXDEV error</strong></summary>
-
-On older Claude Code versions, `/tmp` being a separate filesystem (tmpfs) caused plugin installation to fail with:
-```
-EXDEV: cross-device link not permitted
-```
-
-This [Claude Code bug](https://github.com/anthropics/claude-code/issues/14799) has since been fixed — if you hit it, update Claude Code first. If you can't update, set TMPDIR before installing:
-```bash
-mkdir -p ~/.cache/tmp && TMPDIR=~/.cache/tmp claude
-```
-
-Then run the install command below in that session.
-
-</details>
-
-```
 /plugin install claude-hud
-```
-
-After that, reload plugins (no restart needed):
-
-```
 /reload-plugins
+/claude-hud:setup
 ```
+
+`/claude-hud:setup` points your status line at the HUD. Claude Code reloads settings on its own, so the HUD appears right away. To customize it, ask Claude or run `/claude-hud:configure`.
 
 <details>
 <summary><strong>Prefer the terminal?</strong></summary>
 
-Steps 1–2 can also be done outside a session with the Claude Code CLI:
 ```bash
 claude plugin marketplace add jarrodwatts/claude-hud
 claude plugin install claude-hud@claude-hud
 ```
-Then run `/reload-plugins` inside your session (or start a new one).
+
+Then run `/reload-plugins` and `/claude-hud:setup` inside a session.
 
 </details>
-
-**Step 3: Configure the statusline**
-```
-/claude-hud:setup
-```
 
 <details>
-<summary><strong>⚠️ Windows users: Click here if setup says no JavaScript runtime was found</strong></summary>
+<summary><strong>Windows: setup says no JavaScript runtime was found</strong></summary>
 
-On Windows, Node.js LTS is the supported runtime for Claude HUD setup. If setup says no JavaScript runtime was found, install Node.js for your shell first:
-```powershell
-winget install OpenJS.NodeJS.LTS
-```
-Then restart your shell and run `/claude-hud:setup` again.
+Install Node.js LTS (`winget install OpenJS.NodeJS.LTS`), restart your shell, and run `/claude-hud:setup` again.
 
 </details>
-
-Done! Claude Code reloads settings automatically — the HUD appears after your next message, no restart needed. If it doesn't show up, restart Claude Code (older versions require a restart to pick up statusLine changes).
-
----
-
-## What is Claude HUD?
-
-Claude HUD gives you better insights into what's happening in your Claude Code session.
-
-| What You See | Why It Matters |
-|--------------|----------------|
-| **Project path** | Know which project you're in (configurable 1-3 directory levels) |
-| **Context health** | Know exactly how full your context window is before it's too late |
-| **Tool activity** | Watch Claude read, edit, and search files as it happens |
-| **Agent tracking** | See which subagents are running and what they're doing |
-| **Todo progress** | Track task completion in real-time |
 
 ## What You See
 
-### Default (2 lines)
+The default is two lines:
+
 ```
 [Opus] │ my-project git:(main*)
-Context █████░░░░░ 45% │ Usage ██░░░░░░░░ 25% (1h 30m / 5h)
-```
-- **Line 1** — Model, provider label when positively identified (for example `Bedrock`, `Vertex`, `MiniMax`), project path, git branch
-- **Line 2** — Context bar (green → yellow → red) and usage rate limits
-
-## configuration
-
-```
-◐ Edit: auth.ts | ✓ Read ×3 | ✓ Grep ×2        ← Tools activity
-◐ explore [haiku]: Finding auth code (2m 15s)    ← Agent status
-▸ Fix authentication bug (2/5)                   ← Todo progress
+Context █████░░░░░ 45% │ Usage ██░░░░░░░░ 25% (resets in 1h 30m)
 ```
 
----
+- **Line 1**: model, a provider label when one is detected (`Bedrock`, `Vertex`, `MiniMax`), project path, and git branch.
+- **Line 2**: context used (green, then yellow, then red as it fills) and your subscriber rate limits.
+
+Optional lines, which you turn on with `/claude-hud:configure`:
+
+```
+◐ Edit: auth.ts | ✓ Read ×3 | ✓ Grep ×2        ← tools
+◐ explore [haiku]: Finding auth code (2m 15s)    ← agents
+▸ Fix authentication bug (2/5)                   ← todos
+```
 
 ## How It Works
 
-Claude HUD uses Claude Code's native **statusline API** — no separate window, no tmux required, works in any terminal.
+Claude HUD is a [status line](https://code.claude.com/docs/en/statusline) command. Claude Code runs it with session data on stdin (model, context window, cost, rate limits, prompt cache) and shows what it prints. Some optional elements, such as the tools, agents, and todos lines, also read the session transcript. It needs no separate window or tmux and works in any terminal.
 
-```
-Claude Code → stdin JSON → claude-hud → stdout → displayed in your terminal
-           ↘ transcript JSONL (tools, agents, todos)
-```
-
-**Key features:**
-- Native token data from Claude Code (not estimated)
-- Scales with Claude Code's reported context window size, including newer 1M-context sessions
-- Parses the transcript for tool/agent activity
-- Re-renders after each interaction (new assistant messages, `/compact`, permission changes, vim-mode toggles), debounced at 300ms
-
----
-
-## Configuration
-
-Customize your HUD anytime:
+## configuration
 
 ```
 /claude-hud:configure
 ```
 
-The guided flow handles layout, language, and common display toggles. Advanced overrides such as
-custom colors and thresholds are preserved there, but you set them by editing the config file directly:
+The guided flow covers layout, activity lines, session info, usage, git, language, and a custom line. It previews the changes before saving and keeps every setting it doesn't ask about.
 
-- **First time setup**: Choose a preset (Full/Essential/Minimal), pick a label language, then fine-tune individual elements
-- **Customize anytime**: Toggle items on/off, adjust git display style, switch layouts, or change label language
-- **Preview before saving**: See exactly how your HUD will look before committing changes
+Everything else lives in `~/.claude/plugins/claude-hud/config.json` (or under `$CLAUDE_CONFIG_DIR`). Invalid values fall back to their defaults.
 
-### Presets
-
-| Preset | What's Shown |
-|--------|--------------|
-| **Full** | Everything enabled — tools, agents, todos, git, usage, duration |
-| **Essential** | Activity lines + git status, minimal info clutter |
-| **Minimal** | Core only — just model name and context bar |
-
-After choosing a preset, you can turn individual elements on or off.
-
-### Manual Configuration
-
-Edit `~/.claude/plugins/claude-hud/config.json` directly for advanced settings such as `colors.*`,
-`pathLevels`, `maxWidth`, threshold overrides, `display.timeFormat`, `display.hourCycle`, and `display.promptCacheTtlSeconds`. Running `/claude-hud:configure`
-preserves those manual settings while still letting you change `language`, layout, and the common
-guided toggles.
-
-If you run several Claude config directories via `CLAUDE_CONFIG_DIR` and symlink `plugins/` to a
-shared location, `plugins/claude-hud/config.json` is the same physical file for all of them. Put
-per-directory settings in `$CLAUDE_CONFIG_DIR/claude-hud.json` instead - it uses the same shape,
-only needs the keys it changes, and is layered on top of the shared config at load time:
-
-For example, put this in `~/.config/claude/work/claude-hud.json`:
+If several `CLAUDE_CONFIG_DIR`s share one `plugins/` directory, put per-directory settings in `$CLAUDE_CONFIG_DIR/claude-hud.json`. It uses the same shape, only needs the keys it changes, and is layered on top of the shared config:
 
 ```json
 { "display": { "customLine": "Work Team" } }
 ```
 
-Simplified and Traditional Chinese HUD labels are available as explicit opt-ins. English stays the default unless you choose a Chinese locale in `/claude-hud:configure` or set `language` in config. The `zh` alias maps to Simplified Chinese, and `zh-TW` maps to Traditional Chinese. Guided config writes the canonical `zh-Hans` or `zh-Hant` value.
+Labels are available in English (the default), Simplified Chinese (`zh-Hans`, alias `zh`), and Traditional Chinese (`zh-Hant`, alias `zh-TW`).
 
 ### Options
 
@@ -172,88 +82,114 @@ Simplified and Traditional Chinese HUD labels are available as explicit opt-ins.
 |--------|------|---------|-------------|
 | `language` | `en` \| `zh` \| `zh-Hans` \| `zh-Hant` \| `zh-TW` | `en` | HUD label language. Use `zh` or `zh-Hans` for Simplified Chinese and `zh-Hant` or `zh-TW` for Traditional Chinese. |
 | `lineLayout` | string | `expanded` | Layout: `expanded` (multi-line) or `compact` (single line) |
+| `showSeparators` | boolean | false | In `compact` layout, draw a rule between the session line and the activity lines |
 | `pathLevels` | 1-3 \| `full` | 1 | Directory levels to show in project path, or `full` to show the entire absolute path |
 | `maxWidth` | number \| `null` | `null` | Optional fallback width used only when terminal width detection fails completely |
 | `forceMaxWidth` | boolean | false | Always use `maxWidth` when it is set, even if terminal width detection returns a smaller value |
-| `elementOrder` | string[] | `["project","addedDirs","context","usage","promptCache","memory","environment","tools","skills","mcp","agents","todos","sessionTime"]` | Expanded-mode elemen
+| `elementOrder` | string[] | `["project","addedDirs","context","usage","promptCache","memory","environment","tools","skills","mcp","agents","todos","sessionTime"]` | Expanded-mode element order. Omit entries to hide them in expanded mode. Existing configs keep their explicit order until updated. |
+| `projectLineOrder` | string[] | `[]` | Optional leading order of segments *within* the first line, in both layouts. Visibility stays with the `display.show*` flags, and omitted segments retain their existing renderer order. `model` covers provider + model + effort (plus the context bar in compact mode); `project` covers path + added dirs + git as one segment. Example: `["project","model"]` puts the project/git block before the model badge. |
+| `display.mergeGroups` | string[][] | `[["context","usage"]]` | Expanded-mode groups that should share a line when adjacent. Set `[]` to disable merged lines. |
+| `display.rightAlign` | string[] | `[]` | Starts a right-aligned suffix at the first listed element in a merged row, preserving `elementOrder` and padding the gap with spaces. Requires the anchor to be in a `display.mergeGroups` group that actually renders on one line. Ignored when the terminal width is unknown, the anchor is first, or there is no room for padding. Example: `["context"]` with a `["project","context","usage"]` group keeps project/git left and pins context + usage right. |
+| `gitStatus.enabled` | boolean | true | Show git branch in HUD |
+| `gitStatus.showDirty` | boolean | true | Show `*` for uncommitted changes |
+| `gitStatus.showAheadBehind` | boolean | false | Show `↑N ↓N` for ahead/behind remote |
+| `gitStatus.pushWarningThreshold` | number | 0 | Color the ahead count with the warning color at or above this unpushed-commit count (`0` disables it) |
+| `gitStatus.pushCriticalThreshold` | number | 0 | Color the ahead count with the critical color at or above this unpushed-commit count (`0` disables it) |
+| `gitStatus.showFileStats` | boolean | false | Show file change counts `!M +A ✘D ?U` |
+| `gitStatus.showWorktree` | boolean | false | In a linked git worktree, show its name after the branch, e.g. `git:(feat/x) ⎇ feat-x` |
+| `gitStatus.branchOverflow` | `truncate` \| `wrap` | `truncate` | Keep current truncation behavior or let the git block wrap onto its 
 
 ## tools
 
-Usage display is **enabled by default** when Claude Code provides subscriber `rate_limits` data on stdin. It shows your rate limit consumption on line 2 alongside the context bar.
+Usage shows whenever Claude Code sends subscriber `rate_limits`, which is after the first response of a session. API-key, Bedrock, and Vertex sessions have no subscriber limits, so it stays hidden. The 7-day window appears once it passes `display.sevenDayThreshold`:
 
-Set `display.usageValue` to `remaining` to show quota left instead of quota used. Warning colors and 7-day threshold checks still use the underlying used percentage.
+```
+Context █████░░░░░ 45% │ Usage ██░░░░░░░░ 25% (resets in 1h 30m) | Weekly █████████░ 85% (resets in 1d)
+```
 
-ClaudeHUD prefers the official statusline stdin payload for rate-limit windows. If `display.externalUsagePath` points to a fresh local sidecar snapshot, ClaudeHUD can append its `balance_label` alongside stdin windows. If stdin `rate_limits` are missing, the same snapshot can provide fallback usage windows.
+With `display.usagePace`, a window you're using faster than it refills turns amber (on track to end at 90% or more) or red (on track to run out first) and gets a `▲`. Windows under 10% used stay neutral.
 
-The fallback snapshot path must be absolute. The snapshot must be fresh enough (`display.externalUsageFreshnessMs`) and include valid `updated_at`, plus a `five_hour` window, `seven_day` window, `balance_label`, or `model_scoped` array. `balance_label` is optional text for prepaid provider balances; it is trimmed, length-limited, and sanitized before display. Relative paths, invalid JSON, stale files, or invalid timestamps are ignored quietly.
-
-The snapshot may also carry `model_scoped` windows using the same shape Claude Code defines for stdin (`display_name`, `utilization` on the 0-100 scale, ISO `resets_at`). They render exactly like stdin scoped windows (see the model-scoped usage section) and stdin always wins when it carries its own `model_scoped` data. This lets a local feeder surface per-model weekly quotas (e.g. Fable) that the statusline payload does not include yet:
+**External snapshot.** `display.externalUsagePath` reads a local JSON file. Its windows fill in when stdin has none, and its `balance_label` or `model_scoped` windows (for example a per-model weekly quota) add to stdin's. The file must be absolute and fresher than `display.externalUsageFreshnessMs`:
 
 ```json
 {
-  "updated_at": "2026-07-24T14:12:37Z",
-  "model_scoped": [
-    { "display_name": "Fable", "utilization": 89, "resets_at": "2026-07-27T11:00:00Z" }
-  ]
+  "updated_at": "2026-04-20T12:00:00.000Z",
+  "five_hour": { "used_percentage": 42, "resets_at": "2026-04-20T15:00:00.000Z" },
+  "seven_day": { "used_percentage": 84, "resets_at": "2026-04-27T12:00:00.000Z" },
+  "balance_label": "$12.50",
+  "model_scoped": [{ "display_name": "Fable", "utilization": 89, "resets_at": "2026-04-27T11:00:00Z" }]
 }
 ```
 
-One zero-credential way to produce such a snapshot is Claude Code's own `get_usage` control request, which returns `rate_limits.model_scoped` without spending tokens; a scheduled job can pipe it through `jq` into the snapshot file. The HUD itself never fetches anything: it only reads the file.
+`display.externalUsageWritePath` does the reverse: it writes stdin's rate limits to a private `.json` file in an existing directory for other tools to read.
 
-Set `display.externalUsageWritePath` if you want ClaudeHUD to write the official stdin `rate_limits` into a local snapshot for other tools. The path must be absolute, end in `.json`, and live in an existing directory. ClaudeHUD writes the file with private permissions and ignores invalid paths quietly.
+### Cost
 
-Free/weekly-only accounts render the weekly window by itself instead of showing a ghost `5h: --` placeholder.
+`display.showCost` shows Claude Code's own session cost, computed at list price or from your `modelPricing` table. Bedrock and Vertex bill through the cloud provider, so their cost is hidden unless `display.showRoutedCost` is also set.
 
-The 7-day percentage appears when above the `display.sevenDayThreshold` (default 80%):
+`display.showDailyCost` adds today's spend across sessions (`Today $12.34`). It is kept in a small ledger in the plugin data directory, resets at local midnight, and counts a session from the first render that sees it. `display.showWeeklyCost` uses the same ledger from the start of the 7-day quota window, so it needs a subscriber session.
 
+### Prompt Cache
+
+`display.showPromptCache` shows when the main conversation's prompt cache goes cold, such as `Cache ⏱ until 14:30`, or `expired`. It shows a clock time rather than a countdown because the status line doesn't repaint between turns, which is exactly when the cache drains; a clock time stays correct however old the render is. `display.showCacheHitRate` shows the share of input tokens read from the cache.
+
+### Jujutsu (jj)
+
+Set `jjStatus.enabled` to `true` to show jj status, such as `jj:(mybookmark*)` or `jj:(wrulwzyw !conflict)`, instead of git in a directory with a `.jj` repository. The HUD runs jj read-only without snapshotting the working copy, so the dirty marker reflects jj's last snapshot. Ahead/behind and file stats are git-only.
+
+### Example
+
+```json
+{
+  "lineLayout": "expanded",
+  "pathLevels": 2,
+  "gitStatus": { "showAheadBehind": true, "showFileStats": true },
+  "display": {
+    "showTools": true,
+    "showAgents": true,
+    "showTodos": true,
+    "showDuration": true,
+    "showCost": true
+  },
+  "colors": { "context": "cyan", "custom": "#FF6600" }
+}
 ```
-Context █████░░░░░ 45% │ Usage ██░░░░░░░░ 25% (1h 30m / 5h) | ██████████ 85% (2d / 7d)
+
+### Auto-Refresh
+
+Claude Code re-runs the status line after each message, `/compact`, a permission or vim mode change, a rate-limit reset, and a prompt-cache expiry. To keep countdowns and durations ticking while a session is idle, add `refreshInterval` (seconds) to the `statusLine` entry in `~/.claude/settings.json`.
+
+### Turning It Off for a Session
+
+```bash
+CLAUDE_HUD_DISABLE=1 claude
 ```
 
-To disable, set `display.showUsage` to `false`.
+Any value other than `0`, `false`, `off`, or `no` blanks the HUD for that session without touching `settings.json`.
 
-Reset times use relative countdowns by default. Set `display.timeFormat` to `absolute` for wall-clock
-times, `both` to show both forms, `elapsed` to show how far through each usage window you are, or
-`elapsedAndAbsolute` to show elapsed window progress plus the wall-clock reset time. This setting is
-manual-only today; `/claude-hud:configure` preserves it without editing it.
+## Security
 
-Wall-clock reset times (`absolute`/`both`/`elapsedAndAbsolute`) default to your system locale for 12-
-vs 24-hour formatting. Set `display.hourCycle` to `h23` to force 24-hour time regardless of locale, or
-to `h12`/`h11` to force 12-hour time with AM/PM. Set `display.showClockSeconds` to `true` to include
-seconds in the wall-clock time, e.g. `at 14:30:07`.
-
-Set `display.showResetLabel` to `false` if you want shorter usage countdowns such as `(3h 17m)` instead of `(resets in 3h 17m)`.
-
-Set `display.usageCompact` to `true` if you want the shorter usage-only form, for example `5h: 25% (1h 30m)`. Compact usage takes precedence over `display.usageBarEnabled`.
-
-Set `display.showModelScopedUsage` to `false` to hide the per-model weekly windows (e.g. Fable). The usage line then renders exactly as it would for an account that has none: the 5h/7d windows stay, snapshot windows are hidden along with the stdin ones, and a hidden window no longer counts towar
+Claude HUD is local-only. It makes no network requests, never reads credentials, and calls no undocumented APIs. It reads Claude Code's stdin, the session transcript, Claude configuration files, and git or jj metadata for the current directory. Its only writes are small state files (output speed and the cost ledger) under `~/.claude/plugins/claude-hud`, with private permissions
 
 ## requirements
 
-- Claude Code v1.0.80+
-- macOS/Linux: Node.js 18+ or Bun
+- Claude Code v2.1.260 or later
+- macOS or Linux: Node.js 18+ or Bun
 - Windows: Node.js 18+
-
----
 
 ## Development
 
 ```bash
 git clone https://github.com/jarrodwatts/claude-hud
 cd claude-hud
-npm ci && npm run build
-npm test
+npm ci && npm test
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
----
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
-
----
+MIT. See [LICENSE](LICENSE).
 
 ## Star History
 

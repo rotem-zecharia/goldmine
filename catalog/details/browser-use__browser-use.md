@@ -87,6 +87,44 @@ The agent opens a browser, looks up the repository, and prints its answer.
 
 <br/>
 
+# Anthropic SDK × Browser Use
+
+Use Claude's browser toolset with Browser Use as the driver. Browser Use
+implements all 31 browser actions and can control a local browser, a Browser
+Use Cloud browser, or an existing remote browser over CDP.
+Bash is included in the Browser Use integration for processing data and writing files.
+
+<img src="examples/integrations/anthropic/architecture.svg" alt="Claude uses Browser Use browser actions and Bash through the Anthropic SDK. The browser can be local or remote; Bash runs on the SDK host." width="100%">
+
+Requires an Anthropic SDK version that includes `anthropic.tools.browser`.
+Bash requires a Linux or macOS host with `/bin/bash`; use WSL on Windows.
+The snippet below runs inside an async function; see the quickstart for a complete script.
+
+```python
+import os
+
+from anthropic import AsyncAnthropic
+from browser_use.integrations.anthropic import Bash, BrowserUse
+
+task = 'Open example.com and report its page title.'
+driver = BrowserUse()  # Or BrowserUse(use_cloud=True)
+bash = Bash(output_dir='outputs')
+
+async with driver, AsyncAnthropic() as client:
+    runner = client.beta.messages.tool_runner(
+        model=os.environ['ANTHROPIC_MODEL'],
+        max_tokens=32_768,
+        max_iterations=100,
+        tools=[driver, bash],
+        messages=[{'role': 'user', 'content': task}],
+    )
+    result = await runner.until_done()
+```
+
+[Quickstart ↗](examples/integrations/anthropic) · [Integration docs ↗](https://docs.browser-use.com/open-source/customize/integrations/anthropic)
+
+<br/>
+
 # Browser Use Benchmark v2
 
 <img alt="Browser Use Benchmark v2 - Mean rubric score by model and cost per task" src="static/hard_benchmark_v2.jpg" width="100%">
@@ -112,29 +150,4 @@ The CLI and Python library can each connect to a local or cloud browser. A cloud
 <details>
 <summary><b>What's the best model to use?</b></summary>
 
-We recommend **BU2**, our model optimized for browser automation: `ChatBrowserUse(model='bu-2-0')`. It uses `BROWSER_USE_API_KEY`; `ChatBrowserUse()` currently selects the same model.
-
-The best choice depends on your tasks, latency, and budget. See the [BU2 model card](https://docs.browser-use.com/open-source/bu-2-0-model-card), [benchmark](https://github.com/browser-use/benchmark), and [supported models and pricing](https://docs.browser-use.com/open-source/supported-models) to compare options.
-</details>
-
-<details>
-<summary><b>Can I use Claude / GPT / Gemini through ChatBrowserUse?</b></summary>
-
-Yes. `ChatBrowserUse` accepts provider-prefixed model IDs through the Browser Use gateway, using `BROWSER_USE_API_KEY`:
-
-```python
-from browser_use import Agent, ChatBrowserUse
-
-llm = ChatBrowserUse(model='anthropic/claude-sonnet-4-6')  # or 'google/gemini-3-pro'
-agent = Agent(task='...', llm=llm)
-```
-
-You can also use providers directly through wrappers such as `ChatOpenAI`, `ChatAnthropic`, and `ChatGoogle`, with each provider's own API key. See [supported models](https://docs.browser-use.com/open-source/supported-models).
-</details>
-
-<details>
-<summary><b>Do I need to provide a system prompt?</b></summary>
-
-No. `Agent(...)` supplies the Browser Use system prompt automatically, including when you change models. Put your task in `task=`. Use `extend_system_message` to add instructions or `override_system_message` to replace the default prompt when you need custom behavior.
-
-See the [custom system prompt example](https://gi
+We re

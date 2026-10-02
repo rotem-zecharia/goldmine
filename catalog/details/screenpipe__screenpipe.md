@@ -4,7 +4,7 @@ YC (S26) / Open Computer History / Record your screen continuously locally and p
 
 ## installation
 
-[download the desktop app](https://screenpipe.com/how-to-install?download=1) — all features, auto-updates
+[Download the desktop app](https://screenpipe.com/how-to-install?download=1) for macOS, Windows, or Linux. Available features depend on your [plan](https://screenpipe.com/pricing).
 
 or run the CLI:
 
@@ -43,12 +43,12 @@ The skill covers the recorder-first service default, explicit API-only server mo
 ## specs
 
 - captures full accessibility tree, OCR as fallback, transcription, speakers, keyboard inputs, app switches
-- 5-10% cpu usage
-- 0.5-3gb ram
-- ~20gb storage/month
+- CPU: approximately 5-20%; varies with hardware, capture settings, transcription, and AI workloads
+- RAM: approximately 0.5-3 GB for capture; local models and additional workloads can use more
+- Storage: varies with activity, displays, audio, capture settings, and retention. Measure a representative day on your device before sizing storage.
 - filters (window, app, chrome extensions, passwords, proprietary AI PII model)
 - optional encryption at rest
-- works offline
+- Local capture and search work offline after setup. Cloud AI, sync, and connected services require network access.
 
 ---
 
@@ -91,22 +91,7 @@ The root [package.json](package.json) exposes `@screenpipe/workflows-ui` for pro
 that install this repository as a Git dependency. It forwards exports to
 [`packages/workflows-ui`](packages/workflows-ui), where the implementation lives;
 it is not a root JavaScript workspace or app. In-repo apps depend on that package
-directly. Keep the two manifests' exports and dependencies aligned.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, maintainers, and how to submit PRs.
-
-Thanks to all contributors:
-
-<a href="https://github.com/screenpipe/screenpipe/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=screenpipe/screenpipe" />
-</a>
-
-## Translations
-
-- [日本語 (Japanese)](docs/translations/README-ja.md)
-- [简体中文 (Simplified Chinese)](docs/translations/README-zh_CN.
+directly. Keep the t
 
 ## features
 
@@ -161,9 +146,9 @@ Full REST API running on localhost (default port 3030). Endpoints for searching 
 
 ## Privacy and security
 
-- **100% local by default**: All data stored on your device in a local SQLite database. Nothing sent to external servers.
+- **Local capture storage**: Screen frames, audio, transcripts, and the search index are stored on your device by default. Cloud AI, transcription, sync, integrations, exports, and enterprise storage can send data off-device. See the [cloud and telemetry FAQ](#does-screenpipe-send-my-data-to-the-cloud).
 - **Source-available**: fully auditable codebase; personal, non-commercial use permitted.
-- **Local AI support**: Use Ollama or any local model — no data sent to any cloud.
+- **Local AI support**: Use a supported local model such as Ollama for inference on your device. Configure transcription, sync, integrations, and telemetry separately to control other network traffic.
 - **No account required**: Core application works without any sign-up.
 - **You own your data**: Export, delete, or back up at any time.
 - **Optional encrypted sync**: End-to-end encrypted sync between devices (zero-knowledge encryption).
@@ -175,22 +160,22 @@ Full REST API running on localhost (default port 3030). Endpoints for searching 
 |---------|-----------|-------------------|-----------------|---------|
 | Source-available | ✅ fully auditable | ❌ | ❌ | ❌ |
 | Platforms | macOS, Windows, Linux | macOS, Windows | Windows only | macOS only |
-| Data storage | 100% local | Cloud required | Local (Windows) | Cloud |
+| Data storage | Local by default; optional cloud and team storage | Cloud required | Local (Windows) | Cloud |
 | Multi-monitor | ✅ All monitors | ❌ Active window only | ✅ | ❌ Meetings only |
 | Audio transcription | ✅ Local Whisper | ✅ | ❌ | ✅ Cloud |
 | Developer API | ✅ Full REST API + SDK | Limited | ❌ | ❌ |
 | Plugin system | ✅ Pipes (AI agents) | ❌ | ❌ | ❌ |
 | AI model choice | Any (local or cloud) | Proprietary | Microsoft AI | Proprietary |
 | Team deployment | ✅ Central config, AI permissions | ❌ | ❌ | ❌ |
-| Pricing | Source-available · app from $25/mo | Subscription | Bundled with Windows | Subscription |
+| Pricing | Free and paid plans; custom Enterprise pricing | Subscription | Bundled with Windows | Subscription |
 
 ## Pricing
 
-The source is available for personal, non-commercial use (see [LICENSE.md](LICENSE.md)). The signed desktop app uses a subscription:
+The desktop app has **Free**, **Basic**, and **Business** plans. Use the [current pricing page](https://screenpipe.com/pricing) for rates, monthly versus annual billing, capacity options, and included features.
 
-- **Standard**: $25/month. Local-first capture, search, and timeline, all on your device.
-- **Pro**: $50/seat/month. Everything in Standard plus cloud sync, cloud AI, and integrations. Teams buy 5+ seats self-serve.
-- **Enterprise**: $150/seat/month. Managed deployment, central config, shared pipes, per-pipe AI data permissions, admin dashboard, SSO/SAML, MDM ready (Intune / SCCM). Sales-led. See [screenpi.pe/team](https://screenpi.pe/team).
+Business includes personal device sync and team seat management; shared context across teammates is not currently included. **Enterprise pricing is scoped per deployment**, including seats, duration, storage, support, and implementation work. Request a [deployment proposal](https://screenpipe.com/enterprise) for the total cost and included services.
+
+Source builds are governed by [LICENSE.md](LICENSE.md), which permits personal, non-commercial use, nonprofit/educational/research use, and a limited organizational evaluation. Commercial use requires a commercial license. Official builds have separate terms under the [Terms of Service](https://screenpipe.com/terms) and the applicable subscription or app license.
 
 Existing lifetime licenses remain valid; new lifetime purchases are no longer sold.
 
@@ -207,9 +192,4 @@ Existing lifetime licenses remain valid; new lifetime purchases are no longer so
 screenpipe Teams lets organizations deploy AI agents across their team with full control over what AI can access. See [screenpi.pe/team](https://screenpi.pe/team).
 
 - **Central config management**: Push capture settings (app filters, schedules, URL rules) to every device from an admin dashboard.
-- **Shared pipes**: Deploy AI workflows (auto-standups, meeting-to-tickets, time tracking) team-wide.
-- **Per-pipe AI data permissions**: YAML frontmatter controls what each pipe can access — apps, windows, content types, time ranges, endpoints. Enforced deterministically at the OS level via three layers (skill gating, agent interception, server middleware with per-pipe cryptographic tokens).
-- **Privacy boundary**: Admins control what gets captured and what AI accesses. They never see the actual data — everything stays on each employee's device.
-- **Override rules**: Employees can add stricter filters (e.g. also block personal email) but cannot weaken admin-set rules.
-- **MDM ready**: Deploy via Intune, SCCM, Robopack, or any MDM solution.
-- **Enterprise*
+- **Shared pipes**: Deploy AI workflows (auto-standups, meeting
