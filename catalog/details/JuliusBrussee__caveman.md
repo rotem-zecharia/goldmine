@@ -48,8 +48,8 @@
 
 <table>
 <tr>
-<th width="50%">🗣️ Normal agent · 69 tokens</th>
-<th width="50%"><img src="docs/assets/dancing-rock.svg" width="18" height="18" alt=""> Caveman agent · 19 tokens</th>
+<th width="50%">🗣️ Normal agent · 63 tokens</th>
+<th width="50%"><img src="docs/assets/dancing-rock.svg" width="18" height="18" alt=""> Caveman agent · 20 tokens</th>
 </tr>
 <tr>
 <td valign="top">
@@ -100,13 +100,13 @@ They stack. Most people start with the small rock and graduate.
 The full installer wires up Claude Code hooks and the statusline badge, finds every supported agent on your machine, and skips agents you no have. Safe to re-run. Needs Node.js 22.13+.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/v3.0.0/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/v3.1.0/install.sh | bash
 ```
 
 Windows, PowerShell 5.1+:
 
 ```powershell
-irm https://raw.githubusercontent.com/JuliusBrussee/caveman/v3.0.0/install.ps1 | iex
+irm https://raw.githubusercontent.com/JuliusBrussee/caveman/v3.1.0/install.ps1 | iex
 ```
 
 Just one agent:
@@ -142,7 +142,7 @@ The full 30+ agent matrix, dry runs, flags, and verification live in [INSTALL.md
 **Small rock.** The skill, right after `npx skills add`:
 
 1. **Ask it something.** Any coding question. Watch the preamble vanish and the answer stay.
-2. **Turn the dial.** `/caveman lite` for tight-but-polite. `/caveman ultra` for grunts. `/caveman wenyan` for classical Chinese, because someone asked.
+2. **Pick your club.** `/caveman` for the voice. `/ultracave` for grunts. `/megacave` for classical Chinese, because someone asked.
 3. **Commit like a caveman.** `/caveman-commit` writes a Conventional Commit in one line.
 4. **Review like a caveman.** `/caveman-review` gives one finding per line: `L42: 🔴 null deref. Guard it.`
 5. **Shrink your memory files.** `/caveman-compress CLAUDE.md` cuts the prose, keeps every heading, path, and command, and backs up the original.
@@ -151,4 +151,4 @@ The full 30+ agent matrix, dry runs, flags, and verification live in [INSTALL.md
 **Big rock.** The proxy, right after `npm install -g @caveman-ai/cli`:
 
 1. **Find out where your tokens go.** `caveman learn` reads months of agent history already on your disk, locally, and ranks the places your tokens go, biggest first, with a one-line fix behind each. Do this before anything else. It is the most useful five minutes in this README. After step 3 it keeps watching by itself and speaks up only when something new appears.
-2. **Let
+2. **Let it fix them.** `cave

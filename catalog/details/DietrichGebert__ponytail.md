@@ -6,7 +6,7 @@ Makes your AI agent think like the laziest senior dev in the room. The best code
 
 The most effort ponytail will ever ask of you:
 
-The Claude Code and Codex plugins (and the Cursor hooks) run two tiny Node.js lifecycle hooks, so `node` needs to be on your PATH (note for Nix/nvm users: it must be on the non-interactive shell's PATH). If it isn't, the skills still work, the always-on activation just stays quiet instead of erroring on every prompt.
+The Claude Code and Codex plugins (and the Cursor hooks) run two tiny Node.js lifecycle hooks, so `node` needs to be on your PATH (note for Nix/nvm users: it must be on the non-interactive shell's PATH). If it isn't, the skills still work, but every hook call shows a harmless `node: command not found` error; installing Node (or putting it on that PATH) makes it go away.
 
 ### Claude Code
 
@@ -63,18 +63,20 @@ pi install git:github.com/DietrichGebert/ponytail
 Add to `opencode.json`:
 
 ```json
-{ "plugin": ["@dietrichgebert/ponytail"] }
+{ "plugins": ["@dietrichgebert/ponytail"] }
 ```
 
 Run from a checkout instead (the plugin reuses `hooks/` and `skills/`):
 
 ```json
-{ "plugin": ["./.opencode/plugins/ponytail.mjs"] }
+{ "plugins": ["./.opencode/plugins"] }
 ```
 
 Injects the ruleset every turn at the active level; adds the `/ponytail` commands (see [Commands](#commands)). OpenCode also auto-loads this repo's `AGENTS.md`, so the rules hold even without the plugin. The plugin adds the `lite/full/ultra/off` levels.
 
-The `./` path resolves against your project's `opencode.json`; to share one checkout across projects, point it at the absolute path of the `.mjs` instead (it finds its `hooks/` and `skills/` relative to its own file).
+OpenCode 2 only. The `./` path resolves against your project's `opencode.json`; to share one checkout across projects, point it at the absolute path of the checkout's `.opencode/plugins` directory. A `plugins` entry must name a **directory**, not a file: OpenCode 2 rejects a path to `ponytail.mjs` with `configured plugin path must be a directory`. Opening this repo in OpenCode 2 needs no entry at all: it loads `.opencode/plugins/index.js` on its own.
+
+OpenCode 1 uses the older `plugin` key: `{ "plugin": ["@dietrichgebert/ponytail"] }`, or from a checkout the file path: `{ "plugin": ["./.opencode/plugins/ponytail.mjs"] }`.
 
 ### Gemini CLI
 
@@ -89,27 +91,20 @@ The Gemini adapter intentionally does not ship a root `hooks/hooks.json`: Gemini
 
 Qoder auto-loads `AGENTS.md` from the repo root as always-on context, so running ponytail from a checkout works with zero setup. For per-project rules, copy [`.qoder/rules/ponytail.md`](.qoder/rules/ponytail.md) into your project's `.qoder/rules/`. The six ponytail skills (`/ponytail`, `/ponytail-review`, `/ponytail-audit`, `/ponytail-debt`, `/ponytail-gain`, `/ponytail-help`) are available via Qoder's Skill system; the plugin manifest at [`.qoder-plugin/plugin.json`](.qoder-plugin/plugin.json) points at the `skills/` directory.
 
-For full plugin-tier support (automatic mode activation + ruleset injection on every prompt), add the hooks from [`hooks/qoder-hooks.json`](hooks/qoder-hooks.json) to your `.qoder/settings.json`. Replace `PONYTAIL_DIR` with the path to your ponytail checkout. Qoder's `UserPromptSubmit` hook activates the default mode on first prompt and injects the ruleset every turn; `PreToolUse` with `task|Task` matcher injects the ruleset into subagents. Level switches (`/ponytail lite|full|ultra|off`) work automatically.
-
-### Antigravity CLI
-
-Google is renaming Gemini CLI to Antigravity CLI (the `agy` binary); the same extension installs there:
-
-```bash
-agy plugin insta
+For full plugin-tier support (automatic mode activation + ruleset injection on every prompt), add the hooks from [`hooks/qoder-hooks.json`](hooks/qoder-hooks.json) to your `.qoder/settings.json`. Replace `PONYT
 
 ## tools
 
 | Command | What it does |
 |---------|--------------|
-| `/ponytail [lite \| full \| ultra \| off]` | Set the intensity, or turn it off. No argument reports the current level. |
+| `/ponytail [lite \| full \| ultra \| off]` | Set the intensity, or turn it off. No argument switches ponytail on at the default level if it is off, and otherwise reports the current level. |
 | `/ponytail-review` | Review the current diff for over-engineering, hands back a delete-list. |
 | `/ponytail-audit` | Audit the whole repo for over-engineering, not just the diff. |
 | `/ponytail-debt` | Harvest the `ponytail:` shortcuts you've deferred into a ledger, so "later" doesn't become "never". |
 | `/ponytail-gain` | Show the measured impact scoreboard (less code, less cost, more speed) from the benchmark. |
 | `/ponytail-help` | Quick reference for the commands above. |
 
-Commands need a skill-capable host (Claude Code, Codex, Devin CLI, OpenCode, Gemini, pi, Swival, Hermes Agent, Qoder, Grok Build). In Codex they're skills, invoke with `@` (`@ponytail-review`). Cursor with the [hooks](#cursor) gets `/ponytail` level switching only, typed as a plain message. The instruction-only adapters (Cursor's rule file, Windsurf, Cline, Copilot, Kiro, Antigravity) load the always-on ruleset without the commands.
+Commands need a skill-capable host (Claude Code, Codex, Devin CLI, OpenCode, Gemini, pi, Swival, Hermes Agent, Qoder, Grok Build). In Codex CLI and the IDE extension they're skills; invoke with `$ponytail-review`. Cursor with the [hooks](#cursor) gets `/ponytail` level switching only, typed as a plain message. The instruction-only adapters (Cursor's rule file, Windsurf, Cline, Copilot, Kiro, Antigravity) load the always-on ruleset without the commands.
 
 ## Development
 

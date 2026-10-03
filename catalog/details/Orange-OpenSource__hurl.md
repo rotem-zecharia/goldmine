@@ -413,8 +413,8 @@ More information on asserts can be found here [https://hurl.dev/docs/asserting-r
 
 Options that exist in curl have exactly the same semantics.
 
-Options specified on the command line are defined for every Hurl file's entry,
-except if they are tagged as cli-only (can not be defined in the Hurl request `[Options]` entry)
+Options specified on the command line are defined for every Hurl file's entry, except if they are tagged as cli-only 
+(can not be defined in the Hurl request `[Options]` entry)
 
 For instance:
 
@@ -422,7 +422,7 @@ For instance:
 $ hurl --location foo.hurl
 ```
 
-will follow redirection for each entry in `foo.hurl`. You can also define an option only for a particular entry with
+will follow redirection for each entry in `foo.hurl`. You can also define an option only for a particular entry wit
 
 ## installation
 

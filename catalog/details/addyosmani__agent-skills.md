@@ -81,6 +81,20 @@ claude --plugin-dir /path/to/agent-skills
 </details>
 
 <details>
+<summary><b>Oh My Pi (OMP)</b></summary>
+
+OMP installs this repository's Claude Code marketplace plugin:
+
+```bash
+omp plugin marketplace add addyosmani/agent-skills
+omp plugin install agent-skills@addy-agent-skills
+```
+
+Restart OMP after installation; skills are discovered from their descriptions. See [docs/omp-setup.md](docs/omp-setup.md) for local clones and the OMP tool mapping.
+
+</details>
+
+<details>
 <summary><b>Cursor</b></summary>
 
 Put workflow skills under `.cursor/skills/` (sync from `agent-skills/skills/`) and short policies in `.cursor/rules/*.mdc` — do not paste full skills into rules. See [docs/cursor-setup.md](docs/cursor-setup.md).
@@ -115,28 +129,7 @@ Install as native skills for auto-discovery, or add to `GEMINI.md` for persisten
 **Install from the repo:**
 
 ```bash
-gemini skills install https://github.com/addyosmani/agent-skills.git --path skills
-```
-
-**Install from a local clone:**
-
-```bash
-gemini skills install ./agent-skills/skills/
-```
-
-</details>
-
-<details>
-<summary><b>Windsurf</b></summary>
-
-Add skill contents to your Windsurf rules configuration. See [docs/windsurf-setup.md](docs/windsurf-setup.md).
-
-</details>
-
-<details>
-<summary><b>OpenCode</b></summary>
-
-Copy skills to `.opencode/skills/` (or `~/.config/opencode/skills/`), add a p
+gemini skills install https://github.com/addyosmani/agent-skills.git --path 
 
 ## features
 

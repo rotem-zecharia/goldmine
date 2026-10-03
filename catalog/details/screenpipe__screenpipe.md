@@ -1,6 +1,6 @@
 # screenpipe/screenpipe
 
-YC (S26) / Open Computer History / Record your screen continuously locally and provide context to your agents (Claude, Codex, Openclaw, Hermes, Runner...)
+YC (S26) / Open Computer History / Continuously record your company computer work, map your workflows, help you find work worth automating, and power your agents' context
 
 ## installation
 
