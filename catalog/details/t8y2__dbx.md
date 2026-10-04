@@ -1,14 +1,14 @@
 # t8y2/dbx
 
-20 MB lightweight cross-platform database client for 90+ databases, including MySQL, PostgreSQL, SQLite, Redis, MongoDB, DuckDB, SQL Server, and Dameng. Built-in AI, MCP Server, CLI, desktop and Docke
+25 MB lightweight cross-platform database client for 100+ databases, including MySQL, PostgreSQL, SQLite, Redis, MongoDB, DuckDB, SQL Server, and Dameng. Built-in AI, MCP Server, CLI, desktop and Dock
 
 ## features
 
 <table>
   <tr>
     <td width="50%">
-      <h3>🪶 20 MB, zero runtime bloat</h3>
-      <p>No Java JRE. No Python venv. No bundled Chromium. DBX ships as a single small binary — download, install, connect. DBeaver needs Java; TablePlus is macOS-only. DBX runs everywhere with nothing extra.</p>
+      <h3>🪶 25 MB, zero runtime bloat</h3>
+      <p>No Java JRE. No Python venv. No bundled Chromium. DBX ships as a single small binary — download, install, connect. DBeaver needs Java; TablePlus is Freemium. DBX runs everywhere with nothing extra.</p>
     </td>
     <td width="50%">
       <h3>🤖 AI that lives in your editor</h3>
@@ -25,13 +25,23 @@
       <p>Native app on macOS, Windows, and Linux. Self-host via Docker for team access. Web version for browser-only environments. Same feature set. Same connections.</p>
     </td>
   </tr>
+  <tr>
+    <td>
+      <h3>📨 Not just databases</h3>
+      <p>Message queues and middleware get first-class consoles: Kafka, RocketMQ, RabbitMQ, Pulsar, and MQTT, plus Nacos, Consul, ZooKeeper, and etcd. Inspect topics and messages next to your databases — no extra tool.</p>
+    </td>
+    <td>
+      <h3>🧩 Plugin ecosystem</h3>
+      <p>Extend DBX with signed, sandboxed plugins from the built-in store — S3, Kubernetes, LDAP, and more. Build your own with the Go / TypeScript SDK.</p>
+    </td>
+  </tr>
 </table>
 
 ## Features
 
-### 90+ Databases, One Tool
+### 100+ Databases, One Tool
 
-MySQL, PostgreSQL, SQLite, Cloudflare D1, Redis, MongoDB, DuckDB, ClickHouse, SQL Server, Oracle, Elasticsearch, Easysearch, Meilisearch, Qdrant, Milvus, Weaviate, MariaDB, TiDB, OceanBase, openGauss, GaussDB, KWDB, KingbaseES, Vastbase, GoldenDB, Doris, SelectDB, StarRocks, Manticore Search, Redshift, DM, TDengine, XuguDB, CockroachDB, Access, HighGo, UXDB, Dolt, and more. Agent-based profiles extend DBX to H2, Snowflake, Trino, PrestoSQL, Hive, DB2, Informix, Neo4j, Cassandra, BigQuery, Cloud Spanner, Kylin, SunDB, JDBCX, and custom JDBC connections. New native and agent-driven drivers also cover Databricks, SAP HANA, Teradata, Vertica, Firebird, Exasol, YashanDB, GBase 8a/8s, Databend, RQLite, Turso, InfluxDB, QuestDB, IoTDB, etcd, ZooKeeper, Nacos, Consul KV, IRIS, and more. Message queue admin is also available for Pulsar, Kafka, and RocketMQ. All in a single ~20 MB app. No bundled Chromium.
+MySQL, PostgreSQL, SQLite, Cloudflare D1, Redis, MongoDB, DuckDB, ClickHouse, SQL Server, Oracle, Elasticsearch, Easysearch, Meilisearch, Qdrant, Milvus, Weaviate, MariaDB, TiDB, OceanBase, openGauss, GaussDB, KWDB, KingbaseES, Vastbase, GoldenDB, Doris, SelectDB, StarRocks, Manticore Search, Redshift, DM, TDengine, XuguDB, CockroachDB, Access, HighGo, UXDB, Dolt, and more. Agent-based profiles extend DBX to H2, Snowflake, Trino, PrestoSQL, Hive, DB2, Informix, Neo4j, Cassandra, BigQuery, Cloud Spanner, Kylin, SunDB, JDBCX, and custom JDBC connections. New native and agent-driven drivers also cover Databricks, SAP HANA, Teradata, Vertica, Firebird, Exasol, YashanDB, GBase 8a/8s, Databend, RQLite, Turso, InfluxDB, QuestDB, IoTDB, etcd, ZooKeeper, Nacos, Consul KV, IRIS, and more. All in a single ~25 MB app. No bundled Chromium.
 
 ### Query Editor
 
@@ -70,6 +80,18 @@ Virtual-scrolled table that handles large result sets. Inline editing, SQL previ
 
 - **Redis** — key pattern search, batch key operations, command runner, TTL editing, and all data types (String, Hash, List, Set, ZSet, Stream)
 - **MongoDB** — document CRUD with pagination, Atlas & replica set URL connection
+
+### Message Queue & Middleware Consoles
+
+- **Kafka / RocketMQ / RabbitMQ / Pulsar** — topics, consumer groups, message browsing, query and trace, broker monitoring, permissions and policies
+- **MQTT** — topic tree navigation, subscribe, and publish
+- **Nacos / Consul / ZooKeeper / etcd** — service discovery, KV / config browsing, health, and ACL
+
+### Plugin System
+
+- **Extensible by design** — new connection types and tools arrive as plugins: S3 browsing, Kubernetes, LDAP, and more from the built-in store
+- **Signed & sandboxed** — every plugin package is signature-verified before install; plugin UI runs sandboxed with its own sidecar process
+- **Build your own** — Go / TypeScript SDKs with `npx @dbx-app/plugin-cli` scaffolding; publish to the Marketplace via [`t8y2/dbx-store`](https://github.com/t8y2/dbx-store)
 
 ### Safety & Connectivity
 
@@ -112,26 +134,7 @@ For DBX Web or Docker deployments, point the MCP server at the Web backend API. 
       "command": "npx",
       "args": ["-y", "@dbx-app/mcp-server"],
       "env": {
-        "DBX_WEB_URL": "http://localhost:4224",
-        "DBX_WEB_PASSWORD": "your-web-login-password"
-      }
-    }
-  }
-}
-```
-
-Works with Claude Code, Cursor, Windsurf, and any MCP-compatible agent. Supports listing connections, browsing tables, executing SQL, and opening tables directly in DBX's UI.
-
-Precompiled native binaries are also published for macOS, Linux, and Windows in [package releases](https://github.com/t8y2/dbx/releases?q=packages-v). They run without Node.js and are suitable for offline or server environments. The npm installation uses the same Rust binary through a small Node.js launcher.
-
-DBX also provides a dedicated CLI package for terminal, script, and Codex workflows:
-
-```bash
-npm install -g @dbx-app/cli
-# or via Homebrew
-brew tap t8y2/tap && brew install dbx-cli
-dbx connections list --json
-dbx query local
+        "DBX_W
 
 ## installation
 
@@ -167,11 +170,18 @@ Updates then arrive through the regular `flatpak update`. See the [DBX page on F
 
 ## Self-Hosted (Docker)
 
+For scheduled backups after closing the desktop app or browser, see
+[Background Database Backups](docs/background-database-backups.md), including
+Windows/macOS/Linux startup and persistent container backup volumes.
+
 DBX provides a web version that can be deployed via Docker. The examples use
 the `latest` tag to pull the current release.
 
 ```bash
-docker run -d --pull=always --name dbx -p 4224:4224 -v dbx-data:/app/data t8y2/dbx:latest
+# The default keeps the key in the persistent /app/data volume.
+docker run -d --pull=always --name dbx -p 4224:4224 \
+  -v dbx-data:/app/data \
+  t8y2/dbx:latest
 ```
 
 This uses the cross-platform `dbx-data` named volume. Users in China can use
@@ -200,22 +210,43 @@ services:
 
 volumes:
   dbx-data:
+
 ```
 
 Open `http://localhost:4224` in your browser. Multi-arch images (amd64 / arm64) are available.
 
-To publish DBX under a reverse-proxy context path such as `/dbx`, set the
-runtime base path and proxy the same prefix to the container:
+Connection, plugin, AI, and tunnel credentials are encrypted before they are
+written to `dbx.db`. Desktop builds use the local platform credential store
+(macOS Keychain, Windows Credential Manager, or Linux Secret Service).
+Web/Docker and directly running `dbx-web` use the same managed data-directory
+key by default: `${DBX_DATA_DIR}/.dbx/secret.key`. The key is created only when
+migration starts or the first sensitive value is written, and must be backed up
+together with `dbx.db`. Persisting `/app/data` is therefore sufficient for a
+normal Docker deployment. This key protects the database contents, but cannot
+protect the whole data volume if the volume itself is copied or exposed.
 
-```yaml
-environment:
-  - DBX_PUBLIC_BASE_PATH=/dbx
-```
+For production deployments, replace the managed key with a Docker/Kubernetes
+Secret by setting `DBX_SECRET_KEY_FILE`, or provide `DBX_SECRET_KEY` through a
+secret manager. Explicit keys take precedence and must never be rotated while
+encrypted data is in use. Without a usable key, business APIs remain blocked
+and the browser displays the data security upgrade screen.
 
-When building the frontend yourself with an absolute asset base, set
-`VITE_DBX_BASE_PATH=/dbx/` before `pnpm build`.
+When running the binary directly, set `DBX_DATA_DIR=/var/lib/dbx` to use
+`/var/lib/dbx/.dbx/secret.key` with the same lifecycle and backup rules.
 
-## Getting Started
+When upgrading from a release that stored credentials in plain text, Desktop
+and Web display a **Data Security Upgrade** wizard before opening the main
+application. Choose **Start upgrade** to create a restricted backup, migrate
+legacy database/JSON credentials, and verify that encrypted values can be
+read. Failures retain the original data and backup; fix the issue shown in
+the wizard and choose **Retry**. The backup path is shown after success.
+Once you have verified your connections, **Delete migration backups** asks
+for confirmation and removes the migration backup directory and the legacy
+JSON `.bak` files created by that migration. Unrelated backup files are kept.
+Users with no legacy data proceed directly after the initial check.
+
+Local CLI and standalone MCP can reuse the existing platform credential
+store 
 
 ## requirements
 
@@ -284,6 +315,8 @@ make docs
 
 The official DBX documentation site lives in `docs/`. If you want to improve the website content or documentation pages, edit the files under `docs/` and run `make docs` to preview the site locally.
 
+Plugin authors should start with [Develop and Submit DBX Plugins](https://dbxio.com/en/docs/plugin-development). Plugin source normally stays in its own repository; Marketplace listing pull requests go to [`t8y2/dbx-store`](https://github.com/t8y2/dbx-store), while plugin host, SDK, and CLI changes go to this repository.
+
 For clean, reproducible local database instances, use the versioned Docker Compose recipes under [`deploy/database/`](deploy/database/README.md):
 
 ```bash
@@ -320,7 +353,4 @@ The installer will be in `src-tauri/target/release/bundle/`.
 
 ## Documentation
 
-- [Official docs](https://dbxio.com/en/docs/what-is-dbx) — feature guides and tutorials
-- [Database Test Lab](https://dbxio.com/en/docs/database-lab) — local database recipes for development and verification
-- [Contributing](CONTRIBUTING.md) — how to pick up issues and open PRs
-- [Web API reference](docs/content/docs/web-api.mdx
+- [Off

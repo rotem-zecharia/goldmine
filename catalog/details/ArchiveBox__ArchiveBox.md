@@ -53,13 +53,13 @@ curl -fsSL 'https://get.archivebox.io' | bash
 ## features
 
 - [**Free & open source**](https://github.com/ArchiveBox/ArchiveBox/blob/dev/LICENSE), own your own data & maintain your privacy by self-hosting
-- [**Powerful CLI**](https://github.com/ArchiveBox/ArchiveBox/wiki/Usage#CLI-Usage) with [modular dependencies](#dependencies) and [support for Google Drive/NFS/SMB/S3/B2/etc.](https://github.com/ArchiveBox/ArchiveBox/wiki/Setting-Up-Storage)
+- [**Powerful CLI**](https://github.com/ArchiveBox/ArchiveBox/wiki/Usage#cli-usage) with [modular dependencies](#dependencies) and [support for Google Drive/NFS/SMB/S3/B2/etc.](https://github.com/ArchiveBox/ArchiveBox/wiki/Setting-Up-Storage)
 - [**Comprehensive documentation**](https://github.com/ArchiveBox/ArchiveBox/wiki), [active development](https://github.com/ArchiveBox/ArchiveBox/wiki/Roadmap), and [rich community](https://github.com/ArchiveBox/ArchiveBox/wiki/Web-Archiving-Community)
 - [**Extracts a wide variety of content out-of-the-box**](https://github.com/ArchiveBox/ArchiveBox/issues/51): [media (yt-dlp), articles (readability), code (git), etc.](#output-formats)
 - [**Supports scheduled/realtime importing**](https://github.com/ArchiveBox/ArchiveBox/wiki/Scheduled-Archiving) from [many types of sources](#input-formats)
 - [**Uses standard, durable, long-term formats**](#output-formats) like HTML, JSON, PDF, PNG, MP4, TXT, and WARC
-- [**Powerful CLI**](https://github.com/ArchiveBox/ArchiveBox/wiki/Usage#CLI-Usage), [**self-hosted web UI**](https://github.com/ArchiveBox/ArchiveBox/wiki/Usage#UI-Usage), [Python API](https://docs.archivebox.io/en/dev/apidocs/archivebox/archivebox.html) (BETA), [REST API](https://github.com/ArchiveBox/ArchiveBox/issues/496) (ALPHA), or [desktop app](https://electron.archivebox.io/)
-- [**Saves all pages to archive.org as well**](https://github.com/ArchiveBox/ArchiveBox/wiki/Configuration#save_archive_dot_org) by default for redundancy (can be [disabled](https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview#stealth-mode) for local-only mode)
+- [**Powerful CLI**](https://github.com/ArchiveBox/ArchiveBox/wiki/Usage#cli-usage), [**self-hosted web UI**](https://github.com/ArchiveBox/ArchiveBox/wiki/Usage#ui-usage), [Python API](https://docs.archivebox.io/dev/apidocs/archivebox/archivebox.html) (BETA), [REST API](https://github.com/ArchiveBox/ArchiveBox/issues/496) (ALPHA), or [desktop app](https://electron.archivebox.io/)
+- [**Saves all pages to archive.org as well**](https://github.com/ArchiveBox/ArchiveBox/wiki/Configuration#archivedotorg_enabled) by default for redundancy (can be [disabled](https://github.com/ArchiveBox/ArchiveBox/wiki/Configuration#archivedotorg_enabled) for local-only mode)
 - Support for archiving [content requiring login/paywall/cookies](https://github.com/ArchiveBox/ArchiveBox/wiki/Configuration#chrome_user_data_dir) (see wiki security caveats!)
 - Support for running [JS during archiving](https://github.com/ArchiveBox/ArchiveBox/issues/51) to adblock, [infiniscroll](https://github.com/ArchiveBox/ArchiveBox/issues/80), [modal-hide](https://github.com/ArchiveBox/ArchiveBox/issues/175), [thread-expand](https://github.com/ArchiveBox/ArchiveBox/issues/345)
 
@@ -115,7 +115,7 @@ See <a href="#%EF%B8%8F-cli-usage">below</a> for more usage examples using the C
 <ol>
 <li>Run the shortcut for the <code>uv</code> install method. It installs <code>uv</code> first when needed.
 <pre lang="bash"><code style="white-space: pre-line">curl -fsSL 'https://get.archivebox.io' | bash</code></pre>
-<i>For more info, see <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Install#option-b-automatic-setup-script">Install: Bare Metal</a> in the Wiki. ➡️</i>
+<i>For more info, see <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Install#option-b-uv-install-shortcut">Install: Bare Metal</a> in the Wiki. ➡️</i>
 </li>
 </ol>
 
@@ -140,7 +140,8 @@ See <a href="https://docs.sweeting.me/s/against-curl-sh">"Against curl | sh as a
 <li>Install <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a> on your system (if not already installed).</li>
 <li>Install the ArchiveBox package using <code>uv</code>.
 <pre lang="bash"><code style="white-space: pre-line">uv tool install --python 3.13 --prerelease explicit --upgrade 'archivebox>=0.9.0rc0,<0.10'
-archivebox versi
+archivebox version
+
 
 ## configuration
 
@@ -194,7 +195,7 @@ docker run -it -v $PWD:/data archivebox/archivebox:dev add --depth=1 'https://ex
 <sub>. . . . . . . . . . . . . . . . . . . . . . . . . . . .</sub>
 <br/><br/>
 <a href="https://demo.archivebox.io">DEMO: <code>https://demo.archivebox.io</code></a><br/>
-<a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Usage">Usage</a> | <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Configuration">Configuration</a> | <a href="#Caveats">Caveats</a>
+<a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Usage">Usage</a> | <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Configuration">Configuration</a> | <a href="#caveats">Caveats</a>
 <br/>
 </div>
 
@@ -290,7 +291,7 @@ archivebox manage createsuperuser
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Publishing-Your-Archive">Wiki: Publishing Your Archive</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview">Wiki: Security Overview</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Chromium-Install#setting-up-a-chromium-user-profile">Wiki: Chromium Install (Setting Up a User Profile)</a></li>
-<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Chromium-Install#import-an-existing-browser-profile">Wiki: Chrome profiles and cookies</a></li>
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/blob/dev/docs/Chromium-Install.md#import-an-existing-browser-profile">Wiki: Chrome profiles and cookies</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Configuration#default_persona">Wiki: Configuration (<code>DEFAULT_PERSONA</code>)</a></li>
 </ul>
 
@@ -325,4 +326,4 @@ archivebox config --set SERVER_SECURITY_MODE=safe-onedomain-nojsreplay
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview">Wiki: Security Overview</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/issues/239">ArchiveBox Github Issue: #239</a></li>
 <li><a href="https://github.com/ArchiveBox/ArchiveBox/security/advisories/GHSA-cr45-98w9-gwqx">Security Advisory: <code>CVE-2023-45815</code></a></li>
-<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview#publishing">Wiki:
+<li><a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Security-Overview#publi
