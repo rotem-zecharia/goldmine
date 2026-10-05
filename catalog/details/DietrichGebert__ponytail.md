@@ -4,11 +4,7 @@ Makes your AI agent think like the laziest senior dev in the room. The best code
 
 ## installation
 
-The most effort ponytail will ever ask of you:
-
-The Claude Code and Codex plugins (and the Cursor hooks) run two tiny Node.js lifecycle hooks, so `node` needs to be on your PATH (note for Nix/nvm users: it must be on the non-interactive shell's PATH). If it isn't, the skills still work, but every hook call shows a harmless `node: command not found` error; installing Node (or putting it on that PATH) makes it go away.
-
-### Claude Code
+**Claude Code**, as two separate prompts:
 
 ```
 /plugin marketplace add DietrichGebert/ponytail
@@ -16,147 +12,95 @@ The Claude Code and Codex plugins (and the Cursor hooks) run two tiny Node.js li
 ```
 /plugin install ponytail@ponytail
 ```
-(You have to send two separate prompts for the install to work) 
 
-Same steps in the Claude Code Desktop app's Code tab: type the two `/plugin` commands above into the prompt box, or click the **+** button next to it, choose **Plugins** → **Add plugin** to browse your configured marketplaces, and manage marketplaces from **Customize** in the sidebar.
-
-### Codex
+**Codex:**
 
 ```bash
 codex plugin marketplace add DietrichGebert/ponytail
 codex plugin add ponytail@ponytail
 ```
 
-Run `codex` and open `/hooks`, review and trust its two lifecycle hooks, and start a new thread.
+Then open `/hooks` in Codex, trust its two lifecycle hooks, and start a new thread.
 
-This same install also covers the Codex desktop app: restart the app after installing and it picks up the plugin.
+**Any other agent:** copy [`AGENTS.md`](AGENTS.md) into your project, or ask your agent to install [`skills/ponytail/SKILL.md`](skills/ponytail/SKILL.md) as a skill. Step by step for Copilot, Cursor, OpenCode, Gemini and the rest: **[INSTALL.md](INSTALL.md)**.
 
-### GitHub Copilot CLI
+That was it. He'd be proud. He won't say it.
 
-```bash
-copilot plugin marketplace add DietrichGebert/ponytail
-copilot plugin install ponytail@ponytail
+Active every session, with a handful of commands (see [Commands](#commands)). `/ponytail ultra` exists for when the codebase has wronged you personally. Startup and mode-change text shows the current mode.
+
+Only install ponytail from `DietrichGebert/ponytail` on GitHub or `@dietrichgebert/ponytail` on npm. It never ships `.exe` or `.dll` files; a copy that does is not mine.
+
+## Before / after
+
+You ask for a date picker. Your agent installs flatpickr, writes a wrapper component, adds a stylesheet, and starts a discussion about timezones.
+
+With ponytail:
+
+```html
+<!-- ponytail: browser has one -->
+<input type="date">
 ```
 
-In an interactive Copilot CLI session, use the slash equivalents:
+More survivors in [examples/](examples/).
+
+## How it works
+
+Before writing code, the agent stops at the first rung that holds:
 
 ```
-/plugin marketplace add DietrichGebert/ponytail
-/plugin install ponytail@ponytail
+1. Does this need to exist?   → no: skip it (YAGNI)
+2. Already in this codebase?  → reuse it, don't rewrite
+3. Stdlib does it?            → use it
+4. Native platform feature?   → use it
+5. Installed dependency?      → use it
+6. One line?                  → one line
+7. Only then: the minimum that works
 ```
 
-Copilot CLI namespaces plugin commands by plugin name. For example:
+The ladder runs *after* it understands the problem, not instead of it: it reads the code the change touches and traces the real flow before picking a rung. Lazy about the solution, never about reading.
 
-```text
-/ponytail:ponytail ultra
-/ponytail:ponytail-review
-```
-
-### Pi agent harness
-
-```
-pi install git:github.com/DietrichGebert/ponytail
-```
-
-### OpenCode
-
-Add to `opencode.json`:
-
-```json
-{ "plugins": ["@dietrichgebert/ponytail"] }
-```
-
-Run from a checkout instead (the plugin reuses `hooks/` and `skills/`):
-
-```json
-{ "plugins": ["./.opencode/plugins"] }
-```
-
-Injects the ruleset every turn at the active level; adds the `/ponytail` commands (see [Commands](#commands)). OpenCode also auto-loads this repo's `AGENTS.md`, so the rules hold even without the plugin. The plugin adds the `lite/full/ultra/off` levels.
-
-OpenCode 2 only. The `./` path resolves against your project's `opencode.json`; to share one checkout across projects, point it at the absolute path of the checkout's `.opencode/plugins` directory. A `plugins` entry must name a **directory**, not a file: OpenCode 2 rejects a path to `ponytail.mjs` with `configured plugin path must be a directory`. Opening this repo in OpenCode 2 needs no entry at all: it loads `.opencode/plugins/index.js` on its own.
-
-OpenCode 1 uses the older `plugin` key: `{ "plugin": ["@dietrichgebert/ponytail"] }`, or from a checkout the file path: `{ "plugin": ["./.opencode/plugins/ponytail.mjs"] }`.
-
-### Gemini CLI
-
-```bash
-gemini extensions install https://github.com/DietrichGebert/ponytail
-```
-
-Loads the ruleset as always-on context every session and registers the `/ponytail` commands; the `skills/` ship too, activated when a task needs them.
-The Gemini adapter intentionally does not ship a root `hooks/hooks.json`: Gemini auto-loads that path, while Ponytail's lifecycle hooks use Claude/Codex event names.
-
-### Qoder
-
-Qoder auto-loads `AGENTS.md` from the repo root as always-on context, so running ponytail from a checkout works with zero setup. For per-project rules, copy [`.qoder/rules/ponytail.md`](.qoder/rules/ponytail.md) into your project's `.qoder/rules/`. The six ponytail skills (`/ponytail`, `/ponytail-review`, `/ponytail-audit`, `/ponytail-debt`, `/ponytail-gain`, `/ponytail-help`) are available via Qoder's Skill system; the plugin manifest at [`.qoder-plugin/plugin.json`](.qoder-plugin/plugin.json) points at the `skills/` directory.
-
-For full plugin-tier support (automatic mode activation + ruleset injection on every prompt), add the hooks from [`hooks/qoder-hooks.json`](hooks/qoder-hooks.json) to your `.qoder/settings.json`. Replace `PONYT
+Lazy, not negligent: trust-boundary validation, data-loss handling, security, and accessibility are never on the chopping block.
 
 ## tools
 
 | Command | What it does |
 |---------|--------------|
 | `/ponytail [lite \| full \| ultra \| off]` | Set the intensity, or turn it off. No argument switches ponytail on at the default level if it is off, and otherwise reports the current level. |
-| `/ponytail-review` | Review the current diff for over-engineering, hands back a delete-list. |
+| `/ponytail-review` | Review the current diff for over-engineering, hands back a delete-list. Name a target in plain words to narrow or widen it: `uncommitted`, `staged`, `branch`, or a PR link. |
 | `/ponytail-audit` | Audit the whole repo for over-engineering, not just the diff. |
 | `/ponytail-debt` | Harvest the `ponytail:` shortcuts you've deferred into a ledger, so "later" doesn't become "never". |
 | `/ponytail-gain` | Show the measured impact scoreboard (less code, less cost, more speed) from the benchmark. |
 | `/ponytail-help` | Quick reference for the commands above. |
 
-Commands need a skill-capable host (Claude Code, Codex, Devin CLI, OpenCode, Gemini, pi, Swival, Hermes Agent, Qoder, Grok Build). In Codex CLI and the IDE extension they're skills; invoke with `$ponytail-review`. Cursor with the [hooks](#cursor) gets `/ponytail` level switching only, typed as a plain message. The instruction-only adapters (Cursor's rule file, Windsurf, Cline, Copilot, Kiro, Antigravity) load the always-on ruleset without the commands.
+Commands need a skill-capable host (Claude Code, Codex, Devin CLI, OpenCode, Gemini, pi, Swival, Hermes Agent, Qoder, Grok Build). In Codex CLI and the IDE extension they're skills; invoke with `$ponytail-review`. Cursor with the [hooks](INSTALL.md#cursor) gets `/ponytail` level switching only, typed as a plain message. The instruction-only adapters (Cursor's rule file, Windsurf, Cline, Copilot, Kiro, Antigravity) load the always-on ruleset without the commands.
 
-## Development
+## Numbers
 
-When changing the compact rule text, keep the agent copies aligned:
-
-```bash
-node scripts/check-rule-copies.js
-npm test
-```
-
-The OpenClaw skill package (`.openclaw/skills/`) is generated from `skills/`; rerun `node scripts/build-openclaw-skills.js` after changing a skill, the test suite fails if it is stale. To publish the skills to ClawHub, run `clawhub login` once, then `node scripts/publish-openclaw-skills.js` (it publishes all six at the `package.json` version; pass `--dry-run` to preview).
-
-The correctness benchmark spawns Python for email and CSV checks; `python3` is tried before `python`. CSV checks need `pandas` installed locally.
-
-## FAQ
-
-**Can I use it with [caveman](https://github.com/JuliusBrussee/caveman)?**
-Yes, and you should. Caveman shrinks what the agent says; ponytail shrinks what it builds. Different halves, no overlap: caveman leaves code byte-for-byte exact, ponytail stays out of the prose. Terse talk about minimal code.
-
-**Does it need a config file?**
-No. An optional `~/.config/ponytail/config.json` or `PONYTAIL_DEFAULT_MODE` env var can set the default level, but nothing is required.
-
-**What if I really need the 120-line cache class?**
-You don't. Insist anyway and he'll build it. Slowly. Correctly. While looking at you.
-
-**Does it scale?**
-The code you never wrote scales infinitely. Zero bugs, zero CVEs, 100% uptime since forever.
-
-**Why "ponytail"?**
-You know exactly why.
-
-## Sponsors
+The honest measurement is a real agent doing real work: a headless Claude Code session editing [tiangolo's full-stack-fastapi-template](https://github.com/fastapi/full-stack-fastapi-template) (a real FastAPI + React repo), scored on the `git diff` it leaves behind. Twelve feature tickets, the same agent with and without the skill, n=4, Haiku 4.5.
 
 <p align="center">
-  <a href="https://greenpt.com/">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/logo-greenpt-dark.svg">
-      <img src="assets/logo-greenpt.svg" width="260" alt="GreenPT">
-    </picture>
-  </a>
+  <img src="assets/benchmark-agentic.svg" width="860" alt="Each arm as a percent of the no-skill baseline across LOC, tokens, cost and time (Haiku 4.5). ponytail is lowest on every metric (LOC 46%, tokens 78%, cost 80%, time 73%); caveman rises above 100% on tokens, cost and time; yagni-oneliner LOC 67%. Safety, separate adversarial tier: baseline, caveman and ponytail 100%, yagni-oneliner 95%.">
 </p>
 
-## License
+| vs no-skill baseline | LOC | tokens | cost | time | safe |
+|---|--:|--:|--:|--:|--:|
+| **ponytail** | **-54%** | **-22%** | **-20%** | **-27%** | **100%** |
+| caveman (terse-prose control) | -20% | +7% | +3% | +2% | 100% |
+| "YAGNI + one-liners" prompt | -33% | -14% | -21% | -30% | 95% |
 
-[MIT](LICENSE). The shortest license that works.
+ponytail is the only arm that cuts every metric, and the only one that stays fully safe while doing it. The cut is biggest where there is a real over-build trap (date picker 404 to 23 lines, color picker 287 to 23, because it reaches for a native `<input>` instead of a component) and near zero on code that is already minimal. Full method, per-task tables, and limitations: [benchmarks/results/2026-06-18-agentic.md](benchmarks/results/2026-06-18-agentic.md).
 
-## Star History
+<details>
+<summary><strong>Older single-shot numbers (isolated generation)</strong></summary>
 
-<a href="https://www.star-history.com/dietrichgebert/ponytail#history">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=DietrichGebert/ponytail&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=DietrichGebert/ponytail&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=DietrichGebert/ponytail&type=Date" />
- </picture>
-</a>
+Five everyday tasks, three models, three arms (no skill, [caveman](https://github.com/JuliusBrussee/caveman), ponytail), ten runs, median reported. One prompt, one completion, counting lines of the answer:
+
+<p align="center">
+  <img src="assets/benchmark-3model.svg" width="860" alt="Median lines of code per arm across Haiku, Sonnet and Opus">
+</p>
+
+This showed **80-94% less code**. [#126](https://github.com/DietrichGebert/ponytail/issues/126) fairly pointed out that the bare-model baseline pads its answer with prose and options, so that gap is partly a conversational-baseline artifact. The agentic numbers above are the corrected, defensible version. Reproduce the single-shot run with `npx promptfoo eval -c benchmarks/promptfooconfig.yaml`.
+
+</details>
+
+**The rule was never "fewest tokens."** It is: write only what the task needs, and never cut validation, error handling, security, or accessibility. The code ends up small because it is necessary, not golfed. Lower cost and latency are a side effect on the models that follow the ladder; a terse reaso

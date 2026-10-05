@@ -283,6 +283,11 @@ Start a CDP WebSocket server.
 | `--font-dir` | — | Recursively load fonts once per worker (repeatable; render build) |
 | `--obey-robots` | off | Respect robots.txt |
 
+With multiple workers, exited children are reaped and restarted. New connections
+use ready workers only; if none are ready, the balancer returns HTTP 503. A crash
+still closes that worker's existing sessions, which clients must reconnect.
+Worker errors remain visible on stderr.
+
 ### `obscura fetch <URL>`
 
 Fetch and render a single page.
@@ -293,10 +298,7 @@ Fetch and render a single page.
 | `--eval` | — | JavaScript expression to evaluate |
 | `--wait-until` | `load` | Wait: `load`, `domcontentloaded`, `networkidle0` |
 | `--timeout` | `30` | Maximum navigation time in seconds |
-| `--wait` | adaptive, up to `5` | Post-load settling; an explicit value is a fixed delay in seconds |
-| `--selector` | — | Wait for CSS selector |
-| `-s`, `--screenshot` | — | Write a PNG screenshot (single URL; render-enabled build) |
-| `--stealth` | off | Anti-detection mode |
+
 
 ## configuration
 

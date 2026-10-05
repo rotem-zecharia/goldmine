@@ -1,6 +1,6 @@
 # K-Dense-AI/scientific-agent-skills
 
-Turn any AI agent into an AI Scientist. The #1 Agent Skills library for science, used by 175,000+ scientists worldwide. 163 ready-to-use validated skills plus 100+ scientific databases covering biolog
+Turn any AI agent into an AI Scientist. The #1 Agent Skills library for science, used by 250,000+ scientists worldwide. 177 ready-to-use validated skills plus 100+ scientific databases covering biolog
 
 ## features
 
@@ -10,8 +10,8 @@ Turn any AI agent into an AI Scientist. The #1 Agent Skills library for science,
 - **Multi-Step Workflows** - Execute complex pipelines with a single prompt
 
 ### 🎯 **Comprehensive Coverage**
-- **161 Skills** - Extensive coverage across all major scientific domains
-- **100+ Databases** - Unified access to 78+ databases via database-lookup, plus dedicated data access skills and multi-database packages like BioServices, BioPython, and gget
+- **177 Skills** - Extensive coverage across all major scientific domains
+- **100+ Databases** - 80 databases documented by Database Lookup, plus dedicated data access skills and multi-database packages such as BioServices, Biopython, and gget
 - **70+ Optimized Python Package Skills** - Current, version-scoped guidance for packages including RDKit, Scanpy, PyTorch Lightning, scikit-learn, PyTDC, pydicom, PufferLib, QuTiP, GeoPandas, pymatgen, Qiskit, Molecular Dynamics (OpenMM/MDAnalysis), scVelo, and TimesFM (the agent can use any Python package; these are the pre-documented paths)
 
 ### 🔧 **Easy Integration**
@@ -21,7 +21,7 @@ Turn any AI agent into an AI Scientist. The #1 Agent Skills library for science,
 
 ### 🌟 **Maintained & Supported**
 - **Regular Updates** - Continuously maintained and expanded by K-Dense team
-- **Tested in CI** - Every skill that ships `scripts/` has a suite under `tests/`, plus a repo-wide structural contract (frontmatter, link resolution, script parsing, `--help` behavior) that runs on every pull request
+- **Validation in CI** - Relevant pull requests run the repository-wide structural checks and standard-library-only skill suites. Scientific dependencies are tested in separate environments; see [Testing](#testing) for the full validation workflow
 - **Community Driven** - Open source with active community contributions
 - **Enterprise Ready** - Commercial support available for advanced needs
 
@@ -65,7 +65,7 @@ Pin to a specific release tag or commit SHA for reproducible installs:
 
 ```bash
 # Pin to a release tag
-gh skill install K-Dense-AI/scientific-agent-skills --pin v2.64.0
+gh skill install K-Dense-AI/scientific-agent-skills --pin v2.71.0
 
 # Pin to a commit SHA
 gh skill install K-Dense-AI/scientific-agent-skills --pin abc123def
@@ -117,7 +117,7 @@ For Hermes versions that support skill taps, add the repository as a tap:
 hermes skills tap add K-Dense-AI/scientific-agent-skills
 ```
 
-Every `SKILL.md` has YAML frontmatter, but legacy and community skills vary in `metadata` formatting (block or flow style) and optional extension fields. Repository updates must keep `metadata.version` as a quoted numeric string and pass canonical `skills-ref validate ./skills/<skill-name>` checks. Hosts may interpret o
+Every `SKILL.md` uses YAML frontmatter with a quoted `metadata.version`. Repository contributions must use block-style YAML; JSON-style flow mappings fail the reference validator. Optional host-specific configuration belongs under `metadata`, with host manifest blocks kept as nested mappings. See [AGENTS.md](AGENTS.md#f
 
 ## requirements
 
@@ -125,7 +125,9 @@ Every `SKILL.md` has YAML frontmatter, but legacy and community skills vary in `
 - **uv**: Python package manager (required for installing skill dependencies)
 - **Client**: Any agent that supports the [Agent Skills](https://agentskills.io/) standard (Cursor, Claude Code, Gemini CLI, Codex, Google Antigravity, etc.)
 - **System**: macOS, Linux, or Windows with WSL2
-- **Dependencies**: Automatically handled by individual skills (check `SKILL.md` files for specific requirements)
+- **Dependencies**: Follow each skill's `compatibility` field and setup instructions for packages, system tools, credentials, and network access. Installing the skill files does not install their dependencies
+
+Use a separate environment for each scientific workflow: some skills require different Python versions or incompatible package pins. `uv sync` installs the repository's development and validation tools, not every scientific package in the collection.
 
 ## tools
 
@@ -223,10 +225,18 @@ networks, and search GEO for similar patterns.
 
 ## configuration
 
+uv run --with pytest python -m pytest tests/<skill-name> -q
+
+# One skill with its declared packages and Python version
+uv run python tests/run_all.py --isolated <skill-name>
+
+# Every suite, each in its own throwaway environment
 uv run python tests/run_all.py --isolated
 ```
 
-The [Skill Tests](https://github.com/K-Dense-AI/scientific-agent-skills/actions/workflows/skill-tests.yml) workflow runs the contract plus the standard-library-only suites on every pull request; the full `--isolated` sweep builds ~100 environments and is run locally or on a schedule.
+Run one skill per pytest process: different skills reuse module names such as `_common`, so collecting several suites together can import the wrong module. `tests/run_all.py` handles process isolation; `--isolated` also provides each skill's declared dependency environment. A suite run in the current environment may skip checks when required packages are absent.
+
+The [Skill Tests](https://github.com/K-Dense-AI/scientific-agent-skills/actions/workflows/skill-tests.yml) workflow runs the contract and standard-library-only suites for relevant pull requests and pushes to `main`, and can be triggered manually. The full scientific dependency sweep is not run in CI; run it before a release or when changing the shared contract. Some skills need external runtimes or system tools; installation gaps are documented in [`tests/skill-requirements.toml`](tests/skill-requirements.toml).
 
 ### Security Scanning
 
@@ -294,13 +304,4 @@ This project builds on 50+ amazing open source projects. If you find value in th
 ### General Questions
 
 **Q: Is this free to use?**  
-A: Yes! This repository is MIT licensed. However, each individual skill has its own license specified in the `license` metadata field within its `SKILL.md` file—be sure to review and comply with those terms.
-
-**Q: Why are all skills grouped together instead of separate packages?**  
-A: We believe good science in the age of AI is inherently interdisciplinary. Bundling all skills together makes it trivial for you (and your agent) to bridge across fields—e.g., combining genomics, cheminformatics, clinical data, and machine learning in one workflow—without worrying about which individual skills to install or wire together.
-
-**Q: Can I use this for commercial projects?**  
-A: The repository itself is MIT licensed, which allows commercial use. However, individual skills may have different licenses—check the `license` field in each skill's `SKILL.md` file to ensure compliance with your intended use.
-
-**Q: Do all skills have the same license?**  
-A: No. Each skill has its own license specified in the `li
+A: Yes! This repository is MIT licensed. However, each individual skill has its own license specified in the `license` metadata field within its `SKILL.md` file—be sure to review and c
