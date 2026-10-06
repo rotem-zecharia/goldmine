@@ -30,6 +30,8 @@ AWS_ACCESS_KEY_ID=admin AWS_SECRET_ACCESS_KEY=secret \
 
 The same process also runs the master, a volume server, the filer, WebDAV, the Iceberg REST catalog, and the Admin UI. Add `S3_TABLE_BUCKET=warehouse` to also create an Iceberg table bucket, or `warehouse:LANCE` for a Lance one. Drop the AWS keys to run without authentication for development.
 
+Without Admin authentication or mTLS, `weed mini` binds the Admin UI/API and its worker gRPC control plane to loopback rather than `-ip.bind`. Set `WEED_ADMIN_PASSWORD` or configure `https.admin` mTLS to keep the network bind. Remote workers must opt in with `-admin.worker.ip=<address>` and should configure `grpc.admin` mTLS. `-admin.allowInsecureBind` restores the legacy unauthenticated network bind and should only be used on an isolated network.
+
 > macOS: if the binary is quarantined, run `xattr -d com.apple.quarantine ./weed` first.
 
 `weed mini` is auto-tuned for one node and is fine for single-node production, such as an S3 gateway that issues presigned URLs. See [Quick Start with weed mini][WeedMini].
@@ -105,23 +107,7 @@ s3:
     - name: app-storage
 ```
 
-The S3 endpoint is the `seaweedfs-s3` service on port 8333. [Helm Chart Recipes][HelmRecipes] has values for a development cluster, a lakehouse with the Iceberg catalog exposed, filer metadata on PostgreSQL, and node-local disks. The [SeaweedFS Operator][Operator] and the [CSI driver][SeaweedFsCsiDriver] are the other Kubernetes paths.
-
-## Build from source ##
-
-```bash
-git clone https://github.com/seaweedfs/seaweedfs.git
-cd seaweedfs/weed && make install
-```
-
-`weed` lands in `$GOPATH/bin`. [Getting Started][GettingStarted] covers running master, volume, filer, and S3 as separate processes.
-
-## Scale out ##
-
-Capacity is a volume server. Start one on any machine with disk and point it at the master:
-
-```bash
-weed volume -dir=/data -master=<master_host>:9
+The S3 endpoint is the `seaweedfs-s3` service on port 8333. [Helm Chart Recipes][HelmRecipes] has values for a development cluster, a lakehouse with the Iceberg catalog exposed, filer metadata on PostgreSQL, and node-local disks. The [SeaweedFS Operator][Operator] and the [CSI driver][SeaweedFsCsiDriver] are
 
 ## features
 

@@ -65,7 +65,7 @@ See the **[self-hosting guide](https://www.worldmonitor.app/docs/getting-started
 |----------|-------------|
 | **Frontend** | Vanilla TypeScript, Vite, globe.gl + Three.js, deck.gl + MapLibre GL |
 | **Desktop** | Tauri 2 (Rust) with Node.js sidecar |
-| **AI/ML** | Ollama / Groq / OpenRouter, Transformers.js (browser-side) |
+| **AI/ML** | Ollama / OpenRouter, Transformers.js (browser-side) |
 | **API Contracts** | Protocol Buffers and sebuf HTTP annotations |
 | **Deployment** | Vercel Edge Functions, Railway relay, Tauri, PWA |
 | **Caching** | Redis (Upstash), 3-tier cache, CDN, service worker |
@@ -120,4 +120,4 @@ npm run build:full       # Production build
 
 ## License
 
-**AGPL-3.0-only** for the source code. Commercial use is permitted under the AGPL when you comply 
+**AGPL-3.0-only** for the source code. Commercial use is permitted under the AGPL when you comply with it

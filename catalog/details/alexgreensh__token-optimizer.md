@@ -39,9 +39,9 @@ codex plugin marketplace add alexgreensh/token-optimizer
 ```
 Then in the Codex TUI: `/plugins` and install Token Optimizer. See [`docs/codex.md`](docs/codex.md).
 
-**OpenCode:** add `token-optimizer-opencode` to the `plugin` array in your `opencode.json`:
+**OpenCode V2:** add `token-optimizer-opencode` to the `plugins` array in your `opencode.json` (V1 1.18.29+ uses `plugin`):
 ```jsonc
-{ "$schema": "https://opencode.ai/config.json", "plugin": ["token-optimizer-opencode"] }
+{ "$schema": "https://opencode.ai/config.json", "plugins": ["token-optimizer-opencode"] }
 ```
 See [`opencode/README.md`](opencode/README.md).
 
@@ -57,6 +57,12 @@ git clone https://github.com/alexgreensh/token-optimizer.git
 token-optimizer/install.sh --hermes
 ```
 See [`hermes/README.md`](hermes/README.md).
+
+**Pi Coding Agent:**
+```bash
+pi install git:github.com/alexgreensh/token-optimizer
+```
+Then run `/token-optimizer enable` to opt in. Native model costs are reported on the active branch; local tool archives and continuity markers require separate opt-in. See [`pi/README.md`](pi/README.md) for commands, privacy, update, uninstall, and limits.
 
 **GitHub Copilot:**
 ```bash
@@ -100,9 +106,7 @@ bash ~/.claude/token-optimizer/install.sh
 rm -rf "$tmp"
 ```
 
-**Windows users:** Use the plugin install only. Do not run `install.sh` on Windows. If you hit `EBUSY` errors, close all Claude Code and Git Bash windows, kill lingering `git.exe` processes, delete `C:\Users\<you>\.claude\token-optimizer` and `C:\Users\<you>\.claude\plugins\marketplaces\alexgreensh-token-optimizer`, then retry.
-
-**If `install.sh` fails with `$'\r': command not fou
+**Win
 
 ## tools
 

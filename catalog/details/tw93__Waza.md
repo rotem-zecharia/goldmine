@@ -76,7 +76,7 @@ Codex shows remaining quota; the Claude Code statusline above shows used percent
 
 ### Optional Rules
 
-Three independent toggles. Copy the ones you want (swap `claude-code` for `codex` or `antigravity-cli` on those agents):
+Optional rules apply beyond skill invocations when installed into your agent's persistent instructions. Installing Waza skills alone does not enable them. Copy the ones you want (swap `claude-code` for `codex` or `antigravity-cli` on those agents):
 
 ```bash
 (
@@ -90,6 +90,4 @@ Three independent toggles. Copy the ones you want (swap `claude-code` for `codex
   bash "$WAZA_RULE_SCRIPT" english claude-code
 
   # Anti-patterns: always-on cross-skill guardrails (read before acting, no scope creep, no unsolicited summaries)
-  bash "$WAZA_RULE_SCRIPT" anti-patterns claude-code
-
-  # Routing hint: tells non-Claude hosts to prefer Waza skills when a request matches the
+  bash "$WAZA_R

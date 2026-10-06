@@ -30,6 +30,14 @@ Or install for OpenCode:
 npx claude-mem install --ide opencode
 ```
 
+Or install for **T3 Code** (Codex and Claude Code providers):
+
+```bash
+npx claude-mem install --ide t3code
+```
+
+The installer discovers T3 Code's enabled providers, registers native Claude-Mem plugins in their configured homes, and supports T3-managed Codex. Restart T3 Code, trust the provider's hooks when prompted, and start a new thread. See the [T3 Code integration guide](https://docs.claude-mem.ai/t3code-integration) for custom server settings, status, and removal.
+
 Or install for Antigravity CLI ([setup guide](https://docs.claude-mem.ai/antigravity-cli/setup)):
 
 ```bash
@@ -74,19 +82,7 @@ The installer handles dependencies, plugin setup, AI provider configuration, wor
 - 🔒 **Privacy Control** - Use `<private>` tags to exclude sensitive content from storage
 - ⚙️ **Context Configuration** - Fine-grained control over what context gets injected
 - 🤖 **Automatic Operation** - No manual intervention required
-- 🔗 **Citations** - Reference past observations with IDs through the worker API or view all in the web viewer
-
----
-
-## Documentation
-
-📚 **[View Full Documentation](https://docs.claude-mem.ai/)** - Browse on official website
-
-### Getting Started
-
-- **[Installation Guide](https://docs.claude-mem.ai/installation)** - Quick start & advanced installation
-- **[Usage Guide](https://docs.claude-mem.ai/usage/getting-started)** - How Claude-Mem works automatically
-- **[Search Tools](https://docs.claude-mem.ai/usage/search-tools)** - Query your project history with natural 
+- 🔗 **Citations** - Reference past observations with IDs through the worker API or view all in
 
 ## configuration
 

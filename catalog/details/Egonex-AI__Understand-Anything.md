@@ -81,7 +81,7 @@ A multi-agent pipeline scans your project, extracts every file, function, class,
 # Generate Chinese content (知识图节点描述和 Dashboard UI)
 /understand --language zh
 
-# Supported languages: en (default), zh, zh-TW, ja, ko, ru
+# Supported languages: en (default), zh, zh-TW, ja, ko, ru, vi
 ```
 
 On the **first run** in a project — when you don't pass `--language` and no language is stored yet — `/understand` detects the language you're conversing in. If it isn't English, it asks you to confirm (or override) before generating; English conversations are unaffected. Your choice is saved to `.ua/config.json` and reused on every later run.
@@ -161,4 +161,4 @@ iwr -useb https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/i
 
 The installer clones the repo to `~/.understand-anything/repo` and creates the right symlinks for the chosen platform. Restart your CLI/IDE afterwards.
 
-> **Note on invoking skills:** the invocation prefix differs per platform. Most platforms use slash commands (`/understand`), but
+> **Note on invoking skills:** the invocation prefix differs per platform. Most platforms use slash commands (`/understand`),

@@ -103,7 +103,10 @@ Windows, PowerShell 5.1+:
 irm https://raw.githubusercontent.com/JuliusBrussee/caveman/v3.1.0/install.ps1 | iex
 ```
 
-Changed your mind: `npx -y github:JuliusBrussee/caveman -- --uninstall`
+On npm 12 or newer, new npm block git install, so one-liners above fail until next release. Use this for now:
+`npx --allow-git=root -y github:JuliusBrussee/caveman#v3.1.0`
+
+Changed your mind: `npx -y github:JuliusBrussee/caveman -- --uninstall` (on npm 12+, add `--allow-git=root` too)
 
 Install broke? Open your agent in this repo and say *"Read CLAUDE.md and INSTALL.md, install caveman for me."* Agent fix own brain.
 
@@ -141,7 +144,4 @@ Two findings shaped caveman. Adobe found that cavemanning *your* prompt makes an
 |---|---:|
 | None | 6,983 |
 | `Answer concisely.` | 4,334 |
-| `/caveman` | 4,119 |
-| `/ultracave` | **2,693** |
-
-New models already know "be concise", so that line is the real baseline. On top of it, `/caveman` cuts 3% more at the median and `/ultracave` cuts 35% more. [Harness](./
+| `/cave

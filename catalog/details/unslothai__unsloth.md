@@ -35,6 +35,7 @@ unsloth start claude --model unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_XL
 | OpenAI Codex | `unsloth start codex` |
 | DeepSeek Harness | `unsloth start dsh` |
 | Hermes Agent | `unsloth start hermes` |
+| Mistral Vibe | `unsloth start vibe` |
 | OpenCode | `unsloth start opencode` |
 | OpenClaw | `unsloth start openclaw` |
 
@@ -80,6 +81,11 @@ Unsloth can be used in three ways: **[Unsloth Desktop](https://unsloth.ai/downlo
 #### macOS, Linux, WSL:
 ```bash
 curl -fsSL https://unsloth.ai/install.sh | sh
+```
+
+On macOS, you can also install Unsloth Desktop with Homebrew:
+```bash
+brew install --cask unsloth
 ```
 
 #### Windows:
@@ -129,7 +135,4 @@ unsloth studio -H 0.0.0.0 -p 8888
 **LAN Access (home network)**: `Settings > API keys > LAN access`
 
 #### Password management & headless starts
-Exposing Unsloth (`--secure`, `--cloudflare`, or a non-loopback `-H`) asks once at the terminal for a new admin password. Ctrl+C there aborts the launch rather than exposing the auto-generated one; set a password non-interactively instead, or use `-H 127.0.0.1` to stay off the network.
-
-Headless starts:
-
+Exposing Unsloth (`--secure`, `--cloudflare`, or a non-loopback `-H`) asks once at the terminal for a new admin password. Ctrl+C there aborts the launch rather than exposing the auto-generated one; set 
