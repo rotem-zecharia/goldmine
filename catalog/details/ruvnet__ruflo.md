@@ -4,6 +4,8 @@
 
 ## installation
 
+<p align="center"><img src="docs/assets/readme/quick-start.svg" alt="Start building with Ruflo" width="100%"></p>
+
 There are **two different install paths** with very different surface areas. Pick based on what you need (#1744):
 
 | | **Claude Code Plugin** | **CLI install (`npx ruflo init`)** |
