@@ -6,6 +6,8 @@ Enterprise-grade (40m+ LOC) codebase intelligence, zero-setup, local & private P
 
 > **Requirements:** [Node.js 18.17 or newer](https://nodejs.org/) with `npx` on `PATH`, plus [Docker](https://www.docker.com/products/docker-desktop/) running for the default local Qdrant and Ollama stack.
 
+For one recommended setup path per host and short practical scenarios, use the [quick guides](docs/guides/README.md). This README has the other installation paths and full configuration.
+
 **Quick install guidance for Claude Code, VS Code, and Cursor:**
 
 [![Install Claude Code Plugin](https://img.shields.io/badge/Claude_Code-Install_Plugin-CC785C?style=flat-square&logoColor=white)](#claude-code-plugin-recommended-for-claude-code-users)
@@ -24,7 +26,7 @@ Enterprise-grade (40m+ LOC) codebase intelligence, zero-setup, local & private P
 }
 ```
 
-Configuration schemas are host-specific. Continue, VS Code, Zed, OpenCode, Gemini CLI, Cline, and Roo Code have dedicated examples in [Plugins and host integrations](#plugins-and-host-integrations).
+Configuration schemas are host-specific. Continue, VS Code, Zed, OpenCode, Gemini CLI, and Cline have dedicated examples in [Plugins and host integrations](#plugins-and-host-integrations).
 
 ### Keeping SocratiCode up to date
 
@@ -39,10 +41,10 @@ Native plugins and extensions also contain **skills, instructions, manifests, or
 | VS Code Agent Plugin | Leave `extensions.autoUpdate` enabled for daily checks, or run **Extensions: Check for Extension Updates**, then start a new Chat |
 | VS Code editor extension | Update it through the Extensions view or **Extensions: Check for Extension Updates**, then reload the window |
 | Cursor local plugin | Update to the latest GitHub release tag using the commands in the [Cursor section](#cursor), then reload Cursor |
-| Gemini CLI extension | Install with `--auto-update`, or run `gemini extensions update socraticode`, then restart Gemini |
+| Gemini CLI direct MCP | Restart Gemini to reconnect the server and resolve the current npm release |
 | Direct MCP only | No separate plugin files are installed; restart or reconnect the MCP server to resolve the current npm release |
 
-`@latest` refers to npm's published `latest` distribution tag; it does not refer to a Git branch. `--prefer-online` forces npm to check for updated package metadata even w
+`@latest` refe
 
 ## features
 

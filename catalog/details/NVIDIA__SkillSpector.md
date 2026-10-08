@@ -129,33 +129,34 @@ See the [contrib guide](contrib/batch_scan/docs/) for details.
 > contribute a more universal backend (Ollama, vLLM, or a different provider),
 > PRs are very welcome.
 
-### Suppressing False Positives (baseline)
+### Comparing MCP Registry snapshots
 
-Suppress known/accepted findings so the risk score reflects only un-triaged
-issues and re-scans surface only *new* findings. See the
-[suppression guide](docs/SUPPRESSION.md) for the full reference.
+Start with raw registry payload captures (`registry-before.json` and
+`registry-after.json`). Save a scan report as `previous.json`, then compare a
+later scan against that generated local report:
 
 ```bash
-# Accept all current findings into a baseline (run once), then commit it.
-skillspector baseline ./my-skill/ -o .skillspector-baseline.yaml
-
-# Scan against the baseline — only NEW findings are reported and scored.
-skillspector scan ./my-skill/ --baseline .skillspector-baseline.yaml
-
-# Review what was suppressed (still excluded from the score).
-skillspector scan ./my-skill/ --baseline .skillspector-baseline.yaml --show-suppressed
+skillspector scan registry-before.json --mcp-registry --format json --output previous.json
+skillspector scan registry-after.json --mcp-registry --format json \
+  --mcp-registry-compare previous.json --output compared.json
 ```
 
-A baseline can also use drift-tolerant glob rules (by rule id, file path, or
-message) — see [`.skillspector-baseline.example.yaml`](.skillspector-baseline.example.yaml).
-Exact fingerprint baselines are evidence-bound: changing the scanned source or
-SkillSpector version keeps the finding active until it is reviewed again.
-When a selected baseline or baseline output is stored inside the skill
-directory, SkillSpector excludes that exact file from content analysis so its
-suppression text cannot create findings or enter regenerated fingerprints;
-sibling files remain in normal scan scope.
+The optional `comparison` object lists added and removed server identities,
+changed normalized fields with their previous and current values, and an
+`unchanged_count`. Identity is the server name and version, so a new version
+appears as an addition and the old version as a removal if it is absent from the
+new scan. Acquisition source and scan timestamp are excluded from comparison.
+`unmodeled_changes` lists same-identity records whose raw-record hash changed
+while normalized fields match; these are not counted as unchanged. This can
+indicate a change to fields outside the snapshot model, or array reordering in
+the raw record. Package and remote ordering alone is not a normalized field change.
+Entries in `changed` may also contain changes outside the snapshot model; inspect
+the raw record to see those changes.
+Com
 
-### LLM Analys
+## requirements
+
+#   1. Google Cloud project with billing enabled.
 
 ## limitations
 

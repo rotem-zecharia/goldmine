@@ -4,24 +4,6 @@ Convert documents to structured data effortlessly. Unstructured is open-source E
 
 ## installation
 
-1. **Pick your MCP client.** Transform works with virtually any MCP-compatible host or agent framework — Claude Code, Cursor, Codex CLI and more.
-
-2. **Add the Transform MCP server** to your client's MCP configuration (via the CLI `mcp add` command or the client's MCP settings/config file, depending on the tool).
-
-3. **Authenticate once** when your client prompts you. Sign in, and the Transform tools become available to your agent on its next message.
-
-4. **Point your agent at a file.** Drag and drop or reference a local file or URL. Transform handles 60+ formats (PDFs, emails, images, scanned files, and more).
-
-5. **Describe what you need in plain language.** Tell the agent your intent (e.g. "parse and chunk this contract for a vector store") and Transform partitions, enriches, chunks, and embeds the file, returning structured data ready to use. 
-
-⚡ [Get Started for Free](https://transform.unstructured.io/?entry=cta)
-
-## Unstructured Pipelines
-
-Ready to move your data processing pipeline to production, and take advantage of advanced features? Check out [Unstructured Pipelines](https://unstructured.io/enterprise). In addition to better processing performance, take advantage of chunking, embedding, and image and table enrichment generation, all from a low code UI or an API. [Request a demo](https://unstructured.io/?modal=contact-sales) from our sales team to learn more about how to get started.
-
-## :eight_pointed_black_star: Quick Start
-
 There are several ways to use the `unstructured` library:
 * [Run the library in a container](https://github.com/Unstructured-IO/unstructured#run-the-library-in-a-container) or
 * Install the library
@@ -69,4 +51,29 @@ make docker-start-bash
 
 Once in the running container, you can try things directly in Python interpreter's interactive mode.
 ```bash
-# this will drop you
+# this will drop you into a python console so you can run the below partition functions
+python3
+
+>>> from unstructured.partition.pdf import partition_pdf
+>>> elements = partition_pdf(filename="example-docs/layout-parser-paper-fast.pdf")
+
+>>> from unstructured.partition.text import partition_text
+>>> elements = partition_text(filename="example-docs/fake-text.txt")
+```
+
+### Installing the library
+Use the following instructions to get up and running with `unstructured` and test your
+installation.
+
+- Install the Python SDK to support all document types with `pip install "unstructured[all-docs]"`
+  - For plain text files, HTML, XML, JSON and Emails that do not require any extra dependencies, you can run `pip install unstructured`
+  - To process other doc types, you can install the extras required for those documents, such as `pip install "unstructured[docx,pptx]"`
+- Install the following system dependencies if they are not already available on your system.
+  Depending on what document types you're parsing, you may not need all of these.
+    - `libmagic-dev` (filetype detection)
+    - `poppler-utils` (images and PDFs)
+    - `tesseract-ocr` (images and PDFs, install `tesseract-lang` for additional language support)
+    - `libreoffice` (MS Office docs)
+    - `pandoc` is bundled automatically via the `pypandoc-binary` Python package (no system install needed)
+
+- For suggestions on how to install on the Windows and to learn about dependencies for other features, see 
