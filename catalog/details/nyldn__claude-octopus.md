@@ -2,6 +2,71 @@
 
 Run multiple AI models against the same research, design, or coding task. Surface disagreements before you ship.
 
+## configuration
+
+Model configuration rejects unsafe names while preserving supported Antigravity
+display labels. Concurrent provider-history updates retain entries even when a
+directory utility reports success to multiple writers. Optional history recording
+requires Python 3 and skips the write if it cannot acquire the lock.
+
+The MCP SDK is updated to 1.31.0, including an upstream OAuth client security fix.
+See [the changelog](CHANGELOG.md) for details.
+
+### Parallel work, reliable reviews and Codex startup
+
+Parallel work packages now use separate branches. Completed commits remain
+available after cleanup, and worktrees with uncommitted edits are kept for
+recovery. Failed packages record their completion status so the wave can finish.
+
+Reviews and research retain provider stdout longer than the configured threshold,
+even when it contains a context-limit rejection phrase. Short stdout-only
+rejections and stderr rejection signatures still fail the affected seat. The new
+`OCTO_PROVIDER_REJECTION_MAX_OUTPUT_BYTES` setting adjusts the output-size
+threshold, with a default of 4096 bytes. See [provider rejection handling](docs/PROVIDERS.md#provider-rejection-handling).
+
+Codex can create its thread-coordination and plugin-sync locks inside the Linux
+Tangle execution boundary. The locks use private temporary storage, while
+configuration and extension inputs remain read-only. See [bounded Codex runs](docs/PROVIDERS.md#codex-in-bounded-tangle-runs)
+for host requirements and temporary-directory configuration.
+
+### Engineering methods
+
+Octopus includes eight engineering methods adapted from
+[Matt Pocock's skills](THIRD_PARTY_NOTICES.md). Routine architecture, TDD, and
+debugging use your current host. Ask for an independent opinion when a reviewer
+would help. Plans capture domain terms and blocking decisions, compare interface
+designs, and can propose a time-limited prototype.
+
+Setup can resume an interrupted configuration and rechecks readiness before
+reporting success. See [workflow methods](docs/WORKFLOW-METHODS.md)
+for usage and [the changelog](CHANGELOG.md) for release details.
+
+Premium `/octo:auto` routes also run one bounded cross-provider peer check after
+an eligible single-owner result, without requiring a second command or flag.
+Budget and Standard routes do not add the check, and existing multi-model
+workflows are not double-reviewed. Set `OCTOPUS_PREMIUM_PEER_CHECK=off` to
+disable it.
+
+<!-- BEGIN CURRENT RELEASE -->
+> 🆕 **v11.13.1 — Safer model configuration, reliable provider history and an MCP dependency security update.**
+>
+> **Default roster:** Claude Opus 5.5 leads architecture, planning, security reasoning, and final judgment; GPT-5.6 Sol is the independent implementation/review peer; Claude Sonnet 5.5 is the standard Claude seat; Fable 5.1 remains an opt-in judgment escalation. Existing model pins and provider configuration still win. See [the routing strategy](docs/MODEL-ROUTING-STRATEGY.md).
+<!-- END CURRENT RELEASE -->
+>
+> ```bash
+> /octo:model-config                         # inspect or override the frontier roster
+> OCTOPUS_OPUS5_AUTO_XHIGH=1                 # opt in to automatic xhigh Opus 5 phases
+> OCTOPUS_OPUS_MODEL=claude-fable-5-1        # explicitly opt in to Fable 5.1
+> OCTOPUS_CODEX_MODEL=gpt-6-astra            # explicitly opt in to Astra
+> /octo:model-config tier premium claude claude-fable-5-1  # one bounded Fable judgment seat
+> /octo:model-config tier premium codex gpt-6-astra        # one bounded Astra judgment seat
+> ```
+
+> 🆕 **v9.41 — Multi-LLM Council.** `/octo:council` runs a structured 3/5/7-persona deliberation across Claude, Codex, Antigravity, and OpenCode with goal modes (`advice`, `decision`, `plan`, `implement`, `review`), styles (`balanced`, `adversarial`, `red-team`, `executive`, `implementation`), benchmark-aware role routing, quorum + critical-veto gates, budget caps, and gated worktree handoff for approved plans. Use it when one model's opinion isn't enough.
+>
+> ```bash
+> /octo:council --goal decision -
+
 ## installation
 
 ```bash
@@ -81,100 +146,6 @@ octopus handoff export --json  # redacted checkpoint for another supported host
 metadata. On platforms without symlink support, the stable root contains
 generated wrappers for Octopus script entry points. Repair does not delete host
 caches. The security audit checks the plugin itself; use `/oct
-
-## configuration
-
-```
-
-```json
-{
-  "mcpServers": {
-    "claude-octopus": {
-      "command": "npx",
-      "args": ["tsx", "${userHome}/.cursor/claude-octopus/mcp-server/src/index.ts"],
-      "env": {
-        "OPENAI_API_KEY": "${env:OPENAI_API_KEY}"
-      }
-    }
-  }
-}
-```
-
-Restart Cursor. Tools appear in Cursor's AI chat — invoke by asking e.g. "use octopus_discover to research X".
-
-### Using Claude Code from Windows
-
-Install and launch the Claude Code CLI inside your WSL distribution, then install
-Octopus there. Run `claude` from the WSL terminal. Its Linux home has its own
-plugins and settings; a Windows-side installation does not carry over.
-
-For Claude Code Desktop, select an SSH environment connected to a Linux or macOS
-host and install Octopus on that host. The desktop app's built-in WSL environment
-currently does not load plugins. See the official [WSL limitations](https://code.claude.com/docs/en/desktop-wsl)
-and [desktop SSH guide](https://code.claude.com/docs/en/desktop#ssh-sessions).
-
-### Using Cursor on WSL
-
-<details>
-<summary>Show Cursor setup steps</summary>
-
-If you're running Cursor on Windows with WSL, clone the repo inside WSL and point the MCP config through `wsl.exe`:
-
-```json
-{
-  "mcpServers": {
-    "claude-octopus": {
-      "command": "wsl",
-      "args": ["npx", "tsx", "/home/<user>/.cursor/claude-octopus/mcp-server/src/index.ts"],
-      "env": {
-        "OPENAI_API_KEY": "${env:OPENAI_API_KEY}"
-      }
-    }
-  }
-}
-```
-
-Replace `<user>` with your WSL username. Make sure `node` and `npm` are installed inside WSL.
-</details>
-
-See [docs/IDE-INTEGRATION.md](docs/IDE-INTEGRATION.md) for the full guide including `ide-attach.sh` auto-setup.
-</details>
-
-<details>
-<summary>Install for OpenCode</summary>
-
-```bash
-git clone --depth 1 https://github.com/nyldn/claude-octopus.git ~/.opencode/claude-octopus
-mkdir -p ~/.agents/skills
-ln -s ~/.opencode/claude-octopus/skills ~/.agents/skills/claude-octopus
-```
-</details>
-
-<details>
-<summary>Other install methods (Claude Code)</summary>
-
-**From the Claude Code UI:** Type `/plugin` in a session → **Marketplace** tab → install **octo**.
-
-**Factory AI (Droid):**
-```bash
-droid plugin marketplace add https://github.com/nyldn/claude-octopus.git
-droid plugin install octo@nyldn-plugins
-```
-</details>
-
-<details>
-<summary>Update / Troubleshooting</summary>
-
-[Claude Code leaves auto-update off by default for third-party marketplaces](https://code.claude.com/docs/en/discover-plugins#configure-auto-updates).
-To opt in to host-managed startup updates, run `/plugin`, open
-**Marketplaces**, select **nyldn-plugins**, and choose **Enable auto-update**.
-When Claude reports that Octopus was updated, run `/reload-plugins` (or restart
-Claude Code) before using the new version.
-
-```bash
-# Manual update
-claude plugin marketplace update nyldn-plugins
-claude plugin update octo@nyldn-plugins
 
 ## tools
 

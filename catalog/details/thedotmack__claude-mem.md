@@ -30,6 +30,8 @@ Or install for OpenCode:
 npx claude-mem install --ide opencode
 ```
 
+This works with OpenCode 1.3.4 or later, including OpenCode 2. Restart OpenCode after installing.
+
 Or install for **T3 Code** (Codex and Claude Code providers):
 
 ```bash
@@ -86,9 +88,7 @@ The installer handles dependencies, plugin setup, AI provider configuration, wor
 - 🧠 **Persistent Memory** - Context survives across sessions
 - 📊 **Progressive Disclosure** - Layered memory retrieval with token cost visibility
 - 🔍 **Skill-Based Search** - Query your project history with mem-search skill
-- 🖥️ **Web Viewer UI** - Real-time memory stream at the worker URL printed on startup
-- 💻 **Claude Desktop Skill** - Search memory from Claude Desktop conversations
-- 🔒 **Privacy Co
+- 🖥️ **Web Viewer UI** - Real-time memory stream at the worker URL printed on star
 
 ## configuration
 

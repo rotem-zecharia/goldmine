@@ -1,6 +1,6 @@
 # tw93/Waza
 
-🥷 Engineering habits you already know, turned into skills Claude can run.
+🥷 Engineering habits you already know, turned into skills AI assistants can run.
 
 ## installation
 
@@ -9,6 +9,9 @@
 ```bash
 npx skills add tw93/Waza -a claude-code codex cursor -g -y
 ```
+
+Or tell your agent to install:
+> Install Waza for me by reading https://github.com/tw93/Waza/blob/main/llms.txt
 
 One copy lands in `~/.agents/skills`, the shared skills directory. Claude Code is symlinked in; Codex, Cursor, Gemini CLI, Copilot, Amp, Kimi Code CLI, and every other agent that reads that directory picks the eight skills up as `/check`, `/think`, and so on. Agents with a private skills directory take their id after `-a` (for example `antigravity-cli` or `qwen-code`). Update with `npx skills update -g -y`.
 
@@ -89,5 +92,4 @@ Optional rules apply beyond skill invocations when installed into your agent's p
   # English coaching: appends a short 😇 correction when your prompt has an English mistake
   bash "$WAZA_RULE_SCRIPT" english claude-code
 
-  # Anti-patterns: always-on cross-skill guardrails (read before acting, no scope creep, no unsolicited summaries)
-  bash "$WAZA_R
+  # Anti-patterns

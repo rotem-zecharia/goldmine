@@ -100,6 +100,7 @@ uipro init --ai warp        # Warp
 uipro init --ai augment     # Augment
 uipro init --ai codewhale   # CodeWhale
 uipro init --ai zcode       # ZCode
+uipro init --ai amazonq     # Amazon Q Developer
 uipro init --ai universal   # Universal / Agent Standard (.agents/skills/)
 uipro init --ai all         # All assistants
 ```

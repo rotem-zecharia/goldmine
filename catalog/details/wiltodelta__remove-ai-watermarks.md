@@ -216,12 +216,11 @@ remove-ai-watermarks batch ./images --mode all
 Visible mark support includes:
 
 - Google Gemini and Nano Banana visible sparkle watermark;
-- Doubao, the Jimeng wordmark and top-left `AI生成` pill, Qwen, Kling AI,
-  Yuanbao, Baidu, LiblibAI's bottom-center wordmark and compact top-left pill,
-  and RunningHub labels;
-- one calibrated Microsoft top-right white AI-badge variant;
-- one calibrated Samsung Galaxy AI label variant;
-- a generic brand-less bottom-r
+- Doubao, the Jimeng wordmark and top-left `AI生成` layouts, Qwen, Kling AI,
+  Yuanbao, Dola, WorkBuddy, Baidu, LiblibAI's bottom-center wordmark and compact
+  top-left pill, and RunningHub labels;
+- calibrated Microsoft top-right white and beige AI-badge layouts;
+- calibrated Italian and Korean Samsung Galaxy AI discl
 
 ## limitations
 
@@ -233,7 +232,7 @@ Visible mark support includes:
   detail.
 - Visible video removal recognizes the moving Sora 2 wordmark, the current Veo
   diamond plus legacy `Veo` text, the Seedance boxed `AI` label, and the fixed
-  Doubao, Dola, Hailuo AI, and Kling AI labels. It does not recognize the older Sora Turbo
+  Doubao, Dola, Hailuo AI, Vidu, and Kling AI labels. It does not recognize the older Sora Turbo
   corner swirl or unregistered layouts from those providers.
   The classical OpenCV backend can smear structured backgrounds; use MI-GAN or
   LaMa when recovery quality matters.
@@ -308,4 +307,4 @@ bash maintain.sh
 ```
 
 See [module internals](docs/module-internals.md) before changing a subsystem
-with documented inv
+with document
