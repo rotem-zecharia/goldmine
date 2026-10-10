@@ -214,16 +214,16 @@ See [affaan-m/ECC#2065](https://github.com/affaan-m/ECC/issues/2065).
 | Capability | Claude Code | Codex | Cursor | OpenCode | GitHub Copilot |
 |---|---|---|---|---|---|
 | Instructions | Native | Native `AGENTS.md` | Project rules | Plugin instructions | Native instruction file |
-| Skills | Native installed set | Native plugin set | Build-dependent/project set | Built subset | Prompt/instruction references only |
-| Agents/delegation | Native agents | Codex multi-agent roles; Claude agent files are not installed as roles | Build-dependent project agents | Plugin agents | Not supported |
-| ECC hooks | Native plugin hooks | Native reviewed subset with explicit trust | Cursor hook adapter; install-path differences remain | Plugin events | Not supported |
+| Skills | Native installed set | Native plugin set | Build-dependent/project set | Built subset | Native discovery (Copilot CLI) from `.github/skills/`, `.agents/skills/`, `.claude/skills/` |
+| Agents/delegation | Native agents | Codex multi-agent roles; Claude agent files are not installed as roles | Build-dependent project agents | Plugin agents | Copilot CLI custom agents via `.github/agents/` and `--agent` |
+| ECC hooks | Native plugin hooks | Native reviewed subset with explicit trust | Cursor hook adapter; install-path differences remain | Plugin events | Not ported; Copilot CLI has its own plugin hook system |
 | MCP configuration | Available, explicit activation | Native plugin manifest; legacy sync can merge TOML | Explicit project/user config | Provider/plugin config | Not supplied by ECC |
-| Parity with Claude Code | Primary reference | Partial | Partial | Partial | Not a parity target |
+| Parity with Claude Code | Primary reference | Partial | Partial | Partial | Partial |
 
 **Key architectural decisions:**
 - **AGENTS.md** at root is the universal cross-tool file (read by Claude Code, Cursor, Codex, and OpenCode; GitHub Copilot uses `.github/copilot-instructions.md` instead)
 - **DRY adapter pattern** lets Cursor reuse Claude Code's hook scripts without duplication
-- **Skills format** (SKILL.md with YAML frontmatter) works across Claude Code, Codex, and OpenCode
+- **Skills format** (SKILL.md with YAML frontmatter) works across Claude Code, Codex, OpenCode, and GitHub Copilot CLI
 - Codex's narrower native hook set is supplemented by `AGENTS.md`, optional `model_instructions_file` overrides, and sandbox permissions
 
 <details>
@@ -248,12 +248,9 @@ ECC provides Cursor IDE support with hooks, rules, agents, skills, commands, and
 | Component | Count | Details |
 |-----------|-------|---------|
 | Hook Events | 15 | sessionStart, beforeShellExecution, afterFileEdit, beforeMCPExecution, beforeSubmitPrompt, and 10 more |
-| Hook Scripts | 16 | Thin Node.js scripts delegating to `scripts/hooks/` via shared adapter |
+| Hook Entrypoints | 15 | Thin Node.js event dispatchers delegating to `scripts/hooks/` via shared adapter |
 | Rules | 34 | 9 common (alwaysApply) + 25 language-specific (TypeScript, Python, Go, Swift, PHP) |
-| Agents | 48 | `.cursor/agents/ecc-*.md` when installed; prefixed to avoid collisions with user or marketplace agents |
-| Skills | Shared + Bundled | `.cursor/skills/` for translated additions |
-| Commands | Shared | `.cursor/commands/` if installed |
-| MCP Config | Shared |
+| Agents | 48 | `.cursor/agents/ecc-*.md` when installed; prefixed to avoid collisions with user or marketpl
 
 ## requirements
 

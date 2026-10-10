@@ -2,193 +2,114 @@
 
 Learn it. Build it. Ship it for others.
 
-## installation
-
-Three ways in. Pick one.
-
-**Option A — learn in your terminal *(recommended)*.** After the Node.js,
-`npx`, host, and scope preflight above, install the learning skills into a
-compatible agent and let the course drive itself:
-
-```bash
-npx skills add rohitg00/ai-engineering-from-scratch
-```
-
-Use the host-specific invocation table above. The installed skills provide
-`start-learning`, `learn`, `course-guide`, and the focused
-`learn-mcp` and `learn-agent-skills` routes. Lesson prose can
-stream from this repository without a clone. A local clone is required for
-copied repository code commands and executable MCP or Agent Skills labs.
-Progress lives in `LEARNING.md`, `MCP-LEARNING.md`, or
-`AGENT-SKILLS-LEARNING.md` in your project, so every session can resume.
-
-**Option B — read.** Open any completed lesson on
-[aiengineeringfromscratch.com](https://aiengineeringfromscratch.com) or expand a phase under
-[Contents](#contents). No setup, no cloning.
-
-**Option C — clone and run.**
-
-```bash
-git clone https://github.com/rohitg00/ai-engineering-from-scratch.git
-cd ai-engineering-from-scratch
-python3 phases/01-math-foundations/01-linear-algebra-intuition/code/vectors.py
-```
-
-Cloning also auto-loads the learning skills in Claude Code, and gives every
-lesson's code to the `learn` tutor for real execution instead of read-along.
-
 ## requirements
 
 - You can write code (any language; Python helps).
 - You want to understand how AI **actually works**, not just call APIs.
 
-### Prepare for Claude certifications
+## Where to start
 
-The [Claude Certification Academy](certifications/claude/README.md) is a free,
-open-source preparation program for all four official Claude certification tracks:
-Associate Foundations, Developer Foundations, Architect Foundations, and Architect
-Professional. Each route combines blueprint-mapped lessons, runnable labs, a
-diagnostic, capstone work, and a full-length original practice exam.
+| Background | Start at | Estimated time |
+|---|---|---|
+| New to programming and AI | Phase 0 — Setup | ~306 hours |
+| Know Python, new to ML | Phase 1 — Math Foundations | ~270 hours |
+| Know ML, new to deep learning | Phase 3 — Deep Learning Core | ~200 hours |
+| Know deep learning, want LLMs and agents | Phase 10 — LLMs from Scratch | ~100 hours |
+| Senior engineer, only want agent engineering | Phase 14 — Agent Engineering | ~60 hours |
+| Only want to build production MCP systems | [Model Context Protocol (MCP) path](learning-paths/model-context-protocol.json) | ~23 hours 15 min |
+| Only want to build production Agent Skills | [Agent Skills Engineering path](learning-paths/agent-skills.json) | ~9.5 hours |
 
-Use the [AI-native GitHub onboarding guide](certifications/claude/GETTING_STARTED.md)
-with Claude Code, Codex, ChatGPT, Cursor, or another agent. Run
-`claude-certification` in Codex, `/claude-certification` in Claude Code, or ask
-another host to use `claude-certification`. It chooses a track, creates a
-persistent route in `CLAUDE-CERTIFICATION.md`, teaches one step at a time, runs
-the real labs, and gives artifact-based feedback. The same curriculum remains
-available on the [certification website](https://aiengineeringfromscratch.com/certifications.html).
+</details>
 
-The academy is independent study material based on public exam objectives. It is not
-affiliated with Anthropic, does not reproduce live exam questions, and cannot guarantee
-a passing score.
+## The shape of the curriculum
 
-### Prepare for the MCP Associate (MCPA) certification
+Twenty phases stack on top of each other. Math is the floor. Agents and production are the roof.
+Skip ahead if you already know the lower layers, but don't skip and then wonder why something at
+the top is breaking.
 
-The [MCPA Certification Curriculum](certifications/mcpa/README.md) is a free,
-open-source preparation program for the Model Context Protocol Associate exam from the
-Agentic AI Foundation, delivered through Linux Foundation Training. Its 34 lessons teach
-the stateless 2026-07-28 protocol across the five exam domains: per-request `_meta` and
-`server/discover` in place of the old handshake, multi round-trip requests, subscriptions,
-caching, the tasks and MCP Apps extensions, OAuth authorization, and the registry and SDK
-tiers. Every lesson ships a runnable standard-library lab whose transcript is checked for
-the current wire shape, and the track adds a diagnostic, a capstone, and three full-length
-original practice exams whose question mix follows the published blueprint weights.
-
-Use the [AI-native GitHub onboarding guide](certifications/mcpa/GETTING_STARTED.md) with
-Claude Code, Codex, ChatGPT, Cursor, or another agent. Run `mcpa-certification` in Codex,
-`/mcpa-certification` in Claude Code, or ask another host to use `mcpa-certification`. It
-creates a persistent route in `MCPA-CERTIFICATION.md`, teaches one step at a time, runs
-the real labs, and gives artifact-based feedback. The same curriculum is available on the
-[MCPA track page](https://aiengineeringfromscratch.com/certification?id=mcpa-f).
-
-This curriculum is independent study material based on public exam objectives. It is not
-affiliated with the Agentic AI Foundation or the Linux Foundation, does not reproduce
-live exam questions, and cannot guarantee a passing score.
-
-### The learning skills
-
-| Skill | What it does |
-|---|---|
-| [`start-learning`](skills/start-learning/SKILL.md) | One-time onboarding: why you're learning, placement quiz, personalized plan saved to `LEARNING.md`. |
-| [`learn`](skills/learn/SKILL.md) | The tutor loop. Warm-up recall, then the next lesson taught interactively, then its quiz; records progress and a review queue. |
-| [`course-guide`](skills/course-guide/SKILL.md) | Topic router. "Where do I learn attention?" or "my loss is NaN" → the exact lessons, with links. |
-| [`learn-mcp`](skills/learn-mcp/SKILL.md) | Focused Model Context Protocol (MCP) tutor. Creates `MCP-LEARNING.md`, follows the 17-lesson manifest, and records wire, security, reliability, and conformance evidence. |
-| [`learn-agent-skills`](skills/learn-agent-skills/SKILL.md) | Focused Agent Skills tutor. Creates `AGENT-SKILLS-LEARNING.md`, teaches lessons 22, 24, 25, 26, and 27, and records real-host evidence. |
-| [`claude-certification`](skills/claude-certification/SKILL.md) | Certification tutor. Chooses CCAO-F, CCDV-F, CCAR-F, or CCAR-P; 
-
-## features
-
-<table>
-<tr>
-<th align="left" width="50%"><sub>FIG_003 · A</sub><br/><b>THE INDUSTRY SIGNAL</b></th>
-<th align="left" width="50%"><sub>FIG_003 · B</sub><br/><b>FOUNDATIONAL PAPERS COVERED</b></th>
-</tr>
-<tr>
-<td valign="top">
-
-> *"The hottest new programming language is English."*<br/>
-> — **Andrej Karpathy** ([tweet](https://x.com/karpathy/status/1617979122625712128))
->
-> *"Software engineering is being remade in front of our eyes."*<br/>
-> — **Boris Cherny**, creator of Claude Code
->
-> *"Models will keep getting better. The skill that compounds is **knowing what to build**."*<br/>
-> — Industry consensus, 2026
-
-</td>
-<td valign="top">
-
-- *Attention Is All You Need* — Vaswani et al., 2017 → [Phase 7](#phase-7)
-- *Language Models are Few-Shot Learners* (GPT-3) → [Phase 10](#phase-10)
-- *Denoising Diffusion Probabilistic Models* → [Phase 8](#phase-8)
-- *InstructGPT / RLHF* → [Phase 10](#phase-10)
-- *Direct Preference Optimization* → [Phase 10](#phase-10)
-- *Chain-of-Thought Prompting* → [Phase 11](#phase-11)
-- *ReAct: Reasoning + Acting in LLMs* → [Phase 14](#phase-14)
-- *Model Context Protocol* — Anthropic → [Phase 13](#phase-13)
-
-</td>
-</tr>
-</table>
-
-```text
-░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#fafaf5','primaryTextColor':'#1a1a1a','primaryBorderColor':'#3553ff','lineColor':'#3553ff','fontFamily':'JetBrains Mono','fontSize':'12px'}}}%%
+flowchart TB
+  P0["Phase 0 — Setup &amp; Tooling"] --> P1["Phase 1 — Math Foundations"]
+  P1 --> P2["Phase 2 — ML Fundamentals"]
+  P2 --> P3["Phase 3 — Deep Learning Core"]
+  P3 --> P4["Phase 4 — Vision"]
+  P3 --> P5["Phase 5 — NLP"]
+  P3 --> P6["Phase 6 — Speech &amp; Audio"]
+  P3 --> P9["Phase 9 — RL"]
+  P5 --> P7["Phase 7 — Transformers"]
+  P7 --> P8["Phase 8 — GenAI"]
+  P7 --> P10["Phase 10 — LLMs from Scratch"]
+  P10 --> P11["Phase 11 — LLM Engineering"]
+  P10 --> P12["Phase 12 — Multimodal"]
+  P11 --> P13["Phase 13 — Tools &amp; Protocols"]
+  P13 --> P14["Phase 14 — Agent Engineering"]
+  P14 --> P15["Phase 15 — Autonomous Systems"]
+  P15 --> P16["Phase 16 — Multi-Agent &amp; Swarms"]
+  P14 --> P17["Phase 17 — Infrastructure &amp; Production"]
+  P15 --> P18["Phase 18 — Ethics &amp; Alignment"]
+  P16 --> P19["Phase 19 — Capstone Projects"]
+  P17 --> P19
+  P18 --> P19
 ```
 
-## Contributing
+<a id="contents"></a>
 
-| Goal | Read |
-|---|---|
-| Contribute a lesson or fix | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| Fork for your team or school | [FORKING.md](FORKING.md) |
-| Lesson template | [LESSON_TEMPLATE.md](LESSON_TEMPLATE.md) |
-| Track progress | [ROADMAP.md](ROADMAP.md) |
-| Glossary | [glossary/terms.md](glossary/terms.md) |
-| Code of conduct | [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) |
+## Contents
 
-Before submitting a lesson, run the invariant check:
+Twenty phases. Click any phase to expand its lesson list.
 
-```bash
-python3 scripts/audit_lessons.py           # full curriculum
-python3 scripts/audit_lessons.py --phase 14  # single phase
-python3 scripts/audit_lessons.py --json    # CI-friendly output
-```
+<a id="phase-0"></a>
 
-Exit code is non-zero when any rule fails. Rules (L001–L010) validate directory
-shape, `docs/en.md` presence + H1, `code/` non-emptiness, `quiz.json` schema
-(rejects the legacy `q/choices/answer` keys that caused issue #102), and
-relative links inside lesson docs.
+## installation
 
-```text
-░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒
-```
+> Get your environment ready for everything that follows.
 
-<a id="supporters"></a>
+| # | Lesson | Type | Lang |
+|:---:|--------|:----:|------|
+| 01 | [Dev Environment](phases/00-setup-and-tooling/01-dev-environment/) | Build | Python |
+| 02 | [Git & Collaboration](phases/00-setup-and-tooling/02-git-and-collaboration/) | Learn | — |
+| 03 | [GPU Setup & Cloud](phases/00-setup-and-tooling/03-gpu-setup-and-cloud/) | Build | Python |
+| 04 | [APIs & Keys](phases/00-setup-and-tooling/04-apis-and-keys/) | Build | Python |
+| 05 | [Jupyter Notebooks](phases/00-setup-and-tooling/05-jupyter-notebooks/) | Build | Python |
+| 06 | [Python Environments](phases/00-setup-and-tooling/06-python-environments/) | Build | Shell |
+| 07 | [Docker for AI](phases/00-setup-and-tooling/07-docker-for-ai/) | Build | Docker |
+| 08 | [Editor Setup](phases/00-setup-and-tooling/08-editor-setup/) | Build | — |
+| 09 | [Data Management](phases/00-setup-and-tooling/09-data-management/) | Build | Python |
+| 10 | [Terminal & Shell](phases/00-setup-and-tooling/10-terminal-and-shell/) | Learn | — |
+| 11 | [Linux for AI](phases/00-setup-and-tooling/11-linux-for-ai/) | Learn | — |
+| 12 | [Debugging & Profiling](phases/00-setup-and-tooling/12-debugging-and-profiling/) | Build | Python |
 
-## Sponsor the work
+<details id="phase-1">
+<summary><b>Phase 1 — Math Foundations</b> &nbsp;<code>22 lessons</code>&nbsp; <em>The intuition behind every AI algorithm, through code.</em></summary>
+<br/>
 
-Free, MIT-licensed, 523 lessons. Thank you to the sponsors and backers who make the work possible.
-[See all sponsors and backers](BACKERS.md).
+| # | Lesson | Type | Lang |
+|:---:|--------|:----:|------|
+| 01 | [Linear Algebra Intuition](phases/01-math-foundations/01-linear-algebra-intuition/) | Learn | Python, Julia |
+| 02 | [Vectors, Matrices & Operations](phases/01-math-foundations/02-vectors-matrices-operations/) | Build | Python, Julia |
+| 03 | [Matrix Transformations & Eigenvalues](phases/01-math-foundations/03-matrix-transformations/) | Build | Python, Julia |
+| 04 | [Calculus for ML: Derivatives & Gradients](phases/01-math-foundations/04-calculus-for-ml/) | Learn | Python |
+| 05 | [Chain Rule & Automatic Differentiation](phases/01-math-foundations/05-chain-rule-and-autodiff/) | Build | Python |
+| 06 | [Probability & Distributions](phases/01-math-foundations/06-probability-and-distributions/) | Learn | Python |
+| 07 | [Bayes' Theorem & Statistical Thinking](phases/01-math-foundations/07-bayes-theorem/) | Build | Python |
+| 08 | [Optimization: Gradient Descent Family](phases/01-math-foundations/08-optimization/) | Build | Python |
+| 09 | [Information Theory: Entropy, KL Divergence](phases/01-math-foundations/09-information-theory/) | Learn | Python |
+| 10 | [Dimensionality Reduction: PCA, t-SNE, UMAP](phases/01-math-foundations/10-dimensionality-reduction/) | Build | Python |
+| 11 | [Singular Value Decomposition](phases/01-math-foundations/11-singular-value-decomposition/) | Build | Python, Julia |
+| 12 | [Tensor Operations](phases/01-math-foundations/12-tensor-operations/) | Build | Python |
+| 13 | [Numerical Stability](phases/01-math-foundations/13-numerical-stability/) | Build | Python |
+| 14 | [Norms & Distances](phases/01-math-foundations/14-norms-and-distances/) | Build | Python |
+| 15 | [Statistics for ML](phases/01-math-foundations/15-statistics-for-ml/) | Build | Python |
+| 16 | [Sampling Methods](phases/01-math-foundations/16-sampling-methods/) | Build | Python |
+| 17 | [Linear Systems](phases/01-math-foundations/17-linear-systems/) | Build | Python |
+| 18 | [Convex Optimization](phases/01-math-foundations/18-convex-optimization/) | Build | Python |
+| 19 | [Complex Numbers for AI](phases/01-math-foundations/19-complex-numbers/) | Learn | Python |
+| 20 | [The Fourier Transform](phases/01-math-foundations/20-fourier-transform/) | Build | Python |
+| 21 | [Graph Theory for ML](phases/01-math-foundations/21-graph-theory/) | Build | Python |
+| 22 | [Stochastic Processes](phases/01-math-foundations/22-stochastic-processes/) | Learn | Python |
 
-Want to support the work? See [sponsorship options](SPONSORS.md), including
-[hardware sponsorships](SPONSORS.md#hardware-lab-partner), or
-[sponsor on GitHub](https://github.com/sponsors/rohitg00).
+</details>
 
-```text
-░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒
-```
-
-If this manual helped you, star the repo. It keeps the project alive.
-
-## License
-
-MIT. Use it however you want — fork it, teach it, sell it, ship it. Attribution appreciated,
-not required.
-
-Maintained by [Rohit Ghumare](https://github.com/rohitg00) and the community.
-
-<sub>
-  <a href="https://x.com/ghumare64">@ghumare64</a> &nbsp;·&nbsp;
-  <a href="https://aiengineeringfromscratch.com">aiengineeringfromscratch.com</a> &nbsp;·&nbsp;
-  <a href="https://github.com/rohitg00/ai-engineering-from-scratch/issues/new/choose">Report / Suggest</a>
-</sub>
+<details id="phase-2">
+<summary><b>Phase 2 — ML Fundamentals</b> &nbsp;<code>18 lessons</code>&nbsp; <em>Classi

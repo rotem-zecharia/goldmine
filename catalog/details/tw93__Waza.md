@@ -53,7 +53,7 @@ Waza ships only generic engineering habits. `/check` becomes project-aware at ru
 A minimal statusline for Claude Code: context window, 5-hour quota, and 7-day quota. Color-coded by usage, no progress bars, no noise.
 
 <div align="center">
-  <img src="https://gw.alipayobjects.com/zos/k/y9/RUgevg.png" width="1000" />
+  <img src="https://raw.githubusercontent.com/tw93/Waza/main/assets/statusline.png" width="1000" />
 </div>
 
 ```bash
@@ -90,6 +90,4 @@ Optional rules apply beyond skill invocations when installed into your agent's p
   # review it first: less "$WAZA_RULE_SCRIPT"
 
   # English coaching: appends a short 😇 correction when your prompt has an English mistake
-  bash "$WAZA_RULE_SCRIPT" english claude-code
-
-  # Anti-patterns
+  bash "$WAZA_RULE_SCRIPT" english claude-c
