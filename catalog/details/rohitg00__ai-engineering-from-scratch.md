@@ -1,6 +1,6 @@
 # rohitg00/ai-engineering-from-scratch
 
-Learn it. Build it. Ship it for others.
+Learn AI Engineering! Learn it. Build it. Ship it for others.
 
 ## requirements
 
@@ -79,6 +79,7 @@ Twenty phases. Click any phase to expand its lesson list.
 | 10 | [Terminal & Shell](phases/00-setup-and-tooling/10-terminal-and-shell/) | Learn | — |
 | 11 | [Linux for AI](phases/00-setup-and-tooling/11-linux-for-ai/) | Learn | — |
 | 12 | [Debugging & Profiling](phases/00-setup-and-tooling/12-debugging-and-profiling/) | Build | Python |
+| 13 | [Python for AI Engineering](phases/00-setup-and-tooling/13-python-for-ai-engineering/) | Build | Python |
 
 <details id="phase-1">
 <summary><b>Phase 1 — Math Foundations</b> &nbsp;<code>22 lessons</code>&nbsp; <em>The intuition behind every AI algorithm, through code.</em></summary>
@@ -110,6 +111,3 @@ Twenty phases. Click any phase to expand its lesson list.
 | 22 | [Stochastic Processes](phases/01-math-foundations/22-stochastic-processes/) | Learn | Python |
 
 </details>
-
-<details id="phase-2">
-<summary><b>Phase 2 — ML Fundamentals</b> &nbsp;<code>18 lessons</code>&nbsp; <em>Classi

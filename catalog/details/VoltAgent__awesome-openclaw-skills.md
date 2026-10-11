@@ -64,6 +64,15 @@ AI agents are only as good as the web data they can reach. Crawling at scale mea
 Crawlbase is web data infrastructure trusted by 70,000+ developers: one API to crawl any URL at scale, with JS rendering, proxy rotation and anti-bot handling. Its MCP server gives agents live web access: crawl, crawl_markdown, crawl_screenshot.
 </a>
 
+### ☁️ Managed AI Hosting
+
+Cloudways is a managed cloud hosting platform for deploying and scaling applications without the infrastructure overhead. Cloudways Managed AI Agents lets you run OpenClaw on dedicated, isolated infrastructure with managed updates, backups, SSL, and security controls. Get **$10 hosting credit** with promo code **VOLTAGENT**. [Sign up](https://unified.cloudways.com/signup?id=1258368&coupon=VOLTAGENT&data1=voltagent).
+
+<a href="https://www.cloudways.com/en/managed-ai-agents.php?id=1258368&data1=voltagent">
+<img src="https://cdn.voltagent.dev/awesome-repo/cloudways/cloudway-banner.jpg" alt="Cloudways Managed AI Agents" width="690" /><br/>
+Deploy OpenClaw on dedicated, isolated infrastructure with managed updates, backups, SSL, and security controls. Sign up with promo code VOLTAGENT to get $10 hosting credit.
+</a>
+
 
 ### 🔍 Search & Web Data
 
@@ -74,17 +83,6 @@ OpenClaw agents often need fresh, real-world data — search results, product li
 Give OpenClaw agents access to real-time Google Search, YouTube, Amazon Product, and web search data through a single API.
 </a>
 
-## configuration
-
-As you add more skills, custom code, and connected services, your OpenClaw setup accumulates secrets, file access, and tool permissions that are easy to lose track of. You can review these by hand, or run a continuous audit that surfaces misconfigurations and over-broad permissions before they become a problem.
-
-<a href="https://trent.ai/openclaw/?utm_source=github&utm_medium=referral&utm_campaign=volt-agent">
-<img src="https://cdn.voltagent.dev/awesome-repo/trentclaw-banner.png" alt="trentclaw"  /><br/>
-trentclaw: audits your OpenClaw config, installed skills and custom code, then returns fixes as diffs. Install with: openclaw skills install trentclaw
-</a>
-
-</br>
-</br>
 
 <div align="center">
 
@@ -125,27 +123,4 @@ Before installing or using any Agent Skill, review potential security risks and 
  For a broader overview of the ClawHub ecosystem, see Trent AI's **[ClawHub by the Numbers](https://trent.ai/blog/clawhub-by-the-numbers/)**.
 
 
-If you believe a skill in this list should be flagged or has a security concern, please [open an issue](https://github.com/VoltAgent/awesome-clawdbot-skills/issues) so we can review it.
-
-
-## Table of Contents
-
-| | | |
-|---|---|---|
-| [Git & GitHub](#git--github) (167) | [Marketing & Sales](#marketing--sales) (107) | [Communication](#communication) (146) |
-| [Coding Agents & IDEs](#coding-agents--ides) (1184) | [Productivity & Tasks](#productivity--tasks) (207) | [Speech & Transcription](#speech--transcription) (46) |
-| [Browser & Automation](#browser--automation) (323) | [AI & LLMs](#ai--llms) (176) | [Smart Home & IoT](#smart-home--iot) (41) |
-| [Web & Frontend Development](#web--frontend-development) (920) | [Data & Analytics](#data--analytics) (28) | [Shopping & E-commerce](#shopping--e-commerce) (51) |
-| [DevOps & Cloud](#devops--cloud) (393) | [Calendar & Scheduling](#calendar--scheduling) (66) | |
-| [Image & Video Generation](#image--video-generation) (170) | [Media & Streaming](#media--streaming) (86) | [PDF & Documents](#pdf--documents) (105) |
-| [Apple Apps & Services](#apple-apps--services) (44) | [Notes & PKM](#notes--pkm) (69) | [Self-Hosted & Automation](#self-hosted--automation) (33) |
-| [Search & Research](#search--research) (343) | [iOS & macOS Development](#ios--macos-development) (29) | [Security & Passwords](#security--passwords) (54) |
-| [Clawdbot Tools](#clawdbot-tools) (37) | [Transportation](#transportation) (111) | [Moltbook](#moltbook) (29) |
-| [CLI Utilities](#cli-utilities) (180) | [Personal Development](#personal-development) (53) | [Gaming](#gaming) (35) |
-| [Health & Fitness](#health--fitness) (87) | | |
-
-
-
-<br/>
-
-You ship products with AI, but every launch still dies quietly because nobody posts about it. [EveryFeed](https://everyfeed.ai/) plugs your AI assistant into a social workspace 
+If you believe a skill in this list should b

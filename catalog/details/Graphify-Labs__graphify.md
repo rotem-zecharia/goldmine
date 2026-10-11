@@ -16,6 +16,9 @@ What you get out of the box:
 | **Beyond code** | Docs, PDFs, images, and video/audio all map into the same graph |
 | **Local-first** | Code is parsed locally with tree-sitter (no LLM, nothing leaves your machine); only the semantic pass over docs/media calls a backend, and only if you configure one |
 
+> [!TIP]
+> Running this across many repos or a monorepo? [Graphify Cloud](https://app.graphify.com/login) does it continuously and cuts agent token spend by 80%, with cross-repo links, SDLC-wide code review, formal verification, and Sentry/Jira connectors. [Start a free 14-day trial &rarr;](https://app.graphify.com/login)
+
 ---
 
 ## Benchmarks
@@ -63,6 +66,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ## Install
 
+> [!IMPORTANT]
 > **Official package:** The PyPI package is `graphifyy` (double-y). Other `graphify*` packages on PyPI are not affiliated. The CLI command is still `graphify`.
 
 The official source repository is [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
@@ -101,17 +105,8 @@ print a `git add` hint for files that can be committed.
 Per-platform commands that support project-scoped installs accept the same flag,
 for example `graphify claude install --project` or `graphify codex install --project`.
 
-> **PowerShell note:** Use `graphify .` not `/graphify .` — the leading slash is a path separator in PowerShell.
-
-> **`graphify: command not found`?** `uv tool install` / `pipx install` put the `graphify` command in their tool bin dir (`~/.local/bin`). If your shell can't find it right after install — common on a fresh macOS + zsh setup — that dir isn't on your `PATH` yet: run `uv tool update-shell` (or `pipx ensurepath`), then open a new terminal. With plain `pip`, add `~/.local/bin` (Linux) or `~/Library/Python/3.x/bin` (Mac) to your PATH, or run `python -m graphify`.
-
-> **Running with `uvx` / `uv tool run` instead of installing?** Name the package, not the command: `uvx --from graphifyy graphify install`. Plain `uvx graphify …` fails (`No solution found … no versions of graphify`) because `uv tool run` reads the first word as a *package*, and the package is `graphifyy` — the `graphify` command lives inside it.
-
-> **Avoid `pip install` on Mac/Windows** if possible. The skill resolves Python at runtime from `graphify-out/.graphify_python`; if that points to a different environment than where `pip` installed the package, you'll get `ModuleNotFoundError: No module named 'graphify'`. `uv tool install` and `pipx install` isolate the package in their own env and avoid this entirely.
-
-> **Git hooks and uv tool / pipx:** `graphify hook install` embeds the current interpreter path directly into the hook scripts at install time, so the post-commit hook fires correctly even in GUI git clients and CI runners where `~/.local/bin` is not on PATH. If you reinstall or upgrade graphify, re-run `graphify hook install` to refresh the embedded path.
-
-> **Strict mode (Claude Code):** `graphify install --project --strict` makes the assistant actually use the graph. The default install *nudges* it to run `graphify query` before reading files; strict mode *blocks* the first raw source read of a session and redirects it to the graph, then reverts to the nudge (so it fires at most once per session and never gets stuck). Toggle at runtime with `GRAPHIFY_HOOK_STRICT=1`/`0`; the default install is unchanged (soft nudge).
+> [!TIP]
+> Hitting `command not found`, a `pip`-on-Mac/Windows issue, PowerShell quoting, `uvx` usage, git-hook PATH quirks, or strict mode? See **[Installation](https://docs.graphify.com/installation)** and **[Troubleshooting](https://docs.graphify.com/troubleshooting)**.
 
 <details>
 <summary><b>Pick your platform</b> (20+ assistants, click to expand)</summary>
@@ -123,7 +118,28 @@ for example `graphify claude install --project` or `graphify codex install --pro
 | CodeBuddy | `graphify install --platform codebuddy` |
 | Codex | `graphify install --platform codex` |
 | OpenCode | `graphify install --platform opencode` |
-| Kilo Code | `graphify install --pla
+| Kilo Code | `graphify install --platform kilo` |
+| GitHub Copilot CLI | `graphify install --platform copilot` |
+| VS Code Copilot Chat | `graphify vscode install` |
+| Aider | `graphify install --platform aider` |
+| OpenClaw | `graphify install --platform claw` |
+| Factory Droid | `graphify install --platform droid` |
+| Trae | `graphify install --platform trae` |
+| Trae CN | `graphify install --platform trae-cn` |
+| Gemini CLI | `graphify install --platform gemini` |
+| Hermes | `graphify install --platform hermes` |
+| Kimi Code | `graphify install --platform kimi` |
+| Amp | `graphify amp install` |
+| Agent Skills (cross-framework) | `graphify install --platform agents` (alias `--platform skills`) |
+| Kiro IDE/CLI | `graphify kiro install` |
+| Pi coding agent | `graphify install --platform pi` |
+| Cursor | `graphify cursor install` |
+| Devin CLI | `graphify devin install` |
+| Google Antigravity | `graphify antigravity install` |
+
+Codex users also need `multi_agent = true` under `[features]` in `~/.codex/config.toml` for parallel extraction. CodeBuddy uses the same Agent tool and PreToolUse hook mechanism as Claude Code. Factory Droid uses the `Task` tool for parallel subagent dispatch. OpenClaw and Aider use sequential extraction (parallel agent support is still early on those platforms). Trae uses the Agent tool for parallel subagent dispatch and does **not** support `PreToolUse` hooks, so AGENTS.md is the always-on mechanism.
+
+`--platform agents` (alias `--platform skills`) targets the generic cross-framework [Agent-Skills](https://github.com/anthropics/skills) locations: the spec's user-global `~/.agents/skills/` (read by `npx skills` and spec-compliant frameworks) for a global install, and `./.agents/skills/` for a project (`--project`) install. The bare `graphify install` stays single-platform (Claude Code) by design — use the named `agents` p
 
 ## tools
 
@@ -159,59 +175,64 @@ See the [full command reference](#full-command-reference) below.
 
 ## Ignoring files
 
-Create a `.graphifyignore` in your project root — same syntax as `.gitignore`, including `!` negation.
-
-**`.gitignore` is respected automatically.** graphify reads the `.gitignore` in each directory. If a `.graphifyignore` is also present, the two are **merged** — `.graphifyignore` patterns are evaluated last, so they win on conflicts (including `!` negations). Adding a `.graphifyignore` only ever excludes more; it never re-includes a file your `.gitignore` already excluded. Subdirectory scoping works the same way as git — an ignore file only affects its own subtree.
-
-Pass `--no-gitignore` to `graphify extract` when git-ignored generated or transpiled code belongs in the graph. This disables `.gitignore` and `.git/info/exclude`; `.graphifyignore` still applies.
-
-```
-# .graphifyignore
-node_modules/
-dist/
-*.generated.py
-
-# only index src/, ignore everything else
-*
-!src/
-!src/**
-```
+graphify honors `.gitignore` and supports `--exclude` patterns and a project `.graphifyignore`. Details: **[Configuration](https://docs.graphify.com/reference/configuration)**.
 
 ---
 
 ## configuration
 
-These are only needed for **headless / CI extraction** (`graphify extract`). When running via the `/graphify` skill inside your IDE, the model API is provided by your IDE session — no extra keys needed.
+Backends, API keys, hook behavior, and tuning are controlled by environment variables. Full table: **[Configuration](https://docs.graphify.com/reference/configuration)**.
 
-| Variable | Used for | When required |
-|---|---|---|
-| `ANTHROPIC_API_KEY` | Claude (Anthropic) backend | `--backend claude` |
-| `ANTHROPIC_BASE_URL` | Anthropic-compatible endpoint URL (LiteLLM proxy, gateways, ...) | `--backend claude` (default: `https://api.anthropic.com`) |
-| `ANTHROPIC_MODEL` | Model name for the Claude backend — for custom endpoints, use the model name/alias your server exposes | `--backend claude` (default: `claude-sonnet-4-6`) |
-| `GEMINI_API_KEY` or `GOOGLE_API_KEY` | Google Gemini backend | `--backend gemini` |
-| `OPENAI_API_KEY` | OpenAI or OpenAI-compatible APIs | `--backend openai` (local servers accept any non-empty value) |
-| `OPENAI_BASE_URL` | OpenAI-compatible server URL (llama.cpp, vLLM, LM Studio, ...) | `--backend openai` (default: `https://api.openai.com/v1`) |
-| `OPENAI_MODEL` | Model name for the OpenAI backend — for self-hosted servers, use the model name/alias your server exposes (check its `/v1/models` endpoint), e.g. `LFM2.5-8B-A1B-UD-Q4_K_XL` for llama.cpp | `--backend openai` (default: `gpt-4.1-mini`) |
-| `DEEPSEEK_API_KEY` | DeepSeek backend | `--backend deepseek` |
-| `MOONSHOT_API_KEY` | Kimi Code backend | `--backend kimi` |
-| `OLLAMA_BASE_URL` | Ollama local inference URL | `--backend ollama` (default: `http://localhost:11434`) |
-| `OLLAMA_MODEL` | Ollama model name | `--backend ollama` (default: auto-detect) |
-| `GRAPHIFY_OLLAMA_NUM_CTX` | Override Ollama KV-cache window size | optional — auto-sized by default |
-| `GRAPHIFY_OLLAMA_KEEP_ALIVE` | Minutes to keep Ollama model loaded | optional — set `0` to unload after each chunk |
-| `AZURE_OPENAI_API_KEY` | Azure OpenAI Service backend | `--backend azure` |
-| `AZURE_OPENAI_ENDPOINT` | Azure resource endpoint URL | `--backend azure` (required alongside API key) |
-| `AZURE_OPENAI_API_VERSION` | Azure API version override | optional — default `2024-12-01-preview` |
-| `AZURE_OPENAI_DEPLOYMENT` or `GRAPHIFY_AZURE_MODEL` | Azure deployment name | optional — default `gpt-4o` |
-| `AWS_*` / `~/.aws/credentials` | AWS Bedrock — standard credential chain | `--backend bedrock` (no API key, uses IAM) |
-| `GRAPHIFY_MAX_WORKERS` | AST parallelism thread count | optional — also `--max-workers` flag |
-| `GRAPHIFY_MAX_OUTPUT_TOKENS` | Raise output cap for dense corpora | optional — e.g. `32768` for large files |
-| `GRAPHIFY_API_TIMEOUT` | Per-call timeout in seconds for HTTP, claude-cli, Anthropic SDK, and Bedrock backends (default: 600) | optional — also `--api-timeout` flag |
-| `GRAPHIFY_MAX_RETRIES` | How many times to retry a rate-limited (429) request before giving up (default: 6; honors `Retry-After`) | optional — raise for strict per-org limits (e.g. kimi); `0` disables |
-| `GRAPHIFY_MAX_RETRY_DEPTH` | How deep a truncated chunk may be bisected and re-extracted (default: 3, so up to 8x sub-calls for one chunk) | optional — lower it to cap worst-case spend; `0` disables every retry (no bisection, no hollow-response retry), so a chunk costs exactly one call |
-| `GRAPHIFY_FORCE` | Force graph rebuild even with fewer nodes | optional — also `--force` flag |
-| `GRAPHIFY_GOOGLE_WORKSPACE` | Auto-enable Google Workspace export | optional — set to `1` |
-| `GRAPHIFY_TRIAGE_BACKEND` | Backend for `graphify prs --triage` | optional — auto-detected from available keys |
-| `GRAPHIFY_TRIAGE_MODEL` | Model override for triage | optional — e.g. `claude-opus-4-7` |
-| `GRAPHIFY_QUERY_LOG_ENABLE` | Set to `1` to turn on the local query log at `~/.cache/graphify-queries.log` (records each query/path/explain question + corpus path). Off by default — nothing is written unless you opt in (#1797) | optional |
-| `GRAPHIFY_QUERY_LOG` | Enable the query log and write it to this path instead of the default | optional — off unless this or `_ENABLE` is set |
-| `GRAPH
+---
+
+## Privacy
+
+- **Code files** — processed locally via tree-sitter. Nothing leaves your machine. A code-only corpus requires no API key — `graphify extract` runs fully offline. On a mixed repo, add `--code-only` to index just the code and skip the docs/PDFs/images that would otherwise need an LLM.
+- **Video / audio** — transcribed locally with faster-whisper. Nothing leaves your machine.
+- **Docs, PDFs, images** — sent to your AI assistant for semantic extraction (via the `/graphify` skill, using whatever model your IDE session runs). Headless `graphify extract` requires `GEMINI_API_KEY` / `GOOGLE_API_KEY` (Gemini), `MOONSHOT_API_KEY` (Kimi), `ANTHROPIC_API_KEY` (Claude), `OPENAI_API_KEY` (OpenAI), `DEEPSEEK_API_KEY` (DeepSeek), a running Ollama instance (`OLLAMA_BASE_URL`), AWS credentials via the standard provider chain (Bedrock - no API key needed, uses IAM), or the `claude` CLI binary (Claude Code - no API key needed, uses your Claude subscription). The `--dedup-llm` flag uses the same key.
+- **Data residency** — `graphify extract` auto-detects which provider to use based on which API key is set (priority: Gemini → Kimi → Claude → OpenAI → DeepSeek → Azure → Bedrock → Ollama). For code with data-residency requirements, use `--backend ollama` (fully local) or pass an explicit `--backend` flag. Kimi (`MOONSHOT_API_KEY`) routes to Moonshot AI servers in China.
+- **No telemetry**, no usage tracking, no analytics.
+- **Query logging** — every `graphify query`, `graphify path`, `graphify explain`, and MCP `query_graph` call is logged to `~/.cache/graphify-queries.log` in JSON Lines format (timestamp, question, corpus, nodes returned, duration). Full subgraph responses are **not** stored by default. Set `GRAPHIFY_QUERY_LOG_DISABLE=1` to opt out, or `GRAPHIFY_QUERY_LOG=/dev/null` to silence without disabling the code path.
+
+---
+
+## Troubleshooting
+
+Common install and extraction issues and their fixes: **[Troubleshooting](https://docs.graphify.com/troubleshooting)**.
+
+---
+
+## Full command reference
+
+Every command and flag, with examples: **[CLI reference](https://docs.graphify.com/reference/overview)**.
+
+---
+
+## Learn more
+
+- [docs.graphify.com](https://docs.graphify.com) — full documentation: guides, command reference, and integrations
+- [How it works](docs/how-it-works.md) — the extraction pipeline, community detection, confidence scoring, benchmarks
+- [ARCHITECTURE.md](ARCHITECTURE.md) — module breakdown, how to add a language
+- [Optional integrations](docs/docker-mcp-sqlite.md) — Docker MCP Toolkit + SQLite
+- [The Memory Layer](https://safishamsi.gumroad.com/l/qetvlo) — the book on the ideas behind graphify, the architecture end to end
+
+---
+
+## Graphify Cloud
+
+[**Graphify Cloud**](https://app.graphify.com/login) is the always-on layer built on top of graphify. Instead of a graph you rebuild on demand per folder, it keeps one live graph across your entire software development lifecycle:
+
+- **80% fewer tokens** — always-on memory means your agents stop re-reading and re-explaining the codebase every session.
+- **Monorepo and cross-repo** — one connected graph across every service and repository, not a graph per folder.
+- **Formal verification** — check architectural and dependency invariants against the live graph.
+- **Code review with a bird's-eye view of your SDLC** — see how a change ripples across the whole system before you merge.
+- **SDLC connectors** — pull in Sentry, Jira, and more, so incidents, tickets, and code live in one graph.
+- **Always-on** — updates continuously in the background across code, docs, and meetings.
+
+**[Start a free 14-day trial at app.graphify.com &rarr;](https://app.graphify.com/login)**
+
+---
+
+## Contributing
+
+Contributions are welcome. See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the development setup, the test and CI-parity

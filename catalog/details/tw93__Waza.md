@@ -10,10 +10,8 @@
 npx skills add tw93/Waza -a claude-code codex cursor -g -y
 ```
 
-Or tell your agent to install:
+One copy lands in `~/.agents/skills`, the shared skills directory. Claude Code is symlinked in; Codex, Cursor, Gemini CLI, Copilot, Amp, Kimi Code CLI, and every other agent that reads that directory picks the eight skills up as `/check`, `/think`, and so on. Agents with a private skills directory take their id after `-a` (for example `antigravity-cli` or `qwen-code`). Update with `npx skills update -g -y`. You can also tell your agent to install it:
 > Install Waza for me by reading https://github.com/tw93/Waza/blob/main/llms.txt
-
-One copy lands in `~/.agents/skills`, the shared skills directory. Claude Code is symlinked in; Codex, Cursor, Gemini CLI, Copilot, Amp, Kimi Code CLI, and every other agent that reads that directory picks the eight skills up as `/check`, `/think`, and so on. Agents with a private skills directory take their id after `-a` (for example `antigravity-cli` or `qwen-code`). Update with `npx skills update -g -y`.
 
 **Host plugin**, if you prefer the host's own update command (skills are namespaced, `/waza:check`)
 
@@ -37,16 +35,17 @@ You decide how skills chain together. Each skill stops at the requested outcome;
 
 **Common workflows:**
 
-- **Plan a feature**: `/think` → approve → say "implement X" → `/check` → merge
-- **Ship a fix**: `/hunt` → fix → `/check` → release/publish/push/issue follow-through
-- **Research and write**: `/read` (fetch sources) → `/learn` (synthesize) → `/write` (polish)
-- **Debug and verify**: `/hunt` (find root cause) → fix → `/check` (review changes)
+- **Plan a feature**: `/think` to settle the plan, implement after approval, then `/check` before merging
+- **Ship a fix**: `/hunt` to find the root cause, fix it, then `/check` to review the changes and, when needed, handle release, publish, push, and issue follow-through
+- **Research and write**: `/read` to fetch sources, `/learn` to synthesize, `/write` to polish
 
 ## Project Context
 
 Waza ships only generic engineering habits. `/check` becomes project-aware at runtime by reading the target repository's public context (READMEs, package manifests, Makefiles, CI workflows) and your task constraints, never private paths, credentials, or tokens. See [`skills/check/references/project-context.md`](skills/check/references/project-context.md) for the review context template.
 
 ## Extras
+
+Curl URLs use the latest GitHub release asset. Set `WAZA_REF=main` before the command if you want bleeding-edge scripts.
 
 ### Statusline
 
@@ -87,7 +86,4 @@ Optional rules apply beyond skill invocations when installed into your agent's p
   WAZA_RULE_SCRIPT="$(mktemp -t waza-rule.XXXXXX)"
   trap 'rm -f "$WAZA_RULE_SCRIPT"' EXIT
   curl -fL https://github.com/tw93/Waza/releases/latest/download/setup-rule.sh -o "$WAZA_RULE_SCRIPT"
-  # review it first: less "$WAZA_RULE_SCRIPT"
-
-  # English coaching: appends a short 😇 correction when your prompt has an English mistake
-  bash "$WAZA_RULE_SCRIPT" english claude-c
+  # review it first: le

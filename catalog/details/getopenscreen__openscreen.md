@@ -59,6 +59,9 @@ On first launch, open **System Settings > Privacy & Security** and grant the two
 > [!NOTE]
 > **Upgrading from a version older than 1.9.0?** Those builds were not signed with a Developer ID certificate, and macOS ties Screen Recording and Accessibility grants to an app's signature — so it cannot tell the new build is the same app, and the permissions you granted the old one do not carry over. If the new version won't record even after you grant them, remove OpenScreen's existing entries under **System Settings > Privacy & Security** (both Screen Recording and Accessibility), then launch it again and grant them when prompted.
 
+> [!NOTE]
+> **OpenScreen quits as soon as you pick what to record, or when the countdown starts?** It is most likely a utility that quits apps once their last window closes, such as the **Quit on close** option of [Vorssaint](https://github.com/vorssaint/vorssaint-utils). It does not count OpenScreen's recording bar, which floats above other windows, so it quits OpenScreen whenever the bar hides or a source window closes. Add OpenScreen to that utility's exceptions, or turn the option off. The [FAQ](https://getopenscreen.com/docs/faq#why-does-openscreen-quit-on-macos-when-i-choose-what-to-record) shows how to check which app asked OpenScreen to quit.
+
 ### Windows
 
 **Recommended — Microsoft Store**
@@ -73,44 +76,9 @@ Microsoft signs the Store package during certification, so it installs with no s
 
 **Alternative — standalone installer**
 
-Download the `.exe` from the [Releases page](https://github.com/getopenscreen/openscreen/releases). Use this if you can't reach the Store — Windows LTSC, a locked-down work machine, an offline install, or if you want a specific older version.
+Download the `.exe` from the [Releases page](https://github.com/getopenscreen/openscreen/releases). Installers are provided for both x64 (`Openscreen.Setup.<version>-x64.exe`) and ARM64 (`Openscreen.Setup.<version>-arm64.exe`) — on an ARM64 device the x64 build runs under emulation and records poorly, so take the ARM64 one. Use this if you can't reach the Store — Windows LTSC, a locked-down work machine, an offline install, or if you want a specific older version.
 
 > [!NOTE]
 > The `.exe` is not code-signed, so Windows SmartScreen shows **"Windows protected your PC"** and reports an unknown publisher. Choose **More info** → **Run anyway** to continue.
 >
-> This is not a sign that something is wrong with the download: an unsigned installer earns SmartScreen's trust per file, so a brand-new build always starts out untrusted no matter how many people installed the previous one. Verifying the signature isn't an option here — there is nothing to verify. If you want the checked path, use the Store build above. If you use the `.exe`, download it only from the Releases page linked here.
-
-### Linux
-
-Four packages are published to the [Releases page](https://github.com/getopenscreen/openscreen/releases) for each version. Pick the one that matches your distro:
-
-**Debian / Ubuntu / Pop!_OS (`.deb`)**
-```bash
-sudo apt install ./Openscreen-Linux-*.deb
-```
-
-**Fedora / RHEL / CentOS (`.rpm`)**
-```bash
-sudo dnf install ./Openscreen-Linux-*.rpm
-```
-
-**Arch / Manjaro (`.pacman`)**
-```bash
-sudo pacman -U Openscreen-Linux-*.pacman
-```
-
-**Any distro (`.AppImage`)**
-```bash
-chmod +x Openscreen-Linux-*.AppImage
-./Openscreen-Linux-*.AppImage
-```
-
-**NixOS / Nix (flake)**
-
-Try without installing:
-```bash
-nix run github:getopenscreen/openscreen
-```
-
-Install into your user profile:
-```b
+> This is not a sign that something is wrong with the download: an unsigned installer earns SmartScreen's trust per file, so a brand-new build always starts out untrusted no matter how many people installed the previous one. Verifying the 
