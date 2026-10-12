@@ -121,7 +121,7 @@ Start with [Apple Silicon, fully local](#apple-silicon-fully-local). Its `--mac-
 
 The preset supplies these as defaults only: explicit `--device`, component-device flags such as `--qwen3_tts_device`, and `--stt`, `--llm_backend`, `--model_name`, and `--tts` all win. Use it with `serve` instead of `local` when you want to expose the server without starting the microphone/speaker client.
 
-`--tts pocket`, `--tts kokoro`, and `--tts omnivoice` are also valid on macOS.
+`--tts pocket`, `--tts kokoro`, `--tts omnivoice`, and `--tts kitten` are also valid on macOS.
 
 To compare the MLX quantization variants locally:
 
@@ -140,4 +140,4 @@ Install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-
 docker compose up
 ```
 
-The compose file starts a llama.cpp server with Gemma 4 and the Realtime server, exposing
+The compose file starts a llama.cpp server with Gemma 4 and the Realtime 

@@ -2,6 +2,12 @@
 
 Database Subsetting and Relational Data Browsing Tool.
 
+## installation
+
+1. Download the installer for Windows (`.msi`) or Linux (`.deb`) from the [latest release](https://github.com/Wisser/Jailer/releases/latest), or the zip for any platform with Java (see [Installation](#installation)).
+2. Start Jailer and open the included **demo database**. No configuration needed.
+3. Connect to your own database and start the **Data Browser** or the **Subsetter**.
+
 ## features
 
 - Exports consistent and referentially intact row-sets from your productive database
@@ -48,63 +54,3 @@ Thanks to the JDBC technology used, any DMBS is in principle supported. For best
  - 2018-04-26    The new feature "Analyze SQL" analyzes SQL statements and proposes association definitions. This allows to reverse-engineer the data model based on existing SQL queries.
  - 2018-03-06    SQL Console with code completion, syntax highlighting and database metadata visualization.
  - 2017-05-10    New API provides programmatic access to the data
-
-## installation
-
-Use the installation file "Jailer-database-tools-n.n.n.msi" (for Windows) or "jailer-database-tools_n.n.n-x64.deb" (for Linux).
-
-Unless you want to use your own Java installation. Or also if you want to use the command line interface (CLI). In this cases unzip the file "jailer_n.n.n.zip". See also <a href="https://wisser.github.io/Jailer/faq.html#multiuser">https://wisser.github.io/Jailer/faq.html#multiuser</a>
-
-To start the tool from the unpacked zip:
-
-  - On windows platform execute "Jailer.exe". You can also start "jailerGUI.bat".
-  - On Unix/Linux/macOS platform execute the script "jailerGUI.sh" or use "java -jar jailer.jar"
-
-
-## Building
-
-Clone the git repository:
-
-* `git clone https://github.com/Wisser/Jailer.git`
-
-To build the tool you can just use ant: ( https://ant.apache.org )
-
-* `cd Jailer`
-* `ant`
-
-
-## Contact
- - Home:    https://github.com/Wisser/Jailer or http://jailer.sourceforge.net/
- - Forum:   https://sourceforge.net/p/jailer/discussion/
- - Support: rwisser@users.sourceforge.net
-
-
-## Contributors
-
-### Code Contributors
-
-This project exists thanks to all the people who contribute.
-<a href="https://github.com/Wisser/Jailer/graphs/contributors"><img src="https://opencollective.com/Jailer/contributors.svg?width=890&button=false" /></a>
-
-### Financial Contributors
-
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/Jailer/contribute)]
-
-#### Individuals
-
-<a href="https://opencollective.com/Jailer"><img src="https://opencollective.com/Jailer/individuals.svg?width=890"></a>
-
-#### Organizations
-
-Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/Jailer/contribute)]
-
-<a href="https://opencollective.com/Jailer/organization/0/website"><img src="https://opencollective.com/Jailer/organization/0/avatar.svg"></a>
-<a href="https://opencollective.com/Jailer/organization/1/website"><img src="https://opencollective.com/Jailer/organization/1/avatar.svg"></a>
-<a href="https://opencollective.com/Jailer/organization/2/website"><img src="https://opencollective.com/Jailer/organization/2/avatar.svg"></a>
-<a href="https://opencollective.com/Jailer/organization/3/website"><img src="https://opencollective.com/Jailer/organization/3/avatar.svg"></a>
-<a href="https://opencollective.com/Jailer/organization/4/website"><img src="https://opencollective.com/Jailer/organization/4/avatar.svg"></a>
-<a href="https://opencollective.com/Jailer/organization/5/website"><img src="https://opencollective.com/Jailer/organization/5/avatar.svg"></a>
-<a href="https://opencollective.com/Jailer/organization/6/website"><img src="https://opencollective.com/Jailer/organization/6/avatar.svg"></a>
-<a href="https://opencollective.com/Jailer/organization/7/website"><img src="https://opencollective.com/Jailer/organization/7/avatar.svg"></a>
-<a href="https://opencollective.com/Jailer/organization/8/website"><img src="https://opencollective.com/Jailer/organization/8/avatar.svg"></a>
-<a href="https://opencollective.com/Jailer/organization/9/website"><img src="https://opencollective.com/Jailer/organization/9/avatar.svg"></a>

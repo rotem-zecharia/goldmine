@@ -34,6 +34,31 @@ openscreen export demo.openscreen -o demo.mp4 --json
 
 See the [CLI reference](https://getopenscreen.com/docs/cli/).
 
+### Let your coding agent ship the feature with its video
+
+Paste this into Claude Code:
+
+```text
+Install the OpenScreen demo skill with `npx skills add getopenscreen/openscreen --skill openscreen-demo -a claude-code`, then follow it to add a video of this change to the PR.
+```
+
+The skill sets everything up: it installs OpenScreen if it is missing (once you
+agree), connects its MCP server, then asks you to open a new session and say
+*"continue the OpenScreen demo"*, the one step an agent cannot do for itself.
+By hand, it is these two commands, with the executable of your system:
+
+```bash
+claude mcp add openscreen -- "/Applications/Openscreen.app/Contents/MacOS/Openscreen" mcp
+npx skills add getopenscreen/openscreen --skill openscreen-demo
+```
+
+From then on, ask: *"Add a video of this change to the PR."* The agent plans the
+storyboard, records the app, edits the take with OpenScreen's own editing tools,
+exports the MP4, checks it frame by frame, and attaches it to the pull request,
+where reviewers watch it in place. Ask for a launch demo instead and it drafts a
+post for X, which it publishes only once you say yes. The executable on Windows
+and Linux, and the other clients, are in [AI editing](https://getopenscreen.com/docs/ai-editing/#letting-an-agent-make-the-whole-video).
+
 ## installation
 
 Every platform has a recommended route below. On Windows that is the Microsoft Store; everywhere else it is the installer from the [GitHub Releases](https://github.com/getopenscreen/openscreen/releases) page.

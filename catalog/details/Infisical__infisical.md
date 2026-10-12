@@ -1,6 +1,6 @@
 # Infisical/infisical
 
-Infisical is the open-source platform for secrets, certificates, and privileged access management.
+Infisical is the open-source platform for securing secrets, certificates, access, and AI Agents.
 
 ## features
 
