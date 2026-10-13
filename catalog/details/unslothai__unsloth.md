@@ -33,6 +33,7 @@ unsloth start claude --model unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_XL
 | --- | --- |
 | Claude Code | `unsloth start claude` |
 | OpenAI Codex | `unsloth start codex` |
+| Visual Studio Code | `unsloth start vscode` |
 | DeepSeek Harness | `unsloth start dsh` |
 | OpenCode | `unsloth start opencode` |
 | Hermes Agent | `unsloth start hermes` |
@@ -59,20 +60,20 @@ Unsloth can be used in three ways: **[Unsloth Desktop](https://unsloth.ai/downlo
     <td><a href='https://github.com/unslothai/unsloth/releases/latest/download/Unsloth-Desktop-MacOS.dmg'>Download</a></td>
   </tr>
   <tr>
-    <td><b>Linux x64 / Ubuntu (deb)</b></td>
+    <td><b>Linux / Ubuntu (deb)</b></td>
     <td><a href='https://github.com/unslothai/unsloth/releases/latest/download/Unsloth-Desktop-Ubuntu.deb'>Download</a></td>
   </tr>
   <tr>
-    <td><b>Linux ARM64 / Ubuntu 24.04+ (deb)</b></td>
+    <td><b>Linux / Ubuntu (ARM64) (deb)</b></td>
     <td><a href='https://github.com/unslothai/unsloth/releases/latest/download/Unsloth-Desktop-Ubuntu-ARM64.deb'>Download</a></td>
   </tr>
   <tr>
-    <td><b>Linux x64 (AppImage)</b></td>
+    <td><b>Linux (AppImage)</b></td>
     <td><a href='https://github.com/unslothai/unsloth/releases/latest/download/Unsloth-Desktop-Linux.AppImage'>Download</a></td>
   </tr>
   <tr>
-    <td><b>Windows ARM64</b></td>
-    <td><a href='https://github.com/unslothai/unsloth/releases/download/v0.1.811-beta/Unsloth-Desktop-Windows-ARM64.exe'>Download</a></td>
+    <td><b>Windows (ARM64)</b></td>
+    <td><a href='https://github.com/unslothai/unsloth/releases/latest/download/Unsloth-Desktop-Windows-ARM64.exe'>Download</a></td>
   </tr>
 </table>
 
@@ -145,4 +146,6 @@ Headless starts:
 ```bash
 UNSLOTH_STUDIO_PASSWORD='your-strong-password' unsloth studio --secure   # via env var
 ```
-Reset your password
+Reset your password:
+```bash
+unsloth 

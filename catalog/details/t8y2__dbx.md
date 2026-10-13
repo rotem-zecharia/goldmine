@@ -225,6 +225,16 @@ together with `dbx.db`. Persisting `/app/data` is therefore sufficient for a
 normal Docker deployment. This key protects the database contents, but cannot
 protect the whole data volume if the volume itself is copied or exposed.
 
+Windows portable builds are the exception to the desktop platform-key rule.
+To remain portable across computers, they keep the local storage key at
+`data/.dbx/secret.key`; move and back up the complete `data` directory. If an
+older portable profile already contains ciphertext protected by Windows
+Credential Manager, launch the new build once on the original computer so DBX
+can verify and copy that key to the USB drive. If the original computer or key
+is gone, the ciphertext cannot be recovered automatically; restore the original
+key or a pre-migration backup. Keeping the key beside the database means anyone
+who obtains or copies the whole drive can also decrypt its credentials.
+
 For production deployments, replace the managed key with a Docker/Kubernetes
 Secret by setting `DBX_SECRET_KEY_FILE`, or provide `DBX_SECRET_KEY` through a
 secret manager. Explicit keys take precedence and must never be rotated while
@@ -235,18 +245,7 @@ When running the binary directly, set `DBX_DATA_DIR=/var/lib/dbx` to use
 `/var/lib/dbx/.dbx/secret.key` with the same lifecycle and backup rules.
 
 When upgrading from a release that stored credentials in plain text, Desktop
-and Web display a **Data Security Upgrade** wizard before opening the main
-application. Choose **Start upgrade** to create a restricted backup, migrate
-legacy database/JSON credentials, and verify that encrypted values can be
-read. Failures retain the original data and backup; fix the issue shown in
-the wizard and choose **Retry**. The backup path is shown after success.
-Once you have verified your connections, **Delete migration backups** asks
-for confirmation and removes the migration backup directory and the legacy
-JSON `.bak` files created by that migration. Unrelated backup files are kept.
-Users with no legacy data proceed directly after the initial check.
-
-Local CLI and standalone MCP can reuse the existing platform credential
-store 
+and Web display a **Data Security Upgrade** wizard before ope
 
 ## requirements
 
