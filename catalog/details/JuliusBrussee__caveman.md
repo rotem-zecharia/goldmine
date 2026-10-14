@@ -13,16 +13,17 @@
 
 <table>
 <tr>
-<td align="center" width="33%"><h3>33.2% fewer</h3>input tokens through <a href="#the-proxy-332-fewer-input-tokens">the proxy</a><br><sub>54 Claude Code runs, 18 of 18 answers right</sub></td>
-<td align="center" width="33%"><h3>129.8× smaller</h3>web pages for the agent<br><sub><a href="./browse/BENCHMARK.md"><code>caveman browse</code></a> vs a Playwright snapshot</sub></td>
-<td align="center" width="33%"><h3>1.4 to 2.4× cheaper</h3>with caveman-style output<br><sub><a href="https://arxiv.org/abs/2606.24083">Adobe Research</a>, eight models</sub></td>
+<td align="center" width="25%"><h3>33.2% fewer</h3>input tokens, whole sessions<br><sub><a href="#read-less-332-fewer-input-tokens">54 Claude Code runs</a>, 18 of 18 answers right</sub></td>
+<td align="center" width="25%"><h3>54% cheaper</h3>with Auto, same score<br><sub><a href="#auto-54-cheaper-same-score">85 coding tasks</a> vs Opus 5.5 at xhigh, interim</sub></td>
+<td align="center" width="25%"><h3>397 → 76</h3>tokens for one test run<br><sub><a href="#blocks-code-mode-script-written-once">Blocks</a> vs <code>| tail -20</code></sub></td>
+<td align="center" width="25%"><h3>1.4 to 2.4× cheaper</h3>with caveman-style output<br><sub><a href="https://arxiv.org/abs/2606.24083">Adobe Research</a>, eight models</sub></td>
 </tr>
 </table>
 
 Cited by **[Adobe Research](https://arxiv.org/abs/2606.24083)** · A/B tested by **[JetBrains](https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/)** · Remade for Elasticsearch on **[Elasticsearch Labs](https://www.elastic.co/search-labs/blog/elastic-caveman-ai-token-reduction)**<br>
 **#1** on [Hacker News](https://news.ycombinator.com/item?id=47647455) · **#1** on GitHub Trending · *"No way this actually works."* [ThePrimeagen](https://www.youtube.com/watch?v=L29q2LRiMRc)
 
-**[How it talks](#how-caveman-talks) · [Install](#install) · [The numbers](#the-numbers) · [The proxy](#big-rock-the-proxy) · [The skill](#small-rock-the-skill) · [What you get](#what-you-get) · [In the wild](#in-the-wild)**
+**[Install](#install) · [Six rocks](#six-rocks-one-install) · [Proof](#proof) · [Say less](#say-less-the-caveman-voice) · [Read less](#read-less-332-fewer-input-tokens) · [Auto](#auto-54-cheaper-same-score) · [Blocks](#blocks-code-mode-script-written-once) · [Commands](#commands) · [Caveman Cloud](#caveman-cloud)**
 
 </div>
 
@@ -59,33 +60,36 @@ Pick your club:
 
 <sub>Token counts: tiktoken o200k.</sub>
 
-## How caveman talks
-
-Caveman is a voice, not broken grammar. Every reply follows the same structure:
-
-| Rule | What it means |
-|---|---|
-| **Answer first** | `[thing] [action] [reason]. [next step].` No greeting, no "let me", no recap, no "hope this helps" |
-| **One idea per sentence** | Built on [ASD-STE100](https://www.asd-ste100.org/), the controlled English written for aircraft maintenance manuals: 20 words max, active voice, one term per thing |
-| **Meaning never dropped** | Articles can go. *not*, *never*, *no*, *only* never go. Numbers and units stay exact |
-| **Payload verbatim** | Code, commands, paths, error messages, and your existing code comments untouched, character for character. Small fix shows the changed lines, not the whole file again |
-| **Quiet tool runs** | No chatter between tool calls. One line per phase, one line with the result |
-| **Knows when to stop**
-
 ## installation
 
 ```bash
-npm install -g @caveman-ai/cli && caveman setup --install
-caveman claude        # or codex · gemini · aider · kilo · qwen · opencode · hermes · openclaw · pi
+npx @caveman-ai/cli@latest
 ```
 
-**This is the proxy, the big rock.** Your agent reads 33.2% fewer input tokens across whole sessions, same answers. It runs on your machine, with your keys and your Claude Pro/Max login. Needs Node.js 22.13+. After the first run, plain `claude` stays caveman'd. One rock. That it.
+One command. Mac, Linux, Windows. Caveman find your agents and your logins, show what it change. Press Enter. Done. Needs Node.js 22.13+.
 
-[What the proxy does](#big-rock-the-proxy) · Only want shorter answers? [Get just the skill](#small-rock-the-skill)
+After that, plain `claude` stays caveman'd. So do Codex, Gemini CLI, OpenCode, and [30+ more](./INSTALL.md). It runs on your machine, with your keys and your Claude Pro/Max login. One rock. That it.
 
-## The numbers
+<sub>Had caveman before 4.0? Say <code>@latest</code>, or the old copy on your machine wins. Already set up? <code>caveman setup</code> opens the screen again. Only want shorter answers? <a href="#say-less-the-caveman-voice">Get just the skill</a>.</sub>
 
-Outside labs first, then ours. Nothing rounded up. Red rows stay red.
+## Six rocks, one install
+
+New in 4.0: caveman is six parts. All on after install. Each has its own switch.
+
+| Rock | What it does | Measured |
+|---|---|---|
+| **[Say less](#say-less-the-caveman-voice)** | Agent answers short. Code stays exact | 63 → 20 tokens, same fix |
+| **[Read less](#read-less-332-fewer-input-tokens)** | Logs, JSON, CSV, test output shrink before the model reads them | **33.2%** fewer input tokens per session |
+| **[Auto](#auto-54-cheaper-same-score)** · new | Picks the model and the effort for each ask | **54%** cheaper than Opus at xhigh, same score |
+| **[Blocks](#blocks-code-mode-script-written-once)** · new | Code mode: agent keeps the scripts it writes and runs them again | **397 → 76** tokens for one test run |
+| **[Waste fixes](#smaller-rocks)** | Finds where your tokens go and fixes it. New: keeps the prompt cache warm while you pause | Not measured yet |
+| **[Browse](#smaller-rocks)** | Web pages come back compressed | **129.8×** smaller page |
+
+`caveman status` shows what is on. `caveman off browse` turns one off. Only Auto needs an account, and it is free. [4.0.0 release notes](https://github.com/JuliusBrussee/caveman/releases/tag/v4.0.0)
+
+## Proof
+
+Outside labs first. Ours come with each rock below. Nothing rounded up. Red rows stay red.
 
 | Who | Setup | Result |
 |---|---|---|
@@ -93,39 +97,91 @@ Outside labs first, then ours. Nothing rounded up. Red rows stay red.
 | **[Elastic](https://www.elastic.co/search-labs/blog/elastic-caveman-ai-token-reduction)**, Elasticsearch Labs | Caveman mode remade for Elasticsearch, eight live MCP scenarios | **63.6% fewer response tokens.** *"Zero information loss."* |
 | **[JetBrains](https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/)** | 86 real coding tasks, paired A/B | **No measurable quality loss** (p = 0.82). 8.5% fewer output tokens |
 
-Two findings shaped caveman. Adobe found that cavemanning *your* prompt makes answers longer and worse, so caveman never touches your prompt. JetBrains found that agent sessions are mostly code and tool calls, which the skill leaves alone. So caveman grew a second rock that shrinks what the agent *reads*: [the proxy](#big-rock-the-proxy).
+Two findings shaped caveman. Adobe: cavemanning *your* prompt makes answers worse, so caveman never touches your prompt. JetBrains: agent sessions are mostly code and tool calls, which the voice leaves alone. So caveman grew rocks that shrink what the agent *reads* and what it *runs on*.
 
-### The proxy: 33.2% fewer input tokens
+## Say less: the caveman voice
 
-| File type | The file, through caveman | File saved | Whole Claude Code session, 3 runs | Session saved |
-|---|---:|---:|---:|---:|
-| CSV | 28,041 → **314** | **98.9%** | 165,823 → 74,484 | **55.1%** |
-| Logs | 22,810 → **348** | **98.5%** | 148,807 → 74,068 | **50.2%** |
-| YAML | 20,447 → **178** | **99.1%** | 132,124 → 71,027 | **46.2%** |
-| Test output | 18,806 → **203** | **98.9%** | 150,377 → 108,514 | **27.8%** |
-| JSON | 18,837 → **281** | **98.5%** | 147,975 → 108,939 | **26.4%** |
-| HTML | 21,670 → 21,670 | none yet | 140,687 → 154,641 | 9.9% worse |
-| **All six** | 130,611 → 22,994 | 82.4% | **885,793 → 591,673** | **33.2%** |
+**A voice, not broken grammar. Every reply follows the same structure.**
 
-**18 of 18 answers right.** *The file* is each benchmark file run through today's compressor on its own. *The session* is the whole agent run, which also carries the system prompt, tool definitions, conversation, and caveman's own rules, so it moves less than the file. The session run is from August 2026, on an engine that only got the JSON file down to 8,106 tokens. HTML has no compressor yet, so caveman paid its overhead and won nothing back. Each file hides one record in 61 to 72 KB of noise; your files will vary. Headroom on the same suite got 15 of 18 right and used 6.7% fewer tokens on those 15. [Method](./docs/WRAP-BENCHMARK.md#per-file-compression)
+| Rule | What it means |
+|---|---|
+| **Answer first** | `[thing] [action] [reason]. [next step].` No greeting, no "let me", no recap |
+| **One idea per sentence** | Built on [ASD-STE100](https://www.asd-ste100.org/), the controlled English of aircraft maintenance manuals: 20 words max, active voice, one term per thing |
+| **Meaning never dropped** | Articles can go. *not*, *never*, *no*, *only* never go. Numbers and units stay exact |
+| **Payload verbatim** | Code, commands, paths, and error messages untouched, character for character |
+| **No theater** | No "me think". No chatter between tool calls. If caveman phrasing isn't shorter, plain wins |
+| **Knows when to stop** | Security warnings, irreversible actions, and confused users get full sentences. Then grunt resumes |
+| **Your prompts stay yours** | Never rewritten. [Research say that backfire](#proof) |
 
-### The skill: ten dev questions on claude-opus-5-5
+Ten dev questions on claude-opus-5-5:
 
 | Instruction | Output tokens |
 |---|---:|
 | None | 6,983 |
-| `Answer concisely.` | 4,334 |
-| `/caveman` | 4,119 |
-| `/ultracave` | **2,693** |
+| `Answer concise
 
-New models already know "be concise", so that line is the real baseline. On top of it, `/caveman` cuts 3% more at the median and `/ultracave` cuts 35% more. Measured on the 3.1.0 skill text, not yet re-run on this release's. [Harness](./evals/README.md)
+## tools
 
-<!-- BENCHMARK-TABLE-START -->
-<!-- BENCHMARK-TABLE-END -->
+In your terminal:
 
-### Everything else
+```bash
+caveman claude                # start an agent on caveman: codex · gemini · opencode · aider · kilo · qwen · hermes · openclaw · pi
+caveman status                # what is on, which agents it reaches, one next step
+caveman on browse             # switch one rock on or off: output · input · waste-fixes · routing · scripts · browse
+caveman login                 # free account, turns on Auto
+caveman learn                 # where your tokens go
+caveman trial -- claude       # A/B a real session on your own work
+caveman shrink -- pnpm test   # compress noisy command output
+caveman convert --dry-run     # pixel mode: skills the model reads as images
+caveman stats                 # your token history
+caveman doctor                # one problem per line, with its fix
+```
 
-| What | Result |
+In your agent:
+
+| Command | What it does |
 |---|---|
-| A web page the agent reads (`caveman browse`, 200-row table) | **121 tokens instead of 15,704** for a Playwright snapshot, 129.8× smaller. Tiny forms lose 2.3×. [Bench](./browse/BENCHMARK.md) |
-| Memory files like `CLAUDE.md` (`/caveman-compress`) | **4,138 tokens instead of 6,198** across five fixtures, 22.8% to 49.1% smaller per file, with every heading, code block, and path intact. [Bench](
+| `/caveman` · `/ultracave` · `/megacave` | The voice, the grunt, the 文言文. `/caveman status` shows the mode, `/caveman off` stops it |
+| `/caveman-commit` | One-line Conventional Commit |
+| `/caveman-review` | One finding per line: `L42: 🔴 null deref. Guard it.` |
+| `/caveman-compress <file>` | Shrinks memory files and backs up the original |
+| `/caveman-stats` | Real token usage for this Claude Code session |
+| `/caveman-help` | Every mode and command on one screen |
+| `cavecrew` | Subagents that find, edit, and review code, then report back in caveman |
+| `investigate-first` · `lean-build` · `surgical-patch` · `safe-refactor` · `migration` · `verify-and-stop` | Work patterns that write less code. Your agent picks them up when a task fits |
+| `caveman-setup` · `caveman-discover` · `caveman-learn` · `caveman-manage` · `caveman-optimize` · `caveman-explore` · `caveman-evidence-review` | Drive the proxy from inside your agent |
+
+## Caveman Cloud
+
+**Everything above is for the coding agent you use. Caveman Cloud is for the agents you build.**
+
+You ship an agent. Every run costs money. Is it good? Is it cheap? Which change made it worse? Cloud answers.
+
+| Cloud does | What you get |
+|---|---|
+| **Observability** | Every run traced to the work and what it cost. Sets itself up from your repo, your keys, and the logs or OpenTelemetry you already have |
+| **Evals** | Grades how good the answers are, on your own tasks, from your real traffic |
+| **Autopilot** | Proposes a cheaper change, tests it on your recorded work, ships only when the evals say answers are still as good. You approve the pull request |
+| **Proof** | Every number says if it is measured, inferred, or verified. A saving counts only after real traffic shows it |
+
+<p align="center">
+<a href="https://app.caveman.so/signup"><b>Sign up free</b></a> &nbsp;·&nbsp; <a href="https://caveman.so/demo">Try the demo</a> &nbsp;·&nbsp; <a href="https://cal.com/caveman/chat">Book a call</a> &nbsp;·&nbsp; <a href="https://docs.caveman.so">Docs</a>
+</p>
+
+## In the wild
+
+<a href="https://www.youtube.com/watch?v=L29q2LRiMRc"><img src="https://img.youtube.com/vi/L29q2LRiMRc/hqdefault.jpg" alt="ThePrimeagen reacts to Caveman: No way this actually works" width="340" align="right"></a>
+
+**ThePrimeagen**: *"No way this actually works."* [Watch](https://www.youtube.com/watch?v=L29q2LRiMRc)
+
+**Adobe Research**: [CAVEWOMAN](https://arxiv.org/abs/2606.24083), arXiv, June 2026
+
+**JetBrains**: *"It is fun, and it costs you nothing measurable in quality."* [Read](https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/)
+
+**Elastic**: [elastic-caveman](https://www.elastic.co/search-labs/blog/elastic-caveman-ai-token-reduction) on Elasticsearch Labs, April 2026
+
+**Hacker News**: [#1, 904 points](https://news.ycombinator.com/item?id=47647455)
+
+**GitHub Trending** #1 overall, July 2026 · **[Trendshift](https://trendshift.io/repositories/25391)** #1 repo of the day, April 2026 · **[Product Hunt](https://www.producthunt.com/products/caveman)** #8 of the day
+
+Started as a joke in April 2026. Now past 100,000 stars. Joke got serious. Voice di

@@ -21,7 +21,7 @@ What you get out of the box:
 
 ---
 
-## Benchmarks
+## Benchmarks: 0.497 recall@10, 0 LLM credits
 
 | Benchmark | Metric | graphify | Field |
 |---|---|---|---|
@@ -32,6 +32,20 @@ What you get out of the box:
 | Graph build | LLM credits | **0** | per-token for most systems |
 
 Every system ran on the same harness with the same model and budgets, scored by a judge blind-validated against a second judge (90.6% agreement, Cohen's kappa 0.81). Full per-system tables, the code-intelligence result, and reproduction commands: **[BENCHMARKS.md](./BENCHMARKS.md)**.
+
+---
+
+## Documentation
+
+Full guides and reference live at **[docs.graphify.com](https://docs.graphify.com)**:
+
+- **[Quickstart](https://docs.graphify.com/quickstart)**: build your first graph
+- **[CLI reference](https://docs.graphify.com/reference/overview)**: every command and flag
+- **[Ask better graph questions](https://docs.graphify.com/guides/querying)**: querying patterns
+- **[Configuration](https://docs.graphify.com/reference/configuration)**: environment variables and tuning
+- **[Supported inputs](https://docs.graphify.com/concepts/supported-inputs)**: languages and file types
+- **[Team workflows](https://docs.graphify.com/guides/team-workflows)** and **[PR review](https://docs.graphify.com/guides/pull-requests)**
+- **[Troubleshooting](https://docs.graphify.com/troubleshooting)** and **[How it works](https://docs.graphify.com/concepts/architecture)**
 
 ---
 
@@ -71,24 +85,17 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 The official source repository is [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
 
-**Step 1 — install the package:**
+The two-command quickstart is at the top of this README. This section covers the install methods, project-scoped installs, and every supported platform.
+
+**Install methods** (pick one):
 
 ```bash
-# Recommended (isolated env; if 'graphify' isn't found after, run: uv tool update-shell):
-uv tool install graphifyy
-
-# Alternatives:
-pipx install graphifyy
-pip install graphifyy  # may need PATH setup — see note below
+uv tool install graphifyy   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
+pipx install graphifyy      # alternative
+pip install graphifyy       # may need PATH setup, see Troubleshooting below
 ```
 
-**Step 2 — register the skill with your AI assistant:**
-
-```bash
-graphify install
-```
-
-That's it. Open your AI assistant and type `/graphify .`
+Then run `graphify install` once. It detects which assistant you run and registers the skill, so there is no per-assistant setup. Open your AI assistant and type `/graphify .`
 
 To install the assistant skill into the current repository instead of your user
 profile, add `--project`:
@@ -139,7 +146,7 @@ for example `graphify claude install --project` or `graphify codex install --pro
 
 Codex users also need `multi_agent = true` under `[features]` in `~/.codex/config.toml` for parallel extraction. CodeBuddy uses the same Agent tool and PreToolUse hook mechanism as Claude Code. Factory Droid uses the `Task` tool for parallel subagent dispatch. OpenClaw and Aider use sequential extraction (parallel agent support is still early on those platforms). Trae uses the Agent tool for parallel subagent dispatch and does **not** support `PreToolUse` hooks, so AGENTS.md is the always-on mechanism.
 
-`--platform agents` (alias `--platform skills`) targets the generic cross-framework [Agent-Skills](https://github.com/anthropics/skills) locations: the spec's user-global `~/.agents/skills/` (read by `npx skills` and spec-compliant frameworks) for a global install, and `./.agents/skills/` for a project (`--project`) install. The bare `graphify install` stays single-plat
+`--platform agents` (alias `--platform skills`) targets the generic cross-framework [Agent-Skills](https://github.com/anthropics/skills) locations: the spec's user-global
 
 ## tools
 
@@ -160,13 +167,13 @@ graphify export callflow-html      # Mermaid architecture/call-flow HTML (auto-r
 /graphify add https://arxiv.org/abs/1706.03762   # fetch a paper and add it
 /graphify add <youtube-url>                       # transcribe and add a video
 
-graphify hook install              # auto-rebuild on commit + branch checkout (run `graphify update .` after `git pull` — see "Recommended workflow" below)
+graphify hook install              # auto-rebuild on commit + branch checkout (run `graphify update .` after `git pull`: see "Recommended workflow" below)
 graphify merge-graphs a.json b.json              # combine two graphs
 
 graphify prs                       # PR dashboard: CI state, review status, worktree mapping
 graphify prs 42                    # deep dive on PR #42 with graph impact
 graphify prs --triage              # AI ranks your review queue (uses whatever backend is configured)
-graphify prs --conflicts           # PRs sharing graph communities — merge-order risk
+graphify prs --conflicts           # PRs sharing graph communities: merge-order risk
 ```
 
 See the [full command reference](#full-command-reference) below.
@@ -181,7 +188,7 @@ graphify honors `.gitignore` and supports `--exclude` patterns and a project `.g
 
 Create a `.graphifyrc` in the scan root for settings that belong to the project rather than to one run. One `key=value` per line; lines beginning with `#` are comments.
 
-**Ambiguous extensions.** Some extensions mean different languages in different projects: `.inc` is PHP on pfSense, Pascal in a Delphi tree, SQL or assembly elsewhere; `.h` is C or C++; `.m` is Objective-C or MATLAB. graphify has to pick one global default, and when it picks wrong the file does not fail — it parses as the wrong language and yields a handful of incidental nodes, so the graph looks populated while the real symbols are missing. Declare what the extension means in your repo:
+**Ambiguous extensions.** Some extensions mean different languages in different projects: `.inc` is PHP on pfSense, Pascal in a Delphi tree, SQL or assembly elsewhere; `.h` is C or C++; `.m` is Objective-C or MATLAB. graphify has to pick one global default, and when it picks wrong the file does not fail: it parses as the wrong language and yields a handful of incidental nodes, so the graph looks populated while the real symbols are missing. Declare what the extension means in your repo:
 
 ```
 # .graphifyrc

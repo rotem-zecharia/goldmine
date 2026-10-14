@@ -139,7 +139,6 @@ pipeline("https://huggingface.co/datasets/Narsil/image_dummy/raw/main/parrots.pn
 
 - This library is not a modular toolbox of building blocks for neural nets. The code in the model files is not refactored with additional abstractions on purpose, so that researchers can quickly iterate on each of the models without diving into additional abstractions/files.
 - The training API is optimized to work with PyTorch models provided by Transformers. For generic machine learning loops, you should use another library like [Accelerate](https://huggingface.co/docs/accelerate).
-- The [example scripts](https://github.com/huggingface/transformers/tree/main/examples) are only *examples*. They may not necessarily work out-of-the-box on your specific use case and you'll need to adapt the code for it to work.
 
 ## 100 projects using Transformers
 
@@ -175,4 +174,7 @@ Expand each modality below to see a few example models for various use cases.
 <summary>Computer vision</summary>
 
 - Automatic mask generation with [SAM](https://huggingface.co/facebook/sam-vit-base)
-- Depth estimation with [DepthPro](https://huggingface.co/apple
+- Depth estimation with [DepthPro](https://huggingface.co/apple/DepthPro-hf)
+- Image classification with [DINO v2](https://huggingface.co/facebook/dinov2-base)
+- Keypoint detection with [SuperPoint](https://huggingface.co/magic-leap-community/superpoint)
+- Keypoint matching with [SuperGlue](h

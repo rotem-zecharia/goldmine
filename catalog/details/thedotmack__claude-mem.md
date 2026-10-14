@@ -102,8 +102,8 @@ The installer handles dependencies, plugin setup, AI provider configuration, wor
 
 **Core Components:**
 
-1. **5 Lifecycle Hooks** - SessionStart, UserPromptSubmit, PostToolUse, Stop, SessionEnd (6 hook scripts)
-2. **Smart Install** - Cached dependency checker (pre-hook script, not a lifecycle hook)
+1. **Lifecycle Hooks** - SessionStart, UserPromptSubmit, PreToolUse, PostToolUse, Stop, SessionEnd. Each is one shell-free command, `claude-mem hook claude-code <event>`, run by a small launcher that the installer puts on PATH
+2. **Smart Install** - Cached dependency checker (Setup hook on `claude --init` / `--maintenance`, plus `npx claude-mem install` / `repair`)
 3. **Worker Service** - Local HTTP API with web viewer UI and search endpoints, managed by Bun
 4. **SQLite Database** - Stores sessions, observations, summaries
 5. **mem-search Skill** - Natural language queries with progressive disclosure

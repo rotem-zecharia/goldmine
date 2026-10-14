@@ -1,6 +1,6 @@
 # CloakHQ/CloakBrowser
 
-Stealth Chromium that passes every bot detection test. Drop-in Playwright replacement with source-level fingerprint patches. 30/30 tests passed.
+Stealth Chromium that passes every bot detection test. Drop-in Playwright replacement with source-level fingerprint patches. 50+ tests passed.
 
 ## installation
 
@@ -56,9 +56,9 @@ page.goto("https://example.com")
 
 ---
 
-## Latest: v0.6.2 — 87 source-level stealth patches (Chromium 154.0.8037.57.1)
+## Latest: v0.6.2 — 87 source-level stealth patches (Chromium 154.0.8037.57.2)
 
-- **CloakBrowser Pro Stable** — Chromium `154.0.8037.57.1` on Linux x64, Linux ARM64, Windows x64, and macOS (Apple Silicon and Intel). Set a `license_key` (`licenseKey` in JS) or the `CLOAKBROWSER_LICENSE_KEY` env var and the wrapper fetches the latest Stable build for your platform automatically. See [CloakBrowser Pro](#cloakbrowser-pro)
+- **CloakBrowser Pro Stable** — Chromium `154.0.8037.57.2` on Linux x64 and Linux ARM64; `154.0.8037.57.1` on Windows x64 and macOS (Apple Silicon and Intel). Set a `license_key` (`licenseKey` in JS) or the `CLOAKBROWSER_LICENSE_KEY` env var and the wrapper fetches the latest Stable build for your platform automatically. See [CloakBrowser Pro](#cloakbrowser-pro)
 - **.NET 8 / C# client** — CloakBrowser now ships as a NuGet package (`CloakBrowser`), mirroring the Python and JS wrappers.
 - **Chromium 154 upgrade** — rebased the full patch set onto Chromium 154 on every platform; macOS moves up from Chromium 151
 - **87 fingerprint patches** — rendering consistency improvements across Linux and Windows, corrected GPU/display/graphics parameters to match stock Chrome profiles
