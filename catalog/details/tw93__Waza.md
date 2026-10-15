@@ -1,6 +1,6 @@
 # tw93/Waza
 
-🥷 Engineering habits you already know, turned into skills AI assistants can run.
+🥷 Engineering habits you already know, turned into skills AI assistants like Claude Code, Codex and Cursor can run.
 
 ## installation
 

@@ -48,7 +48,7 @@ workflows are not double-reviewed. Set `OCTOPUS_PREMIUM_PEER_CHECK=off` to
 disable it.
 
 <!-- BEGIN CURRENT RELEASE -->
-> 🆕 **v11.13.2 — Reliable provider fallback routing and active host detection.**
+> 🆕 **v11.14.0 — LiteLLM gateways, fewer Tangle review retries, and Command Code runs that stop when canceled.**
 >
 > **Default roster:** Claude Opus 5.5 leads architecture, planning, security reasoning, and final judgment; GPT-5.6 Sol is the independent implementation/review peer; Claude Sonnet 5.5 is the standard Claude seat; Fable 5.1 remains an opt-in judgment escalation. Existing model pins and provider configuration still win. See [the routing strategy](docs/MODEL-ROUTING-STRATEGY.md).
 <!-- END CURRENT RELEASE -->
@@ -65,7 +65,7 @@ disable it.
 > 🆕 **v9.41 — Multi-LLM Council.** `/octo:council` runs a structured 3/5/7-persona deliberation across Claude, Codex, Antigravity, and OpenCode with goal modes (`advice`, `decision`, `plan`, `implement`, `review`), styles (`balanced`, `adversarial`, `red-team`, `executive`, `implementation`), benchmark-aware role routing, quorum + critical-veto gates, budget caps, and gated worktree handoff for approved plans. Use it when one model's opinion isn't enough.
 >
 > ```bash
-> /octo:council --goal decision --style adversarial "Should thi
+> /octo:council --goal decision
 
 ## installation
 

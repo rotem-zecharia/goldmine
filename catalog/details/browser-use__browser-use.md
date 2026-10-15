@@ -1,6 +1,6 @@
 # browser-use/browser-use
 
-Agents that use the browser.
+Open-source Python library for AI browser agents, plus Browser Use Cloud: stealth browsers and a hosted agent API.
 
 ## installation
 

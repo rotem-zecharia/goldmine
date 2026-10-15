@@ -18,6 +18,7 @@ Learn AI Engineering! Learn it. Build it. Ship it for others.
 | Senior engineer, only want agent engineering | Phase 14 — Agent Engineering | ~60 hours |
 | Only want to build production MCP systems | [Model Context Protocol (MCP) path](learning-paths/model-context-protocol.json) | ~23 hours 15 min |
 | Only want to build production Agent Skills | [Agent Skills Engineering path](learning-paths/agent-skills.json) | ~9.5 hours |
+| Only want to learn reverse engineering | [Reverse Engineering path](learning-paths/reverse-engineering.json) | ~32.5 hours |
 
 </details>
 
