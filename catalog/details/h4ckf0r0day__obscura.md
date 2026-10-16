@@ -280,25 +280,19 @@ Start a CDP WebSocket server.
 | `--proxy` | — | HTTP/SOCKS5 proxy URL |
 | `--stealth` | off | Enable anti-detection + tracker blocking |
 | `--workers` | `1` | Number of parallel worker processes |
+| `--worker-max-connections` | off | Recycle a worker after N CDP connections (needs `--workers` > 1) |
+| `--worker-max-rss` | off | Recycle a worker above this many MB resident (Linux) |
+| `--worker-max-age` | off | Recycle a worker after this many seconds |
+| `--worker-drain-timeout` | `120` | Seconds a replaced worker may finish its live connections before it is killed |
 | `--font-dir` | — | Recursively load fonts once per worker (repeatable; render build) |
 | `--obey-robots` | off | Respect robots.txt |
 
 With multiple workers, exited children are reaped and restarted. New connections
 use ready workers only; if none are ready, the balancer returns HTTP 503. A crash
 still closes that worker's existing sessions, which clients must reconnect.
-Worker errors remain visible on stderr.
 
-### `obscura fetch <URL>`
-
-Fetch and render a single page.
-
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--dump` | `html` | Output: `html`, `text`, `links`, `markdown`, `assets` (NDJSON of every sub-resource URL the page references), or `original` (raw response body) |
-| `--eval` | — | JavaScript expression to evaluate |
-| `--wait-until` | `load` | Wait: `load`, `domcontentloaded`, `networkidle0` |
-| `--timeout` | `30` | Maximum navigation time in seconds |
-
+The `--worker-max-*` options recycle workers gracefully: a replacement starts
+first, new connections go only to it, and the old worker keeps serving 
 
 ## configuration
 

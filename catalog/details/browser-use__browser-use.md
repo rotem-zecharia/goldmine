@@ -96,7 +96,12 @@ implements all 31 browser actions and can control a local browser, a Browser
 Use Cloud browser, or an existing remote browser over CDP.
 Bash is included in the Browser Use integration for processing data and writing files.
 
-<img src="examples/integrations/toolsets-for-claude/architecture.svg" alt="Claude uses Browser Use browser actions and Bash through the Anthropic SDK. The browser can be local or remote; Bash runs on the SDK host." width="100%">
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="examples/integrations/toolsets-for-claude/architecture-dark-mobile.svg">
+  <source media="(max-width: 600px)" srcset="examples/integrations/toolsets-for-claude/architecture-light-mobile.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="examples/integrations/toolsets-for-claude/architecture-dark.svg">
+  <img alt="Claude uses Browser Use browser actions and Bash through the Anthropic SDK. The browser can be local or remote; Bash runs on the SDK host." src="examples/integrations/toolsets-for-claude/architecture-light.svg" width="100%">
+</picture>
 
 Requires an Anthropic SDK version that includes `anthropic.tools.browser`.
 Bash requires a Linux or macOS host with `/bin/bash`; use WSL on Windows.
@@ -143,7 +148,4 @@ This [very hard benchmark](https://github.com/browser-use/benchmark) targets the
 <summary><b>Should I use the fully hosted cloud, CLI, or Python library?</b></summary>
 
 - **[Fully Hosted Cloud](#path-1-fully-hosted-cloud):** Send tasks through the API and let Browser Use run the agent, browser, and infrastructure.
-- **[CLI](#path-2-cli):** Give an existing agent (Claude Code, Codex, Hermes, OpenClaw, Pi, Cursor, etc.) browser access. You can use it interactively or in scripts.
-- **[Python Library](#path-3-python-library):** Run the open source agent in your own application, with custom tools, structured output, and your choice of model.
-
-The CLI and Python library can each connect to a local or cloud browser. A cloud browser hosts the browser; the fully hosted API runs the age
+- **[CLI](#path-2-cli):** Give an existing agent (C
