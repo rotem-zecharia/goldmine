@@ -76,7 +76,8 @@ docker run -d --name lightpanda -p 127.0.0.1:9222:9222 lightpanda/browser:latest
 
 You can use `--dump markdown` to convert directly into markdown, or
 `--dump png > page.png` or `--dump pdf > page.pdf` for a text-only rendering
-of the page.
+of the page. `--dump structured_data` prints the page's JSON-LD, OpenGraph,
+Twitter card, meta and link tags as JSON, like the MCP `structuredData` tool.
 `--wait-until`, `--wait-ms`, `--wait-selector` and `--wait-script` are
 available to adjust waiting time before dump.
 
@@ -108,19 +109,7 @@ await frame.goto('https://demo-browser.lightpanda.io/amiibo/', {waitUntil: "netw
 
 const links = await frame.evaluate(() => {
   return Array.from(document.querySelectorAll('a')).map(row => {
-    return row.getAttribute('href');
-  });
-});
-
-console.log(links);
-
-await frame.close();
-await context.close();
-await browser.disconnect();
-```
-</details>
-
-####
+    return row.getAt
 
 ## requirements
 

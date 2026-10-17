@@ -1,6 +1,6 @@
 # eugeniughelbur/obsidian-second-brain
 
-Persistent memory for Claude Code and 6 other CLI agents, stored as plain markdown in your Obsidian vault. Stop re-explaining your projects, decisions and people every session. 45 commands: hybrid sem
+Persistent memory for Claude Code, Codex and 6 other AI agents, stored as plain markdown in your Obsidian vault. New: Crew, one shared logbook so Claude Code, Codex, Cursor and Grok Bot know what each
 
 ## installation
 
@@ -91,6 +91,7 @@ Free transcript via youtube-transcript-api. Optional metadata + top comments via
 | `/obsidian-learn` | Reviews vault learnings, prunes stale ones, surfaces patterns to promote into rules |
 | `/obsidian-init` | Generates `_CLAUDE.md`, `index.md`, `log.md` |
 | `/obsidian-architect` | Scans a codebase and writes maintained architecture notes (overview, modules, decisions) into the vault; re-run to refresh |
+| `/crew setup` | Shared job log and lessons with a human keep decision; works without Obsidian |
 | `/create-command` | Interview flow that scaffolds a new command into `commands/<name>.md`, no markdown editing |
 
 ### Thinking -- Claude thinks with you
@@ -100,8 +101,7 @@ Free transcript via youtube-transcript-api. Optional metadata + top comments via
 | `/obsidian-brainstorm [topic]` | Multi-turn Socratic interview - one question per turn until the idea converges, then a design note with named alternatives |
 | `/obsidian-challenge` | Your vault argues against your idea using your own history |
 | `/obsidian-panel` | Convenes a panel of distinct perspectives on a decision, one verdict each + synthesis |
-| `/obsidian-emerge` | Surfaces patterns from 30 days of notes you never named |
-| `/obsidian-connect [A] [B]` | Bridges two unr
+| `/obsidian-emerge` | Surface
 
 ## features
 
