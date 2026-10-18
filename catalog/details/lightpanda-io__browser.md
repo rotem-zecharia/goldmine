@@ -86,6 +86,13 @@ available to adjust waiting time before dump.
 ```console
 ./lightpanda serve --obey-robots --log-format pretty  --log-level info --host 127.0.0.1 --port 9222
 ```
+
+To listen on a Unix-domain socket (owner-only, mode 0600) instead of TCP:
+
+```console
+./lightpanda serve --unix-socket /run/user/1000/lightpanda.sock
+```
+
 Once the CDP server started, you can run a Puppeteer script by configuring the
 `browserWSEndpoint`.
 
@@ -105,11 +112,7 @@ const context = await browser.createBrowserContext();
 const frame = await context.newPage();
 
 // Dump all the links from the frame.
-await frame.goto('https://demo-browser.lightpanda.io/amiibo/', {waitUntil: "networkidle0"});
-
-const links = await frame.evaluate(() => {
-  return Array.from(document.querySelectorAll('a')).map(row => {
-    return row.getAt
+await frame.goto('https://demo-browser.lightpanda.io/amiibo/', {wa
 
 ## requirements
 

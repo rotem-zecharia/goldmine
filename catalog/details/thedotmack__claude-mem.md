@@ -88,7 +88,7 @@ The installer handles dependencies, plugin setup, AI provider configuration, wor
 - 🧠 **Persistent Memory** - Context survives across sessions
 - 📊 **Progressive Disclosure** - Layered memory retrieval with token cost visibility
 - 🔍 **Skill-Based Search** - Query your project history with mem-search skill
-- 🖥️ **Web Viewer UI** - Real-time memory stream at the worker URL printed on star
+- 🖥️ **Local My Work** - Live requests, progress, human handoffs and a saved revie
 
 ## configuration
 

@@ -66,6 +66,7 @@ curl http://localhost:1080/pets
 | Channel | Command |
 |---------|---------|
 | Docker | `docker run -d --rm -p 1080:1080 mockserver/mockserver` |
+| Docker from GitHub Container Registry (avoids Docker Hub's pull limit) | `docker run -d --rm -p 1080:1080 ghcr.io/mock-server/mockserver` |
 | Homebrew (macOS/Linux) | `brew install mockserver` |
 | Helm ([chart guide](helm/mockserver/README.md)) | `helm upgrade --install --namespace mockserver mockserver oci://ghcr.io/mock-server/charts/mockserver` |
 | Maven Central [![mockserver](https://img.shields.io/maven-central/v/org.mock-server/mockserver-netty.svg)](https://central.sonatype.com/search?q=g:org.mock-server) | `org.mock-server:mockserver-netty-no-dependencies` — see [all Maven artifacts](https://www.mock-server.com/where/maven_central.html) (server, WARs, JUnit 4/5, Spring, Maven plugin) |
@@ -77,9 +78,8 @@ curl http://localhost:1080/pets
 [![Node](https://img.shields.io/npm/v/mockserver-client.svg?label=Node)](https://www.npmjs.org/package/mockserver-client)
 [![PyPI](https://img.shields.io/pypi/v/mockserver-client.svg?label=Python)](https://pypi.org/project/mockserver-client/)
 [![Gem](https://badge.fury.io/rb/mockserver-client.png)](https://rubygems.org/gems/mockserver-client)
-[![Go](https://pkg.go.dev/badge/github.com/mock-server/mockserver-monorepo/mockserver-client-go/v7.svg)](https://pkg.go.dev/github.com/mock-server/mockserver-monorepo/mockserver-client-go/v7)
-[![Packagist](https://img.shields.io/packagist/v/mock-server/mockserver-client.svg?label=PHP)](https://packagist.org/packages/mock-server/mockserver-client)
-[![NuGet](https://img.shield
+[![Go](https://pkg.go.dev/badge/github.com/mock-server/mockserver-monorepo/mockserver-client-go/v9.svg)](https://pkg.go.dev/github.com/mock-server/mockserver-monorepo/mockserver-client-go/v9)
+[![Packagist](https://img.shields.io/packag
 
 ## requirements
 

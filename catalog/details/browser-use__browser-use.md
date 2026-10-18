@@ -10,7 +10,7 @@ Scale browser automation with our hosted agent, stealth browsers, and infrastruc
 
 [Get started with the API ↗](https://docs.browser-use.com/cloud/agent/quickstart)
 
-New Google, GitHub, or Microsoft signups get **$15 cloud credit**.
+New Google, GitHub, or Microsoft signups get **$1 cloud credit**.
 
 <br/>
 
@@ -83,6 +83,20 @@ uv run agent.py
 
 The agent opens a browser, looks up the repository, and prints its answer.
 
+**5. Run the same agent on a cloud browser (no Chrome to install; works in Docker, CI, and serverless):**
+
+Set `BROWSER_USE_API_KEY` ([get a key](https://cloud.browser-use.com/new-api-key?utm_source=github&utm_medium=readme-path3)), then uncomment the `browser=` line in `agent.py` and run it again:
+
+```python
+    agent = Agent(
+        task="Find the number of stars of the browser-use repo",
+        llm=llm,
+        browser=Browser(use_cloud=True),
+    )
+```
+
+Cloud browsers cost $0.02 per browser-hour plus network traffic ([pricing](https://browser-use.com/pricing)), and add stealth, residential proxies, CAPTCHA solving, and a live view URL. Same code, no other changes.
+
 [Python library docs ↗](https://docs.browser-use.com/open-source/introduction)
 
 <br/>
@@ -134,18 +148,4 @@ async with driver, AsyncAnthropic() as client:
 
 # Browser Use Benchmark v2
 
-<img alt="Browser Use Benchmark v2 - Mean rubric score by model and cost per task" src="static/hard_benchmark_v2.jpg" width="100%">
-
-This [very hard benchmark](https://github.com/browser-use/benchmark) targets the hardest browser tasks. On easier tasks, even smaller models can achieve very high success rates. Results shown are from a 60-task subset of BU Bench V2.
-
-## Integrations, hosting, custom tools, MCP, and more on our [Docs ↗](https://docs.browser-use.com)
-
-<br/>
-
-# FAQ
-
-<details>
-<summary><b>Should I use the fully hosted cloud, CLI, or Python library?</b></summary>
-
-- **[Fully Hosted Cloud](#path-1-fully-hosted-cloud):** Send tasks through the API and let Browser Use run the agent, browser, and infrastructure.
-- **[CLI](#path-2-cli):** Give an existing agent (C
+<img alt="Browser Use Benchmark v2 - Mean rubric score by model and cost per task" src="static/hard
