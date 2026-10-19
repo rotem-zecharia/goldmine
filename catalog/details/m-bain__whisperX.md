@@ -109,6 +109,17 @@ uv sync --all-extras --dev
 
 You may also need to install ffmpeg, rust etc. Follow openAI instructions here https://github.com/openai/whisper#setup.
 
+### Accelerated Forced Alignment (Optional)
+
+WhisperX uses dynamic programming for phoneme alignment. For long audio files or batch pipelines on GPU, you can accelerate alignment by up to 30×–100× by installing Numba:
+
+```bash
+pip install "whisperx[fast]"
+# or: pip install numba
+```
+
+If Numba is installed, WhisperX will automatically use JIT-compiled alignment loops. If Numba is not installed, it seamlessly falls back to native PyTorch with zero configuration required.
+
 ### Speaker Diarization
 
 To **enable Speaker Diarization**, include your Hugging Face access token (read) that you can generate from [Here](https://huggingface.co/settings/tokens) after the `--hf_token` argument and accept the user agreement for the [speaker-diarization-community-1](https://huggingface.co/pyannote/speaker-diarization-community-1) model.
@@ -152,7 +163,4 @@ For conditioning on previous context (This allows context to be passed from the 
 
 ### Other languages
 
-The phoneme ASR alignment model is _language-specific_, for tested languages these models are [automatically picked from torchaudio pipelines or huggingface](https://github.com/m-bain/whisperX/blob/f2da2f858e99e4211fe4f64b5f2938b007827e17/whisperx/alignment.py#L24-L58).
-Just pass in the `--language` code, and use the whisper `--model large`.
-
-Currently default models provided for `{en, fr, de, es, it}` via torchaudio pipelines and many other languages via Hugging Face. Please find the list of currently supported languages under `DEFAULT_ALIGN_MODELS_HF` on [a
+The phoneme ASR alignment model is _language-specific_, for tested languages these models 

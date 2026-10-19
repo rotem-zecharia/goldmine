@@ -1,6 +1,6 @@
 # diegosouzapw/OmniRoute
 
-Never stop coding. Free MIT AI gateway: one endpoint, 359 providers (150+ free), 1200+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with Claude Code, Codex, Cursor, OpenCode, Cline 
+Never stop coding. Free MIT AI gateway: one endpoint, 375 providers (150+ free), 1,400+ models Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with Claude Code, Codex, Cursor, OpenCode, Cline
 
 ## installation
 
@@ -28,7 +28,7 @@ curl http://localhost:20128/v1/chat/completions \
 
 </div>
 
-<img src="./docs/diagrams/promise-pillars.svg" width="100%" alt="The Promise — One endpoint and 375 providers. Automatic fallback keeps routing while another healthy target is available. Six pillars: resilient fallback across 375 providers · up to 95% token savings on eligible workloads · $0 to start with 150+ free tiers and 52 recurring/keyless free-forever providers · 37 CLI/agent integrations through one config · OpenAI, Claude, Gemini and Responses API compatibility at /v1 · production controls including circuit breakers, TLS stealth, MCP 110 tools, A2A, memory, guardrails, evals and 39,000+ static test declarations across 5,100+ tracked test files."/>
+<img src="./docs/diagrams/promise-pillars.svg" width="100%" alt="The Promise — One endpoint and 375 providers. Automatic fallback keeps routing while another healthy target is available. Six pillars: resilient fallback across 375 providers · up to 95% token savings on eligible workloads · $0 to start with 150+ free tiers and 51 recurring/keyless free-forever providers · 37 CLI/agent integrations through one config · OpenAI, Claude, Gemini and Responses API compatibility at /v1 · production controls including circuit breakers, TLS stealth, MCP 110 tools, A2A, memory, guardrails, evals and 56,000+ static test declarations across 7,800+ tracked test files."/>
 
 <br/>
 <br/>
@@ -43,7 +43,7 @@ curl http://localhost:20128/v1/chat/completions \
 
 <div align="center">
 
-<img src="./docs/diagrams/tier-cascade.svg" width="100%" alt="OmniRoute request flow: your IDE or CLI (Claude Code, Cursor, Cline…) calls one local endpoint (http://localhost:20128/v1); the OmniRoute Smart Router (RTK + Caveman compression, 19 routing strategies, circuit breakers, TLS stealth, MCP, A2A, guardrails) can fall back across 4 provider tiers while an eligible healthy target remains — Tier 1 Subscription, Tier 2 API Key, Tier 3 Cheap and Tier 4 Free."/>
+<img src="./docs/diagrams/tier-cascade.svg" width="100%" alt="OmniRoute request flow: your IDE or CLI (Claude Code, Cursor, Cline…) calls one local endpoint (http://localhost:20128/v1); the OmniRoute Smart Router (RTK + Caveman compression, 20 routing strategies, circuit breakers, TLS stealth, MCP, A2A, guardrails) can fall back across 4 provider tiers while an eligible healthy target remains — Tier 1 Subscription, Tier 2 API Key, Tier 3 Cheap and Tier 4 Free."/>
 
 </div>
 
@@ -108,9 +108,9 @@ No combo to create. Set your model to `auto` (or a variant) and OmniRoute builds
 
 ##
 
-### 🔀 Or build your own — 19 routing strategies
+### 🔀 Or build your own — 20 routing strategies
 
-All **19** strategies — mix & match per combo step:
+All **20** strategies — mix & match per combo step:
 
 <table>
   <tr>
@@ -170,18 +170,17 @@ All **19** strategies — mix & match per combo step:
   </tr>
   <tr>
     <td align="center">11</td>
+    <td nowrap><code>quota-weighted</code></td>
+    <td>Skip exhausted accounts, then draw in proportion to leftover quota ÷ in-flight load — existing conversations stay pinned ⚖️</td>
+  </tr>
+  <tr>
+    <td align="center">12</td>
     <td nowrap><code>reset-window</code></td>
     <td>Prefer the target whose quota window resets soonest</td>
   </tr>
   <tr>
-    <td align="center">12</td>
-    <td nowrap><code>reset-aware</code></td>
-    <td>Rank by quota reset time — short windows first 📊</td>
-  </tr>
-  <tr>
     <td align="center">13</td>
-    <td nowrap><code>context-relay</code></td>
-    <td>Hand off context across targets for long conversations 🧠</t
+    <td nowrap><code>reset-aware</co
 
 ## tools
 

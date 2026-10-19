@@ -27,6 +27,7 @@ All site variants and desktop binaries are built from a single codebase and ship
 |---------|--------|-------|
 | `worldmonitor.app`, `tech.`, `finance.`, `commodity.`, `happy.`, `energy.` | Stable | Public deployments built from this repo, actively maintained |
 | Desktop binaries (Windows / macOS Apple Silicon / macOS Intel / Linux AppImage) | Stable | One Tauri binary for every variant — install World Monitor and switch to tech, finance, commodity, energy, or happy in-app. There is deliberately no per-variant download |
+| `worldmonitor` npm package (terminal dashboard and CLI) | Stable | Published from [`cli/`](cli/) on every `cli-v*` tag |
 
 Issues filed against any of the above are triaged from the same backlog — see the [issues board](https://github.com/koala73/worldmonitor/issues) for currently-open work.
 
@@ -81,7 +82,7 @@ World Monitor is built for agents and scripts as well as browsers:
 - **MCP server** — `https://worldmonitor.app/mcp` (Streamable HTTP). Public `tools/list`; `tools/call` authenticates with a `X-WorldMonitor-Key` header or OAuth.
   The server also publishes its Agent Skills through the draft `io.modelcontextprotocol/skills` extension (`skills/list`, `skills/get`, and `skill://…` resource reads).
 - **REST API** — base `https://api.worldmonitor.app`, described by the [OpenAPI spec](https://worldmonitor.app/openapi.yaml).
-- **CLI** — the official [`worldmonitor`](https://www.npmjs.com/package/worldmonitor) npm package (source in [`cli/`](cli/)):
+- **CLI** — the official [`worldmonitor`](https://www.npmjs.com/package/worldmonitor) npm package (source in [`cli/`](cli/)). Run it with no arguments in a terminal for the [terminal dashboard](https://www.worldmonitor.app/docs/cli-dashboard):
 
   ```sh
   npx worldmonitor tools          # run ad-hoc — list every MCP tool (no key needed)
@@ -118,6 +119,3 @@ npm run build:full       # Production build
 
 ---
 
-## License
-
-**AGPL-3.0-only** for the source code. Commercial use is permitted under the AGPL when you comply with it
