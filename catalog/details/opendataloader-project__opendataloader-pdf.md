@@ -162,25 +162,49 @@ To sanitize sensitive data (emails, URLs, phone numbers → placeholders), enabl
 opendataloader-pdf file1.pdf file2.pdf folder/ --sanitize
 ```
 
-[AI Safety Guide](https://opendataloader.org/docs/ai-safety)
+#### Custom Sanitization Rules
 
-### LangChain Integration
+To use your own rules, give a JSON rules file with `--sanitize-rules` (Python: `sanitize_rules`, Node.js: `sanitizeRules`). This option also turns on `--sanitize`. Only the rules of the file run, in place of the built-in rules.
+
+```json
+{
+  "rules": [
+    { "id": "kr-mobile", "pattern": "(?<!\\d)01[016789]-\\d{3,4}-\\d{4}(?!\\d)", "replacement": "010-0000-0000" }
+  ]
+}
+```
 
 ```bash
-pip install -U langchain-opendataloader-pdf
+opendataloader-pdf file1.pdf folder/ --sanitize-rules rules.json
 ```
 
-```python
-from langchain_opendataloader_pdf import OpenDataLoaderPDFLoader
+To keep the built-in rules, start from [`examples/sanitize-rules/default-rules.json`](examples/sanitize-rules/default-rules.json). It has the built-in rules of `--sanitize`. Copy it, then add, change, or delete rules. If a later release changes the built-in rules, compare your copy with the new template.
 
-loader = OpenDataLoaderPDFLoader(
-    file_path=["file1.pdf", "file2.pdf", "folder/"],
-    format="text"
-)
-documents = loader.load()
-```
+Each rule has three keys:
 
-[LangChain Docs](https://docs.langchain.com/oss/python/integrations/document_loaders/opendataloader_pdf) | [GitHub](https://github.com/opendataloader-project/langchain-opendataloader-pdf) | [PyPI](https://pypi.org/project/langchain-opendataloader-pdf/)
+| Key | Value |
+|-----|-------|
+| `id` | 1 to 64 characters from `a-z`, `0-9`, and `-`. Each ID only once |
+| `pattern` | A Java regular expression, 1 to 5,000 characters |
+| `replacement` | Literal text, 1 to 200 characters, with no control characters (`$1` is not a group reference) |
+
+The run stops before any file is processed if the rules file has one of these problems:
+
+- An unknown or missing key, or a value of the wrong type.
+- A rule ID that is repeated or has a wrong format.
+- A pattern that is empty or does not compile, or a replacement that is empty or has a control character.
+- A value over a limit: a file larger than 1 MiB (1,048,576 bytes), more than 200 rules, or a pattern or replacement that is too long.
+- No rules.
+
+The error gives the reason, and the rule or the key.
+
+How the rules work:
+
+- All rules run on the original text of each line. A match cannot cross a line, and a rule does not see the placeholder of another rule.
+- If two matches overlap, the match that starts first is kept. If they start at the same position, the longer match is kept. If they also have the same length, the match of the earlier rule in the file is kept.
+- Rules apply to the extracted text. They do not apply to image descriptions, formulas, or document metadata such as the title.
+
+> **Warning:** A pattern runs on every text line, with no time limit. Some patterns are very slow, also on a short line. For example, nested repetition with limits such as `(a{1,20}){1,20}$` can take tens of seconds on a line of 31 characters, and the time grows fast with 
 
 ## configuration
 

@@ -62,7 +62,7 @@ Visit [AstrBot Launcher](https://github.com/Raven95676/astrbot-launcher) to down
 
 **More deployment methods**
 
-If you need panel-based management or deeper customization, see [BT-Panel Deployment](https://docs.astrbot.app/deploy/astrbot/btpanel.html) for BT Panel app-store setup, [1Panel Deployment](https://docs.astrbot.app/deploy/astrbot/1panel.html) for 1Panel app-market deployment, [CasaOS Deployment](https://docs.astrbot.app/deploy/astrbot/casaos.html) for NAS/home-server visual deployment, and [Manual Deployment](https://docs.astrbot.app/deploy/astrbot/cli.html) for fully custom source-based installation with `uv`.
+If you need panel-based management or deeper customization, see [BT-Panel Deployment](https://docs.astrbot.app/deploy/astrbot/btpanel.html), [1Panel Deployment](https://docs.astrbot.app/deploy/astrbot/1panel.html), [CasaOS Deployment](https://docs.astrbot.app/deploy/astrbot/casaos.html), or [Source Deployment](https://docs.astrbot.app/deploy/astrbot/cli.html).
 
 
 ## ❤️ Sponsors
@@ -113,7 +113,9 @@ Connect AstrBot to your favorite chat platform.
 | DeepSeek | LLM Services |
 | Ollama (Self-hosted) | LLM Services |
 | LM Studio (Self-hosted) | LLM Services |
-| [MiraRouter](https://mirarouter.com/) | LLM Services (API Gatewa
+| [MiraRouter](https://mirarouter.com/) | LLM Services (API Gateway, supports all models) |
+| [AIHubMix](https://aihubmix.com/?aff=4bfH) | LLM Services (API Gateway, supports all models) |
+| [CompShare](https://www.comps
 
 ## configuration
 

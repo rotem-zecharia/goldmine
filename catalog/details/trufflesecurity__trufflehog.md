@@ -250,6 +250,24 @@ sources:
 You may define multiple connections under the `sources` key (see above), and
 TruffleHog will scan all of the sources concurrently.
 
+To see debug logs for just one source, add `debug: true` to it. That source
+writes all of its debug logs, and every other source keeps the normal log level.
+This is useful when one source out of many is misbehaving:
+
+```yaml
+sources:
+- connection:
+    '@type': type.googleapis.com/sources.GitHub
+    repositories:
+    - https://github.com/trufflesecurity/test_keys.git
+    unauthenticated: {}
+  name: example config scan
+  type: SOURCE_TYPE_GITHUB
+  debug: true
+```
+
+To turn on debug logs for every source, use `--log-level=5` instead.
+
 ## S3
 
 The S3 source supports assuming IAM roles for scanning in addition to IAM users. This makes it easier for users to scan multiple AWS accounts without needing to rely on hardcoded credentials for each account.
@@ -310,6 +328,4 @@ trufflehog s3 --bucket=<bucket-name> --include-extension=tf --include-extension=
 
 Unlike the prefix flags, `--include-extension` and `--exclude-extension` cannot be combined, because naming the extensions to scan already excludes every other one. Using both fails at startup.
 
-Extension matching is case insensitive, so `--exclude-extension=zip` also skips `BACKUP.ZIP`. An object whose key has no extension at all, such as `Makefile`, matches no entry: it is skipped when `--include-extension` is set, and kept when only `--exclude-extension` is set.
 
-Two things to watch when using `--include-extension`. A dotfile counts as all extension, so `.env` has the extension `env` and any include list that leaves out `env` will skip every `.env` file in the bucket. Since `.env` files are a common place for secrets to
