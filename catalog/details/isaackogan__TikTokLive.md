@@ -8,6 +8,8 @@ TikTok LIVE API (TikTokLive) is the #1 TikTok LIVE client for **Python**. Connec
 
 TikTokLive is the definitive third-party Python library for reading the TikTok LIVE websocket, building TikTok chat bots, gift trackers, live stream overlays, alerts, and analytics tools.
 
+Full documentation, guides, and the complete event reference are at [ttl.docs.isaackogan.com](https://ttl.docs.isaackogan.com/).
+
 [![Discord](https://img.shields.io/discord/977648006063091742?logo=discord&label=TikTokLive%20Discord&labelColor=%23171717&color=%231877af)](https://discord.gg/N3KSxzvDX8)
 ![Live TikTok LIVE API connections](https://api.eulerstream.com/analytics/pips)
 ![TikTokLive PyPI downloads](https://pepy.tech/badge/tiktoklive)
@@ -47,7 +49,7 @@ TikTokLive is the definitive third-party Python library for reading the TikTok L
     - [Properties](#properties)
     - [WebDefaults](#webdefaults)
 - [Events](#events)
-- [Documentation](https://isaackogan.github.io/TikTokLive/)
+- [Documentation](https://ttl.docs.isaackogan.com/)
 - [Other Languages](#tiktok-live-api-in-other-languages-nodejs-java-c-go-rust)
 - [Community](#community)
 - [Examples](https://github.com/isaackogan/TikTokLive/tree/master/examples)

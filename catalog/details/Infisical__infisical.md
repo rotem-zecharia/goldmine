@@ -4,30 +4,32 @@ Infisical is the open-source platform for securing secrets, certificates, access
 
 ## features
 
-### Secrets Management:
+### Secrets Management
 
 Centralize your application secrets and configuration across every environment, with versioning, rotation, and leak prevention built in.
 
 - **[Dashboard](https://infisical.com/docs/documentation/platform/project)**: Manage secrets across projects and environments (e.g. development, production, etc.) through a user-friendly interface.
-- **[Secret Syncs](https://infisical.com/docs/integrations/secret-syncs/overview)**: Sync secrets to platforms like [GitHub](https://infisical.com/docs/integrations/cicd/githubactions), [Vercel](https://infisical.com/docs/integrations/secret-syncs/vercel), [AWS](https://infisical.com/docs/integrations/secret-syncs/aws-secrets-manager), and use tools like [Terraform](https://infisical.com/docs/integrations/frameworks/terraform), [Ansible](https://infisical.com/docs/integrations/platforms/ansible), and more.
+- **[Secret Syncs](https://infisical.com/docs/integrations/secret-syncs/overview)**: Sync secrets to platforms like [GitHub](https://infisical.com/docs/integrations/secret-syncs/github), [Vercel](https://infisical.com/docs/integrations/secret-syncs/vercel), [AWS](https://infisical.com/docs/integrations/secret-syncs/aws-secrets-manager), and use tools like [Terraform](https://infisical.com/docs/integrations/frameworks/terraform), [Ansible](https://infisical.com/docs/integrations/platforms/ansible), and more.
 - **[Secret versioning](https://infisical.com/docs/documentation/platform/secret-versioning)** and **[Point-in-Time Recovery](https://infisical.com/docs/documentation/platform/pit-recovery)**: Keep track of every secret and project state; roll back when needed.
 - **[Secret Rotation](https://infisical.com/docs/documentation/platform/secret-rotation/overview)**: Rotate secrets at regular intervals for services like [PostgreSQL](https://infisical.com/docs/documentation/platform/secret-rotation/postgres-credentials), [MySQL](https://infisical.com/docs/documentation/platform/secret-rotation/mysql-credentials), [AWS IAM](https://infisical.com/docs/documentation/platform/secret-rotation/aws-iam-user-secret), and more.
 - **[Dynamic Secrets](https://infisical.com/docs/documentation/platform/dynamic-secrets/overview)**: Generate ephemeral secrets on-demand for services like [PostgreSQL](https://infisical.com/docs/documentation/platform/dynamic-secrets/postgresql), [MySQL](https://infisical.com/docs/documentation/platform/dynamic-secrets/mysql), [RabbitMQ](https://infisical.com/docs/documentation/platform/dynamic-secrets/rabbit-mq), and more.
-- **[Secret Scanning and Leak Prevention](https://infisical.com/docs/cli/scanning-overview)**: Prevent secrets from leaking to git.
+- **[Secret Sharing](https://infisical.com/docs/documentation/platform/secret-sharing)**: Share a secret with anyone through a link that expires after a set time or number of views.
 - **[Infisical Kubernetes Operator](https://infisical.com/docs/documentation/guides/kubernetes-operator)**: Deliver secrets to your Kubernetes workloads and automatically reload deployments.
 - **[Infisical Agent](https://infisical.com/docs/integrations/platforms/infisical-agent)**: Inject secrets into applications without modifying any code logic.
-- **[Honey Tokens](https://infisical.com/docs/documentation/platform/honey-tokens/overview)**: Plant decoy credentials alongside your real secrets that act as tripwires, instantly alerting your team the moment an attacker tries to use them.
-- **[Agent Vault](https://github.com/Infisical/agent-vault)**: Broker AI agent access to external APIs so agents never hold real credentials. Outbound requests route through a proxy that injects secrets before forwarding, eliminating credential exfiltration risk from prompt injection.
+- **[Honey Tokens](https://infisical.com/docs/documentation/platform/honey-tokens/overview)**: Plant decoy credentials alongside your real secrets, and get an alert as soon as someone tries to use them.
+
+### Secret Scanning
+
+Find secrets that were committed to your code, and block commits that add new ones.
+
+- **[Repository Scanning](https://infisical.com/docs/documentation/platform/secret-scanning/scan-repositories)**: Scan the full history of your [GitHub](https://infisical.com/docs/documentation/platform/secret-scanning/github), [GitLab](https://infisical.com/docs/documentation/platform/secret-scanning/gitlab), and [Bitbucket](https://infisical.com/docs/documentation/platform/secret-scanning/bitbucket) repositories and each new push, then review the [findings](https://infisical.com/docs/documentation/platform/secret-scanning/findings) in Infisical.
+- **[Local Scanning](https://infisical.com/docs/documentation/platform/secret-scanning/scan-locally)**: Scan files, directories, and git history from the CLI, and install a [pre-commit hook](https://infisical.com/docs/documentation/platform/secret-scanning/pre-commit-hook) that blocks any commit containing a secret.
 
 ### Certificate Management
 
-Run a complete private PKI: issue, manage, and monitor X.509 certificates from a centralized platform.
+Issue, track, and renew X.509 certificates from internal or external CAs, and sign software artifacts.
 
-- **[Internal CA](https://infisical.com/docs/documentation/platform/pki/ca/private-ca)**: Create and manage a private
-  CA hierarchy directly within Infisical.
-- **[External CA](https://infisical.com/docs/documentation/platform/pki/ca/external-ca)**: Integrate with third-party certificate authorities such as Let’s Encrypt, DigiCert, Microsoft AD CS, and more to leverage existing PKI infrastructure
-  or issue publicly trusted certificates.
-- **[Certificate Lifecycle Management](https://infisical.com/docs/documentation/platform/pki/applications/certificates)**: Create certificate [profiles](https://infisical.com/docs/documentation/platform/pki/settings/profiles) and [policies](https://infisical.com/docs/documentation/platform/pki/settings/policies) to control how certificates are issued, including [enrollment methods](https:/
+- **[Internal CA](https://infisical.com/docs/documentation/platform/pki/ca/private-ca)**: Create and manage a private CA hierarchy
 
 ## installation
 
@@ -55,29 +57,29 @@ git clone https://github.com/Infisical/infisical && cd infisical && copy .env.ex
 
 Once running, create an account at [http://localhost:80](http://localhost:80).
 
-> **Contributing?** Check out our guide to see how to [get started](https://infisical.com/docs/contributing/getting-started).
+> **Contributing?** Check out our guide to see how to [get started](https://infisical.com/docs/contributing/getting-started/overview).
 
 ### Scan and prevent secret leaks
 
-On top of managing secrets with Infisical, you can also [scan for over 140+ secret types](https://infisical.com/docs/cli/scanning-overview) in your files, directories and git repositories.
+With the [Infisical CLI](https://infisical.com/docs/cli/overview), you can [scan for 140+ secret types](https://infisical.com/docs/documentation/platform/secret-scanning/scan-locally) in your files, directories, and git repositories.
 
 To scan your full git history, run:
 
-```
+```console
 infisical scan --verbose
 ```
 
-Install a pre-commit hook to scan each commit before you push to your repository
+To block any commit that contains a secret, install a pre-commit hook:
 
-```
+```console
 infisical scan install --pre-commit-hook
 ```
 
-Learn about Infisical's code scanning feature [here](https://infisical.com/docs/cli/scanning-overview)
+To scan every push to your GitHub, GitLab, and Bitbucket repositories, see [Secret Scanning](https://infisical.com/docs/documentation/platform/secret-scanning/overview).
 
 ## Open-source vs. paid
 
-This repo is available under the [MIT expat license](https://github.com/Infisical/infisical/blob/main/LICENSE), with the exception of the `ee` directory which will contain premium enterprise features requiring a Infisical license.
+This repo is available under the [MIT expat license](https://github.com/Infisical/infisical/blob/main/LICENSE), with the exception of the `ee` directories, which contain premium enterprise features requiring an Infisical license.
 
 If you are interested in managed Infisical Cloud or self-hosted Enterprise Offering, take a look at [our website](https://infisical.com/) or [book a meeting with us](https://infisical.cal.com/vlad/infisical-demo).
 
@@ -91,7 +93,7 @@ Please report any security problems to us before disclosing them publicly. For c
 
 ## Contributing
 
-Whether it's big or small, we love contributions. Check out our guide to see how to [get started](https://infisical.com/docs/contributing/getting-started).
+Whether it's big or small, we love contributions. Check out our guide to see how to [get started](https://infisical.com/docs/contributing/getting-started/overview).
 
 Not sure where to get started? You can:
 
@@ -101,4 +103,4 @@ Not sure where to get started? You can:
 
 If you're reading this, there is a strong chance you like the products we created.
 
-You might also make a great addition to our team. We're growing fast and would love for you to [join us](https://infisical.com/careers).
+You might also make a great addition to our team. We're gro
