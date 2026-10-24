@@ -1,6 +1,6 @@
 # kestra-io/kestra
 
-Event Driven Orchestration & Scheduling Platform for Mission Critical Applications
+Orchestrate everything, everywhere. The open-source control plane for workflows across data, infrastructure, business processes and AI agents. Declarative YAML, event-driven, any language, Git-version
 
 ## installation
 

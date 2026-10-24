@@ -143,10 +143,11 @@ for example `graphify claude install --project` or `graphify codex install --pro
 | Cursor | `graphify cursor install` |
 | Devin CLI | `graphify devin install` |
 | Google Antigravity | `graphify antigravity install` |
+| Google Antigravity (Windows) | `graphify antigravity install` (auto-detected on Windows) |
 
 Codex users also need `multi_agent = true` under `[features]` in `~/.codex/config.toml` for parallel extraction. CodeBuddy uses the same Agent tool and PreToolUse hook mechanism as Claude Code. Factory Droid uses the `Task` tool for parallel subagent dispatch. OpenClaw and Aider use sequential extraction (parallel agent support is still early on those platforms). Trae uses the Agent tool for parallel subagent dispatch and does **not** support `PreToolUse` hooks, so AGENTS.md is the always-on mechanism.
 
-`--platform agents` (alias `--platform skills`) targets the generic cross-framework [Agent-Skills](https://github.com/anthropics/skills) locations: the spec's user-global
+`--platform agents` (alias `--platform skills`) targets the generic cross-fra
 
 ## tools
 
@@ -177,6 +178,16 @@ graphify prs --conflicts           # PRs sharing graph communities: merge-order 
 ```
 
 See the [full command reference](#full-command-reference) below.
+
+---
+
+## Labeling and rendering limits
+
+- **`--batch-size`**: 100 communities per labeling call by default, sized for a ~16k-token context (~150 tokens/community). Use `--batch-size 40` for an 8k window. Context overflow is not split-retried; failed batches keep hub-derived names.
+- **`--missing-only`**: `label --missing-only` keeps existing labels and names only unnamed / `Community N` entries. Use `label` (full relabel) to refresh names after the community set changes.
+- **`.graphify_labels.json.sig`**: records the community membership signature; labels survive a re-cluster only while it matches.
+- **`export html`**: 5,000-node default; above it graphify renders an aggregated community view. Use `--node-limit N`. `GRAPHIFY_VIZ_NODE_LIMIT` / `.graphifyrc` `viz_node_limit=N` apply to `cluster-only`, `update`, `watch`, and hooks, not `export html`.
+- **Leiden fallback**: without the `leiden` extra, clustering silently uses networkx Louvain. Switching later reshuffles every community, so plan a full relabel.
 
 ---
 
