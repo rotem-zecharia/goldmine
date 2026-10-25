@@ -13,6 +13,9 @@ Claude transcribes it with a local Whisper install, attributes speakers where th
 **You screenshot a whiteboard:** `/obsidian-ingest photo.png`
 Claude reads the image, extracts text and structure, creates concept notes, links to related projects. A photo becomes knowledge.
 
+**You have a finished text document:** `/obsidian-ingest report.docx`
+Word (`.docx`, `.doc`) and OpenDocument (`.odt`) files uploaded or copied into the vault follow the same local-source rules as PDFs and Markdown. The helper converts a private copy to a temporary PDF, then ingestion uses the existing PDF path. Text and figures use that path; comments and revision markup are excluded. The original stays unchanged and remains the source under the existing provenance rules. Requires Python 3.10+ and [LibreOffice 26.2+](https://www.libreoffice.org/download/download-libreoffice/), installed separately. Run `python scripts/document_to_pdf.py "path/to/report.docx"`; it prints the PDF path. Put `soffice` on PATH or add `--soffice` with its executable path (Windows: `C:/Program Files/LibreOffice/program/soffice.com`; macOS: `/Applications/LibreOffice.app/Contents/MacOS/soffice`). Remove the generated PDF and its temporary parent folder after capture. No additional Python packages are needed. See [the ingest command](commands/obsidian-ingest.md). Presentation and spreadsheet formats remain outside scope.
+
 **You find a great video:** `/obsidian-ingest https://youtube.com/...`
 Claude doesn't summarize into one note. It REWRITES your existing pages. People get updated. Contradictions get resolved. Patterns trigger new synthesis pages. One URL in. The vault is smarter.
 
@@ -37,24 +40,7 @@ Grok scans X for what's trending in your topic right now. Returns 3-5 emerging t
 Perplexity Sonar Pro pulls a deep dossier with citations: summary, key facts (every claim with a recency marker and source domain), timeline, key players, contrarian views, recommended further reading, open questions. Saved to your vault, auto-opens in Obsidian.
 
 **You want vault-first deep research:** `/research-deep "AI memory tools"`
-Scans your vault for what you already know. Identifies gaps. Spawns 3-5 targeted searches via Perplexity (web) and Grok (X discourse). Synthesizes a delta report: what's new, what's confirmed, contradictions to resolve, recommended vault updates. Vault baseline doesn't get re-researched. Only gaps get filled.
-
-**You hit a great YouTube video:** `/youtube https://youtu.be/...`
-Free transcript via youtube-transcript-api. Optional metadata + top comments via YouTube Data API v3. Gemini (free tier, Grok fallback) summarizes into TL;DR, Key Points, Notable Quotes (verbatim), Themes, Comment Sentiment, and Worth Following Up On. Saved as an AI-first note in your vault. Add `--visual` to also *watch* it: scene-change frame extraction (ffmpeg) that Claude reads with its own vision to capture on-screen text, code, diagrams, and demos the transcript misses.
-
-**You never open Obsidian.** Everything happens through Claude.
-
----
-
-## Before & After
-
-| | Without this skill | With this skill |
-|---|---|---|
-| Saving decisions | Copy-paste or lose them | Auto-saved to the right project note |
-| Daily notes | Write it yourself, forget half the time | Created automatically |
-| Finding patterns | Re-read dozens of notes | `/obsidian-emerge` finds them for you |
-| Challenging yourself | Nobody pushes back | `/obsidian-challenge` uses your own history against you |
-| Session
+Scans your vault for what you already know. Identifies gaps. Spawns 3-5 targeted searches via Perplexity (web) and Grok (X discourse). Synthesizes a delta report: what's new, what's confirmed, contradictions to resolve, recommended vault updates. Vault baselin
 
 ## tools
 
@@ -63,9 +49,10 @@ Free transcript via youtube-transcript-api. Optional metadata + top comments via
 | Command | What it does |
 |---|---|
 | `/obsidian-save` | Saves everything from the conversation -- decisions, tasks, people, ideas |
-| `/obsidian-ingest` | Drop a URL, PDF, audio file, or screenshot. The vault REWRITES itself. 5-15 pages touched per source. |
+| `/obsidian-ingest` | Ingest a URL, file, or resumable folder batch (text, PDFs, `.docx`/`.doc`/`.odt` via LibreOffice, audio, images). The vault REWRITES itself. 5-15 pages touched per source. |
 | `/obsidian-synthesize` | Auto-finds patterns across sources and writes synthesis pages |
 | `/obsidian-reconcile` | Finds contradictions and resolves them. The vault maintains its own truth. |
+| `/obsidian-checkin` | Asks you whether old people and project notes still hold. Shows what each says, re-asks until you answer, saves the news. |
 | `/obsidian-export` | Clean JSON/markdown snapshot any AI tool can read |
 | `/obsidian-daily` | Creates or updates today's daily note |
 | `/obsidian-calendar <mode>` | One calendar command, four modes: `agenda` (read a snapshot), `reconcile` (flag commitments not yet scheduled), `meeting` (event to note), `schedule` (create/move an event from a task or standalone) |
@@ -99,9 +86,7 @@ Free transcript via youtube-transcript-api. Optional metadata + top comments via
 | Command | What it does |
 |---|---|
 | `/obsidian-brainstorm [topic]` | Multi-turn Socratic interview - one question per turn until the idea converges, then a design note with named alternatives |
-| `/obsidian-challenge` | Your vault argues against your idea using your own history |
-| `/obsidian-panel` | Convenes a panel of distinct perspectives on a decision, one verdict each + synthesis |
-| `/obsidian-emerge` | Surface
+| `/obsid
 
 ## features
 

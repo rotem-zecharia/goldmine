@@ -40,7 +40,7 @@ HTTP 200
 
 [Tutorial]
 
-[Documentation] (download [HTML], [PDF], [Markdown]) 
+[Documentation] (download [HTML], [PDF], [Markdown], [EPUB]) 
 
 [GitHub]
 
@@ -109,7 +109,6 @@ HTTP 200
         * [Run options](#run-options)
         * [Report options](#report-options)
         * [Other options](#other-options)
-    * [
 
 ## tools
 

@@ -140,4 +140,5 @@ back at you, and deep reasoning spent on routine steps like reading a file.
 Headroom trims it from the proxy, with no change to your code:
 
 - **Verbosity steering** appends a short "be terse, don't restate context" note to the *end* of the system prompt, so your prompt cache still hits.
-- **Effort routing** dials thinking effor
+
+It applies to Anthropic `/v1/messages` a

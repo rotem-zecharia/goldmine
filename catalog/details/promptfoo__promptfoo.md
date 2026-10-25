@@ -71,7 +71,7 @@ It also can generate [security vulnerability reports](https://www.promptfoo.dev/
 
 We welcome contributions! Check out our [contributing guide](https://www.promptfoo.dev/docs/contributing/) to get started.
 
-Join our [Discord community](https://discord.gg/promptfoo) for help and discussion.
+Join our [Discord community](https://discord.gg/gHPS9jjfbs) for help and discussion.
 
 <a href="https://github.com/promptfoo/promptfoo/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=promptfoo/promptfoo" />
