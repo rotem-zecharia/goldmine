@@ -164,6 +164,8 @@ Set `jjStatus.enabled` to `true` to show jj status, such as `jj:(mybookmark*)` o
 
 Claude Code re-runs the status line after each message, `/compact`, a permission or vim mode change, a rate-limit reset, and a prompt-cache expiry. To keep countdowns and durations ticking while a session is idle, add `refreshInterval` (seconds) to the `statusLine` entry in `~/.claude/settings.json`.
 
+**Windows (Git Bash/MSYS2):** Short intervals, especially with several Claude Code sessions open, can leave Git Bash failing with `add_item ... failed, errno 1`. Leave `refreshInterval` unset, or use 30 seconds or more (longer with several sessions). To recover without rebooting, close every Claude Code session and Git Bash window.
+
 ### Turning It Off for a Session
 
 ```bash
@@ -174,7 +176,7 @@ Any value other than `0`, `false`, `off`, or `no` blanks the HUD for that sessio
 
 ## Security
 
-Claude HUD is local-only. It makes no network requests, never reads credentials, and calls no undocumented APIs. It reads Claude Code's stdin, the session transcript, Claude configuration files, and git or jj metadata for the current directory. Its only writes are small state files (output speed and the cost ledger) under `~/.claude/plugins/claude-hud`, with private permissions
+Claude HUD is local-only. It makes no network
 
 ## requirements
 

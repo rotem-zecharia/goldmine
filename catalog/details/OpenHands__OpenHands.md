@@ -52,7 +52,7 @@ docker run -it --rm \
   -e AGENT_CANVAS_ALLOW_LAN_SESSION_KEY=true \
   -v "$HOME/.openhands:/home/openhands/.openhands" \
   -v "${PROJECTS_PATH}:/projects" \
-  ghcr.io/openhands/agent-canvas:1.29.0 # x-release-please-version
+  ghcr.io/openhands/agent-canvas:1.33.0 # x-release-please-version
 ```
 
 **Windows (PowerShell / Windows Terminal):** See [README.windows.md](./README.windows.md) for the equivalent commands.
@@ -81,15 +81,8 @@ This setting isolates conversation execution; it does not move the entire Canvas
 > [!WARNING]
 > This runs the agent-server directly on the machine you're installing on — the agent will have full access to your filesystem!
 
-**Prerequisites**: [Node.js](https://nodejs.org/) 24 or later, `npm`, `uv` (for running the agent server via `uvx`)
+**Prerequisites**: [Node.js](https://nodejs.org/) 24 or later, npm 11.12.1 (the repository pin), `uv` (for running the agent server via `uvx`)
 
-```sh
-git clone https://github.com/OpenHands/OpenHands.git
-cd OpenHands
-npm install
-npm run dev
-```
-
----
-
-Access the UI at [http://localhost:8000](http://localhost:8000) for the npm/source launchers, or [http://local
+Check `npm --version` before resolving dependencies. The seven-day release-age
+filter (`npm install --min-release-age=7`) requires npm >=11.10; older versions
+do not enforce it. Use `npm ci

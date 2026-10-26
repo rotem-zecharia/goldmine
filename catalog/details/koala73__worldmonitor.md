@@ -87,6 +87,7 @@ World Monitor is built for agents and scripts as well as browsers:
   ```sh
   npx worldmonitor tools          # run ad-hoc — list every MCP tool (no key needed)
   npm install -g worldmonitor     # or install the `worldmonitor` (alias `wm`) command
+  brew install worldmonitor       # or install it with Homebrew
   worldmonitor risk IR --api-key wm_xxx
   ```
 
@@ -113,9 +114,4 @@ WorldMonitor aggregates attributed upstream sources across geopolitics, finance,
 Contributions welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ```bash
-npm run typecheck        # Type checking
-npm run build:full       # Production build
-```
-
----
-
+npm run typecheck        # Typ
