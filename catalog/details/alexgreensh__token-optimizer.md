@@ -50,7 +50,7 @@ See [`openclaw/README.md`](openclaw/README.md).
 git clone https://github.com/alexgreensh/token-optimizer.git
 token-optimizer/install.sh --hermes
 ```
-See [`hermes/README.md`](hermes/README.md).
+Terminal output compression, cheaper re-reads, loop warnings, checkpoints that survive compaction, prior-session hints, and the dashboard, through Hermes's own plugin hooks. See [`hermes/README.md`](hermes/README.md).
 
 **Pi Coding Agent:**
 ```bash
@@ -95,12 +95,7 @@ See [`docs/grok.md`](docs/grok.md).
 tmp="$(mktemp -d)"
 release_json="$(curl -fsSL https://api.github.com/repos/alexgreensh/token-optimizer/releases/latest)"
 tag="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["tag_name"])' <<<"$release_json")"
-git clone --branch "$tag" --depth 1 https://github.com/alexgreensh/token-optimizer.git ~/.claude/token-optimizer
-bash ~/.claude/token-optimizer/install.sh
-rm -rf "$tmp"
-```
-
-**Windows users:** 
+git clone --branch 
 
 ## tools
 

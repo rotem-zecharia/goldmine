@@ -25,6 +25,8 @@ Click the Star and Watch buttons in the top-right corner of the repository to ge
 
 ## installation
 
+Official plugin source index: [plugins/README.md](plugins/README.md) · [machine-readable catalog](plugins/catalog.json) · [independent plugin releases](plugins/RELEASING.md). Plugins are installed separately and are not bundled in Core releases.
+
 ### ☁️ LangBot Cloud (Recommended)
 
 [![Deploy on LangBot Cloud](res/langbot-cloud.svg)](https://space.langbot.app/cloud)
@@ -95,6 +97,4 @@ docker compose --profile all up -d
 | [Dify](https://dify.ai)                                                                                           | LLMOps       | ✅     |
 | [MCP](https://modelcontextprotocol.io/)                                                                           | Protocol     | ✅     |
 | [SiliconFlow](https://siliconflow.cn/)                                                                            | Gateway      | ✅     |
-| [Aliyun Bailian](https://bailian.console.aliyun.com/)                                                             | Gateway      | ✅     |
-| [Volc Engine Ark](https://console.volcengine.com/ark/region:ark+cn-beijing/model?vendor=Bytedance&view=LIST_VIEW) | Gateway      | ✅     |
-| [ModelScope](https://modelscope.cn/docs/model-se
+| [Aliyun Bailian](https://bailian.console.aliyun.com/)                              

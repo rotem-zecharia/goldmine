@@ -121,7 +121,10 @@ _Or via a package manager:_
 
 ```bash
 # macOS (Homebrew)
+# Always use the full name; bare `orca` is an unrelated Plotly cask.
 brew install --cask stablyai/orca/orca
+# Upgrade an existing install
+brew upgrade --cask stablyai/orca/orca
 
 # Arch Linux (AUR) — or stably-orca-git to build from source
 yay -S stably-orca-bin
@@ -167,7 +170,7 @@ The relay that pairs the mobile app with a desktop host is also in this reposito
 
 ## Signed Builds
 
-Windows code signing sponored/provided by [SignPath.io](https://signpath.io), certificate by [SignPath Foundation](https://signpath.org).
+Windows code signing sponsored/provided by [SignPath.io](https://signpath.io), certificate by [SignPath Foundation](https://signpath.org).
 
 ## License
 

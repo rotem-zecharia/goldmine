@@ -6,50 +6,49 @@ DeepTutor: Lifelong Personalized Tutoring. https://deeptutor.info/.
 
 DeepTutor is an agent-native learning workspace that connects tutoring, problem solving, quiz generation, research, visualization, and mastery practice in one extensible system.
 
-- **One runtime for every mode** — Chat, Quiz, Research, Visualize, Solve, Mastery Path, and Immersive Reading run on the same agent loop, so you switch the objective, not the engine, and context moves with the learner.
-- **Connected learning context** — Knowledge bases, books, Co-Writer drafts, notebooks, question banks, personas, and Memory stay available across every workflow instead of living in isolated tools.
-- **Subagents and Partners** — consult a live coding CLI (Claude Code, Codex, Gemini, Kimi, opencode, or MiMo) or a Partner from any turn (or import their past conversations), and run persistent IM companions on the same brain.
-- **Multi-engine knowledge** — versioned RAG libraries across LlamaIndex, PageIndex, GraphRAG, LightRAG, a remote LightRAG Server, a Tencent IMA or MarginNote 4 library, or a linked Obsidian vault, with pluggable document parsing.
+- **One runtime for every mode** — Chat, Ask Questions, Quiz, Research, Visualize, Solve, Course Study, Mastery Path, Immersive Reading, and Audio Overview share one capability runtime and session context while keeping purpose-built loops and pipelines.
+- **Task Board** — Track study tasks in To do, In progress, and Done, with notes, drag-and-drop or keyboard-accessible move buttons, and an archive you can restore from. Cards stay in the current workspace and follow the existing appearance and language settings; no model configuration is required.
+- **Connected learning context** — Knowledge bases, books, Co-Writer drafts, notebooks, question banks, personas, and Memory can be reused across the workflows that support them, subject to account grants and learning policies.
+- **Immersive video learning** — add YouTube or Bilibili links to Reading for native playback, transcript search, timestamp-grounded tutoring, saved notes, and resumable progress; YouTube captions and browsing can use an administrator-configured Invidious instance.
+- **Subagents and Partners** — from Chat, consult a live agent harness (Claude Code, Codex, Grok CLI, Antigravity, Kimi, opencode, MiMo, Hermes, OpenClaw, or DeepSeek) or a Partner, import past conversations, and run persistent IM companions on the same brain.
+- **Multi-engine knowledge** — versioned RAG libraries across LlamaIndex, PageIndex, GraphRAG, LightRAG, a remote LightRAG Server, a self-hosted WeKnora knowledge base, a Tencent IMA or MarginNote 4 library, a connected Kiwix ZIM archive, or a linked Obsidian vault, with pluggable document parsing. See [native LightRAG role models](deeptutor/services/rag/pipelines/lightrag/README.md) for independent extraction, query and vision settings, default-only creation and confirmed rebuilds.
 - **Extensible tools and skills** — built-in tools, MCP servers, CLI apps, image / video / voice generation models, and installable community skills from EduHub.
-- **Inspectable memory** — L1 traces, L2 surface summaries, and L3 synthesis make personalization visible and editable, with a Memory Graph that traces every claim back to its evidence.
+- **Inspectable memory** — L1 traces, L2 surface summaries, and L3 synthesis make personalization visible and editable; the Memory Graph links L2 facts to L1 evidence and L3 synthesis to contributing surfaces.
 
 ---
 
 ## 🚀 Get Started
 
-DeepTutor ships four installation paths. They all share one workspace layout: settings live in `data/user/settings/` under the directory you launch from (or under `DEEPTUTOR_HOME` / `deeptutor start --home` if you set one explicitly). For the full app, the recommended flow is **pick a workspace directory → install → `deeptutor init` → `deeptutor start`**.
+### Let Your Agent Set Up DeepTutor
 
-<details>
-<summary><b>Option 1 — Install From PyPI</b> · full local Web app + CLI, no clone required</summary>
+Copy this prompt into your terminal-capable AI agent (such as Codex or Claude Code):
 
-Full local Web app + CLI, no clone required. Needs **Python 3.11–3.13** and a **Node.js 20+** runtime on PATH (the packaged Next.js standalone server is spawned by `deeptutor start`).
-
-```bash
-mkdir -p my-deeptutor && cd my-deeptutor
-pip install -U deeptutor
-deeptutor init     # prompts for ports + LLM provider + optional embedding
-deeptutor start    # starts backend + frontend; keep the terminal open
+```text
+Help me install and configure DeepTutor locally from https://github.com/HKUDS/DeepTutor.
+Clone the repository, or reuse my existing checkout, and read SKILL.md and
+docs-for-user/AGENT_SETUP.md first. Follow that guide to prepare the environment,
+configure my model provider, verify the setup, and start the Web app.
+Ask me for any missing provider, model, or credential-source information;
+do not print API keys. Preserve my existing files and settings, and finish
+with the access URL and the results of your checks.
 ```
 
-`deeptutor init` prompts for backend port (default `8001`), frontend port (default `3782`), LLM provider / base URL / API key / model, and an optional embedding provider for Knowledge Base / RAG.
+The [Agent Setup guide](docs-for-user/AGENT_SETUP.md) covers the full flow, including non-interactive CLI configuration. To install it yourself, choose one of the paths below.
 
-After `deeptutor start`, open the frontend URL printed in the terminal — by default [http://127.0.0.1:3782](http://127.0.0.1:3782). Press `Ctrl+C` in that terminal to stop both backend and frontend. Skipping `deeptutor init` is fine for a quick trial; the app boots with default ports and empty model settings, configure them later in **Settings → Models**.
+DeepTutor ships four installation paths. They all share one runtime-home layout: private settings live in `data/user/settings/` under the directory you launch from (or under `DEEPTUTOR_HOME` / `deeptutor start --home` if you set one explicitly). For the full app, the recommended flow is **pick a runtime-home directory → install → `deeptutor init` → `deeptutor start`**.
 
-</details>
+### One-Command Docker Trial
 
-<details>
-<summary><b>Option 2 — Install From Source</b> · develop against a checkout</summary>
-
-For development against a checkout. Use **Python 3.11–3.13** and **Node.js 22 LTS** to match CI and Docker.
+If Docker is not installed yet, [install Docker](https://docs.docker.com/get-docker/) first. Then try the full app without setting up Python or Node.js:
 
 ```bash
-git clone https://github.com/HKUDS/DeepTutor.git
-cd DeepTutor
+docker run --rm --name deeptutor \
+  -p 127.0.0.1:3782:3782 \
+  -v deeptutor-data:/app/data \
+  ghcr.io/hkuds/deeptutor:latest
+```
 
-# Create a venv (macOS/Linux). Windows PowerShell:
-#   py -3.11 -m venv .venv ; .\.venv\Scripts\Activate.ps1
-python3 -m venv .venv && source .venv/bin/activate
-python -m pip install --upgrade pip
+Open [http://127.0.0.1:3782](http://127.0.0.1:3782), configure model providers in **Settings → Provid
 
 ## installation
 
@@ -74,11 +73,14 @@ python -m pip install --upgrade pip
 </details>
 
 <details>
-<summary><b>Optional install extras</b> — dev / partners / matrix / math-animator</summary>
+<summary><b>Optional install extras</b> — RAG engines / dev / partners / matrix / math-animator</summary>
 
 ```bash
+pip install -e ".[rag-lightrag]"    # Built-in LightRAG engine (exact supported SDK)
+pip install -e ".[graphrag]"        # Microsoft GraphRAG engine (Python 3.11–3.13)
 pip install -e ".[dev]"             # tests/lint tools
-pip install -e ".[partners]"        # Partner IM channel SDKs + MCP client
+pip install -e ".[partners]"        # Partner IM channel SDKs
+pip install -e ".[video-learning]"  # compatibility extra; captions ship in the full/CLI installs
 pip install -e ".[matrix]"          # Matrix channel without E2EE/libolm
 pip install -e ".[matrix-e2e]"      # Matrix E2EE; requires libolm
 pip install -e ".[math-animator]"   # Manim addon; requires LaTeX/ffmpeg/system libs
@@ -107,10 +109,10 @@ deeptutor start --dev
 
 One container for the full Web app. Images on GitHub Container Registry:
 
-- `ghcr.io/hkuds/deeptutor:latest` — stable release
-- `ghcr.io/hkuds/deeptutor:pre` — pre-release, when available
+- `ghcr.io/hkuds/deeptutor:latest` — latest stable release
+- `ghcr.io/hkuds/deeptutor:<version>` — exact release without the leading `v` (for example `:1.6.3`); pre-releases receive only their version tag
 
-> See [CONTAINERIZATION.md](./CONTAINERIZATION.md) for podman/rootless/read-only-rootfs deployments and the full per-installation guide.
+> See [CONTAINERIZATION.md](./docs-for-user/CONTAINERIZATION.md) for podman/rootless/read-only-rootfs deployments and the full per-installation guide.
 
 ```bash
 docker run --rm --name deeptutor \
@@ -119,30 +121,28 @@ docker run --rm --name deeptutor \
   ghcr.io/hkuds/deeptutor:latest
 ```
 
-> **Only `3782` needs to be published.** The browser talks exclusively to the frontend origin; the Next.js middleware (`web/proxy.ts`) forwards `/api/*` and `/ws/*` to the FastAPI backend **inside the container**. Publishing `8001` (`-p 127.0.0.1:8001:8001`) is optional — handy only for hitting the API directly with curl or scripts.
+To choose a host content folder at container startup, mount it at the stable
+container path and lock DeepTutor to that path:
 
-Open [http://127.0.0.1:3782](http://127.0.0.1:3782). The container creates `/app/data/user/settings/*.json` on first boot; configure model providers from the Web Settings page. Config, API keys, logs, workspace files, memory, and knowledge bases persist in the `deeptutor-data` volume.
-
-- **Different host ports:** change the left side of each `-p host:container` mapping (e.g. `-p 127.0.0.1:8088:3782`). If you change container-side ports in `/app/data/user/settings/system.json`, restart and update the right side of each mapping to match.
-- **Detached:** add `-d`, then `docker logs -f deeptutor` to follow, `docker stop deeptutor` to stop, `docker rm deeptutor` before reusing the name. The `deeptutor-data` volume keeps your settings and workspace across restarts.
-
-**Remote Docker / reverse proxy:** the browser only talks to the frontend
-origin (`:3782`); the in-container Next.js middleware forwards `/api/*` and
-`/ws/*` to the backend server-side. For the common single-container case you
-don't configure an API base at all — just point your reverse proxy / TLS
-terminator at `:3782`. You only need an API base for a **split deployment**
-(backend in a separate container/host): set `next_public_api_base` in
-`data/user/settings/system.json` to the in-network address the frontend server
-uses to reach the backend (it's read server-side, never sent to the browser).
-
-```json
-{
-  "next_public_api_base": "http://backend:8001"
-}
+```bash
+mkdir -p "$PWD/deeptutor-workspace/outputs"
+docker run --rm --name deeptutor \
+  -p 127.0.0.1:3782:3782 \
+  -v deeptutor-data:/app/data \
+  -v "$PWD/deeptutor-workspace:/workspace" \
+  -e DEEPTUTOR_WORKSPACE_ROOT=/workspace \
+  -e DEEPTUTOR_WORKSPACE_ALLOWED_ROOTS=/workspace \
+  ghcr.io/hkuds/deeptutor:latest
 ```
 
-`next_public_api_base_external` (and its alias `public_api_base`) are accepted as
-lower-precedence fallbacks. COR
+For Compose, set `DEEPTUTOR_WORKSPACE_HOST=/absolute/host/folder` before
+running `python scripts/docker_compose.py up -d`. When omitted it uses
+`./data/user/workspace`. Docker paths are selected at startup and therefore
+appear locked in the Web settings page.
+
+> **Only `3782` needs to be published.** The browser talks exclusively to the frontend origin; the Next.js middleware (`web/proxy.ts`) forwards `/api/*` and `/ws/*` to the FastAPI backend **inside the container**. Publishing `8001` (`-p 127.0.0.1:8001:8001`) is optional — handy only for hitting the API directly with curl or scripts.
+
+Open [http://127.0.0.1:3782](http://127.0.0.1:3782). The container creates `/app/data/user/settings/*.json` on first boot; configure model providers from the Web Settings page. Config, API keys, logs, the default Content Workspace, memory, and knowledge bases persist in the `deeptutor-data` volume. A separately mounted Content Workspace persists at its host path instead. Optional extras belong on the deployment, not in a shell: set `DEEPTUTOR_EXTRAS` (and `DEEPTUTOR
 
 ## limitations
 
@@ -177,3 +177,23 @@ Licensed under the [Apache License 2.0](LICENSE).
 </p>
 
 </div>
+
+### Mastery turn grounding
+
+Mastery turns read the active path's status before the first model request, using
+the same status tool and mastery gates as an explicit tool call. This snapshot is
+fresh for each turn, includes the active session mode, and is never cached across
+turns. A failed read falls back to `mastery_status`; after changing the path, mode,
+outline, or progress, the tutor can refresh through that tool. Card grading and
+its existing handoff remain unchanged.
+
+### Repeated image attachments
+
+The agent loop sends identical inline user images once per request and replaces later
+copies with references to the retained image. Stable request-only labels identify
+the retained inline images across provider translations and appended turns. Unique
+image blocks, remote URLs, differing
+image options, assistant messages, and tool results remain complete. Saved history
+keeps every original attachment; references are rebuilt after history is trimmed.
+This reduces repeated image payloads, but provider-reported usage remains the
+source of truth for billing and cache hits.
