@@ -102,6 +102,23 @@ skillspector scan ./my-skill/ --format markdown --output report.md
 skillspector scan ./my-skill/ --format sarif --output report.sarif
 ```
 
+### Recursive Collection Scanning
+
+`--recursive` scans immediate subdirectories containing `SKILL.md` as independent
+skills, with a default aggregate limit of **32 skills**. To raise or lower it:
+
+```bash
+skillspector scan ./my-skills/ --recursive --max-skills 100 --no-llm --format json
+```
+
+`--max-skills` requires a local recursive collection and a positive integer; `0`
+does not mean unlimited. Discovery, byte, finding-record, time and report-size
+budgets still apply, so increasing the count does not guarantee complete coverage.
+When the count limit is reached, the CLI names the limit and suggests adjusting it
+or scanning sub-skills separately. Omitted skills remain visible in the aggregate
+report and coverage stays incomplete. Use `--fail-on-incomplete` in CI to fail on
+incomplete coverage; the default exit policy is unchanged.
+
 ### Batch Scanning
 
 Scan entire directories of skills in parallel from `contrib/batch_scan/`:
@@ -138,21 +155,7 @@ later scan against that generated local report:
 ```bash
 skillspector scan registry-before.json --mcp-registry --format json --output previous.json
 skillspector scan registry-after.json --mcp-registry --format json \
-  --mcp-registry-compare previous.json --output compared.json
-```
-
-The optional `comparison` object lists added and removed server identities,
-changed normalized fields with their previous and current values, and an
-`unchanged_count`. Identity is the server name and version, so a new version
-appears as an addition and the old version as a removal if it is absent from the
-new scan. Acquisition source and scan timestamp are excluded from comparison.
-`unmodeled_changes` lists same-identity records whose raw-record hash changed
-while normalized fields match; these are not counted as unchanged. This can
-indicate a change to fields outside the snapshot model, or array reordering in
-the raw record. Package and remote ordering alone is not a normalized field change.
-Entries in `changed` may also contain changes outside the snapshot model; inspect
-the raw record to see those changes.
-Com
+  --mcp-registry-compare previous.json --output 
 
 ## requirements
 

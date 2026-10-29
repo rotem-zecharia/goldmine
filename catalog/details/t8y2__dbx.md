@@ -340,6 +340,8 @@ make package
 
 The installer will be in `src-tauri/target/release/bundle/`.
 
+`pnpm build` explicitly removes the previous root `dist/` directory before running Vite, so desktop packaging starts with fresh frontend output.
+
 ## Tech Stack
 
 | Layer     | Technology                                                                                                                                                                                                       |
@@ -348,8 +350,4 @@ The installer will be in `src-tauri/target/release/bundle/`.
 | Frontend  | [Vue 3](https://vuejs.org/) + TypeScript                                                                                                                                                                         |
 | UI        | [shadcn-vue](https://www.shadcn-vue.com/) + Tailwind CSS                                                                                                                                                         |
 | Editor    | [CodeMirror 6](https://codemirror.net/)                                                                                                                                                                          |
-| Backend   | Rust + [sqlx](https://github.com/launchbadge/sqlx) / [tiberius](https://github.com/prisma/tiberius) / [redis-rs](https://github.com/redis-rs/redis-rs) / [mongodb](https://github.com/mongodb/mongo-rust-driver) |
-
-## Documentation
-
-- [Off
+| Backend   | Rust + [sqlx](https://github.com/launchbadge/sqlx) / [tiberius](https://github.com/prisma/

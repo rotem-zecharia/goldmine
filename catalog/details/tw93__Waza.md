@@ -39,6 +39,8 @@ You decide how skills chain together. Each skill stops at the requested outcome;
 - **Ship a fix**: `/hunt` to find the root cause, fix it, then `/check` to review the changes and, when needed, handle release, publish, push, and issue follow-through
 - **Research and write**: `/read` to fetch sources, `/learn` to synthesize, `/write` to polish
 
+The stages a task moves through, and the rules each one holds, are in the [AI coding rules](https://github.com/tw93/Waza/blob/main/docs/ai-coding-rules.md).
+
 ## Project Context
 
 Waza ships only generic engineering habits. `/check` becomes project-aware at runtime by reading the target repository's public context (READMEs, package manifests, Makefiles, CI workflows) and your task constraints, never private paths, credentials, or tokens. See [`skills/check/references/project-context.md`](skills/check/references/project-context.md) for the review context template.
@@ -84,6 +86,4 @@ Optional rules apply beyond skill invocations when installed into your agent's p
 (
   set -e
   WAZA_RULE_SCRIPT="$(mktemp -t waza-rule.XXXXXX)"
-  trap 'rm -f "$WAZA_RULE_SCRIPT"' EXIT
-  curl -fL https://github.com/tw93/Waza/releases/latest/download/setup-rule.sh -o "$WAZA_RULE_SCRIPT"
-  # review it first: le
+  trap 

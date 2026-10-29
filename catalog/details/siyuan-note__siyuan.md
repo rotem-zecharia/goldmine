@@ -126,6 +126,8 @@ Use the following parameters when running the container with `docker run b3log/s
 
 More parameters can be found using `--help`. Here’s an example of a startup command with the new environment variables:
 
+First set `AuthCode` to your own strong password (use `export AuthCode='your-strong-password'` in Bash; Compose can also read a `.env` file in the same directory). The example stops with an error if the value is unset or empty.
+
 ```bash
 docker run -d \
   -v workspace_dir_host:workspace_dir_container \
@@ -134,7 +136,7 @@ docker run -d \
   b3log/siyuan \
   serve \
   --workspace=workspace_dir_container \
-  --accessAuthCode=xxx
+  --accessAuthCode="${AuthCode:?Set AuthCode}"
 ```
 
 - `PUID`: Custom user ID (optional, defaults to `1000` if not provided)
@@ -145,7 +147,7 @@ docker run -d \
 - `accessAuthCode`: Lock screen password (please **be sure to modify**, otherwise anyone can access your data)
   - Alternatively, it's possible to set the lock screen password via the `SIYUAN_ACCESS_AUTH_CODE` env variable. The commandline will always have the priority, if both are set
   - To disable the lock screen password set the env variable `SIYUAN_ACCESS_AUTH_CODE_BYPASS=true`
-- OIDC can replace the lock screen password as the required Docker access authentication. Set `SIYUAN_OIDC_ENABLED=true`, `SIYUAN_OIDC_PROVIDER` (`custom`, `google`, `microsoft`, or `github`), `SIYUAN_OIDC_CLIENT_ID`, and the provider-specific values below. GitHub uses its OAuth 2.0 user API adapter; the other providers use OpenID Connect discovery and ID Token validation. An inv
+- OIDC can replace the lock screen password as the required Docker access authentication. Set `SIYUAN_OIDC_ENABLED=true`, `SIYUAN
 
 ## tools
 

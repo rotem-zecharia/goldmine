@@ -167,12 +167,10 @@ By using this software, and in particular any AI / LLM features, you personally 
 
 ## Third-party licenses
 
-changedetectionio.html_tools.elementpath_tostring: Copyright (c), 2018-2021, SISSA (Scuola Internazionale Superiore di Studi Avanzati), Licensed under [MIT license](https://github.com/sissaschool/elementpath/blob/master/LICENSE)
+See [docs/THIRD-PARTY-LICENSES.md](docs/THIRD-PARTY-LICENSES.md) for every bundled package and its licence, and [NOTICE](NOTICE) for attribution and licence elections.
 
 ## Contributors
 
-Recognition of fantastic contributors to the project
-
-<sub>Developer note: see [translation guide](changedetectionio/translations/README.md) for i18n template patterns and workflow.</sub>
-
-- Constantin Hong https://github.com/Constantin1489
+<a href="https://github.com/dgtlmoon/changedetection.io/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dgtlmoon/changedetection.io&max=300&columns=20" alt="changedetection.io contributors" />
+</a>
