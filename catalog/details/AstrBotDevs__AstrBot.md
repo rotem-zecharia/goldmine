@@ -114,8 +114,8 @@ Connect AstrBot to your favorite chat platform.
 | Ollama (Self-hosted) | LLM Services |
 | LM Studio (Self-hosted) | LLM Services |
 | [MiraRouter](https://mirarouter.com/) | LLM Services (API Gateway, supports all models) |
-| [AIHubMix](https://aihubmix.com/?aff=4bfH) | LLM Services (API Gateway, supports all models) |
-| [CompShare](https://www.comps
+| [ShengSuanYun](https://www.shengsuanyun.com/?from=CH_T70U2X9L) | LLM Services |
+| [AIHubMix](https://aihubmix.com/?aff=4bfH) |
 
 ## configuration
 

@@ -4,7 +4,7 @@ Build voice agents with open-source models
 
 ## installation
 
-Use Python 3.10+ (3.11 recommended):
+Use CPython 3.11–3.14 (3.11 recommended):
 
 ```bash
 python3 -m venv .venv
@@ -15,7 +15,43 @@ speech-to-speech local
 
 Then talk: speak, pause, and the assistant answers through your speakers. Stop with `Ctrl+C`. The first run downloads the models, so give it a few minutes. Use headphones so the assistant does not hear itself, or add `--local_audio_block_mic_during_playback`.
 
+By default, `local` and `talk` show final user transcripts and streaming assistant
+replies once, hiding backend transcript copies, routine logs, tool details, and protocol
+events. User messages are yellow and assistant replies are green in a color-capable
+terminal. Startup shows `Loading models…`, followed by `Ready — start speaking.` once
+the audio devices are running and the session is configured. Routine model-loading
+output is hidden; startup failures show their diagnostics. Runtime warnings and errors
+remain visible.
+
+For diagnostic output, add `--verbose`:
+
+```bash
+speech-to-speech local --verbose
+```
+
+Use `--verbose --log_level debug` for more detailed local logs. Raw event output
+(`local --local_audio_print_json` or `talk --print-json`) also enables diagnostic output.
+
 On Ubuntu, first install the audio libraries with `sudo apt-get install libportaudio2 libsndfile1`. The default Linux Qwen3-TTS wheel targets CUDA 12.8 and Ubuntu 24.04; see the [CUDA note](#cuda-note-for-qwen3-tts) for other systems. On Windows, activate the environment with `.venv\Scripts\Activate.ps1`.
+
+The default installation has the following CI coverage:
+
+| Platform | Supported CPython versions | Checks |
+|---|---|---|
+| Linux | 3.11, 3.12, 3.13, 3.14 | Full test suite and installed package smoke test |
+| Apple Silicon macOS | 3.11, 3.12, 3.13, 3.14 | Installed package smoke test |
+
+Optional model backends can have narrower Python requirements. Windows is not
+covered by this compatibility matrix. Python 3.10 is no longer supported following
+its end of life on October 1, 2026.
+
+Kokoro is optional on every platform. On macOS, its Misaki dependency requires
+Python <3.13, so use Python 3.11 or 3.12 with `speech-to-speech[kokoro]`.
+The default Qwen3-TTS backend does not require Misaki. Python 3.15 is not yet
+supported on any platform: ONNX Runtime lacks CPython 3.15 wheels, and the pinned macOS PyTorch
+release also lacks them. Newer Python versions will be added after the default
+dependencies and CI checks pass; the package's `requires-python` lower bound does
+not promise compatibility with future Python releases.
 
 The command picks local models for your platform:
 
@@ -49,46 +85,7 @@ It listens at `ws://127.0.0.1:8765/v1/realtime`. Connect with:
 * [Installation](#installation)
 * [YAML configuration API](./docs/configuration.md)
 * [Offline operation](#offline-operation)
-* [Supported components](#supported-components)
-* [Commands](#commands)
-* [Realtime API](#realtime-api)
-* [LLM backends](#llm-backends)
-* [Multi-language support](#multi-language-support)
-* [OmniVoice](#omnivoice)
-* [Pocket TTS](#pocket-tts)
-* [CLI reference](#cli-reference)
-* [Contributing](#contributing)
-* [Star history](#star-history)
-* [Citations](#citations)
-
-## How it works
-
-The pipeline is a cascade of four components, each running in its own thread and connected by queues:
-
-1. **Voice Activity Detection (VAD)**: [Silero VAD v5](https://github.com/snakers4/silero-vad) detects speech boundaries and turn-taking.
-2. **Speech to Text (STT)**: transcribes the user's turn, with optional live partial transcripts.
-3. **Language Model (LLM)**: generates the response, streaming text and tool calls.
-4. **Text to Speech (TTS)**: synthesizes audio and streams it back to the client.
-
-Every stage has multiple interchangeable backends, selected via CLI flags. The code is designed for easy modification, with a focus on models available through Transformers and the Hugging Face Hub.
-
-Optional speech-to-viseme extraction adds timed mouth shapes for avatar and robot
-clients after TTS. Enable it with `--enable_visemes`; see the
-[viseme guide](src/speech_to_speech/STV/README.md) for client events and timing.
-
-## Installation
-
-`pip install speech-to-speech` (see the [Quickstart](#quickstart)) includes everything the default pipeline needs:
-
-- Silero VAD and Parakeet TDT for listening
-- Qwen3.5-4B for replies: MLX LM on macOS, Transformers elsewhere
-- Qwen3-TTS for speech: `mlx-audio` on Apple Silicon, GGML elsewhere
-- the local audio client and the Realtime server
-
-Platform-specific dependencies are resolved automatically.
-
-See the [configuration guide](./docs/configuration.md) for reusable blocks,
-named pipelines, environment references, and explic
+* [Supported components](#supported-compo
 
 ## tools
 
@@ -121,7 +118,7 @@ The packaged client can opt in to local Python tools with `talk --tool-module <m
 
 On macOS, `local` and `serve` already run all three models through MLX. The optional `--mac-optimal-settings` preset also makes MPS the default device for supported components. It only sets defaults: explicit `--device`, component-device flags such as `--qwen3_tts_device`, and `--stt`, `--llm_backend`, `--model_name`, and `--tts` all win.
 
-`--tts pocket`, `--tts kokoro`, `--tts omnivoice`, and `--tts kitten` are also valid on macOS.
+`--tts pocket`, `--tts phonon`, `--tts kokoro`, `--tts omnivoice`, and `--tts kitten` are also valid on macOS.
 
 To compare the MLX quantization variants locally:
 
@@ -169,4 +166,4 @@ with client.realtime.connect(model="local") as conn:
                 "instructions": "You are a helpful assistant.",
                 "audio": {
                     "input": {
-                        "tur
+            

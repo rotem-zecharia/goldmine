@@ -20,17 +20,18 @@ Install and Run Python Applications in Isolated Environments
 
 **Source Code**: <https://github.com/pypa/pipx>
 
-_For comparison to other tools including pipsi, see
+_For comparison to other tools including [pipsi](https://github.com/mitsuhiko/pipsi), see
 [Comparison to Other Tools](https://pipx.pypa.io/stable/explanation/comparisons.html)._
 
 ## features
 
-pipx is a tool to help you install and run end-user applications written in Python. It's roughly similar to macOS's
-`brew`, JavaScript's [npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b), and
-Linux's `apt`.
+pipx installs and runs end-user applications written in Python. It's roughly similar to macOS's [brew](https://brew.sh),
+JavaScript's [npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b), and Linux's
+[apt](https://wiki.debian.org/Apt).
 
-It's closely related to pip. It installs with uv when available and pip otherwise, but is focused on installing and
-managing Python packages that can be run from the command line directly as applications.
+It's closely related to [pip](https://pip.pypa.io). It installs with [uv](https://docs.astral.sh/uv/) when available and
+`pip` otherwise, but focuses on installing and managing Python packages you run directly from the command line as
+applications.
 
 ### Features
 
@@ -38,7 +39,7 @@ managing Python packages that can be run from the command line directly as appli
 
 - expose CLI entrypoints of packages ("apps") installed to isolated environments with the `install` command,
     guaranteeing no dependency conflicts and clean uninstalls;
-- easily list, upgrade, and uninstall packages that were installed with pipx; and
+- list, upgrade, and uninstall packages you installed with pipx; and
 - run the latest version of a Python application in a temporary environment with the `run` command.
 
-Best of all, pipx runs with regular user permissions, never calling `sudo pip install`.
+pipx runs with regular user permissions and never calls `sudo pip install`.

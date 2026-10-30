@@ -81,6 +81,23 @@ opendataloader_pdf.convert(
 )
 ```
 
+**Python, without a second terminal** — `HybridServer` starts the backend server for the time of a `with` block, and stops it after the block:
+
+```python
+import opendataloader_pdf
+
+# The server loads its models once. The first start can take minutes while the models download
+with opendataloader_pdf.HybridServer() as server:
+    opendataloader_pdf.convert(
+        input_path=["file1.pdf", "file2.pdf", "folder/"],
+        output_dir="output/",
+        hybrid="docling-fast",
+        hybrid_url=server.url
+    )
+```
+
+Give server options in `args`, as for `opendataloader-pdf-hybrid`: `HybridServer(args=["--force-ocr", "--ocr-lang", "ko,en"])`. The server listens on 127.0.0.1 at a free port (`port=` sets the port). Its log goes to stderr.
+
 ### OCR for Scanned PDFs
 
 Start the backend with `--force-ocr` for image-based PDFs with no selectable text:
@@ -107,24 +124,7 @@ Select the engine with `--ocr-engine`. Each engine uses its own language code sy
 |--------|----------------|----------------------|--------------------------|
 | EasyOCR (default) | `easyocr` | `ko,en` (ISO 639-1) | Included in `opendataloader-pdf[hybrid]` |
 | RapidOCR | `rapidocr` | `korean` (RapidOCR codes: `en`, `ch`, `japan`, `korean`, ...) | `pip install rapidocr onnxruntime` |
-| Tesseract (CLI) | `tesseract` | `kor,eng` (ISO 639-2) | Tesseract binary + language data (e.g. `tesseract-ocr-kor`) |
-| Tesseract (Python binding) | `tesserocr` | `kor,eng` (ISO 639-2) | `pip install tesserocr` + libtesseract |
-| Apple Vision | `ocrmac` | `ko-KR,en-US` (BCP-47) | macOS only, `pip install ocrmac` |
-| NVIDIA Nemotron OCR | `nemotron-ocr` | `multilingual` or `english` | Linux x86_64 + CUDA, `pip install "docling[feat-ocr-nemotron]"` |
-| Automatic | `auto` | Not configurable | Docling picks an available engine |
-
-To compare engines on a sample, start one server per engine and send the same file to each.
-
-**Terminal 1** — EasyOCR server:
-
-```bash
-opendataloader-pdf-hybrid --port 5002 --force-ocr --ocr-engine easyocr --ocr-lang "ko,en"
-```
-
-**Terminal 2** — Tesseract server:
-
-```bash
-openda
+| Tesseract (CLI) | `tesseract` | `kor,eng` (ISO 639-2) | Tesseract bin
 
 ## features
 
