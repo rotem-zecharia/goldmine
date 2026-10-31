@@ -51,7 +51,9 @@ To begin implementing these advanced RAG techniques in your projects:
 
 > 🌟 **Support This Project:** Your sponsorship fuels innovation in RAG technologies. **[Become a sponsor](https://www.diamant-ai.com/sponsorship)** to help maintain and expand this valuable resource!
 
-## 📚 More from the same author
+## 📚 More from DiamantAI
+
+**[RAG Made Simple](https://europe-west1-rag-techniques-views-tracker.cloudfunctions.net/rag-techniques-tracker?notebook=main-readme&click=footer-book-rag&target=https%3A%2F%2Fwww.amazon.com%2Fdp%2FB0GWDH8JJL%3Fmaas%3Dmaas_adg_api_580351185840460851_static_9_573%26ref_%3Daa_maas%26tag%3Dmaas%26aa_campaignid%3Drag-en%26aa_adgroupid%3Dgithub-readme%26aa_creativeid%3Drag-book-footer-rag&retarget=0&text=footer-book-rag)** - the companion book to this repo, featured at the top.
 
 **[Agent Memory Made Simple](https://europe-west1-rag-techniques-views-tracker.cloudfunctions.net/rag-techniques-tracker?notebook=main-readme&click=book-footer-am&target=https%3A%2F%2Fwww.amazon.com%2Fdp%2FB0HCRMGHCM%3Fmaas%3Dmaas_adg_api_580351185840460851_static_9_573%26ref_%3Daa_maas%26tag%3Dmaas%26aa_campaignid%3Dam-en%26aa_adgroupid%3Dgithub-readme%26aa_creativeid%3Drag-book-footer-am&retarget=0&text=book-footer-am)** - the visual guide to memory for AI agents: buffers, vector and graph memory, cognitive architectures and the frameworks in production.
 
@@ -59,6 +61,4 @@ To begin implementing these advanced RAG techniques in your projects:
 
 **[AI Agents Made Simple](https://europe-west1-rag-techniques-views-tracker.cloudfunctions.net/rag-techniques-tracker?notebook=main-readme&click=book-footer-agents&target=https%3A%2F%2Fwww.amazon.com%2Fdp%2FB0HNXRSRH2%3Fmaas%3Dmaas_adg_api_580351185840460851_static_9_573%26ref_%3Daa_maas%26tag%3Dmaas%26aa_campaignid%3Dagents-en%26aa_adgroupid%3Dgithub-readme%26aa_creativeid%3Drag-book-footer-agents&retarget=0&text=book-footer-agents)** - the decision guide to building agents that work: 28 chapters on what each pattern does, what breaks, what it costs, and when it is overkill. No code.
 
-*To hear when the next book comes out, [follow the author on Amazon](https://europe-west1-rag-techniques-views-tracker.cloudfunctions.net/rag-techniques-tracker?notebook=main-readme&click=author-follow-amazon&target=https%3A%2F%2Fwww.amazon.com%2Fstores%2FNir-Diamant%2Fauthor%2FB0DZMTVQHJ&retarget=0&text=author-follow-amazon).*
-
-*Run a course, newsletter, or dev community? You can [earn 25% recommending RAG Made Simple](https://europe-west1-rag-techniques-views-tracker.cloudfunctions.net/rag-techniques-tracker?notebook=main-readme&click=affiliate-signup&target=https%3A%2F%2Fnirdiamant.gumroad.com%2Faffiliates&
+**Other repos:** [GenAI Agents](https://europe-west1-rag-techniques-views-tracker.cloudfunctions.net/rag-techniques-tracker?notebook=main-readme

@@ -453,7 +453,7 @@ For Ubuntu >=22.04, Hurl can be installed from `ppa:lepapareil/hurl`
 ```shell
 $ VERSION=8.1.0
 $ sudo apt-add-repository -y ppa:lepapareil/hurl
-$ sudo apt install hurl="${VERSION}"*
+$ sudo apt install hurl="${VERSION}"
 ```
 
 #### Alpine
@@ -631,4 +631,4 @@ Please follow the [contrib on Windows section].
 
 [XPath]: https://en.wikipedia.org/wiki/XPath
 [JSONPath]: https://goessner.net/articles/JsonPath/
-[Rust]: https://www.rust-
+[Rust]: https://www.rust-l

@@ -220,6 +220,8 @@ Obscura implements the Chrome DevTools Protocol for Puppeteer/Playwright compati
 | **Input** | dispatchMouseEvent, dispatchKeyEvent |
 | **LP** | getMarkdown (DOM-to-Markdown conversion) |
 
+Fetch interception pauses matching main-document HTTP requests before transport. Fulfillment supplies the document body without contacting the server; continuation URL, method, body, and header overrides apply to that request only.
+
 To download a large resource without one giant `Network.getResponseBody` blob, call `Fetch.takeResponseBodyAsStream` then read it in chunks with `IO.read` / `IO.close`. Response bodies over the cache limit (`OBSCURA_NETWORK_BODY_BUFFER_BYTES`, default 2 MiB) are not retained, so raise that limit when you intend to stream large downloads.
 ## CLI Reference
 
@@ -265,11 +267,7 @@ Start a CDP WebSocket server.
 | `--obey-robots` | off | Respect robots.txt |
 
 With multiple workers, exited children are reaped and restarted. New connections
-use ready workers only; if none are ready, the balancer returns HTTP 503. A crash
-still closes that worker's existing sessions, which clients must reconnect.
-
-The `--worker-max-*` options recycle workers gracefully: a replacement starts
-first, new connections go only to it, and the old worker keeps serving 
+use ready workers only; if none are ready, the balancer returns HTTP 503. A
 
 ## configuration
 

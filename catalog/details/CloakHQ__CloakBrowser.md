@@ -56,7 +56,7 @@ page.goto("https://example.com")
 
 ---
 
-## Latest: v0.6.4 — 87 source-level stealth patches (Chromium 155.0.8059.39.1)
+## Latest: v0.6.5 — 87 source-level stealth patches (Chromium 155.0.8059.39.1)
 
 - **CloakBrowser Pro Stable** — Chromium `155.0.8059.39.1` on Linux x64, Linux ARM64, Windows x64, and macOS (Apple Silicon and Intel). Set a `license_key` (`licenseKey` in JS) or the `CLOAKBROWSER_LICENSE_KEY` env var and the wrapper fetches the latest Stable build for your platform automatically. See [CloakBrowser Pro](#cloakbrowser-pro)
 - **.NET 8 / C# client** — CloakBrowser now ships as a NuGet package (`CloakBrowser`), mirroring the Python and JS wrappers.
@@ -70,12 +70,11 @@ page.goto("https://example.com")
 - **Composable JS helpers** — `buildLaunchOptions()` and `humanizeBrowser()` for custom Playwright integrations
 - **Native SOCKS5 proxy** — `proxy="socks5://user:pass@host:port"` works directly in all launch functions, Python + JS. QUIC/HTTP3 tunnels through SOCKS5 via UDP ASSOCIATE
 - **Proxy signal removal** — DNS/connect/SSL timing zeroed, proxy cache headers stripped, Proxy-Connection header leak removed
-- **Chromium 146 upgrade** — rebased all patches from 145.0.7632.x to 146.0.7680.177
 - **WebRTC IP spoofing** — `--fingerprint-webrtc-ip=auto` resolves your proxy's exit IP and spoofs WebRTC ICE candidates. Auto-injected when using `geoip=True` (no extra network call)
 - **`humanize=True`** — one flag makes all mouse, keyboard, and scroll interactions behave like a real user. Bézier curves, per-character typing, realistic scroll patterns
 - **Stealthy with zero flags** — binary auto-generates a random fingerprint seed at startup. No configuration required
 - **Timezone & locale from proxy IP** — `launch(proxy="...", geoip=True)` auto-detects timezone and locale
-- **Persistent profiles** — `launch_persistent_context()` keeps cookies and localStorage across sessions, bypasses incognito detection
+- **Persistent profiles** — `launch_persistent_context()` keeps cookies and localStorage across sessions
 
 See the full [CHANGELOG.md](CHANGELOG.md) for details.
 
@@ -93,7 +92,7 @@ CloakBrowser doesn't solve CAPTCHAs — it prevents them from appearing. No CAPT
 
 Anti-bot systems change every week and an older binary quietly degrades. The latest build is the one that keeps passing. **Try it free, then upgrade when you're running for real.**
 
-- **Free, latest build (Chromium 155)** — the newest binary, the exact one that stays [green against live detection](#test-results). Free with a GitHub sign-in, one concurrent session. [Grab your key](https://cloakbrowser.dev/free) or run `cloakbrowser login`, then throw it at your hardest target.
+- **Free, latest build (Chromium 156)** — the newest binary, the exact one that stays [green against live detection](#test-results). Free with a GitHub sign-in, one concurrent session. [Grab your key](https://cloakbrowser.dev/free) or run `cloakbrowser login`, then throw it at your hardest target.
 - **Pro** — when it's part of production scraping, QA, monitoring, or automation: scale to **5, 20, 200, 2,000, or more concurrent sessions**, always first on the newest patches, with hands-on support. Linux, Windows, macOS. **[See plans and pricing →](https://cloakbrowser.dev)**
 - **v146** — the older build stays free on [GitHub Releases](https://github.com/CloakHQ/cloakbrowser/releases). A quick first look, but it ages fast as detection evolves.
 
@@ -147,6 +146,3 @@ browser = launch(proxy={"server": "http://proxy:8080", "bypass": ".google.com", 
 
 # With extra Chrome args
 browser = launch(args=["--disable-gpu"])
-
-# With timezone and locale (sets binary flags — no detectable CDP emulation)
-browser = launch(timezone="America/New_York", locale="en-US")

@@ -202,7 +202,7 @@ Playwright MCP server supports following arguments. They can be provided in the 
 
 | Option | Description |
 |--------|-------------|
-| --allowed-hosts <hosts...> | comma-separated list of hosts this server is allowed to serve from. Defaults to the host the server is bound to. Pass '*' to disable the host check.<br>*env* `PLAYWRIGHT_MCP_ALLOWED_HOSTS` |
+| --allowed-hosts <hosts...> | comma-separated list of hosts this server is allowed to serve from. Defaults to localhost, loopback IPs and the host passed via --host; other hosts must be listed explicitly. Pass '*' to disable the host check.<br>*env* `PLAYWRIGHT_MCP_ALLOWED_HOSTS` |
 | --allowed-origins <origins> | semicolon-separated list of TRUSTED origins to allow the browser to request. Default is to allow all. Important: *does not* serve as a security boundary and *does not* affect redirects.<br>*env* `PLAYWRIGHT_MCP_ALLOWED_ORIGINS` |
 | --allow-unrestricted-file-access | allow access to files outside of the workspace roots. Also allows unrestricted access to file:// URLs. By default access to file system is restricted to workspace root directories (or cwd if no roots are configured) only, and navigation to file:// URLs is blocked.<br>*env* `PLAYWRIGHT_MCP_ALLOW_UNRESTRICTED_FILE_ACCESS` |
 | --blocked-origins <origins> | semicolon-separated list of origins to block the browser from requesting. Blocklist is evaluated before allowlist. If used without the allowlist, requests not matching the blocklist are still allowed. Important: *does not* serve as a security boundary and *does not* affect redirects.<br>*env* `PLAYWRIGHT_MCP_BLOCKED_ORIGINS` |
@@ -223,7 +223,7 @@ Playwright MCP server supports following arguments. They can be provided in the 
 | --file-paths <mode> | how file paths are rendered in tool results, "relative" to the workspace root or "absolute". Default is "relative".<br>*env* `PLAYWRIGHT_MCP_FILE_PATHS` |
 | --grant-permissions <permissions...> | List of permissions to grant to the browser context, for example "geolocation", "clipboard-read", "clipboard-write".<br>*env* `PLAYWRIGHT_MCP_GRANT_PERMISSIONS` |
 | --headless | run browser in headless mode, headed by default<br>*env* `PLAYWRIGHT_MCP_HEADLESS` |
-| --host <host> | host to bind server to. Default is localhost. Use 0.0.0.0 to bind to all interfaces.<br>*env* `PLAYWRIG
+| --host <host> | host to bind server to. Default is localh
 
 ## tools
 

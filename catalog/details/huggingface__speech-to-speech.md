@@ -13,7 +13,7 @@ pip install speech-to-speech
 speech-to-speech local
 ```
 
-Then talk: speak, pause, and the assistant answers through your speakers. Stop with `Ctrl+C`. The first run downloads the models, so give it a few minutes. Use headphones so the assistant does not hear itself, or add `--local_audio_block_mic_during_playback`.
+Then talk: speak, pause, and the assistant answers through your speakers. Stop with `Ctrl+C`. The first run downloads the models, so give it a few minutes. On speakers, add `--echo-cancellation` so the assistant does not hear itself and you can still interrupt it by voice; headphones don't need it. See [echo cancellation](docs/echo-cancellation.md) for requirements and limits.
 
 By default, `local` and `talk` show final user transcripts and streaming assistant
 replies once, hiding backend transcript copies, routine logs, tool details, and protocol
@@ -83,9 +83,7 @@ It listens at `ws://127.0.0.1:8765/v1/realtime`. Connect with:
 * [How it works](#how-it-works)
 * [Quickstart](#quickstart)
 * [Installation](#installation)
-* [YAML configuration API](./docs/configuration.md)
-* [Offline operation](#offline-operation)
-* [Supported components](#supported-compo
+* [YAML configu
 
 ## tools
 
@@ -107,6 +105,18 @@ default: a larger value resists stuttering but delays the start of each
 response, while a smaller value starts sooner but is more sensitive to jitter.
 This setting only controls the packaged Python client's speakers; browser and
 other Realtime clients manage their own playback buffers.
+
+By default, user speech interrupts the assistant: the server cancels the
+response and the packaged client drops the audio it has queued. Pass
+`talk --no-interrupt-response` or `local --local_audio_interrupt_response false`
+to let the reply finish. The microphone stays open and your speech is still
+transcribed, unlike `--block-mic-during-playback`, which stops sending
+microphone audio. `talk --vad-threshold <0-1>` and
+`local --local_audio_vad_threshold <0-1>` set the session VAD threshold;
+without them the server's `--thresh` applies. A higher threshold can reduce false
+triggers in a noisy room, but it cannot tell your voice apart from other people
+talking nearby. See [Interruption Handling](./src/speech_to_speech/api/openai_realtime/README.md#interruption-handling)
+for the session fields other clients send.
 
 The packaged client can opt in to local Python tools with `talk --tool-module <module>` or `local --tool-module <module>`. The module contract, programmatic API, and web-search examples (Serper, or keyless You.com) are documented in [Tool calling design](./src/speech_to_speech/api/openai_realtime/README.md#packaged-python-client-tools).
 
@@ -142,28 +152,4 @@ The compose file starts a llama.cpp server with Gemma 4 and the Realtime server,
 ## Realtime API
 
 The server logs per-response STT, LLM, first TTS audio, and speech-to-audio
-durations for supported backends, including vLLM-backed STT and TTS. See the
-[response latency guide](./docs/response-latency.md) for the coverage matrix
-and measurement boundaries.
-
-Realtime mode supports the OpenAI Realtime protocol over WebSocket and WebRTC, with live transcription and low-latency turn-taking. WebSocket clients connect at `/v1/realtime`:
-
-```python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="http://localhost:8765/v1",
-    websocket_base_url="ws://localhost:8765/v1",
-    api_key="not-needed",
-)
-
-with client.realtime.connect(model="local") as conn:
-    conn.send(
-        {
-            "type": "session.update",
-            "session": {
-                "type": "realtime",
-                "instructions": "You are a helpful assistant.",
-                "audio": {
-                    "input": {
-            
+durations for supported b

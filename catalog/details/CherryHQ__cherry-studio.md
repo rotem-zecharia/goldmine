@@ -1,6 +1,6 @@
 # CherryHQ/cherry-studio
 
-AI productivity studio with smart chat, autonomous agents, and 300+ assistants. Unified access to frontier LLMs
+Your AI workspace for models, agents, and productivity.
 
 ## features
 
