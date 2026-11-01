@@ -4,136 +4,122 @@ DeepTutor: Lifelong Personalized Tutoring. https://deeptutor.info/.
 
 ## features
 
-DeepTutor is an agent-native learning workspace that connects tutoring, problem solving, quiz generation, research, visualization, and mastery practice in one extensible system.
+DeepTutor is an agent-native learning workspace that connects tutoring, research, creation, and practice in one extensible system.
 
-- **One runtime for every mode** — Chat, Ask Questions, Quiz, Research, Visualize, Solve, Mastery Path, Immersive Reading, and Audio Overview share one capability runtime and session context while keeping purpose-built loops and pipelines.
-- **Task Board** — Track study tasks in To do, In progress, and Done, with notes, drag-and-drop or keyboard-accessible move buttons, and an archive you can restore from. Cards stay in the current workspace and follow the existing appearance and language settings; no model configuration is required.
-- **Connected learning context** — Knowledge bases, books, Learning notebook pages, Favorites, question banks, personas, and Memory can be reused across the workflows that support them, subject to account grants and learning policies.
-- **Immersive video learning** — add YouTube or Bilibili links to Reading for native playback, transcript search, timestamp-grounded tutoring, saved notes, and resumable progress; YouTube captions and browsing can use an administrator-configured Invidious instance.
-- **Subagents and Partners** — from Chat, consult a live agent harness (Claude Code, Codex, Grok CLI, Antigravity, Kimi, opencode, MiMo, Hermes, OpenClaw, or DeepSeek) or a Partner, import past conversations, and run persistent IM companions on the same brain.
-- **Multi-engine knowledge** — versioned RAG libraries across LlamaIndex, PageIndex, GraphRAG, LightRAG, a remote LightRAG Server, a self-hosted WeKnora knowledge base, a Tencent IMA or MarginNote 4 library, a connected Kiwix ZIM archive, or a linked Obsidian vault, with pluggable document parsing. See [native LightRAG role models](deeptutor/services/rag/pipelines/lightrag/README.md) for independent extraction, query and vision settings, default-only creation and confirmed rebuilds.
-- **Extensible tools and skills** — built-in tools, MCP servers, CLI apps, image / video / voice generation models, and installable community skills from EduHub.
-- **Inspectable memory** — L1 traces, L2 surface summaries, and L3 synthesis make personalization visible and editable; the Memory Graph links L2 facts to L1 evidence and L3 synthesis to contributing surfaces.
+- **One runtime, many learning modes** — Chat, Quiz, Research, Visualize, Solve, Mastery Path, Reading, and more share session context while retaining purpose-built workflows.
+- **A connected learning workspace** — Home, Learning, and Resources connect Chat, Books, Reading, Practice, Task Board, Calendar, and Learning notebook with shared materials, progress, and learning context.
+- **Grounded knowledge and reading** — Build versioned libraries with LlamaIndex, PageIndex, GraphRAG, or LightRAG, connect external knowledge sources, and learn beside documents, video, and audio with source-linked citations.
+- **Partners and subagents** — Consult live agents such as Claude Code, Codex, and Grok CLI, import past conversations, or run persistent Partners with their own memory, resources, and IM channels.
+- **Inspectable memory** — L1 traces, L2 facts, and L3 synthesis make personalization visible and editable, with evidence links you can audit in the Memory Graph.
+- **Extensible by design** — Add personas, built-in or community skills, MCP services, CLI apps, and generation models through one agent-native runtime.
 
 ---
 
 ## 🚀 Get Started
 
-### Let Your Agent Set Up DeepTutor
+Choose the installation path that fits how you want to use DeepTutor. Terminal-based installs share one runtime home: private settings live in `data/user/settings/` under the launch directory, or under `DEEPTUTOR_HOME` / `deeptutor start --home` when set explicitly. After starting the app, configure a provider and model in **Settings → Providers** and **Language models**.
 
-Copy this prompt into your terminal-capable AI agent (such as Codex or Claude Code):
+<details>
+<summary><b>Desktop — macOS and Windows (Preview)</b></summary>
 
-```text
-Help me install and configure the current dev version of DeepTutor from https://github.com/HKUDS/DeepTutor.
-Clone the dev branch, or inspect and reuse my existing checkout. Start at
-docs-for-dev/README.md, then read docs-for-dev/AGENT_SETUP.md and SKILL.md.
-Follow the setup guide to prepare the environment,
-configure my model provider, verify the setup, and start the Web app.
-Ask me for any missing provider, model, or credential-source information;
-do not print API keys. Preserve my existing files and settings, and finish
-with the access URL and the results of your checks.
+**Open DeepTutor** bundles Python, Node.js, and the full learning workspace, so no terminal or separate runtime installation is needed. Desktop previews are available on `dev`; the **v1.7.0 Release does not include desktop installers**.
+
+Open a successful [Desktop Release workflow run](https://github.com/HKUDS/DeepTutor/actions/workflows/desktop-release.yml?query=branch%3Adev), scroll to **Artifacts**, and download the matching target. GitHub sign-in is required, and artifacts expire after seven days.
+
+| Your computer | Download target | Installer |
+| --- | --- | --- |
+| **Mac with Apple Silicon** | `macos-arm64` | Open the DMG and drag **Open DeepTutor** into **Applications**. |
+| **Mac with Intel** | `macos-x64` | Open the DMG and drag **Open DeepTutor** into **Applications**. |
+| **Windows x64** | `windows-x64` | Run the Setup `.exe`, or extract the portable ZIP and launch `Open DeepTutor.exe`. |
+
+Windows preview builds are unsigned and may show a SmartScreen warning. See the [desktop guide](apps/desktop/README.md) for signing, local data, and source builds.
+
+</details>
+
+<details>
+<summary><b>Docker — Fastest Full-App Trial</b></summary>
+
+Run the full Web app without installing Python or Node.js:
+
+```bash
+docker run --rm --name deeptutor \
+  -p 127.0.0.1:3782:3782 \
+  -v deeptutor-data:/app/data \
+  ghcr.io/hkuds/deeptutor:latest
 ```
 
-The [developer and agent handbook](docs-for-dev/README.md) is the documentation entry point for setup, architecture, extension development, testing, and troubleshooting. Its [Agent Setup guide](docs-for-dev/AGENT_SETUP.md) covers the full installation flow, including non-interactive CLI configuration. To install it yourself, choose one of the paths below.
+Open [http://127.0.0.1:3782](http://127.0.0.1:3782). The named volume preserves settings and local data; only port `3782` is required for the Web app. See the [Docker guide](https://docs.deeptutor.info/get-started/docker/) for host workspaces, local model services, reverse proxies, and production deployment.
 
-DeepTutor ships four installation paths. They all share one runtime-home layout: private settings live in `data/user/settings/` under the directory you launch from (or under `DEEPTUTOR_HOME` / `deeptutor start --home` if you set one explicitly). See [Local Data Persistence](./docs-for-dev/DATA_STORAGE.md) for the complete storage layout, database support, and backup notes. For the full app, the recommended flow is **pick a runtime-home directory → install → `deeptutor init` → `deeptutor start`**.
+</details>
 
-### One-Command Docker Trial
+<details>
+<summary><b>PyPI — Full Web App and CLI</b></summary>
 
-If Docker is not installed 
+Use **Python 3.11–3.14** and **Node.js 20.9+**. In the modular 1.7.0 release, `deeptutor[full]` installs the Web app and CLI; bare `deeptutor` installs core chat and the SDK.
+
+```bash
+mkdir -p my-deeptutor && cd my-deeptutor
+python -m pip install -U "deeptutor[full]"
+deeptutor init     # ports + LLM provider + optional embedding/search
+deeptutor start    # starts backend + frontend
+```
+
+Open the URL printed in the terminal, by default [http://127.0.0.1:3782](http://127.0.0.1:3782). Press `Ctrl+C` to stop both servi
 
 ## installation
 
-python -m pip install -r requirements/full.txt
-python -m pip install -e . --no-deps
-( cd web && npm ci --legacy-peer-deps )
-
-deeptutor init
-deeptutor start --dev
+deeptutor module install solve              # install the matching module and dependencies
+deeptutor module uninstall solve --dry-run  # inspect the plan and dependency blockers
+deeptutor module uninstall solve            # remove only this module's distribution
+deeptutor chat                              # restart the CLI; use start for an installed Web app
 ```
 
-`deeptutor start` builds the local `web/` frontend for production once and reuses it; `--dev` runs Next.js with HMR. Config layout, ports, and `Ctrl+C` match Option 1.
+Examples: `solve`, `research`, `questions`, `knowledge`, `parsing`, `reading`, `mastery`, `books`, `memory`, `notebook`, and `partners`. Dependents block removal; core cannot be removed through the module command. Disabling or uninstalling preserves settings, conversations, knowledge bases, and generated files. Shared third-party dependencies are retained.
+
+**In the browser:** **Settings → Runtime status → Modules** shows module status and the corresponding terminal commands. Package changes require a stopped environment and are performed in the CLI. **Chat → Customize page** and **Learning → New learning activity → Customize page** change personal page choices immediately; hiding an entry does not uninstall its module or revoke access.
+
+The 1.7.0 package family uses matching versions across core and feature wheels. For local wheel installation, pass `--wheelhouse /path/to/wheels` to `module install`. See [module installation and source development](docs-for-dev/MODULES.md) for building the wheels and deployment details.
+
+</details>
+
+## 🧩 Ecosystem — EduHub & the Skills Community
+
+DeepTutor skills use the open **Agent-Skills** format — a folder with a `SKILL.md` playbook (YAML frontmatter + Markdown) and optional reference files. Nothing about it is DeepTutor-specific, so any registry that speaks the format becomes a source for your library. DeepTutor ships with **[EduHub](https://eduhub.deeptutor.info/)** — our own education-focused skill registry — wired in as the default hub.
 
 <details>
-<summary><b>Conda environment</b> (instead of <code>venv</code>)</summary>
+<summary><b>EduHub — DeepTutor's skill ecosystem</b></summary>
+
+[**EduHub**](https://eduhub.deeptutor.info/) is the community hub DeepTutor launched for sharing teaching-oriented agent skills — Socratic tutors, flashcard builders, essay feedback, exam blueprints, concept explainers, and more. It is built into DeepTutor, so there's nothing to configure: a bare slug or an `eduhub:` prefix resolves to it.
+
+**Find and install** — in the browser, open **Personalization → Skills → Import from EduHub** to browse the catalog and download a skill straight into your library. From the terminal:
 
 ```bash
-conda create -n deeptutor python=3.11
-conda activate deeptutor
-python -m pip install --upgrade pip
+deeptutor skill search "socratic tutor"               # search EduHub (the default hub)
+deeptutor skill install socratic-tutor                # fetch → verify → register
+deeptutor skill install eduhub:socratic-tutor@1.2.0   # pin a hub and a version
+deeptutor skill list                                  # local skills with their hub provenance
 ```
+
+**Publish your own** — package a `SKILL.md` and share it back to the community:
+
+```bash
+deeptutor skill login                                 # browser sign-in to EduHub
+deeptutor skill publish ./my-skill                    # interactive: pick a track + tags, then upload
+deeptutor skill update                                # roll back or release a new version
+```
+
+EduHub is also a standalone, ClawHub-compatible registry, so agents that aren't DeepTutor (Claude Code, Codex, …) can use it directly through the `eduhub` CLI — `npx eduhub install socratic-tutor`.
 
 </details>
 
 <details>
-<summary><b>Optional install extras</b> — RAG engines / dev / partners / matrix / math-animator</summary>
+<summary><b>The import safety gate</b></summary>
 
-```bash
-python scripts/install_extras.py rag-lightrag    # Built-in LightRAG engine (exact supported SDK)
-python scripts/install_extras.py graphrag        # Microsoft GraphRAG engine (Python 3.11–3.13)
-python scripts/install_extras.py dev             # tests/lint tools
-python scripts/install_extras.py partners        # Partner IM channel SDKs
-python scripts/install_extras.py video-learning  # captions for reading/video-learning
-python scripts/install_extras.py matrix          # Matrix channel without E2EE/libolm
-python scripts/install_extras.py matrix-e2e      # Matrix E2EE; requires libolm
-python scripts/install_extras.py math-animator   # Manim addon; requires LaTeX/ffmpeg/system libs
-python scripts/install_extras.py edge-tts        # Optional free speech provider and video-lesson narration
-```
+Whatever the source, every import passes the **same safety gate** before anything touches your workspace:
 
-**Video Lesson:** choose Video Lesson in chat or run `deeptutor run video_lesson "Explain a concept"`. The backend needs Node.js 22+ and npm. First use downloads pinned Remotion packages and a WebAssembly JavaScript interpreter; Docker is not required. Frame checks run inside the interpreter with no host filesystem, credentials, network or process APIs, under memory and execution limits. Cancellation stops the build process. Local and container deployments use the same execution path, with no unsandboxed fallback. The resulting lesson plays in the browser, with captions when optional narration is unavailable.
-
-</details>
-
-<details>
-<summary><b>Frontend dependency tweaks & dev-server troubleshooting</b></summary>
-
-**Changing frontend dependencies:** run `npm install --legacy-peer-deps` to refresh `web/package-lock.json`, then commit both `web/package.json` and `web/package-lock.json`.
-
-**Stuck dev server:** if `deeptutor start --dev` reports an existing frontend that isn't responding, stop the PID it prints. If no Next.js process is actually running, the lock files are stale — remove them and retry:
-
-```bash
-rm -f web/.next/dev/lock web/.next/lock
-deeptutor start --dev
-```
-
-</details>
-
-</details>
-
-<details>
-<summary><b>Option 3 — Docker</b> · one self-contained container</summary>
-
-One container for the full Web app. Images on GitHub Container Registry:
-
-- `ghcr.io/hkuds/deeptutor:latest` — latest stable release
-- `ghcr.io/hkuds/deeptutor:<version>` — exact release without the leading `v` (for example `:1.6.3`); pre-releases receive only their version tag
-
-> See [CONTAINERIZATION.md](./docs-for-dev/CONTAINERIZATION.md) for podman/rootless/read-only-rootfs deployments and the full per-installation guide.
-
-```bash
-docker run --rm --name deeptutor \
-  -p 127.0.0.1:3782:3782 \
-  -v deeptutor-data:/app/data \
-  ghcr.io/hkuds/deeptutor:latest
-```
-
-To choose a host content folder at container startup, mount it at the stable
-container path and lock DeepTutor to that path:
-
-```bash
-mkdir -p "$PWD/deeptutor-workspace/outputs"
-docker run --rm --name deeptutor \
-  -p 127.0.0.1:3782:3782 \
-  -v deeptutor-data:/app/data \
-  -v "$PWD/deeptutor-workspace:/workspace" \
-  -e DEEPTUTOR_WORKSPACE_ROOT=/workspace \
-  -e DEEPTUTOR_WORKSPACE_ALLOWED_ROOTS=/workspace \
-  ghcr.io/hkuds/deeptutor:latest
-```
-
-For Compose, set `DEEPTUTOR_WORKSPACE_HOST=/absolute/host/folder` before
-running `python scripts/docker_compose.py up -d`. When omitted it uses
-`./data/user/workspace`. Docker paths are selected at startup
+- the registry's **security verdict** is checked first — flagged packages are refused unless you pass `--allow-unverified`;
+- archives are extracted defensively with path-traversal, entry-count, size, compression-ratio, suffix, and symlink checks; executable bits are stripped, while extensionless files remain allowed;
+- frontmatter is normalized to DeepTutor's schema and `always:` is **stripped**, so a downloaded skill
 
 ## limitations
 
@@ -142,6 +128,8 @@ We want DeepTutor to keep iterating and improving — and ultimately to become a
 <div align="center">
 
 We hope DeepTutor becomes a gift for the community. 🎁
+
+See the [development-branch contributor list](CONTRIBUTORS.md) for recently integrated contributions.
 
 <a href="https://github.com/HKUDS/DeepTutor/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=HKUDS/DeepTutor&max=999" alt="Contributors" />

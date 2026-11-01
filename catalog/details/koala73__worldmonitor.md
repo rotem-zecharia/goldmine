@@ -105,6 +105,6 @@ Flight data provided graciously by [Wingbits](https://wingbits.com?utm_source=wo
 
 ---
 
-## Data Sources
+## Supported By
 
-WorldMonitor aggregates attributed upstream sources across geopolitics, finance, energy, climate, aviation, cyber, military, infrastru
+World Monitor's web app and API run on [Vercel](https://vercel.com?utm_source=worldmonitor&utm_medium=referral&utm_campaign=worldmonit
