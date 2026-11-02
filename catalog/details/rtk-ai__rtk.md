@@ -136,26 +136,21 @@ rtk bypass <cmd>       # run one command unfiltered, still tracked
 
 > Every command and its filter: **[What RTK Optimizes](https://www.rtk-ai.app/guide/resources/what-rtk-covers)**
 
-## Measure It
+## Escape hatches
+
+`rtk` filters command output by default. When a result looks wrong, bypass the filter for one command to see the raw output and tell a filter bug apart from the real thing:
 
 ```bash
-rtk gain                        # Summary stats
-rtk gain --graph                # ASCII graph (last 30 days)
-rtk gain --history              # Recent command history
-rtk gain --daily                # Day-by-day breakdown
-rtk gain --all --format json    # JSON export for dashboards
-
-rtk discover                    # Find missed savings opportunities
-rtk discover --all --since 7    # All projects, last 7 days
-
-rtk session                     # Show RTK adoption across recent sessions
+rtk bypass git log --oneline -20        # full git log, no truncation
+rtk bypass npm install express          # raw npm output, no filtering
+rtk bypass curl https://api.example.com/data
 ```
 
-> Attribution, the live dashboard and export formats: **[Token Savings Analytics](https://www.rtk-ai.app/guide/analytics/gain)**
+- **What it does**: runs one command unfiltered and still tracks it — bypassed commands appear in `rtk gain --history` with 0% bash output reduction.
+- **When to use it**: an output looks off and you need to know whether the filter or the command produced it, when debugging a filter, or for an edge case a filter mishandles.
+- `rtk proxy <cmd>` is a deprecated alias of `rtk bypass <cmd>`.
 
-## RTK Proxy (optional)
-
-`rtk` optimizes **command output** before your agent reads it. The `rtk-proxy` daemon extends the same engine to your agent's **provider-API traffic** — a local backgroun
+> **Not the same thing as `rtk llm-proxy`.** `rtk bypass
 
 ## configuration
 

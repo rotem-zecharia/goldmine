@@ -10,6 +10,10 @@ Deploy Kestra on AWS using our CloudFormation template:
 
 [![Launch Stack](https://cdn.jsdelivr.net/gh/buildkite/cloudformation-launch-stack-button-svg@master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home#/stacks/create/review?templateURL=https://kestra-deployment-templates.s3.eu-west-3.amazonaws.com/aws/cloudformation/ec2-rds-s3/kestra-oss.yaml&stackName=kestra-oss)
 
+### Launch on Azure (Terraform deployment)
+
+Deploy Kestra on an Azure Virtual Machine with Azure Database for PostgreSQL and Azure Blob Storage using [our Terraform module](https://github.com/kestra-io/deployment-templates/tree/main/azure/terraform/kestra-oss). See the [Azure VM installation guide](https://kestra.io/docs/installation/azure-vm) for architecture and configuration details.
+
 ### Launch on Google Cloud (Terraform deployment)
 
 Deploy Kestra on Google Cloud Infrastructure Manager using [our Terraform module](https://github.com/kestra-io/deployment-templates/tree/main/gcp/terraform/infrastructure-manager/vm-sql-gcs).
@@ -97,8 +101,4 @@ Run the flow and see the output in the UI!
 Kestra's functionality is extended through a rich [ecosystem of plugins](https://kestra.io/plugins) that empower you to run tasks anywhere and code in any language, including Python, Node.js, R, Go, Shell, and more. Here's how Kestra plugins enhance your workflows:
 
 - **Run Anywhere:**
-  - **Local or Remote Execution:** Execute tasks on your local machine, remote servers via SSH, or scale out to serverless containers and cloud VMs using [Task Runners](https://kestra.io/docs/task-runners), including the AWS EC2, Azure Virtual Machine, and Google Compute Engine runners added in 2.0.
-  - **Docker and Kubernetes Support:** Seamlessly run Docker containers within your workflows or launch Kubernetes jobs to handle compute-intensive workloads.
-
-- **Code in Any Language:**
-  - **Scripting Support:** Write scripts in your preferred programming language. Kestra supports Python, Node.
+  - **Local or Remote Execution:** Execute tasks on your local machine, remote servers via SSH, or scale out to serverless containers and cloud VMs using [Task Runners](https://kestra.io/docs/task-runners), i

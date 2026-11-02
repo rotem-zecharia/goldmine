@@ -32,6 +32,8 @@ dotnet add package CloakBrowser
 
 On first run, the stealth Chromium binary is automatically downloaded (~200MB, cached locally).
 
+**License key:** every launch needs one, and a free key takes one email. The first launch in a terminal asks: get a free key (opens the signup page and continues once you confirm your email) or paste a key you have. In CI, Docker, or any run without a terminal, set `CLOAKBROWSER_LICENSE_KEY` (get one with `cloakbrowser login` or at [cloakbrowser.dev/free](https://cloakbrowser.dev/free)).
+
 **Optional:** Auto-detect timezone/locale from proxy IP:
 
 ```bash
@@ -56,7 +58,7 @@ page.goto("https://example.com")
 
 ---
 
-## Latest: v0.6.5 — 87 source-level stealth patches (Chromium 155.0.8059.39.1)
+## Latest: v0.7.0 — 87 source-level stealth patches (Chromium 155.0.8059.39.1)
 
 - **CloakBrowser Pro Stable** — Chromium `155.0.8059.39.1` on Linux x64, Linux ARM64, Windows x64, and macOS (Apple Silicon and Intel). Set a `license_key` (`licenseKey` in JS) or the `CLOAKBROWSER_LICENSE_KEY` env var and the wrapper fetches the latest Stable build for your platform automatically. See [CloakBrowser Pro](#cloakbrowser-pro)
 - **.NET 8 / C# client** — CloakBrowser now ships as a NuGet package (`CloakBrowser`), mirroring the Python and JS wrappers.
@@ -92,12 +94,11 @@ CloakBrowser doesn't solve CAPTCHAs — it prevents them from appearing. No CAPT
 
 Anti-bot systems change every week and an older binary quietly degrades. The latest build is the one that keeps passing. **Try it free, then upgrade when you're running for real.**
 
-- **Free, latest build (Chromium 156)** — the newest binary, the exact one that stays [green against live detection](#test-results). Free with a GitHub sign-in, one concurrent session. [Grab your key](https://cloakbrowser.dev/free) or run `cloakbrowser login`, then throw it at your hardest target.
+- **Free, latest build (Chromium 156)** — the newest binary, the exact one that stays [green against live detection](#test-results). Free with your email, one concurrent session. Just launch (the first run asks), run `cloakbrowser login`, or [grab your key](https://cloakbrowser.dev/free), then throw it at your hardest target.
 - **Pro** — when it's part of production scraping, QA, monitoring, or automation: scale to **5, 20, 200, 2,000, or more concurrent sessions**, always first on the newest patches, with hands-on support. Linux, Windows, macOS. **[See plans and pricing →](https://cloakbrowser.dev)**
-- **v146** — the older build stays free on [GitHub Releases](https://github.com/CloakHQ/cloakbrowser/releases). A quick first look, but it ages fast as detection evolves.
 
 ```bash
-cloakbrowser login          # GitHub sign-in for a free key, or paste a paid key
+cloakbrowser login          # get a free key by email, or paste a key you have
 # ...or set it directly (env var, license_key= param, or ~/.cloakbrowser/license.key):
 export CLOAKBROWSER_LICENSE_KEY=cb_xxxxxxxx
 ```
@@ -114,11 +115,15 @@ Every profile is a genuinely separate computer: its own fingerprint, GPU, screen
 - **Native desktop app** — profiles open as normal windows on Windows and macOS. On a Linux server they run in Docker and stream to your browser.
 - **The real engine** — most profile managers inject JavaScript into a stock browser. Every profile here runs the patched Chromium binary this repo ships.
 - **Automate what you can see** — every running profile exposes a CDP endpoint. Drive it with Playwright or Puppeteer while you watch the exact same window live.
-- **One key, both products** — your CloakBrowser key works in the Manager too. Free with a GitHub sign-in for one profile at a time.
+- **One key, both products** — your CloakBrowser key works in the Manager too. Free with your email for one profile at a time.
 
 It's also the fastest way to try the browser without writing any code: download, create a profile, click **Launch**.
 
-[**Get the Manager →**](https://cloakbrowser.dev/manager) · [Manager repo](https://github.com/CloakHQ/CloakBrowser-Manager) —
+[**Get the Manager →**](https://cloakbrowser.dev/manager) · [Manager repo](https://github.com/CloakHQ/CloakBrowser-Manager) — the GUI is open source (MIT)
+
+## Test Results
+
+All tests verified against live detection services. Results below are for the latest Pro/current build
 
 ## tools
 
@@ -134,7 +139,7 @@ browser = launch()
 # Headed mode (see the browser window)
 browser = launch(headless=False)
 
-# Latest binary — pass a key (free via `cloakbrowser login`, or paid) or set CLOAKBROWSER_LICENSE_KEY
+# Pass a key explicitly (free via `cloakbrowser login`, or paid); otherwise the env var or saved key is used
 browser = launch(license_key="cb_xxxxxxxx")
 
 # With proxy (HTTP or SOCKS5)

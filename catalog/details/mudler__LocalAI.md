@@ -120,7 +120,7 @@ For more details, see the [Getting Started guide](https://localai.io/basics/gett
 - [P2P Inferencing](https://localai.io/features/distribute/)
 - [Distributed Mode](https://localai.io/features/distributed-mode/) — Horizontal scaling with PostgreSQL + NATS
 - [Model Context Protocol (MCP)](https://localai.io/docs/features/mcp/)
-- [Built-in Agents](https://localai.io/features/agents/) — Autonomous AI agents with tool use, RAG, skills, SSE streaming, and [Agent Hub](https://agenthub.localai.io)
+- [Chats](https://localai.io/features/chats/) — Conversations the server keeps, with saved agents, triggers, skills, files and a Telegram connector
 - [Backend Gallery](https://localai.io/backends/) — Install/remove backends on the fly via OCI images
 - Voice Activity Detection (Silero-VAD)
 - Integrated WebUI
@@ -144,4 +144,4 @@ Most backends wrap a best-in-class upstream engine. A handful of them are native
 | [magpie-tts.cpp](https://github.com/mudler/magpie-tts.cpp) | C++/GGML port of NVIDIA's Magpie TTS Multilingual 357M: 22.05 kHz mono text-to-speech in 5 voices and 9+ languages, with the NanoCodec neural codec and tokenizer/G2P embedded in a single GGUF |
 | [ced.cpp](https://github.com/localai-org/ced.cpp) | C++/GGML port of the CED audio-tagging models: sound-event classification (527-class AudioSet) over REST and the realtime API for live recognition |
 | [voice-detect.cpp](https://github.com/localai-org/voice-detect.cpp) | Speaker recognition and voice analysis (ECAPA-TDNN, WeSpeaker, ERes2Net, CAM++, wav2vec2 age/gender/emotion), replacing the Python speaker-recognition backend |
-| [voxtral-tts.c](https
+| [voxtral-tts.c](https://github.com/mudler
