@@ -176,7 +176,7 @@ Without these tools, Handy falls back to enigo which may have limited compatibil
   - For building from source on Ubuntu/Debian, you may also need `libgtk-layer-shell-dev`.
 
 - The recording overlay is disabled by default on Linux (`Overlay Position: None`) because certain compositors treat it as the active window. When the overlay is visible it can steal focus, which prevents Handy from pasting back into the application that triggered transcription. If you enable the overlay anyway, be aware that clipboard-based pasting might fail or end up in the wrong window.
-- Handy disables the WebKit DMA-BUF renderer by
+- Handy picks the WebKit renderer on Linux from
 
 ## tools
 

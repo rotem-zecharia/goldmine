@@ -119,8 +119,6 @@ Lightpanda also depends on
 [v8](https://chromium.googlesource.com/v8/v8.git),
 [Libcurl](https://curl.se/libcurl/) and [html5ever](https://github.com/servo/html5ever).
 
-To be able to build the v8 engine, you have to install some libs:
-
 For **Debian/Ubuntu based Linux**:
 
 ```
@@ -128,6 +126,8 @@ sudo apt install xz-utils ca-certificates \
     pkg-config libglib2.0-dev \
     clang make curl git
 ```
+`pkg-config` and `libglib2.0-dev` are only needed to build V8 from source (see
+below).
 You also need to [install Rust](https://rust-lang.org/tools/install/).
 
 For systems with [**Nix**](https://nixos.org/download/), you can use the devShell.
@@ -142,15 +142,22 @@ brew install cmake
 
 ### Build and run
 
-You can build the entire browser with `make build` or `make build-dev` for debug
+Run `make download-v8` once first to fetch the prebuilt V8 archive; both
+`make` and `zig build` pick it up. Without it, or on a platform with no
+published archive (the download then fails), the build compiles V8 from source,
+which takes several minutes. See
+[CONTRIBUTING.md](CONTRIBUTING.md#skip-the-v8-source-build) for details.
+
+Then build the entire browser with `make build` or `make build-dev` for debug
 env.
 
 But you can directly use the zig command: `zig build run`.
 
 #### Embed v8 snapshot
 
-Lighpanda uses v8 snapshot. By default, it is created on startup but you can
-embed it by using the following commands:
+Lightpanda uses a v8 snapshot. `make build` builds and embeds it. With a plain
+`zig build`, it is created on startup instead, unless you embed it by using the
+following commands:
 
 Generate the snapshot.
 ```
@@ -237,29 +244,7 @@ An external [Go](https://go.dev) runner is provided by
 repository, located into `wptrunner/` dir.
 You need to clone the project first.
 
-First start the WPT's HTTP server from your `wpt/` clone dir.
-```
-./wpt serve
-```
-
-Run a Lightpanda browser
-
-```
-zig build -Dwpt_extensions run -- serve \
-    --ws-max-concurrent 64 \
-    --insecure-disable-tls-host-verification \
-    --load-resources iframe \
-    --load-resources image \
-    --load-resources worker \
-    --load-resources stylesheet
-```
-
-Then you can start the wptrunner from the demo's clone dir:
-```
-cd wptrunner && go run .
-```
-
-
+First start the WPT's HTTP server from you
 
 ## features
 

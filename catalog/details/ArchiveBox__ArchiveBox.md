@@ -2,54 +2,6 @@
 
 🗃 Open source self-hosted web archiving. Takes URLs/browser history/bookmarks/Pocket/Pinboard/etc., saves HTML, JS, PDFs, media, and more...
 
-## installation
-
-# docker compose run --rm archivebox add 'https://example.com'
-# docker compose run --rm archivebox help
-<br/>
-<br/>
-# Option B: Or use it as a plain Docker container:
-mkdir -p ~/archivebox/data && cd ~/archivebox/data
-docker run -d --name archivebox -v "$PWD:/data" -p 5797:5797 archivebox/archivebox:dev
-# open http://admin.archivebox.localhost:5797 to finish setup
-# docker run -it -v $PWD:/data archivebox/archivebox:dev add 'https://example.com'
-# docker run -it -v $PWD:/data archivebox/archivebox:dev help
-<br/>
-<br/>
-# Option C: Or install it with uv (see Quickstart below for apt, brew, and more)
-uv tool install --python 3.13 --prerelease explicit --upgrade 'archivebox>=0.9.0rc0,<0.10'
-mkdir -p ~/archivebox/data && cd ~/archivebox/data
-archivebox init
-archivebox install
-# archivebox add 'https://example.com'
-# archivebox help
-# archivebox server 0.0.0.0:5797
-<br/>
-<br/>
-# Option D: Or use the uv install shortcut for Option C
-curl -fsSL 'https://get.archivebox.io' | bash
-</code></pre>
-<br/>
-<sub>Open <a href="http://web.archivebox.localhost:5797"><code>http://web.archivebox.localhost:5797</code></a> for the public UI and <a href="http://admin.archivebox.localhost:5797"><code>http://admin.archivebox.localhost:5797</code></a> for the admin UI ➡️</sub><br/>
-<sub>Set <code>BASE_URL</code> to change the public base domain. The default <code>auto</code> mode uses <code>web.</code> and <code>admin.</code> subdomains on <code>*.localhost</code>, but one host for ordinary DNS names. <code>BIND_ADDR</code> only controls the local listen address.</sub>
-</details>
-<br/>
-
-<div align="center" style="text-align: center">
-<br/><br/>
-<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/5a7d95f2-6977-4de6-9f08-42851a1fe1d2" height="70px" alt="bookshelf graphic"> &nbsp; <img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/b2765a33-0d1e-4019-a1db-920c7e00e20e" height="75px" alt="logo" align="top"/> &nbsp; <img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/5a7d95f2-6977-4de6-9f08-42851a1fe1d2" height="70px" alt="bookshelf graphic">
-<br/><br/>
-<small><a href="https://demo.archivebox.io">Demo</a> | <a href="https://archivebox.io/screenshots">Screenshots</a> | <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Usage">Usage</a></small>
-<br/>
-<sub>. . . . . . . . . . . . . . . . . . . . . . . . . . . .</sub>
-<br/><br/>
-<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/8d67382c-e0ce-4286-89f7-7915f09b930c" width="22%" alt="cli init screenshot" align="top">
-<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/dad2bc51-e7e5-484e-bb26-f956ed692d16" width="22%" alt="cli init screenshot" align="top">
-<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/e8e0b6f8-8fdf-4b7f-8124-c10d8699bdb2" width="22%" alt="server snapshot admin screenshot" align="top">
-<img src="https://github.com/ArchiveBox/ArchiveBox/assets/511499/ace0954a-ddac-4520-9d18-1c77b1ec50b2" width="28.6%" alt="server snapshot details page screenshot" align="top"/>
-<br/><br/>
-</div>
-
 ## features
 
 - [**Free & open source**](https://github.com/ArchiveBox/ArchiveBox/blob/dev/LICENSE), own your own data & maintain your privacy by self-hosting
@@ -72,6 +24,43 @@ curl -fsSL 'https://get.archivebox.io' | bash
 
 <a name="install"></a>
 
+## installation
+
+**🖥&nbsp; [Supported OSs](https://github.com/ArchiveBox/ArchiveBox/wiki/Install#supported-systems):** Ubuntu, macOS, Docker &nbsp; **👾&nbsp; CPUs:** `amd64` (`x86_64`), `arm64`<br/>
+
+<br/>
+
+#### ✳️&nbsp; Easy Setup
+
+<details>
+<summary><b><img src="https://app.archivebox.io/docs/icons/apple.svg" alt="Apple" height="28px" align="top"/> <code>ArchiveBox Server.app</code></b> (macOS)</summary>
+<br/>
+<ol>
+<li><a href="https://github.com/ArchiveBox/ios-archivebox/releases">Download <code>ArchiveBox Server.app</code></a>, move it to Applications, and open it.</li>
+<li>Set up an admin account and generate an API Key.</li>
+<li>Use the Web UI or <a href="https://app.archivebox.io/"><code>ArchiveBox.app</code></a>, and optionally connect REST API clients, the <a href="https://app.archivebox.io/">mobile app</a>, the <a href="https://extension.archivebox.io/">browser extension</a>, and other integrations to your server using your API Key.</li>
+</ol>
+<br/>
+</details>
+
+<details>
+<summary><b><img src="https://user-images.githubusercontent.com/511499/117447182-29758200-af0b-11eb-97bd-58723fee62ab.png" alt="Docker" height="28px" align="top"/> <code>docker-compose</code></b>  (macOS/Linux) &nbsp; <b>👈&nbsp; recommended</b> &nbsp; <i>(click to expand)</i></summary>
+<br/>
+<i>👍 Docker Compose is recommended for the easiest install/update UX + best security + all <a href="#dependencies">extras</a> out-of-the-box.</i>
+<br/><br/>
+<ol>
+<li>Install <a href="https://docs.docker.com/get-docker/">Docker</a> on your system (if not already installed).</li>
+<li>Download the <a href="https://raw.githubusercontent.com/ArchiveBox/ArchiveBox/dev/docker-compose.yml" download><code>docker-compose.yml</code></a> file into a new empty directory (can be anywhere).
+<pre lang="bash"><code style="white-space: pre-line">mkdir -p ~/archivebox/data && cd ~/archivebox
+curl -fsSL 'https://docker-compose.archivebox.io' > docker-compose.yml
+docker compose pull
+</code></pre></li>
+<li>Start the server, which initializes a new collection automatically.
+<pre lang="bash"><code style="white-space: pre-line">docker compose up -d --wait
+</code></pre></li>
+<li>Open <code>/admin/</code> on the hostname or IP used to reach ArchiveBox (local example: <a href="http://admin.archivebox.localhost:5797/admin/">http://admin.archivebox.localhost:5797/admin/</a>) to create the first admin. If <code>BASE_URL</code> is not configured yet, continue through the web setup wizard.
+<pre lang="bash"><code style="white-space: pre-line">
+
 ## tools
 
 docker compose exec archivebox archivebox add 'https://example.com'
@@ -80,10 +69,6 @@ docker compose exec archivebox archivebox help
 <i>For more info, see <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Install#option-a-docker--docker-compose-setup-%EF%B8%8F">Install: Docker Compose</a> in the Wiki. ➡️</i>
 </li>
 </ol>
-
-Docker image channels: `archivebox/archivebox:dev` advances only after full CI passes. Development servers can opt into `:dev-unstable`, which follows the newest clean `dev` image after both architectures finish the Docker build and checks, without waiting for the rest of CI. The existing universal `:sha-<12-character-commit>` tag is published at the same time. Both channels include amd64 and arm64, and are also available at `ghcr.io/archivebox/archivebox`. The early `dev-unstable` and SHA images can contain changes that fail later checks; ordinary installations should keep using the fully tested release channels.
-
-For IPv6, set `BIND_ADDR=[::]:5797` in the container environment, or run `archivebox server '[::]:5797'` with a CLI install. The wildcard listener accepts both IPv6 and IPv4; `[::1]:5797` listens only on IPv6 loopback. Use brackets around IPv6 addresses when specifying a port. Docker still requires published ports or an IPv6-enabled network for clients to reach the container. `BASE_URL` controls public links independently of the listening address: use a DNS name with an AAAA record, or a bracketed address such as `http://[2001:db8::1]:5797`. Docker health checks follow the actual listener, including custom ports and command-line overrides.
 
 See <a href="#cli-usage">below</a> for more usage examples using the CLI, Web UI, or <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Usage#sql-shell-usage">filesystem/SQL/Python</a> to manage your archive.
 <br/><br/>
@@ -119,13 +104,39 @@ See <a href="#cli-usage">below</a> for more usage examples using the CLI, Web UI
 <ol>
 <li>Run the shortcut for the <code>uv</code> install method. It installs <code>uv</code> first when needed.
 <pre lang="bash"><code style="white-space: pre-line">curl -fsSL 'https://get.archivebox.io' | bash</code></pre>
-<i>For more info, see <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Install#op
+<i>For more info, see <a href="https://github.com/ArchiveBox/ArchiveBox/wiki/Install#option-b-uv-install-shortcut">Install: Bare Metal</a> in the Wiki. ➡️</i>
+</li>
+</ol>
+
+See <a href="#cli-usage">below</a> for more usage examples using the CLI, Web UI, or filesystem/SQL/Python to manage your archive.<br/>
+See <a href="https://github.com/ArchiveBox/ArchiveBox/blob/dev/bin/setup.sh"><code>setup.sh</code></a> for the source code of the <code>uv</code> install shortcut.<br/>
+See <a href="https://docs.sweeting.me/s/against-curl-sh">"Against curl | sh as an install method"</a> blog post for my thoughts on the shortcomings of this install method.
+<br/><br/>
+</details>
+
+<br/>
+
+#### 🛠&nbsp; Package Manager Setup
+
+<a name="Manual-Setup"></a>
+
+
+<details>
+<summary><b><img src="https://user-images.githubusercontent.com/511499/117447613-ba4c5d80-af0b-11eb-8f89-1d98e31b6a79.png" alt="uv" height="28px" align="top"/> <code>uv</code></b> (macOS/Linux/BSD)</summary>
+<br/>
+<ol>
+
+<li>Install <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a> on your system (if not already installed).</li>
+<li>Install the ArchiveBox package using <code>uv</code>.
+<pre lang="bash"><code style="white-space: pre-line">uv tool install --python 3.13 --prerelease explicit --upgrade 'archivebox>=0.9.0rc0,<0.10'
+archivebox version
+</code></pre>
+<i>See the <a hr
 
 ## configuration
 
 </code></pre>
 
-Snapshot caching follows each snapshot's saved `PERMISSIONS`, including inherited defaults and snapshot overrides. Public content can be cached by browsers and shared proxies/CDNs; private and unlisted content uses `Cache-Control: private` so only the user's browser can cache it. Both retain normal artifact cache lifetimes and validators for fast repeat viewing. Authentication handoffs are not stored. Changing permissions does not revoke copies already cached under the previous policy; purge any affected shared cache when needed.
 </details>
 
 <br/>
