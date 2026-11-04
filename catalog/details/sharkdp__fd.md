@@ -141,11 +141,11 @@ This is the output of `fd -h`. To see the full set of command-line options, use 
 also includes a much more detailed help text.
 
 ```
-Usage: fd [OPTIONS] [pattern [path]...]
+Usage: fd [OPTIONS] [pattern] [path]...
 
 Arguments:
   [pattern]  the search pattern (a regular expression, unless '--glob' is used; optional)
-  [path]...  the root directories for the filesystem search (optional)
+  [path]...  the root directories for the filesystem search (optional, requires pattern first)
 
 Options:
   -H, --hidden                     Search hidden files and directories
@@ -213,9 +213,7 @@ Benchmark 3: fd -u '[0-9]\.jpg$' ~
 ```
 For this particular example, `fd` is approximately **23 times faster** than `find -iregex`
 and about **13 times faster** than `find -iname`. By the way, both tools found the exact
-same 546 files :smile:.
-
-**Note**: This 
+same 546 files :
 
 ## installation
 

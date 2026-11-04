@@ -130,8 +130,9 @@ usable on common LTS servers with glibc 2.35+.
 ### Docker
 
 ```bash
+export OBSCURA_CDP_TOKEN="$(openssl rand -hex 32)"
 docker run -d --name obscura -p 127.0.0.1:9222:9222 \
-  -e OBSCURA_CDP_TOKEN="$(openssl rand -hex 32)" \
+  -e OBSCURA_CDP_TOKEN \
   h4ckf0r0day/obscura
 ```
 
@@ -156,7 +157,7 @@ cargo build --release -p obscura-cli --bins --no-default-features
 cargo build --release -p obscura-cli --bins --no-default-features --features stealth
 ```
 
-Requires Rust 1.75+ ([rustup.rs](https://rustup.rs)). First build takes ~5 min (V8 compiles from source, cached after).
+Requires current stable Rust ([rustup.rs](https://rustup.rs)). First build takes ~5 min (V8 compiles from source, cached after).
 The stealth build also compiles BoringSSL and generates bindings, so it needs
 CMake, Clang, and the libclang/LLVM development libraries. On Ubuntu/Debian:
 
@@ -201,7 +202,7 @@ obscura fetch https://example.com --wait-until networkidle0
 obscura fetch https://example.com --timeout 10
 
 # Capture the settled page as PNG
-obscura fetch https://example.com --screenshot page.pn
+obscura fetch https:
 
 ## tools
 
@@ -230,7 +231,7 @@ To download a large resource without one giant `Network.getResponseBody` blob, c
 Obscura embeds V8 directly. Use `--v8-flags` to pass raw flags through to V8, same syntax as Chromium's `--js-flags` and Node's command-line flags. Most common use is raising the heap cap to fix `JavaScript heap out of memory` on JS-heavy pages:
 
 ```bash
-obscura --v8-flags "--max-old-space-size=4096" fetch <url>
+obscura --v8-flags "--max-old-space-size=4096" fetch https://example.com
 ```
 
 ### Heavy SPAs (script execution budget)
@@ -267,7 +268,7 @@ Start a CDP WebSocket server.
 | `--obey-robots` | off | Respect robots.txt |
 
 With multiple workers, exited children are reaped and restarted. New connections
-use ready workers only; if none are ready, the balancer returns HTTP 503. A
+use ready workers only; if none are ready, the balancer retur
 
 ## configuration
 

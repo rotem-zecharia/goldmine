@@ -78,6 +78,8 @@ Unsloth can be used in three ways: **[Unsloth Desktop](https://unsloth.ai/downlo
   </tr>
 </table>
 
+To choose Desktop's local HTTP port, set `UNSLOTH_DESKTOP_PORT=9000` in the environment that launches the app, then fully quit and reopen Desktop. Unset or empty keeps the default port 8888. If the selected port is busy, Desktop tries the next 20 ports. Choose a port between 1024 and 65515; Desktop rejects ranges containing a browser-restricted port. This setting applies to Desktop, including backend restarts after updates; it does not change the web UI's `unsloth studio -p` option or the separate LAN access port.
+
 ### Unsloth Studio (web UI)
 
 #### macOS, Linux, WSL:
@@ -137,15 +139,4 @@ unsloth studio --secure
 ```
 `-H 0.0.0.0` and different ports also work:
 ```bash
-unsloth studio -H 0.0.0.0 -p 8888
-```
-**LAN Access (home network)**: `Settings > API keys > LAN access`
-
-#### Password management & headless starts
-Exposing Unsloth (`--secure`, `--cloudflare`, or a non-loopback `-H`) asks once at the terminal for a new admin password. Ctrl+C there aborts the launch rather than exposing the auto-generated one; set a password non-interactively instead, or use `-H 127.0.0.1` to stay off the network.
-
-Headless starts:
-```bash
-UNSLOTH_STUDIO_PASSWORD='your-strong-password' unsloth studio --secure   # via env var
-```
-R
+unsloth studio -H 0.0.0.0 -p 888

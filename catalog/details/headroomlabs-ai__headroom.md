@@ -66,7 +66,7 @@ headroom perf
 headroom dashboard                      # live savings (proxy must be running)
 ```
 
-Inline, in Python:
+### Reduce input tokens in your own app
 
 ```python
 from headroom import compress
@@ -88,11 +88,17 @@ Headroom. For Claude Code, Serena is registered for the wrapped project only
 `--code-memory-scope user` to make it available in every project, or
 `--code-memory none` to skip it. `headroom unwrap` removes either registration.
 
+`headroom wrap ...` is session-scoped: its proxy exits with the wrapped agent.
+For a proxy that survives reboots, use the turnkey `headroom deploy` command.
+Use `headroom install apply` when you need to choose a specific persistent
+service, scheduled task, Docker runtime, scope, or provider target; see the
+[persistent installs guide](https://docs.headroomlabs.ai/docs/persistent-installs).
+
 The `headroom` CLI ships only in the PyPI package. The npm `headroom-ai` package
 is the TypeScript SDK — a library you import
 (`import { compress } from 'headroom-ai'`) — and provides no `headroom` command.
 
-## Proof
+## Proof: measured token savings
 
 Four scenarios built from real MCP server output formats, measured with the
 provider tokenizer and the shipped `compress()`. Seeded and offline, so you get
@@ -133,12 +139,4 @@ shows no detectable difference rather than an improvement.
 ## Output token reduction
 
 Everything above shrinks the prompt you **send**. You also pay for every token
-the model **writes back**, and on Opus-class models output costs 5× input. Much
-of that output is ceremony: "Great, let me…" preambles, code re-printed straight
-back at you, and deep reasoning spent on routine steps like reading a file.
-
-Headroom trims it from the proxy, with no change to your code:
-
-- **Verbosity steering** appends a short "be terse, don't restate context" note to the *end* of the system prompt, so your prompt cache still hits.
-
-It applies to Anthropic `/v1/messages` a
+the model **writes back**, and on Opus-class models o
