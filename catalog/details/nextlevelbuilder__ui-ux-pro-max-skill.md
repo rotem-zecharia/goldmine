@@ -4,7 +4,7 @@ An AI skill that provides design intelligence for building professional UI/UX ac
 
 ## features
 
-- **79 Searchable UI Styles (50 active)** - Glassmorphism, Claymorphism, Minimalism, Brutalism, Neumorphism, Bento Grid, Dark Mode, AI-Native UI, and more
+- **80 Searchable UI Styles (51 active)** - Glassmorphism, Claymorphism, Minimalism, Brutalism, Neumorphism, Bento Grid, Dark Mode, AI-Native UI, and more
 - **192 Color Palettes** - Industry-specific palettes aligned 1:1 with the 192 product types
 - **74 Font Pairings** - Curated typography combinations with Google Fonts imports
 - **25 Chart Types** - Recommendations for dashboards and analytics
@@ -33,15 +33,15 @@ chips, badges, and interrupted micro-interactions:
 
 ### Style Taxonomy
 
-The catalog contains **79 searchable styles** backed by stable IDs and aliases:
+The catalog contains **80 searchable styles** backed by stable IDs and aliases:
 
 | Status | Count | Search behavior |
 |--------|------:|-----------------|
-| Active | 50 | Included in normal recommendations and shown by default in the gallery |
+| Active | 51 | Included in normal recommendations and shown by default in the gallery |
 | Supplemental | 29 | Returned for exact or explicit variant/system intent; available through the gallery status filter |
 | Deprecated | 9 | Excluded from normal ranking; legacy names redirect to a canonical style or landing pattern |
 
-The active set covers 43 general visual families, 2 mobile-specific styles, 3 official platform/design systems, 1 platform material, and 1 core analytics style. Current official systems include Fluent 2, Shopify Polaris, and Adobe Spectrum; Liquid Glass is scoped as an Apple platform material, Material 3 Expressive remains a mobile Material variant, and Spectrum 2 is supplemental. Landing-page structures live in the separate 34-pattern landing dataset rather than competing with visual styles in BM25 ranking.
+The active set covers 43 general visual families, 2 mobile-specific styles, 4 official platform/design systems, 1 platform material, and 1 core analytics style. Current official systems include Fluent 2, Shopify Polaris, Adobe Spectrum, and Apple Native Experience; Liquid Glass is scoped as an Apple platform material, Material 3 Expressive remains a mobile Material variant, and Spectrum 2 is supplemental. Landing-page structures live in the separate 34-pattern landing dataset rather than competing with visual styles in BM25 ranking.
 
 See [`styles.csv`](src/ui-ux-pro-max/data/styles.csv) for the full taxonomy and provenance-aware metadata.
 
@@ -51,13 +51,13 @@ Many users ask about the differences between the open-source and premium version
 
 ### 🟢 Basic Version (This Repository)
 * **Fully Open Source:** Perfect for individual developers, hobbyists, and standard projects.
-* **Core UI/UX Intelligence:** Full access to 79 searchable UI styles (50 active), 192 product types, color palettes, and curated font pairings.
+* **Core UI/UX Intelligence:** Full access to 80 searchable UI styles (51 active), 192 product types, color palettes, and curated font pairings.
 * **Smart Recommendations:** Built-in BM25 search engine for highly accurate design matching.
 * **Cross-Platform Support:** Stack-specific guidelines supporting 22 major frameworks (React, Vue, Tailwind, iOS, Android, etc.).
 * **Design System Generation:** Instantly generate tailored UI rules, patterns, and logic via CLI.
 
 ### 🟡 Premium Version
-* **Extended Brand Design Skills:** 
+* **Extende
 
 ## installation
 

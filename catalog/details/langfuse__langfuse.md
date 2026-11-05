@@ -6,17 +6,19 @@
 
 <img width="2400" alt="features" src="https://github.com/user-attachments/assets/0fad3dee-f3ad-423c-9f0d-7ccd0f26cc2d" />
 
-- [LLM Application Observability](https://langfuse.com/docs/tracing): Instrument your app and start ingesting traces to Langfuse, thereby tracking LLM calls and other relevant logic in your app such as retrieval, embedding, or agent actions. Inspect and debug complex logs and user sessions. Try the interactive [demo](https://langfuse.com/docs/demo) to see this in action.
+- [AI Observability](https://langfuse.com/docs/observability/overview): Instrument your app and start ingesting traces to Langfuse, thereby tracking LLM calls and other relevant logic in your app such as retrieval, embedding, or agent actions. Inspect and debug complex logs and user sessions. Built on OpenTelemetry. Try the interactive [demo](https://langfuse.com/docs/demo) to see this in action.
 
-- [Prompt Management](https://langfuse.com/docs/prompt-management/get-started) helps you centrally manage, version control, and collaboratively iterate on your prompts. Thanks to strong caching on server and client side, you can iterate on prompts without adding latency to your application.
+- [Prompt Management](https://langfuse.com/docs/prompt-management/overview) helps you centrally manage, version control, and collaboratively iterate on your prompts. Thanks to strong caching on server and client side, you can iterate on prompts without adding latency to your application. The [LLM Playground](https://langfuse.com/docs/prompt-management/features/playground) lets you test prompts and model configurations; when you see a bad result in tracing, you can jump straight to the playground to iterate on it.
 
-- [Evaluations](https://langfuse.com/docs/evaluation/overview) are key to the LLM application development workflow, and Langfuse adapts to your needs. It supports LLM-as-a-judge, Code evaluators, user feedback collection, manual labeling, and custom evaluation pipelines via APIs/SDKs.
+- [Skill Management](https://langfuse.com/docs/skill-management/overview) (beta) brings versioning and labels to agent skills: a `SKILL.md` with task instructions plus optional supporting files. Promote or roll back versions without changing application code, and link skill versions to the traces they produced.
 
-- [Datasets](https://langfuse.com/docs/evaluation/dataset-runs/datasets) enable test sets and benchmarks for evaluating your LLM application. They support continuous improvement, pre-deployment testing, structured experiments, flexible evaluation, and seamless integration with frameworks like LangChain and LlamaIndex.
+- [Evaluations](https://langfuse.com/docs/evaluation/overview) are key to the AI agent development workflow, and Langfuse adapts to your needs. It supports LLM-as-a-judge, code evaluators, user feedback collection, manual labeling, and custom evaluation pipelines via APIs/SDKs. Use [Datasets and Experiments](https://langfuse.com/docs/evaluation/experiments/datasets) to build test sets and benchmarks for pre-deployment testing and continuous improvement.
 
-- [LLM Playground](https://langfuse.com/docs/playground) is a tool for testing and iterating on your prompts and model configurations, shortening the feedback loop and accelerating development. When you see a bad result in tracing, you can directly jump to the playground to iterate on it.
+- [AI Gateway](https://langfuse.com/docs/gateway/overview) (beta) gives your organization one endpoint for calls to your model providers. Keep provider credentials in one place, hand out per-user or service account gateway keys, approve models centrally, track AI spend per user, key, and model, and record every call as a Langfuse trace.
 
-- [Comprehensive API](https://langfuse.com/docs/api): Langfuse is frequently used to power bespoke LLMOps workflows while using the building blocks provided by Langfuse via the API. OpenAPI spec, Postman collection, and typed SDKs for Python, JS/TS are available.
+- [Metrics and Dashboards](https://langfuse.com/docs/metrics/overview): Track latency, cost, and quality across any dimension with [custom dashboards](https://langfuse.com/docs/metrics/features/custom-dashboards), the metrics API, and alerts.
+
+- [Comprehensive API](https://langfuse.com/docs/api-and-data-platform/overview): Langfuse is frequently used to power bespoke AI engineering workflows while using the building blocks provided by Langfuse via the API. An OpenAPI spec, typed SDKs for Python and JS/TS, the [Langfuse CLI](https://langfuse.com/docs/api-and-data-platform/features/cli), and the [Langfuse Agent Skill](https://langfuse.com/docs/api-and-data-platform/features/agent-skill) for coding agents are available.
 
 ## 📦 Deploy Langfuse
 
@@ -24,19 +26,15 @@
 
 ### Langfuse Cloud
 
-Managed deployment by the Langfuse team, generous free-tier, no credit card required.
+Managed deployment by the Langfuse team, generous free tier, no credit card required.
 
-<div align="center">
-    <a href="https://cloud.langfuse.com" target="_blank">
-        <img alt="Static Badge" src="https://img.shields.io/badge/»%20Sign%20up%20for%20Langfuse%20Cloud-8A2BE2?&color=black">
-    </a>
-</div>
+**[Sign up for Langfuse Cloud →](https://langfuse.com/cloud)**
 
 ### Self-Host Langfuse
 
 Run Langfuse on your own infrastructure:
 
-- [Local (docker compose)](https://langfuse.com/self-hosting/local): Run Langfuse on your own machine in 5 minutes using Docker Compose.
+- [Docker Compose](https://langfuse.com/self-hosting/deployment/docker-compose): Run Langfuse on your own machine or a single virtual machine in 5 minutes. The guide also covers configuring Docker log rotation so container logs don't fill up the disk.
 
   ```bash
   # Get a copy of the latest Langfuse repository
@@ -47,34 +45,39 @@ Run Langfuse on your own infrastructure:
   docker compose up
   ```
 
-- [VM](https://langfuse.com/self-hosting/docker-compose): Run Langfuse on a single Virtual Machine using Docker Compose.
-- [Kubernetes (Helm)](https://langfuse.com/self-hosting/kubernetes-helm): Run Langfuse on a Kubernetes cluster using Helm. This is the preferred production deployment.
-- Terraform Templates: [AWS](https://langfuse.com/self-hosting/aws), [Azure](https://langfuse.com/self-hosting/azure), [GCP](https://langfuse.com/self-hosting/gcp)
-
-See [self-hosting documentation](https://langfuse.com/self-hosting) to learn more about architecture and configuration options.
-
-#### Docker log rotation
-
-The default `docker-compose.yml` inherits the [Docker daemon's logging configuration](https://docs.docker.com/engine/logging/configure/). Docker's default `json-file` driver does not rotate logs unless configured, which can exhaust disk space. Set its [`max-size` and `max-file` options](https://docs.docker.com/engine/logging/drivers/json-file/), or keep your chosen logging backend and configure retention there. Do not rotate or truncate Docker-managed JSON log files with external tools.
-
-After changing daemon logging defaults, restart Docker and recreat
+- [Kubernetes (Helm)](https://langfuse.com/self-hosting/deployment/kubernetes-helm): Run Langfuse on a Kubernetes cluster using Helm. This is the preferred production deployment.
+- Terraform Templates: [AWS](https://langfuse.com/self-hosting/deployment/aws), [Azure](https://langfus
 
 ## installation
 
 Instrument your app and start ingesting traces to Langfuse, thereby tracking LLM calls and other relevant logic in your app such as retrieval, embedding, or agent actions. Inspect and debug complex logs and user sessions.
 
-### 1️⃣ Create new project
+### 🤖 Agentic installation (recommended)
 
-1.  [Create Langfuse account](https://cloud.langfuse.com/auth/sign-up) or [self-host](https://langfuse.com/self-hosting)
+Install the [Langfuse Agent Skill](https://github.com/langfuse/skills) to let your coding agent access all Langfuse features, then ask it to add tracing to your application:
+
+```txt
+Install the Langfuse Agent Skill from github.com/langfuse/skills
+and use it to add tracing to this application with Langfuse
+following best practices.
+```
+
+You can also install the skill with the [skills CLI](https://www.npmjs.com/package/skills) (`npx skills add langfuse/skills --skill "langfuse"`) or the [Langfuse Cursor plugin](https://cursor.com/marketplace/langfuse). If your agent supports MCP, add the [Langfuse Docs MCP server](https://langfuse.com/docs/docs-mcp) (`https://langfuse.com/api/mcp`, no authentication) so it can look up current documentation while it works. See the [get started guide](https://langfuse.com/docs/observability/get-started) for details.
+
+### 🛠️ Manual installation
+
+#### 1️⃣ Create new project
+
+1.  [Create Langfuse account](https://langfuse.com/cloud) or [self-host](https://langfuse.com/self-hosting)
 2.  Create a new project
 3.  Create new API credentials in the project settings
 
-### 2️⃣ Log your first LLM call
+#### 2️⃣ Log your first LLM call
 
-The [`@observe()` decorator](https://langfuse.com/docs/sdk/python/decorators) makes it easy to trace any Python LLM application. In this quickstart we also use the Langfuse [OpenAI integration](https://langfuse.com/integrations/model-providers/openai-py) to automatically capture all model parameters.
+The [`@observe()` decorator](https://langfuse.com/docs/observability/sdk/instrumentation#observe-wrapper) makes it easy to trace any Python LLM application. In this quickstart we also use the Langfuse [OpenAI integration](https://langfuse.com/integrations/model-providers/openai-py) to automatically capture all model parameters.
 
 > [!TIP]
-> Not using OpenAI? Visit [our documentation](https://langfuse.com/docs/get-started#log-your-first-llm-call-to-langfuse) to learn how to log other models and frameworks.
+> Not using OpenAI? Visit [our documentation](https://langfuse.com/docs/observability/get-started) to learn how to log other models and frameworks.
 
 ```bash
 pip install langfuse openai
@@ -85,6 +88,8 @@ LANGFUSE_SECRET_KEY="sk-lf-..."
 LANGFUSE_PUBLIC_KEY="pk-lf-..."
 LANGFUSE_BASE_URL="https://cloud.langfuse.com" # 🇪🇺 EU region
 # LANGFUSE_BASE_URL="https://us.cloud.langfuse.com" # 🇺🇸 US region
+# LANGFUSE_BASE_URL="https://jp.cloud.langfuse.com" # 🇯🇵 Japan region
+# LANGFUSE_BASE_URL="https://hipaa.cloud.langfuse.com" # ⚕️ HIPAA region
 ```
 
 ```python /@observe()/ /from langfuse.openai import openai/ filename="main.py"
@@ -105,7 +110,7 @@ def main():
 main()
 ```
 
-### 3️⃣ See traces in Langfuse
+#### 3️⃣ See traces in Langfuse
 
 See your language model calls and other application logic in Langfuse.
 
@@ -125,24 +130,11 @@ Support Channels:
 
 - **Ask any question in our [public Q&A](https://github.com/orgs/langfuse/discussions/categories/support) on GitHub Discussions.** Please include as much detail as possible (e.g. code snippets, screenshots, background information) to help us understand your question.
 - [Request a feature](https://github.com/orgs/langfuse/discussions/categories/ideas) on GitHub Discussions.
-- [Report a Bug](https://github.com/langfuse/langfuse/issues) on GitHub Issues.
-- For time-sensitive queries, ping us via the in-app chat widget.
-
-## 🤝 Contributing
-
-Your contributions are welcome!
-
-- Vote on [Ideas](https://github.com/orgs/langfuse/discussions/categories/ideas) in GitHub Discussions.
-- Raise and comment on [Issues](https://github.com/langfuse/langfuse/issues).
-- Open a PR - see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to setup a development environment.
-
-## 🥇 License
-
-This repository is MIT licensed, except for the `ee` folders. See [LICENSE](LICENSE) and [docs](https://langfuse.com/docs/open-source) for more details.
+- [Report a Bug](https://github.com/langfuse/langfus
 
 ## requirements
 
-We deploy this code base in Docker containers based on the Linux Alpine Image ([source](https://github.com/nodejs/docker-node)). You may find the Dockerfiles in [web/Dockerfile](web/Dockerfile) and [worker/Dockerfile](worker/Dockerfile).
+We deploy this code base in Docker containers. See [web/Dockerfile](web/Dockerfile) and [worker/Dockerfile](worker/Dockerfile) for how the images are built, including the base images they use.
 
 ## ⭐️ Star History
 
@@ -156,15 +148,15 @@ We deploy this code base in Docker containers based on the Linux Alpine Image ([
 
 ## ❤️ Open Source Projects Using Langfuse
 
-Top open-source Python projects that use Langfuse, ranked by stars ([Source](https://github.com/langfuse/langfuse-docs/blob/main/components-mdx/dependents)):
+Top open-source projects that use the Langfuse Python or JS/TS SDK, ranked by stars ([Source](https://github.com/langfuse/langfuse-docs/blob/main/components-mdx/dependents)):
 
 | Repository                                                                                                                                                                                                                                                                                                     |  Stars |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -----: |
-| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/85702467?s=40&v=4" width="20" height="20" alt=""> &nbsp; [langflow-ai](https://github.com/langflow-ai) / [langflow](https://github.com/langflow-ai/langflow)                                                                             | 116251 |
-| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/158137808?s=40&v=4" width="20" height="20" alt=""> &nbsp; [open-webui](https://github.com/open-webui) / [open-webui](https://github.com/open-webui/open-webui)                                                                           | 109642 |
-| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/23818?s=40&v=4" width="20" height="20" alt=""> &nbsp; [abi](https://github.com/abi) / [screenshot-to-code](https://github.com/abi/screenshot-to-code)                                                                                    |  70877 |
-| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/131470832?s=40&v=4" width="20" height="20" alt=""> &nbsp; [lobehub](https://github.com/lobehub) / [lobe-chat](https://github.com/lobehub/lobe-chat)                                                                                      |  65454 |
-| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/69962740?s=40&v=4" width="20" height="20" alt=""> &nbsp; [infiniflow](https://github.com/infiniflow) / [ragflow](https://github.com/infiniflow/ragflow)                                                                                  |  64118 |
-| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/135057108?s=40&v=4" width="20" height="20" alt=""> &nbsp; [firecrawl](https://github.com/firecrawl) / [firecrawl](https://github.com/firecrawl/firecrawl)                                                                                |  56713 |
-| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/130722866?s=40&v=4" width="20" height="20" alt=""> &nbsp; [run-llama](https://github.com/run-llama) / [llama_index](https://github.com/run-llama/llama_index)                                                                            |  44203 |
-| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/128289781?s=40&v=4" width="20" height="20" alt=""> &nbsp; [FlowiseAI](https://github.com/FlowiseAI) / [Flowise](https://github.com
+| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/130738209?s=40&v=4" width="20" height="20" alt=""> &nbsp; [Significant-Gravitas](https://github.com/Significant-Gravitas) / [AutoGPT](https://github.com/Significant-Gravitas/AutoGPT)                                                   | 187903 |
+| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/127165244?s=40&v=4" width="20" height="20" alt=""> &nbsp; [langgenius](https://github.com/langgenius) / [dify](https://github.com/langgenius/dify)                                                                                       | 160407 |
+| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/85702467?s=40&v=4" width="20" height="20" alt=""> &nbsp; [langflow-ai](https://github.com/langflow-ai) / [langflow](https://github.com/langflow-ai/langflow)                                                                             | 156333 |
+| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/4158466?s=40&v=4" width="20" height="20" alt=""> &nbsp; [bytedance](https://github.com/bytedance) / [deer-flow](https://github.com/bytedance/deer-flow)                                                                                  |  84985 |
+| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/320819803?s=40&v=4" width="20" height="20" alt=""> &nbsp; [cheaper-inference](https://github.com/cheaper-inference) / [OmniRoute](https://github.com/cheaper-inference/OmniRoute)                                                        |  84532 |
+| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/131470832?s=40&v=4" width="20" height="20" alt=""> &nbsp; [lobehub](https://github.com/lobehub) / [lobehub](https://github.com/lobehub/lobehub)                                                                                          |  83873 |
+| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/23818?s=40&v=4" width="20" height="20" alt=""> &nbsp; [abi](https://github.com/abi) / [screenshot-to-code](https://github.com/abi/screenshot-to-code)                                                                                    |  81022 |
+| <img class="avatar mr-2" src="https://avatars.githubusercontent.com/u/6154722?s=40&v=4" width="20" height="20" alt=""> &nbsp; [microsoft](https://github.com/microsoft) / [ai-agents-for-beginners](https://github.com/microsoft/ai-

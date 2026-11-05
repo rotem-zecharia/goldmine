@@ -25,7 +25,7 @@ For standalone skills (including OpenCode), use:
 npx skills add heygen-com/hyperframes
 ```
 
-> The picker opens with nothing pre-selected — the **Core Skills** group is all you need; `/slideshow`, `/remotion-to-hyperframes`, `/reverse-any-video`, `/style-sampling` and `/figma` install on demand. Agents and non-interactive runs should use `npx hyperframes skills update` instead — it installs exactly the core set, whereas `skills add --all` installs all 9 published skills. The six repo-internal skills under `.claude/skills` / `.agents/skills` are excluded by default. For the full published set use `npx hyperframes skills`.
+> The picker opens with nothing pre-selected — the **Core Skills** group is all you need; `/slideshow`, `/remotion-to-hyperframes`, `/reverse-any-video`, `/style-sampling` and `/figma` install on demand. Without the picker (a script or a CI job), `npx hyperframes skills update` installs exactly the core set, whereas `skills add --all` installs all 9 published skills. The six repo-internal skills under `.claude/skills` / `.agents/skills` are excluded by default. For the full published set use `npx hyperframes skills`.
 >
 > `skills add` resolves the skills.sh registry blob, which can lag `main` by hours. `npx hyperframes skills update` installs the skills from the release tag that matches your CLI version, so they match the CLI that runs them.
 
@@ -62,7 +62,7 @@ Build the upload-ready Codex plugin archive from the committed `HEAD` version of
 bun run package:codex-plugin
 ```
 
-This writes `dist/hyperframes-plugin.zip` with a `hyperframes/` root folder and fails if the archive exce
+This writes `dist/hyperframes-plugin.zip` with a `hyperframes/` root folder and fails if the archive exceeds Codex's 1
 
 ## features
 
@@ -86,19 +86,19 @@ HyperFrames is inspired by [Remotion](https://www.remotion.dev). Both tools rend
 | Distributed rendering    | Local and AWS Lambda render paths     | Remotion Lambda, mature cloud renderer  |
 | License                  | Apache 2.0                            | Source-available Remotion License       |
 
-Read the full comparison in the [HyperFrames vs Remotion guide](https://hyperframes.heygen.com/guides/hyperframes-vs-remotion).
+Read the full comparison in the [HyperFrames vs Remotion guide](https://hyperframes.heygen.com/guides/hyperframes-vs-remotion?utm_source=github&utm_medium=readme).
 
 ## Documentation
 
-Full documentation: [hyperframes.heygen.com/introduction](https://hyperframes.heygen.com/introduction)
+Full documentation: [hyperframes.heygen.com/introduction](https://hyperframes.heygen.com/introduction?utm_source=github&utm_medium=readme)
 
-- [Quickstart](https://hyperframes.heygen.com/quickstart)
-- [Showcase](https://hyperframes.heygen.com/showcase)
-- [Guides](https://hyperframes.heygen.com/guides/gsap-animation)
-- [API Reference](https://hyperframes.heygen.com/packages/core)
-- [Catalog](https://hyperframes.heygen.com/catalog/blocks/data-chart)
-- [Examples](https://hyperframes.heygen.com/examples)
-- [AWS Lambda rendering](https://hyperframes.heygen.com/deploy/aws-lambda)
+- [Quickstart](https://hyperframes.heygen.com/quickstart?utm_source=github&utm_medium=readme)
+- [Showcase](https://hyperframes.heygen.com/examples?utm_source=github&utm_medium=readme)
+- [Guides](https://hyperframes.heygen.com/guides/gsap-animation?utm_source=github&utm_medium=readme)
+- [API Reference](https://hyperframes.heygen.com/packages/core?utm_source=github&utm_medium=readme)
+- [Catalog](https://hyperframes.heygen.com/catalog/blocks/data-chart?utm_source=github&utm_medium=readme)
+- [Examples](https://hyperframes.heygen.com/examples?utm_source=github&utm_medium=readme)
+- [AWS Lambda rendering](https://hyperframes.heygen.com/deploy/aws-lambda?utm_source=github&utm_medium=readme)
 
 ## Packages
 
@@ -110,9 +110,4 @@ Full documentation: [hyperframes.heygen.com/introduction](https://hyperframes.he
 | [`@hyperframes/producer`](packages/producer)                     | Full rendering pipeline for capture, encode, and audio mix        |
 | [`@hyperframes/studio`](packages/studio)                         | Browser-based composition editor UI                               |
 | [`@hyperframes/player`](packages/player)                         | Embeddable `<hyperframes-player>` web component                   |
-| [`@hyperframes/shader-transitions`](packages/shader-transitions) | WebGL shader transitions for compositions                         |
-| [`@hyperframes/aws-lambda`](packages/aws-lambda)                 | AWS Lambda SDK and deployment surface for distributed renders     |
-
-## Community
-
-HyperFrames is used in production at [HeyGen](https://www.heygen.c
+| [`@hyperframes/shader-transit

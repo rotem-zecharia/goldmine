@@ -317,9 +317,9 @@ cmake -B build -DGGML_BLAS=1
 cmake --build build -j --config Release
 ```
 
-## Ascend NPU support
+## Huawei Ascend NPU support
 
-Ascend NPU provides inference acceleration via [`CANN`](https://www.hiascend.com/en/
+Huawei Ascend NPU provides inference acceleration via [`CANN`](https://www.hi
 
 ## limitations
 
