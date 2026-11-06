@@ -22,9 +22,9 @@ Choose the installation path that fits how you want to use DeepTutor. Terminal-b
 <details>
 <summary><b>Desktop — macOS and Windows (Preview)</b></summary>
 
-**Open DeepTutor** bundles Python, Node.js, and the full learning workspace, so no terminal or separate runtime installation is needed. Desktop previews are available on `dev`; the **v1.7.0 Release does not include desktop installers**.
+**Open DeepTutor** bundles Python, Node.js, and the full learning workspace, so no terminal or separate runtime installation is needed. Download published desktop builds from the [latest GitHub Release](https://github.com/HKUDS/DeepTutor/releases/latest), choosing the installer for your computer below.
 
-Open a successful [Desktop Release workflow run](https://github.com/HKUDS/DeepTutor/actions/workflows/desktop-release.yml?query=branch%3Adev), scroll to **Artifacts**, and download the matching target. GitHub sign-in is required, and artifacts expire after seven days.
+For development previews, open a successful [Desktop Release workflow run](https://github.com/HKUDS/DeepTutor/actions/workflows/desktop-release.yml?query=branch%3Adev) and download the matching **Artifact**. These previews require GitHub sign-in and expire after seven days; published release downloads do not.
 
 | Your computer | Download target | Installer |
 | --- | --- | --- |
@@ -64,7 +64,7 @@ deeptutor init     # ports + LLM provider + optional embedding/search
 deeptutor start    # starts backend + frontend
 ```
 
-Open the URL printed in the terminal, by default [http://127.0.0.1:3782](http://127.0.0.1:3782). Press `Ctrl+C` to stop both servi
+Open the URL printed 
 
 ## installation
 
