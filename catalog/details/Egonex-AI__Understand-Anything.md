@@ -144,7 +144,7 @@ Understand-Anything works across multiple AI coding platforms.
 ```
 
 
-### One-line install (Codex / OpenCode / OpenClaw / Antigravity / Gemini CLI / Pi Agent / Vibe CLI / VS Code Copilot / Hermes / Cline / KIMI CLI / Trae / Nanobot / Kiro)
+### One-line install (Codex / OpenCode / OpenClaw / Antigravity / Gemini CLI / Pi Agent / Vibe CLI / VS Code Copilot / Hermes / Cline / KIMI CLI / Trae / Nanobot / Kiro / Devin)
 
 
 **macOS / Linux:**
@@ -161,4 +161,4 @@ iwr -useb https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/i
 
 The installer clones the repo to `~/.understand-anything/repo` and creates the right symlinks for the chosen platform. Restart your CLI/IDE afterwards.
 
-> **Note on invoking skills:** the invocation prefix differs per platform. Most platforms use slash commands (`/understand`),
+> **Note on invoking skills:** the invocation prefix differs per platform. Most platforms use slash commands (`/under
