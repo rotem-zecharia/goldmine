@@ -35,6 +35,16 @@ Issues filed against any of the above are triaged from the same backlog — see 
 
 ## installation
 
+**One-line install** (self-host the full stack with Docker — dashboard, Redis, AIS relay, seeded public data):
+
+```bash
+curl -fsSL https://www.worldmonitor.app/install.sh | bash
+```
+
+This clones into `./worldmonitor` (or reuses your checkout), generates the required secrets, starts the stack, and seeds data. Then open [localhost:3000](http://localhost:3000). Options: `--dir`, `--port`, `--no-seed`, `--no-build`, passed after `bash -s --` (see `scripts/install.sh --help`). API keys are optional. Details, production notes, and uninstall: [SELF_HOSTING.md](./SELF_HOSTING.md).
+
+**Local development** (hot-reload Vite server):
+
 Requires Node.js 24, the version pinned in `.nvmrc`. Distribution packages are often older. Debian 12 and Raspberry Pi OS ship Node.js 18 with npm 9.2.0, where `npm install` stops with `Invalid comparator: file:vendor/braces`. Install Node.js 24 with [nvm](https://github.com/nvm-sh/nvm) (`nvm install` inside the checkout reads `.nvmrc`) or from [nodejs.org](https://nodejs.org/en/download).
 
 ```bash
@@ -94,9 +104,4 @@ World Monitor is built for agents and scripts as well as browsers:
   worldmonitor risk IR --api-key wm_xxx
   ```
 
-- **SDKs** — official zero-dependency client libraries mirroring the CLI: Python [`worldmonitor-sdk`](https://pypi.org/project/worldmonitor-sdk/) (source in [`sdk/python/`](sdk/python/)), Ruby [`worldmonitor`](https://rubygems.org/gems/worldmonitor) ([`sdk/ruby/`](sdk/ruby/)), Go [`github.com/koala73/worldmonitor/sdk/go`](https://pkg.go.dev/github.com/koala73/worldmonitor/sdk/go) ([`sdk/go/`](sdk/go/)). Guide: [worldmonitor.app/docs/sdks](https://www.worldmonitor.app/docs/sdks).
-
-Agent discovery files: [`llms.txt`](https://worldmonitor.app/llms.txt) · [agent-skills manifest](https://worldmonitor.app/.well-known/agent-skills/index.json) · [api-catalog](https://worldmonitor.app/.well-known/api-catalog). Get an API key at [worldmonitor.app/pro](https://www.worldmonitor.app/pro).
-
----
-
+- **SDKs** — official zero-dependency client libraries mirroring the CLI: Python [`worldmonitor-sdk`](https://pypi.org/project/worldmonitor-sdk/) (source in [`sdk

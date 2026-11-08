@@ -52,6 +52,7 @@ Databasus performs a real restore to confirm backups are usable, not just intact
 - **Zero-trust storage**: Backups are encrypted and remain useless to attackers, so you can safely store them in shared storage like S3, Azure Blob Storage, etc.
 - **Encryption for secrets**: Any sensitive data is encrypted and never exposed, even in logs or error messages
 - **Read-only user**: Databasus uses a read-only user by default for backups and never stores anything that can modify your data
+- **Two-factor authentication**: Password sign-in can require a six-digit code emailed to the account. Sign-in through Google or GitHub keeps relying on the provider's own checks
 
 ### 👥 **Suitable for teams** <a href="https://databasus.com/access-management">(docs)</a>
 
@@ -65,12 +66,6 @@ Databasus performs a real restore to confirm backups are usable, not just intact
 
 - **Designer-polished UI**: Clean, intuitive interface crafted with attention to detail
 - **Dark & light themes**: Choose the look that suits your workflow
-- **Mobile adaptive**: Check your backups from anywhere on any device
-
-### 💾 **Supported databases**
-
-- **PostgreSQL**: 14, 15, 16, 17 and 18 (physical and logical)
-- **MySQL**: 
 
 ## installation
 
@@ -198,7 +193,7 @@ For more options (NodePort, TLS, HTTPRoute for Gateway API), see the [Helm chart
 
 ## tools
 
-1. **Access the dashboard**: Navigate to `http://localhost:4005`
+1. **Create the first account**: Navigate to `http://localhost:4005` and sign up. The first account created on an instance administers it
 2. **Add your first database for backup**: Click "New Database" and follow the setup wizard
 3. **Configure schedule**: Choose from hourly, daily, weekly, monthly or cron intervals
 4. **Set database connection**: Enter your database credentials and connection details
@@ -212,10 +207,26 @@ For more options (NodePort, TLS, HTTPRoute for Gateway API), see the [Helm chart
 If you need to reset the password, you can use the built-in password reset command:
 
 ```bash
-docker exec -it databasus ./main --new-password="YourNewSecurePassword123" --email="admin"
+docker exec -it databasus ./main --new-password="YourNewSecurePassword123" --email="owner@example.com"
 ```
 
-Replace `admin` with the actual email address of the user whose password you want to reset.
+Replace `owner@example.com` with the actual email address of the account whose password you want to reset.
+
+If you do not remember which address administers the instance, list the administrator accounts:
+
+```bash
+docker exec -it databasus ./main --list-admins
+```
+
+The output names every administrator account with its email address, display name, creation date and active state, and marks the one the instance recognizes as its administrator. It prints no password material.
+
+To provision an account without signing up in the browser, for example from a deployment script, create it from the console:
+
+```bash
+docker exec -it databasus ./main --create-user --email="ops@example.com" --password="YourSecurePassword123" --role=admin
+```
+
+`--role` is `admin` or `member`, the password needs at least 8 characters, and `--name` optionally sets the display name. On an instance that holds no account yet, the first account must use `--role=admin` and administers the instance. Running the command again for the same account changes nothing, so a deployment can run it on every rollout; rotate the password with `--new-password`.
 
 ### 💾 Backuping Databasus itself
 
@@ -225,12 +236,8 @@ After installation, it is also recommended to <a href="https://databasus.com/faq
 
 ## 🛡️ Security & reliability engineering
 
-Databasus works with sensitive data, so preventing vulnerabilities, unauthorised access and data leaks is a primary concern. We invest in this on both sides of the system: in the code itself (permission checks, encryption, careful handling of secrets) and in the infrastructure around it (dependency analysis, CVE response, DevSecOps best practices). The pipeline below runs automatically on every commit and PR. No single layer is enough on its own, but together they reduce the chance of vulnerable code, unsafe dependencies, broken images, or non-restorable backups reaching a release.
+Databasus works with sensitive data, so preventing vulnerabilities, unauthorised access and data leaks is a primary concern. We invest in this on both sides of the system: in the code itself (permission checks, encryption, careful handling of secrets) and in the infrastructure around it (dependency analysis, CVE response, DevSecOps best practices). The pipeline below runs automatically before every release. No single layer is enough on its own, but together they reduce the chance of vulnerable code, unsafe dependencies, broken images, or non-restorable backups reaching a release.
 
-For static analysis we combine several independent passes. CodeQL scans the full codebase for security issues. CodeRabbit reviews every PR and runs gitleaks for secret scanning and semgrep for security rules inline. Dockerfiles and CI workflows get extra rules of their own (pinned action references, least-privilege permissions, suspicious base images), so insecure patterns are flagged before they ever merge. On top of these per-PR checks, Codex Security from OpenAI runs regular, deeper audits of the whole codebase. It's a separate program that catches architectural and cross-cutting issues narrow PR-time scans can miss.
+For static analysis we combine several independent passes. CodeQL scans the full codebase for security issues. Before every release, gitleaks scans for leaked secrets and semgrep checks the code against security rules. Dockerfiles and CI workflows get extra rules of their own (pinned action references, least-privilege permissions, suspicious base images), so insecure patterns are flagged before a release. On top of these release checks, Codex Security from OpenAI runs regular, deeper audits of the whole codebase. It's a separate program that catches architectural and cross-cutting issues narrower automated scans can miss.
 
-On the dependency side, Dependabot watches all of our dependencies against the GitHub Advisory Database and surfaces CVEs within minutes of publication. Updates run through a cooldown so newly-published versions get a chance to mature before we adopt them. This is a deliberate defence against compromised-package incidents like supply-chain attack. The Dependency Review Action blocks any PR that introduces a new HIGH or CRITICAL CVE outright.
-
-Container images are scanned with Trivy on every build. A separate Trivy pass on the Dockerfile catches misconfigurations before they make it into an image. All GitHub Actions are pinned to full commit SHAs rather than floating tags like `@v4` or `@main`, which have been an active attack vector in 2025. Workflows default to least-privilege permissions and only elevate per-job when genuinely needed.
-
-Critical paths are covered by both unit and integration tests, run against real database containers for every supported engine and major version. Restore is the path that matters most for a backup tool, so we test it explicitly: every PR runs full backup-then-restore cycles against those same real containers, verifying that backups can actually be restored end-to-end, not just written successfully. The rest of the CI/CD pipeline run
+On the dependency side, Dependabot watches all of our dependencies against the GitHub Advisory Database and surfaces CVEs within minutes of publication. Updates run thr

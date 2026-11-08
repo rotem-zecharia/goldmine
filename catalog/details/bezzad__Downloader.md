@@ -34,7 +34,7 @@ await DownloadBuilder
 - Resilient to client-side and server-side errors.
 - Configurable `ChunkCount` to control download segmentation.
 - Supports both in-memory and on-disk multipart downloads.
-- Parallel saving of chunks directly into the final file (no temporary files).
+- Parallel saving of all chunks directly into one file (no extra file per chunk).
 - Always downloads to a temporary file (configurable extension, default `.download`), then renames to the final name on completion.
 - Always pre-allocates file size before download begins.
 - Resume downloads manually by saving and restoring the `DownloadPackage` object.
@@ -46,7 +46,7 @@ await DownloadBuilder
 - Supports large file downloads and live-streaming (e.g., music playback during download).
 - Download a specific byte range from a large file.
 - Resolve a remote file's name, size, and range support **without downloading it** (`RemoteFileResolver`).
-- Lightweight, fast codebase with no external dependencies.
+- Lightweight, fast codebase. The only dependency is `Microsoft.Extensions.Logging.Abstractions`.
 - Manage RAM usage during downloads.
 - Supports custom `HttpClient` or `HttpMessageHandler` injection for advanced scenarios (e.g., `IHttpClientFactory`, HTTP caching, custom delegating handlers).
 
@@ -73,14 +73,16 @@ var downloadOpt = new DownloadConfiguration()
 ```csharp
 var downloadOpt = new DownloadConfiguration()
 {
-    // usually, hosts support max to 8000 bytes, default value is 8000
+    // size of each read from the network (1 byte to 1MB),
+    // the default value is 1024 bytes
     BufferBlockSize = 10240, // 10KB
     // file parts to download, the default value is 1
     ChunkCount = 8,             
     // download speed limited to MaximumBytesPerSecond, 
     // the default value is zero, which means unlimited
     MaximumBytesPerSecond = 1024*1024*2, // 2MB/s
-    // the maximum number of times to fail
+    // the maximum number of retries for each chunk,
+    // the default value is int.MaxValue (retry forever)
     MaxTryAgainOnFailure = 5,    
     // release memory buffer after each MaximumMemoryBufferBytes 
     MaximumMemoryBufferBytes = 1024 * 1024 * 50, // 50MB
@@ -91,8 +93,8 @@ var downloadOpt = new DownloadConfiguration()
     // The default value is the same as the chunk count
     ParallelCount = 4,    
     // timeout (millisecond) per stream block reader, 
-    // the default value is 1000
-    BlockTimeout = 1000,
+    // the default value is 5000 (minimum 100)
+    BlockTimeout = 5000,
     // timeout (millisecond) per HttpClient request, 
     // default value is 100 seconds
     HttpClientTimeout = 100 * 1000,
@@ -113,7 +115,9 @@ var downloadOpt = new DownloadConfiguration()
     // default value is 0 equal unlimited
     MinimumChunkSize = 10240, // 10KB
     // Get on-demand downloaded data with 
-    // ReceivedBytes on the downloadProgressChanged event 
+    // ReceivedBytes on the downloadProgressChanged event.
+    // Live streaming uses one chunk, and it can not be
+    // changed while a download runs (see Step 3)
     EnableLiveStreaming = false,
     // How to handle an existing filename when 
     // starting to download?
@@ -137,24 +141,17 @@ var downloadOpt = new DownloadConfiguration()
     {        
         Accept = "*/*",
         CookieContainer = cookies,
-        Headers = ["Accept-Encoding: gzip, deflate, br"], // { your custom headers }
+        // your custom headers. Note: the default list is ["Accept-Encoding: identity"];
+        // if you ask for gzip/br here, also set AutomaticDecompression,
+        // or the compressed bytes are saved as the file.
+        Headers = ["Accept-Encoding: identity", "X-Custom-Header: value"],
         KeepAlive = true, 
         ProtocolVersion = HttpVersion.Version11,
         // your custom user agent or 
         // your_app_name/app_version.
         UserAgent = "Mozilla/5.0",
-        Proxy = new WebProxy() {
-           Address = new Uri(
-            "http://YourProxyServer/proxy.pac"),
-           UseDefaultCredentials = false,
-           Credentials = System.Net.CredentialCache.DefaultNetworkCredentials,
-           BypassProxyOnLocal = true
-        },
-        Authorization = new AuthenticationHeaderValue
-            ("Bearer", "XX_YOUR_TOKEN_XX")
-    }
-};
-```
+        // without a Proxy the system proxy is used;
+        // new WebProxy() (no address) means no proxy 
 
 ## tools
 
@@ -204,7 +201,7 @@ Resume the existing download package with a new configuration:
 await DownloadBuilder.New().Build(package, config).StartAsync();
 ```
 
-[Pause and Resume quickly](https://github.com/bezzad/Downloader/blob/master/src/Downloader.Test/UnitTests/DownloadBuilderTest.cs#L110):
+[Pause and Resume quickly](https://github.com/bezzad/Downloader/blob/master/src/Downloader.Test/UnitTests/DownloadBuilderTest.cs#L268):
 
 ```csharp
 var download = DownloadBuilder
@@ -321,33 +318,33 @@ Run the following command to compile the project for your target platform:
 Windows (x64):
 
 ```bash
-dotnet publish -r win-x64 -f net8.0 -c Release
+dotnet publish src/Downloader/Downloader.csproj -r win-x64 -f net8.0 -c Release
 ```
 
 Linux (x64):
 
 ```bash
-dotnet publish -r linux-x64 -f net8.0 -c Release
+dotnet publish src/Downloader/Downloader.csproj -r linux-x64 -f net8.0 -c Release
 ```
 
 macOS (x64):
 
 ```bash
-dotnet publish -r osx-x64 -f net8.0 -c Release
+dotnet publish src/Downloader/Downloader.csproj -r osx-x64 -f net8.0 -c Release
 ```
 
 #### 3. Find the Output
 
-The compiled executable will be located in:
+The output will be located in:
 
 ```bash
-bin/Release/net8.0/<RUNTIME_IDENTIFIER>/publish/
+src/Downloader/bin/Release/net8.0/<RUNTIME_IDENTIFIER>/publish/
 ```
 
 Example for Windows:
 
 ```bash
-bin/Release/net8.0/win-x64/publish/
+src/Downloader/bin/Release/net8.0/win-x64/publish/
 ```
 
 # Instructions for Contributing
@@ -364,7 +361,7 @@ The general process for working with Downloader is:
 1. [Fork](http://help.github.com/forking/) on GitHub
 2. Make sure your line endings are correctly configured and fix your line endings!
 3. Clone your fork locally
-4. Configure the upstream repo (`git remote add upstream git://github.com/bezzad/downloader`)
+4. Configure the upstream repo (`git remote add upstream https://github.com/bezzad/downloader.git`)
 5. Switch to the latest development branch (`git checkout develop`)
 6. Create a local branch from that (`git checkout -b myBranch`).
 7. Work on your feature
@@ -376,7 +373,9 @@ We accept pull requests from the community. But you should **never** work on a c
 
 ## You can run tests with the Docker Compose file with the following command
 >
-> `docker-compose -p downloader up`
+> `docker compose -p downloader up`
+
+(Older Docker installs use `docker-compose` instead.)
 
 ## Or with docker file
 >
@@ -385,7 +384,7 @@ We accept pull requests from the community. But you should **never** work on a c
 
 ## Or run the following command to call docker directly
 >
-> `docker run --rm -v ${pwd}:/app --env=ASPNETCORE_ENVIRONMENT=Development -w /app/tests mcr.microsoft.com/dotnet/sdk:10.0 dotnet test ../ --logger:trx`
+> `docker run --rm -v ${pwd}:/app --env=ASPNETCORE_ENVIRONMENT=Development -w /app/src mcr.microsoft.com/dotnet/sdk:10.0 dotnet test -p:TargetFrameworks=net10.0 --logger:trx`
 
 ------------------------------------------------------
 
@@ -413,7 +412,4 @@ Licensed under the terms of the [MIT License](https://raw.githubusercontent.com/
 
 # Contributors
 
-Thanks go to these wonderful people (List made with [contrib. rocks](https://contrib.rocks)):
-
-<a href="https://github.com/bezzad/downloader/graphs/contributors">
-  <img alt="downloader contributors" src="https://contrib.rocks/image?repo=bezzad/downl
+Thanks go to these wonderful people (List made with

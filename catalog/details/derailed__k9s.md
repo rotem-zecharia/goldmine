@@ -167,7 +167,9 @@ Binaries for Linux, Windows and Mac are available as tarballs in the [release pa
 #### Building a multi-platform image
 
   The `make imgx` target builds for `linux/amd64` and `linux/arm64` via Docker
-  buildx:
+  buildx. Both `imgx` and `pushx` always tag the image with `latest` *and*
+  the explicit `VERSION` in the same build, so a release can be pinned to a
+  specific tag instead of only `latest`:
 
   ```shell
   make imgx
@@ -181,17 +183,7 @@ Binaries for Linux, Windows and Mac are available as tarballs in the [release pa
   Override the defaults with `BUILD_PLATFORMS`, `IMG_NAME` and `VERSION`:
 
   ```shell
-  make imgx BUILD_PLATFORMS=linux/amd64,linux/arm64 IMG_NAME=your-org/k9s VERSION=v0.0.1
-  ```
-
----
-
-## PreFlight Checks
-
-* K9s uses 256 colors terminal mode. On `Nix system make sure TERM is set accordingly.
-
-    ```shell
-    export TERM=xterm-256color
+  make imgx BUILD_PLATFORMS=linux/amd64,linux/arm64 IMG_NAME=your-org/k
 
 ## configuration
 
