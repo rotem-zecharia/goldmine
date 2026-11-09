@@ -6,9 +6,11 @@ User-friendly AI Interface (Supports Ollama, OpenAI API, ...)
 
 #### Python
 
-Requires Python 3.12.
-
 ```bash
+# With uv installed (macOS/Linux)
+DATA_DIR=~/.open-webui uvx --python 3.12 open-webui@latest serve
+
+# Or install and run with pip (Python 3.12)
 pip install open-webui
 open-webui serve
 ```
@@ -70,8 +72,4 @@ For Docker Compose, Kubernetes, and other setups, see the [installation docs](ht
 
 [Open an issue](https://github.com/open-webui/open-webui/issues) or [start a discussion](https://github.com/open-webui/open-webui/discussions).
 
-Find us on [Reddit](https://www.reddit.com/r/OpenWebUI/), [X](https://x.com/OpenWebUI), and [Discord](https://discord.gg/5rJgQTnV4s).
-
-### Security
-
-Report vulnerabilities privatel
+Find us on [Reddit](https://www.reddit.com/r/OpenWebUI/), [
