@@ -117,7 +117,8 @@ x86_64 Windows only (no 32-bit build).
 
 Download `obscura-x86_64-windows.zip` from
 [Releases](https://github.com/h4ckf0r0day/obscura/releases),
-extract it, and add the folder to your PATH. No C++ build tools are required.
+extract it, and add the folder to your PATH. Keep the bundled runtime DLLs beside
+both executables. No C++ build tools are required.
 
 Alternatively, with [Scoop](https://scoop.sh/) installed:
 
@@ -201,9 +202,7 @@ obscura fetch https://example.com --dump links
 obscura fetch https://news.ycombinator.com --dump html
 
 # Write dump or eval output to a file
-obscura fetch https://example.com --dump text --output page.txt
-
-# Stream the raw response body verbatim (binary-safe
+obscura fetch https://example.com --dump text --output page.tx
 
 ## tools
 

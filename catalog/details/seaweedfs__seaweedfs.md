@@ -131,12 +131,13 @@ On one laptop, [`weed benchmark`][Benchmarks] writes 1KB files at 15,700 per sec
 
 ## tools
 
-The S3 gateway implements the object, bucket, S3 Tables, IAM, and STS APIs on one endpoint, so the AWS SDKs and CLI, rclone, restic, Spark, and Trino work unchanged.
+The S3 gateway implements the object, bucket, S3 Tables, S3 Vectors, IAM, and STS APIs on one endpoint, so the AWS SDKs and CLI, rclone, restic, Spark, and Trino work unchanged. S3 Vectors uses the `weed-vector` service described [below](#vector-search-with-s3-vector-buckets).
 
 | API | Operations |
 | --- | --- |
 | S3 bucket and object | 73 |
 | S3 Tables | 36 |
+| S3 Vectors | 19 |
 | IAM | 39 |
 | STS | 5 |
 
@@ -150,7 +151,7 @@ The full operation list is in [Amazon S3 API][AmazonS3API], and [Supported APIs 
 
 ## A data warehouse with S3 Tables ##
 
-SeaweedFS is a lakehouse in one system. [S3 Table Buckets][S3TableBucket] hold Apache Iceberg tables by default, or [Lance][LanceCatalog] tables for vectors and multimodal data, and the built-in [Iceberg REST Catalog][IcebergCatalog] and Lance namespace serve them directly. There is no Hive Metastore, Glue, or separate catalog service to deploy, secure, and back up.
+SeaweedFS is a lakehouse in one system. [S3 Table Buckets][S3TableBucket] hold Apache Iceberg tables by default, or [Lance][LanceCatalog] tables for vectors and multimodal data, and the built-in [Iceberg REST Catalog][IcebergCatalog] and Lance namespace serve them directly. The S3 Tables API and Iceberg REST Catalog share the same namespaces, table metadata, and permissions. There is no Hive Metastore, Glue, or separate catalog service to deploy, secure, and back up.
 
 * Query engines operate on the same tables at the same time: [Spark][SparkIceberg], [Trino][TrinoIceberg], [Dremio][DremioIceberg], [DuckDB][DuckDBIceberg], [Apache Doris][DorisIceberg], [RisingWave][RisingWaveIceberg], ClickHouse, and [LanceDB][LanceDB]. Catalog commits are atomic compare-and-swap, so concurrent writers are safe. [Lakekeeper][Lakekeeper] can front the same storage with STS-vended credentials. [OLake Go][OLake] is a high-performance, open-source EL (Extract–Load) platform that bridges operational databases and open lakehouse storage - writing Apache Iceberg tables or Parquet files on Amazon S3.
 * [Automated table maintenance][IcebergMaintenance]: compaction, snapshot expiration, orphan file removal, and manifest rewriting, configured per bucket or table through the S3 Tables maintenance APIs, and the same for [Lance][LanceMaintenance].
@@ -159,17 +160,18 @@ SeaweedFS is a lakehouse in one system. [S3 Table Buckets][S3TableBucket] hold A
 
 `S3_TABLE_BUCKET=warehouse ./weed mini -dir=./data` brings the whole stack up on a laptop.
 
-## A fast cache for cloud storage ##
+## Vector search with S3 Vector Buckets ##
 
-[Cloud Drive][CloudDrive] mounts a bucket from S3, Google Cloud Storage, Azure, Backblaze B2, Wasabi, Storj, or any S3-compatible store into SeaweedFS and serves it at local speed:
+Keep embeddings alongside your objects and tables in the same SeaweedFS cluster. S3 Vector Buckets expose the AWS S3 Vectors API for semantic search, retrieval-augmented generation (RAG), and recommendations, using Lance tables on SeaweedFS storage.
 
-* Metadata is pulled once, so listing, stat, and directory walks cost no cloud API calls.
-* File content is downloaded once, on first read or [warmed][CacheRemote] by folder, name pattern, size, or age, and cached with the capacity of the whole cluster: cache everything, no churn.
-* Local writes complete at local latency and are written back to the cloud asynchronously in the cloud's native layout, so other tools keep reading the bucket directly.
-* Uncache by the same rules to free local disk while keeping the metadata.
+* Create vector buckets and indexes; insert, retrieve, list, and delete vectors with the AWS SDKs or CLI pointed at your S3 endpoint.
+* Find the nearest vectors with cosine or Euclidean distance, filter by metadata, and return distances and metadata with the results.
+* Control access with `s3vectors:*` IAM actions and vector bucket policies; tag buckets and indexes for organization and access control.
 
-[Cloud Tier][CloudTier] goes the other direction, moving whole warm volumes to cloud storage while keeping one-read access, and the [Gateway to Remote Object Storage][GatewayToRemoteObjectStore] mirrors every bucket to a remote store. Faster and cheaper than reading the cloud directly.
+Run the separate `weed-vector` binary alongside the cluster. For the local cluster started with `weed mini` above:
 
-## Active-active replication and more ##
+```bash
+weed-vector --masters=localhost:9333
+```
 
-* [Active-active or active-passive replication][Ac
+It registers with the mas

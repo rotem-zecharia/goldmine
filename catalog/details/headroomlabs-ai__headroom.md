@@ -81,12 +81,12 @@ print(f"Saved {result.tokens_saved} tokens ({result.compression_ratio:.0%})")
 ```
 
 Launch a wrapped agent session each time, so the setup runs. `headroom wrap`
-starts a local proxy, installs **[Serena](https://github.com/oraios/serena)** for
-semantic code navigation, and launches the agent configured to route through
-Headroom. For Claude Code, Serena is registered for the wrapped project only
-(as a `local`-scope MCP server in `~/.claude.json`). Use
-`--code-memory-scope user` to make it available in every project, or
-`--code-memory none` to skip it. `headroom unwrap` removes either registration.
+starts a local proxy and launches the agent configured to route through
+Headroom. Add `--code-memory serena` to also install
+**[Serena](https://github.com/oraios/serena)** for semantic code navigation (off
+by default). For Claude Code, Serena is registered for the wrapped project only
+(as a `local`-scope MCP server in `~/.claude.json`); use `--code-memory-scope user`
+to make it available in every project. `headroom unwrap` removes either registration.
 
 `headroom wrap ...` is session-scoped: its proxy exits with the wrapped agent.
 For a proxy that survives reboots, use the turnkey `headroom deploy` command.
@@ -139,4 +139,4 @@ shows no detectable difference rather than an improvement.
 ## Output token reduction
 
 Everything above shrinks the prompt you **send**. You also pay for every token
-the model **writes back**, and on Opus-class models o
+the model **writes back**, and on Opus-
