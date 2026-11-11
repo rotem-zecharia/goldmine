@@ -4,6 +4,12 @@ Transforms complex documents like PDFs and Office docs into LLM-ready markdown/J
 
 ## features
 
+### MinerU 4.2
+
+- **WebUI interaction upgrades**: Supports bidirectional navigation between source documents and parsed results, outline navigation, and layout visualization, with improved uploads, tier selection, and PDF previews. [Try online](https://www.modelscope.cn/studios/OpenDataLab/MinerU)
+- **Improved parsing quality**: More accurate inline formula recognition and complex layout analysis, with improved cross-page table merging. Flash native parsing uses `Tagged PDF` / `PDF/UA` structural semantics to improve reading order and content accuracy.
+- **Dynamic Router management**: Supports dynamic node registration, graceful removal, and multi-level cascading. [Management APIs and cascading examples](https://opendatalab.github.io/MinerU/usage/tasks/#dynamic-router-upstreams-and-cascading)
+
 ### MinerU 4.1
 
 - **Automatic acceleration across major platforms and GPUs:** Windows and Linux gain automatic ONNX acceleration for compatible Intel, AMD, and NVIDIA GPUs, alongside existing MPS/Metal support on macOS. MinerU detects devices, prioritizes discrete GPUs, and selects GPU or CPU execution for integrated graphics based on performance and compatibility. Representative core inference workloads run at approximately **2–3× CPU speed**.
@@ -24,7 +30,7 @@ MinerU 4.0 brings document parsing, a local document library, and service tools 
 - **Unified tools**: Python SDK, V1 API, stateless batch conversion, multi-service Router, and a Gradio-based WebUI.
 - **Structured results and rendering**: one document model supports nine rendering targets: Markdown, HTML, LaTeX, DOCX, EPUB, PDF, Structured Content, and Content List V1/V2. Each CLI/API exposes its own subset of exports; see [Output Formats and Result Contract](https://opendatalab.github.io/MinerU/reference/output_files/).
 
-PDF and images support all four tiers. Office, OpenDocument, EPUB, OFD, HTML/MHTML, and CSV/TSV use local Flash native parsing. Plain text is read directly rather than parsed. Documents are not automatically uploaded to the official service; remote parsing requires explicit configuration.
+PDF and images support all four tiers. Office, OpenDocument, EPUB, OFD, HTML/MHTML, and CSV/TSV use local Flash native parsing. Plain text is read directly rather than parsed. Documents are not automatically uploaded to the official serv
 
 ## installation
 

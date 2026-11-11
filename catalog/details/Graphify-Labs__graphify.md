@@ -69,16 +69,15 @@ winget install astral-sh.uv
 
 **Ubuntu/Debian:**
 ```bash
-sudo apt install python3.12 python3-pip pipx
-
-## installation
-
+# uv manages its own Python, so this is the only step you need:
 curl -LsSf https://astral.sh/uv/install.sh | sh
+# or use the system Python with pipx:
+sudo apt install python3 python3-pip pipx
 ```
 
 ---
 
-## Install
+## installation
 
 > [!IMPORTANT]
 > **Official package:** The PyPI package is `graphifyy` (double-y). Other `graphify*` packages on PyPI are not affiliated. The CLI command is still `graphify`.
@@ -147,7 +146,7 @@ for example `graphify claude install --project` or `graphify codex install --pro
 
 Codex users also need `multi_agent = true` under `[features]` in `~/.codex/config.toml` for parallel extraction. CodeBuddy uses the same Agent tool and PreToolUse hook mechanism as Claude Code. Factory Droid uses the `Task` tool for parallel subagent dispatch. OpenClaw and Aider use sequential extraction (parallel agent support is still early on those platforms). Trae uses the Agent tool for parallel subagent dispatch and does **not** support `PreToolUse` hooks, so AGENTS.md is the always-on mechanism.
 
-`--platform agents` (alias `--platform skills`) targets the generic cross-fra
+`--platform agents` (alias `--platform skills`) targets the generic cross-framework [Agent-Skills](https://github.com/anthropics/skills) locations:
 
 ## tools
 

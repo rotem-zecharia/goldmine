@@ -4,43 +4,78 @@ Persistent memory for Claude Code, Codex and 6 other AI agents, stored as plain 
 
 ## installation
 
+Inside any Claude Code session, run:
+
+```
+/plugin marketplace add eugeniughelbur/obsidian-second-brain
+/plugin install obsidian-second-brain@obsidian-second-brain
+```
+
+Then tell Claude where your vault is. Add this to the `env` section of `~/.claude/settings.json`:
+
+```json
+"env": { "OBSIDIAN_VAULT_PATH": "/path/to/your/vault" }
+```
+
+Restart Claude Code and run `/obsidian-second-brain:obsidian-init` inside your vault. Start with three commands: `obsidian-init` to set up, `obsidian-save` to capture and `obsidian-find` to recall.
+
+No vault yet, another AI tool, or bare command names? See the [full install guide](#install).
+
+<p align="center">
+  <em>If this helps you, a <a href="https://github.com/eugeniughelbur/obsidian-second-brain">star</a> helps other people find it.</em>
+</p>
+
+<p align="center">
+  <strong>An evolution of <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f">Karpathy's LLM Wiki pattern</a>: a vault that rewrites itself.</strong>
+  <br />
+  <em>Every source updates the pages you already have, not only adds new ones. <a href="#how-this-extends-karpathys-llm-wiki">How it differs &rarr;</a></em>
+  <br /><br />
+  <strong>Powered by <a href="references/freshness-policy.md">Open Knowledge Metabolism (OKM)</a>:</strong> <em>each fact is timeless, dated, or a pointer. Your notes never fill with facts that used to be true.</em>
+</p>
+
+---
+
+## The Problem
+
+You use Claude every day. Every session starts from scratch. You re-explain everything. The conversation ends. Everything disappears. Claude Code has no persistent memory across sessions - and neither does Grok Bot, Codex, Gemini, or any of the others.
+
+You take notes in Obsidian. Hundreds of files. They just sit there. You make the same decision twice because you forgot you made it six months ago. Ideas rot in daily notes. Nobody connects the dots.
+
+**Two powerful tools. Completely disconnected.** You already have the long-term memory. The thing doing the thinking cannot reach it.
+
+---
+
+## Who builds this
+
+I'm Eugeniu Ghelbur, an AI automation engineer. I built this for my own vault, and I still run my work on it every day. I review and merge every change myself, and close to 50 people have shipped fixes so far ([see who](#contributors)).
+
+I write up what I learn twice a week on [The AI Operator](https://theaioperator.io/subscribe?utm_source=github&utm_medium=readme&utm_campaign=who-builds-this), and post shorter notes on [X](https://x.com/eugeniu_ghelbur) and [LinkedIn](https://www.linkedin.com/in/eugeniu-ghelbur/).
+
+---
+
+## How this extends Karpathy's LLM Wiki
+
+Karpathy's pattern is brilliant. Drop sources, LLM creates wiki pages, ask questions. This skill takes it further:
+
+| | Karpathy's LLM Wiki | obsidian-second-brain |
+|---|---|---|
+| **New sources** | Append new pages, cross-reference | **Rewrite existing pages.** People get updated, claims revised, stale facts replaced. |
+| **Contradictions** | Flagged, you resolve manually | `/obsidian-reconcile` resolves them automatically |
+| **Patterns** | Surface when you ask | `/obsidian-synthesize` finds unnamed patterns and writes synthesis pages on its own |
+| **When it runs** | On demand, when you prompt | 4 scheduled agents: morning brief, nightly consolidation, weekly review, vault-health check |
+| **Note format** | Human-readable wiki pages | AI-first: `## For future agent` preamble + frontmatter for LLM retrieval, not human review |
+
+If Karpathy's wiki is a knowledge base you maintain with an LLM, this is a knowledge base that maintains itself.
+
+---
+
+## What Happens When You Install This
+
 **After a meeting:** `/obsidian-save`
 Claude pulls out every decision, person, task, and idea and saves each one to the right note. You do nothing.
 
 **You recorded a voice memo:** `/obsidian-ingest meeting.m4a`
-Claude transcribes it with a local Whisper install, attributes speakers where the transcript makes them identifiable, extracts every promise and action item, and distributes across entity pages, task boards, and the daily note.
-
-**You screenshot a whiteboard:** `/obsidian-ingest photo.png`
-Claude reads the image, extracts text and structure, creates concept notes, links to related projects. A photo becomes knowledge.
-
-**You have a finished text document:** `/obsidian-ingest report.docx`
-Word (`.docx`, `.doc`) and OpenDocument (`.odt`) files uploaded or copied into the vault follow the same local-source rules as PDFs and Markdown. The helper converts a private copy to a temporary PDF, then ingestion uses the existing PDF path. Text and figures use that path; comments and revision markup are excluded. The original stays unchanged and remains the source under the existing provenance rules. Requires Python 3.10+ and [LibreOffice 26.2+](https://www.libreoffice.org/download/download-libreoffice/), installed separately. Run `python scripts/document_to_pdf.py "path/to/report.docx"`; it prints the PDF path. Put `soffice` on PATH or add `--soffice` with its executable path (Windows: `C:/Program Files/LibreOffice/program/soffice.com`; macOS: `/Applications/LibreOffice.app/Contents/MacOS/soffice`). Remove the generated PDF and its temporary parent folder after capture. No additional Python packages are needed. See [the ingest command](commands/obsidian-ingest.md). Presentation and spreadsheet formats remain outside scope.
-
-**You find a great video:** `/obsidian-ingest https://youtube.com/...`
-Claude doesn't summarize into one note. It REWRITES your existing pages. People get updated. Contradictions get resolved. Patterns trigger new synthesis pages. One URL in. The vault is smarter.
-
-**Before a big decision:** `/obsidian-challenge`
-Claude searches your vault for past failures and reversed decisions on the same topic. Pushes back with your own words. Your vault holds you accountable.
-
-**You want to see the big picture:** `/obsidian-visualize`
-Claude generates a visual canvas of your entire vault. Hub nodes centered, color-coded by type, orphans highlighted. Open it in Obsidian and see the shape of your knowledge.
-
-**You go to sleep:** The nightly agent runs 5 phases: closes the day, reconciles contradictions, synthesizes cross-source patterns, heals orphan notes, and rebuilds the index. You wake up to a smarter vault.
-
-**You start a new day:** `/obsidian-daily`
-Claude pulls your calendar events, overdue tasks, and overnight changes into today's note. Your morning starts informed.
-
-**Someone shares an X post:** `/x-read https://x.com/...`
-Grok with live X access fetches the post, the thread, and the replies. Returns verbatim text + TL;DR + key claims + reply sentiment + voices to watch. No more screenshots.
-
-**You're planning today's content:** `/x-pulse "AI automation"`
-Grok scans X for what's trending in your topic right now. Returns 3-5 emerging themes (with rep posts + key voices), gaps nobody is filling, hook formats that are working, and 3 specific post ideas you could write today.
-
-**You need real research:** `/research "AI memory tools"`
-Perplexity Sonar Pro pulls a deep dossier with citations: summary, key facts (every claim with a recency marker and source domain), timeline, key players, contrarian views, recommended further reading, open questions. Saved to your vault, auto-opens in Obsidian.
-
-**You want vault-first deep research:** `/research-deep "AI memory tools"`
-Scans your vault for what you already know. Identifies gaps. Spawns 3-5 targeted searches via Perplexity (web) and Grok (X discourse). Synthesizes a delta report: what's new, what's confirmed, contradictions to resolve, recommended vault updates. Vault baselin
+Claude transcribes it with a local Whisper install, attributes speakers where the transcript makes them identifiable, extracts every promise and action item, and distributes across entity pages, tas
 
 ## tools
 

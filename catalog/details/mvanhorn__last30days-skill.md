@@ -25,6 +25,7 @@ If you're meeting with a CEO, have you read all their tweets and YouTube transcr
 | **Digg** | Story clusters from Digg's AI and Tech sections, with attributable inline quotes from X (no X auth required). Auto-enabled when `digg-pp-cli` is on PATH. |
 | **arXiv** | The papers behind the hype. New research in the window, free, no API key. Auto-enabled when `arxiv-pp-cli` is on PATH (first-run setup installs it). |
 | **Techmeme** | The tech-news editorial layer, date-windowed to your 30 days. Free, no API key. Auto-enabled when `techmeme-pp-cli` is on PATH (first-run setup installs it). |
+| **Yahoo Finance** | The market's read on a company. The share-price move over your 30 days, next to the S&P 500 for US listings. Free, no API key. Shows when your topic is a listed company or the person who leads one and `yahoo-finance-pp-cli` is on PATH (first-run setup installs it). |
 | **LinkedIn** | The professional signal. Posts and articles, with articles weighted as high signal. |
 | **Meta Ads** | What a brand is paying to say. Live Meta ad creatives launched this month, with copy, promo codes, and spoken transcripts. |
 | **StockTwits** | Trader sentiment. Auto-activates when your topic is a ticker or crypto. |
@@ -36,9 +37,7 @@ If you're meeting with a CEO, have you read all their tweets and YouTube transcr
 | **DEV Community (dev.to)** | Developer articles and top comments through the public, keyless API. Opt in with `--devto-tags`, `--search devto`, or `INCLUDE_SOURCES=devto`. |
 | **Truth Social** | Posts searched with `TRUTHSOCIAL_TOKEN`; available when authenticated. |
 | **Telegram** | Public posts from named channels. Opt-in; requires `SCRAPECREATORS_API_KEY` and a channel list. No keyword discovery. |
-| **Trustpilot** | Company TrustScore, review count, and an AI summary of customer feedback. Opt-in; requires `trustpilot-pp-cli` on PATH and a usable session. |
-| **Amazon** | Product ratings, prices, and customer reviews. Opt-in; requires an authenticated `brightdata` CLI and uses your Bright Data credits. |
-| **DripStack** | Financial newsletters and analyst writeups through a public, keyless API. Opt in w
+| **Trustpilot** | Company TrustScore, review count, and an AI summary of customer feedback. Opt-in; requires `trustpilot-
 
 ## installation
 
