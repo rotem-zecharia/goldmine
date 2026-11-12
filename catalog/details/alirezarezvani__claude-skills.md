@@ -46,6 +46,7 @@ Each of these loaded on every plain-language test prompt. [See all verified skil
 | [i18n-localization](engineering/i18n-localization/) | Finds missing keys, broken placeholders and wrong plural forms before a language ships | `i18n-localization` |
 | [month-end-close](finance/month-end-close/) | Runs the close calendar, proves reconciliations and refuses boilerplate variance explanations | `month-end-close` |
 | [cmmc-readiness](ra-qm-team/cmmc-readiness/) | Scores CMMC 2.0 Level 2 readiness, SPRS and POA&M close-out | `cmmc-readiness` |
+| [cra-readiness](ra-qm-team/cra-readiness/) | EU Cyber Resilience Act: Article 14 reporting clock, product classes, Annex I and SBOM gates | `cra-readiness` |
 
 [^hermes]: Hermes Agent is **BYO-sync tier**: the repo ships a pre-generated `.hermes/skills/claude-skills/` tree, but you run `python scripts/sync-hermes-skills.py` once locally to install into `~/.hermes/skills/`. Uses the same agentskills.io SKILL.md standard — no format conversion.
 [^vibe]: Mistral Vibe is also **BYO-sync tier**: the repo ships a pre-generated `.vibe/skills/claude-skills/` tree, run `./scripts/vibe-install.sh` once locally to install into `~/.vibe/skills/`. Same agentskills.io SKILL.md standard — no format conversion. Docs: <https://docs.mistral.ai/mistral-vibe/agents-skills>.
@@ -57,16 +58,10 @@ Each of these loaded on every plain-language test prompt. [See all verified skil
 Claude Code skills (also called agent skills or coding agent plugins) are modular instruction packages that give AI coding agents domain expertise they don't have out of the box. Each skill includes:
 
 - **SKILL.md** — structured instructions, workflows, and decision frameworks
-- **Python tools** — 807 CLI scripts (all stdlib-only, zero pip installs)
-- **Reference docs** — 917 templates, checklists, and domain-specific knowledge files
+- **Python tools** — 824 CLI scripts (all stdlib-only, zero pip installs)
+- **Reference docs** — 931 templates, checklists, and domain-specific knowledge files
 
-**One repo, thirteen platforms.** Works natively as Claude Code plugins, Codex agent skills, Gemini CLI skills, Hermes Agent skills, Mistral Vibe skills, and converts to more tools via `scripts/convert.sh`. All 807 Python tools run anywhere Python runs.
-
-### Skills vs Agents vs Personas
-
-| | Skills | Agents | Personas |
-|---|---|---|---|
-| **Purpose** | How to execute a task | What task
+**One repo, thirteen platforms.** Works natively as Claude Code plugins, Codex agent skills, Gemini CLI skills, Hermes Agent skills, Mistral Vibe skills, and converts to more tools via `scripts/convert.sh`. All 824 Python tools r
 
 ## tools
 
@@ -74,7 +69,7 @@ Claude Code skills (also called agent skills or coding agent plugins) are modula
 
 ## features
 
-**411 production-ready skills across 20 domains:**
+**415 production-ready skills across 20 domains:**
 
 | Domain | Skills | Highlights | Details |
 |--------|--------|------------|---------|

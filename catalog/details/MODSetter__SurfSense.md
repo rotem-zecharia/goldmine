@@ -1,184 +1,72 @@
 # MODSetter/SurfSense
 
-Open-source NotebookLM alternative. Research the open web with live data(Reddit, YT, IG, TikTok, Indeed, Google Search, Maps etc) through one platform, API or MCP server. Join our Discord: https://dis
-
-## features
-
-Ask any capable agent "what is Reddit saying about this product since launch?" or "what do the reviews of these ten places actually complain about?" and it has nowhere trustworthy to look. Official platform APIs are rate-limited, priced for enterprises, or missing entirely; scraping plumbing is brittle; and driving a browser with an LLM burns minutes and tokens per page. SurfSense gives agents the primitives instead:
-
-- **One typed surface for wherever the data lives.** Every connector is a REST endpoint returning structured JSON — posts, comments, transcripts, reviews, SERPs, pages. No rate-limit roulette, no HTML parsing, no browser loop.
-- **An MCP server** that exposes every connector as a native tool (`surfsense_reddit_scrape`, `surfsense_google_search`, and more) to Claude, Cursor, or any agent framework.
-- **An agent harness**, not just raw data: retries, structured output, and credit metering are built in, so agents go from a question to a cited brief without you building the plumbing.
-- **Open source and self-hostable**, so your research stays on your own infrastructure.
-
-## Live data connectors
-
-| Connector | What your agents get | Learn more |
-|---|---|---|
-| **Reddit** | Posts, comments, and subreddit streams without the official API's rate limits | [Reddit Scraper API](https://www.surfsense.com/reddit) |
-| **YouTube** | Videos, transcripts, and comment threads at scale | [YouTube Scraper API](https://www.surfsense.com/youtube) |
-| **Instagram** | Public profiles, posts, and reels without the Graph API | [Instagram Scraper API](https://www.surfsense.com/instagram) |
-| **TikTok** | Videos, comments, hashtags, and profiles without Research API approval | [TikTok Scraper API](https://www.surfsense.com/tiktok) |
-| **Google Maps** | Places, ratings, and reviews for local business research | [Google Maps Scraper API](https://www.surfsense.com/google-maps) |
-| **Google Search** | Live SERPs for search research and monitoring | [Google Search API](https://www.surfsense.com/google-search) |
-| **Indeed** | Public job postings with salaries and full descriptions, by search or company | [Indeed Scraper API](https://www.surfsense.com/indeed) |
-| **Amazon** | Public product data: prices, ratings, offers, sellers, and best-seller ranks | [Amazon Product API](https://www.surfsense.com/amazon) |
-| **Walmart** | Public product data plus the full review history: prices, ratings, sellers, and variants | [Walmart Product & Review API](https://www.surfsense.com/walmart) |
-| **Web Crawl** | Any page on the open web as clean, structured content | [Web Crawling API](https://www.surfsense.com/web-crawl) |
-| **External MCP Connectors** | Bring any MCP server to your agents, with one-click OAuth for Notion, Slack, Jira, and more | [External MCP Connectors](https://www.surfsense.com/external-mcp-connectors) |
-
-The connector catalog is growing beyond social platforms and search; every new source lands as a typed endpoint on the same API and MCP server.
-
-Billing is pay as you go: connectors bill per item actually returned, crawls per page successfully fetched, and failed calls are never billed. Self-hosted installs run with billing off. See [pricing](https://www.surfsense.com/pricing).
+Air-gapped, privacy-focused, open-source NotebookLM alternative. AI agent that researches, transforms, and edits your documents. Join our Discord: https://discord.gg/ejRNvftDp9
 
 ## installation
 
-### Call a connector from code
+1. Install SurfSense and do the initial onboarding setup.
+2. Drop your files or folders in your sources.
+3. Ask the agent to search or extract or edit your files.
 
-Every connector is a REST endpoint you can call from any language with your SurfSense API key:
+## features
 
-```bash
-curl -X POST "$SURFSENSE_API_URL/workspaces/$WORKSPACE_ID/scrapers/reddit/scrape" \
-  -H "Authorization: Bearer $SURFSENSE_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "search_queries": ["your brand"],
-    "community": "SaaS",
-    "sort": "top",
-    "time_filter": "week"
-  }'
-```
+| Format | Research (cited answers) | Create | Edit (as a copy) | Transform |
+|---|---|---|---|---|
+| **PDF** | ✓ scanned pages too³ | ✓ | Fill and flatten forms; stamp watermarks, page numbers, headers, footers | Merge, split, extract, rotate, reorder pages |
+| **Word** `.docx` | ✓ | ✓ or from your own `.docx` as a template | ✓ body text, as tracked changes and comments | To PDF¹ |
+| **Excel** `.xlsx` | ✓ the agent also reads formulas | ✓ with formulas and native charts | ✓ cell values and formulas | Analyse with pandas, chart the results |
+| **PowerPoint** `.pptx` | ✓ | ✓ or from your own `.pptx` as a template | Replace text on slides and notes; delete or duplicate slides | To PDF¹ |
+| **CSV** | ✓ | — | — | Analyse with pandas, chart the results |
+| **Images** PNG, JPEG, TIFF, BMP, WebP | ✓ text read by OCR³ | Images and infographics, edited by instruction² | — | Place in new documents |
+| **Markdown**, plain text | ✓ | ✓ Markdown | — | — |
+| **HTML** | ✓ | ✓ web page | — | — |
+| **Books** EPUB, MOBI, AZW3 | ✓ without DRM | — | — | — |
+| **Recordings** WAV, MP3, FLAC, Ogg Vorbis | ✓ transcribed on your machine | — | — | — |
+| **Podcast** (audio) | — | ✓ with a transcript, voiced on your machine by default | — | — |
+| **Mind maps, flashcards, quizzes** | — | ✓ in the app | — | — |
 
-Each [connector page](https://www.surfsense.com/connectors) has copy-paste examples in Python, JavaScript, Go, PHP, Ruby, Java, and C#.
+<sub>¹ With Office support (LibreOffice), turned on in Settings; it is never in the installer. ² Needs an image model, local or remote; none is chosen by default. ³ OCR reads Latin, Chinese and Japanese script.</sub>
 
-## tools
+Edits, conversions and PDF tools always make a new file; your original is never changed. PDF, Word and Excel do the most today, and support for the other formats keeps improving.
 
-Add the SurfSense MCP server to Claude, Cursor, or your own agent framework:
+## Plugins
 
-```json
-{
-  "mcpServers": {
-    "surfsense": {
-      "url": "https://mcp.surfsense.com/mcp",
-      "headers": { "Authorization": "Bearer ${SURFSENSE_API_KEY}" }
-    }
-  }
-}
-```
+Connect them in **Settings › Plugins**.
 
-Your agent can now call every connector as a native tool. See the [SurfSense MCP server](https://www.surfsense.com/mcp-server) page for the full tool list, or run the server locally from [`surfsense_mcp`](./surfsense_mcp).
+**By SurfSense.** They read public pages without your own accounts and need a SurfSense license: [download the app](https://www.surfsense.com/downloads) and enter your email there for a free 14-day one.
 
-### Use the cloud
+| Plugin | What it does |
+|---|---|
+| **Google Search** | Search Google and read its results, ads and related questions |
+| **Web Crawl** | Read a web page, or crawl a whole site into clean text |
+| **YouTube** | Read YouTube videos, channels and their comments |
+| **TikTok** | Read TikTok videos and their comments, search users, and see what is trending |
+| **Reddit** | Read public Reddit posts with their comment threads, or a whole community |
+| **Instagram** | Read public Instagram profiles, posts and reels, and find profiles by search |
+| **Google Maps** | Find places on Google Maps and read their reviews |
+| **Amazon** | Read Amazon products and search results |
+| **Walmart** | Read Walmart products, search results and reviews |
+| **Indeed** | Read job listings on Indeed |
 
-Go to [surfsense.com](https://www.surfsense.com), log in, and ask the agent for live web data in plain English. New accounts start with $5 of free credit and no subscription.
+**Third-party.** MCP servers from the [plugin registry](backend/plugins/registry), such as DeepWiki and Notion, or any you add by URL. No license needed; they stay off until you allow them.
 
-### Self-host for free
+## How it compares
 
-Run the entire platform, connectors, agents, automations, and the MCP server on your own infrastructure. Self-hosted installs ship with billing off, so scraping, crawling, and agent runs are limited only by your hardware and the model keys you bring.
+| | NotebookLM (now Gemini Notebook) | SurfSense |
+|---|---|---|
+| Runs offline / air-gapped | No | **Yes** |
+| Your documents leave your machine | Yes | **No**, unless you pick a remote model |
+| Can edit your files | No | **Yes** |
+| Open source | No | **Apache-2.0** |
+| Models | Gemini only | Any OpenAI-compatible API, or a local one |
 
-**Prerequisites:** [Docker Desktop](https://www.docker.com/products/docker-desktop/) must be installed and running.
+## Community
 
-For Linux/macOS:
+- [Discord](https://discord.gg/ejRNvftDp9) for help, [Issues](https://github.com/MODSetter/SurfSense/issues) for bugs, [Discussions](https://github.com/MODSetter/SurfSense/discussions) for ideas.
+- **Contributing:** PRs go against `dev`; see [CONTRIBUTING.md](CONTRIBUTING.md) and [`surfsense_local/`](./surfsense_local) for the dev loop. How it works is in [`docs/`](docs/README.md).
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/MODSetter/SurfSense/main/docker/scripts/install.sh | bash
-```
+<a href="https://github.com/MODSetter/SurfSense/graphs/contributors"><img src="https://contrib.rocks/image?repo=MODSetter/SurfSense" alt="SurfSense contributors" /></a>
 
-For Windows:
+## License
 
-```bash
-irm https://raw.githubusercontent.com/MODSetter/SurfSense/main/docker/scripts/install.ps1 | iex
-```
-
-The install script sets up [Watchtower](https://github.com/nicholas-fedor/watchtower) automatically for daily auto-updates. To skip it, add the `--no-watchtower` flag. For Docker Compose, manual installation, and other deployment options, see the [docs](https://www.surfsense.com/docs/).
-
-## Everything else in the box
-
-The research workspace that made SurfSense the leading open-source NotebookLM alternative is still here, and everything your agents gather lands in it.
-
-**Knowledge base**
-
-- Upload PDFs, Office docs, images, and audio, or sync **Google Drive, OneDrive, and Dropbox**. 50+ file formats supported.
-- Hybrid semantic and full-text search with cited, Perplexity-style answers.
-- AI file sorting auto-organizes documents by source, date, and topic.
-
-<p align="center"><img src="surfsense_web/public/homepage/hero_tutorial/BQnaGif_compressed.gif" alt="Chat With Your PDFs and Docs" /></p>
-
-**Deliverable studio**
-
-- Downloadable AI artifacts for reports, resumes, documents, spreadsheets, and presentations.
-- Two-host AI podcasts from any document or folder in under 20 seconds.
-- Editable slide decks, narrated video overviews, and AI image generation.
-
-<p align="center"><img src="surfsense_web/public/homepage/hero_tutorial/ReportGenGif_compressed.gif" alt="AI Report Generator" /></p>
-
-**Automations**
-
-- Run full agent turns on a schedule or in response to events, described in plain English, with results written back to Notion, Slack, Linear, and Jira.
-
-**Team collaboration**
-
-- Real-time collaborative AI chats with comments and mentions.
-- RBAC with Owner, Admin, Editor, and Viewer roles.
-
-<p align="center"><img src="surfsense_web/public/homepage/hero_realtime/RealTimeChatGif.gif" alt="Collaborative AI Chat" /></p>
-
-**Desktop app**
-
-Native AI assistance in every application on your computer. Download from the [latest release](https://github.com/MODSetter/SurfSense/releases/latest).
-
-- **General Assist**: launch SurfSense from any app with a global shortcut.
-- **Quick Assist**: select text anywhere, then ask AI to explain, rewrite, or act on it.
-- **Screenshot Assist**: capture any region of your screen and ask AI about it.
-- **Watch Local Folder**: auto-sync a local folder to your knowledge base. Point it at your Obsidian vault to keep your notes searchable.
-
-<p align="center"><img src="surfsense_web/public/homepage/hero_tutorial/quick_assist.gif" alt="Quick Assist" /></p>
-
-**No vendor lock-in**
-
-- 100+ LLMs via the OpenAI spec and LiteLLM, including GPT-5.5, Claude Sonnet 5, and Gemini 3.1 Pro.
-- 6,000+ embedding models and all major rerankers.
-- Full local and private LLM support (vLLM, Ollama), so your data stays yours.
-
-## 
-
-## limitations
-
-Stay up to date with our development progress and upcoming features. Check out our public roadmap and contribute your ideas or feedback:
-
-**Roadmap Discussion:** [SurfSense 2026 Roadmap](https://github.com/MODSetter/SurfSense/discussions/565)
-
-**Kanban Board:** [SurfSense Project Board](https://github.com/users/MODSetter/projects/3)
-
-## Contribute
-
-All contributions welcome, from stars and bug reports to backend improvements. See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
-
-Thanks to all our Surfers:
-
-<a href="https://github.com/MODSetter/SurfSense/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=MODSetter/SurfSense" />
-</a>
-
-## Star History
-
-<a href="https://www.star-history.com/#MODSetter/SurfSense&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=MODSetter/SurfSense&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=MODSetter/SurfSense&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=MODSetter/SurfSense&type=Date" />
- </picture>
-</a>
-
----
----
-<p align="center">
-    <img 
-      src="https://github.com/user-attachments/assets/329c9bc2-6005-4aed-a629-700b5ae296b4" 
-      alt="Catalyst Project" 
-      width="200"
-    />
-</p>
-
----
----
+Apache-2.0. See [LICENSE](LICENSE).

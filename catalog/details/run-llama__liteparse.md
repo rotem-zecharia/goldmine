@@ -4,7 +4,7 @@ A fast, helpful, and open-source document parser
 
 ## features
 
-- **Fast Text Parsing**: Spatial text parsing using PDFium
+- **Fast Text Parsing**: Spatial text parsing using PDFium, ~2-5ms per page
 - **Flexible OCR System**:
   - **Built-in**: Tesseract (zero setup, bundled with the library)
   - **HTTP Servers**: Plug in any OCR server (EasyOCR, PaddleOCR, custom)
@@ -15,6 +15,7 @@ A fast, helpful, and open-source document parser
 - **Markdown Output**: Structured Markdown with headings, tables, lists, images, and links — great for feeding LLMs and RAG pipelines
 - **Bounding Boxes**: Precise text positioning information
 - **Multi-language**: Use from Rust, Node.js/TypeScript, Python, or the browser (WASM)
+- **Worker Pool Mode** (Python & Node.js): Parse in persistent worker processes for true parallelism (PDFium otherwise serializes concurrent parses) and hard per-parse timeouts — rogue documents are killed, identified by name, and never stall the pipeline
 - **Multi-platform**: Linux, macOS (Intel/ARM), Windows
 
 ```mermaid
@@ -84,9 +85,7 @@ flowchart LR
 
       style NAPI fill:#FFBFF8,color:#000000,stroke:#FF8DF2,stroke-width:1px
       style PYO3 fill:#FFBFF8,color:#000000,stroke:#FF8DF2,stroke-width:1px
-      style WASM fill:#FFBFF8,color:#000000,stroke:#FF8DF2,stroke-width:1px
-      style CLI fill:#FFBFF8,color:#000000,stroke:#FF8DF2,stroke-width:1px
-```
+      style WASM f
 
 ## installation
 

@@ -4,7 +4,7 @@ Persistent Context Across Sessions for Every Agent – Captures everything your 
 
 ## installation
 
-**Installing for someone as an AI agent?** Run `npx claude-mem install --runtime worker` on their computer in an interactive terminal (enable PTY in your shell tool). It first asks in the terminal which agents to set up and, for Claude Code, whether to disable native auto-memory (and whether to overwrite an existing install). Relay each question to the user and type their answer, or pass `--ide <id>` to skip the first one. Keep the installer running. When it prints **Continue setup in your browser**, open that URL in the user's browser if the installer hasn't already opened it. Let the user go through setup and make their own choices, including the usage-analytics question the installer may ask at the end. If you can't run an interactive terminal on their computer, give them the command to run locally.
+**Installing for someone as an AI agent?** If the user is available, run `npx claude-mem install --setup browser` on their computer and keep it running. It prepares the local runtime, then opens setup in their browser; if the page doesn't open, give them the printed URL. Every choice (agents, integrations, skills, model, usage analytics, the optional email) is made by the user on that page, so there are no terminal questions to relay. If the user is away, run `npx claude-mem install --setup defer`: it prepares the runtime and leaves setup waiting for their first visit, and their next session shows them the link. Don't make their choices for them.
 
 ```bash
 npx claude-mem install
@@ -68,7 +68,14 @@ npx claude-mem install --ide dsh --dsh-profile tui
 **Grok Bot:** see [Grok Bot](#grok-bot) below.
 
 ```bash
-npx cla
+npx claude-mem install --ide grok-bot
+```
+
+The full list of `--ide` values is in `npx claude-mem --help`.
+
+#### Grok Bot
+
+Grok Bot has no host hooks, so we watch the 
 
 ## configuration
 
@@ -121,7 +128,7 @@ Search runs through three MCP tools in a token-efficient three-step workflow. Th
 - Start with `search` to get an index of results
 - Use `timeline` to see what was happening around specific observations
 - Use `get_observations` to fetch full details for relevant IDs
-- **~10x token savings** by filtering before fetching details
+- **Index rows are about a tenth the size of a full record**: ~50-100 tokens versus ~500-1,000. Filtering decides how many records you pay to fetch, not how large each one is; the workflow's total cost also includes the timeline and the selected details. The ratio is not a measured recall or end-to-end saving ([#4138](https://github.com/thedotmack/claude-mem/issues/4138)).
 
 **Available MCP Tools:**
 

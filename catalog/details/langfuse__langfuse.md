@@ -1,6 +1,6 @@
 # langfuse/langfuse
 
-🪢 Open source agent evals & observability: Trace, evaluate, and improve LLM applications with one open platform.
+🪢 Open source AI engineering platform: AI Gateway, agent observability, evals, and prompt/skill management, built on OpenTelemetry. One open platform for every AI call and every agent. Self-host or us
 
 ## features
 
