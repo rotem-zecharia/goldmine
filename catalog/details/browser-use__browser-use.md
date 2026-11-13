@@ -19,7 +19,7 @@ New Google, GitHub, or Microsoft signups get **$1 cloud credit**.
 Paste this prompt into Claude Code, Codex, Hermes, OpenClaw, or your favorite agent.
 
 ```text
-Install browser-use with `uv tool install browser-use==1.0.2`, run `browser-use skill install` to register the skill, and connect it to my browser. If setup or connection fails, run `browser-use --doctor` and follow its output and the error message.
+Install browser-use with `uv tool install browser-use==1.0.3`, run `browser-use skill install` to register the skill, and connect it to my browser. If setup or connection fails, run `browser-use --doctor` and follow its output and the error message.
 ```
 
 <br/>
@@ -32,13 +32,13 @@ Python 3.11 or newer. With uv, or pip in a venv:
 
 ```bash
 uv init --python 3.12 my-agent && cd my-agent
-uv add 'browser-use==1.0.2'
+uv add 'browser-use==1.0.3'
 export BROWSER_USE_API_KEY=bu_...    # get one at https://cloud.browser-use.com/new-api-key
 ```
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install 'browser-use==1.0.2'
+pip install 'browser-use==1.0.3'
 export BROWSER_USE_API_KEY=bu_...
 ```
 

@@ -7,7 +7,7 @@
 - [Node.js](https://nodejs.org/) >= 24.0.0
 - Supported OSes: Linux, macOS, and Windows
 
-Recommended: manage Node.js with [Volta](https://volta.sh/).
+Recommended: manage Node.js with [fnm](https://github.com/Schniz/fnm).
 
 ## installation
 

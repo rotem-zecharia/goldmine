@@ -22,7 +22,7 @@ If you're meeting with a CEO, have you read all their tweets and YouTube transcr
 | **Hacker News** | The developer consensus. 825 points, 899 comments. Where technical people actually argue. |
 | **Polymarket** | Not opinions. Odds. Backed by real money. 96% confidence on album sales. 4% on an acquisition. |
 | **GitHub** | For people: PR velocity, top repos by stars, release notes. For topics: issues and discussions. |
-| **Digg** | Story clusters from Digg's AI and Tech sections, with attributable inline quotes from X (no X auth required). Auto-enabled when `digg-pp-cli` is on PATH. |
+| **Digg** | Story clusters from every Digg topic (AI, tech, world and business, sports, science, gaming, entertainment), ranked by Digg Score, with attributable inline quotes from X (no X auth required). Auto-enabled when `digg-pp-cli` is on PATH. An older `digg-pp-cli` still works, on AI and tech only and without scores. |
 | **arXiv** | The papers behind the hype. New research in the window, free, no API key. Auto-enabled when `arxiv-pp-cli` is on PATH (first-run setup installs it). |
 | **Techmeme** | The tech-news editorial layer, date-windowed to your 30 days. Free, no API key. Auto-enabled when `techmeme-pp-cli` is on PATH (first-run setup installs it). |
 | **Yahoo Finance** | The market's read on a company. The share-price move over your 30 days, next to the S&P 500 for US listings. Free, no API key. Shows when your topic is a listed company or the person who leads one and `yahoo-finance-pp-cli` is on PATH (first-run setup installs it). |
@@ -36,8 +36,7 @@ If you're meeting with a CEO, have you read all their tweets and YouTube transcr
 | **Perplexity** | Controlled Agent API synthesis, OpenRouter Sonar fallback, raw Search API rows, and explicit Deep Research. |
 | **DEV Community (dev.to)** | Developer articles and top comments through the public, keyless API. Opt in with `--devto-tags`, `--search devto`, or `INCLUDE_SOURCES=devto`. |
 | **Truth Social** | Posts searched with `TRUTHSOCIAL_TOKEN`; available when authenticated. |
-| **Telegram** | Public posts from named channels. Opt-in; requires `SCRAPECREATORS_API_KEY` and a channel list. No keyword discovery. |
-| **Trustpilot** | Company TrustScore, review count, and an AI summary of customer feedback. Opt-in; requires `trustpilot-
+| **Telegram** | Public posts from named channels. Opt-in; requires `SCRAPECREATORS_API_KEY` and a ch
 
 ## installation
 
