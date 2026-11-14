@@ -18,7 +18,7 @@ A next-generation crawling and spidering framework.
 
 ## installation
 
-katana requires Go 1.26+ to install successfully. If you encounter any installation issues, we recommend trying with the latest available version of Go, as the minimum required version may have changed. Run the command below or download a pre-compiled binary from the [release page](https://github.com/projectdiscovery/katana/releases).
+katana requires Go 1.26.10+ to install successfully. If you encounter any installation issues, we recommend trying with the latest available version of Go, as the minimum required version may have changed. Run the command below or download a pre-compiled binary from the [release page](https://github.com/projectdiscovery/katana/releases).
 
 ```console
 CGO_ENABLED=1 go install github.com/projectdiscovery/katana/cmd/katana@latest
@@ -39,13 +39,13 @@ docker pull projectdiscovery/katana:latest
 
 
 ```sh
-docker run projectdiscovery/katana:latest -u https://tesla.com
+docker run projectdiscovery/katana:latest -u https://books.toscrape.com
 ```
 
 > To run katana in headless mode using docker -
 
 ```sh
-docker run projectdiscovery/katana:latest -u https://tesla.com -system-chrome -headless
+docker run projectdiscovery/katana:latest -u https://books.toscrape.com -system-chrome -headless
 ```
 
 </details>
@@ -121,7 +121,7 @@ CONFIGURATION:
    -config string                path to the katana configuration file
    -fc, -form-config string      path to custom form configuration file
    -flc, -field-config string    path to custom field configuration file
-   -s, -strategy string          Visit strategy (depth-first, breadth-first) (default "depth-first")
+   -s, -strategy string          Visit strategy (depth-first, breadth-first, priority) (default "depth-first")
    -iqp, -ignore-query-params    Ignore crawling same path with different query-param values
    -fsu, -filter-similar         filter crawling of similar looking URLs (e.g., /users/123 and /users/456)
    -fst, -filter-similar-threshold int  number of distinct values before a path position is treated as parameter (default 10)
@@ -143,11 +143,12 @@ DEBUG:
    -health-check, -hc        run diagnostic check up
    -elog, -error-log string  file to write sent requests error log
    -pprof-server             enable pprof server
+   -stats                    display crawl statistics
+   -si, -stats-interval int  number of seconds to wait between showing a statistics update (default 5)
 
 HEADLESS:
    -hl, -headless                    enable headless hybrid crawling (experimental)
-   -sc, -system-chrome               use local installed chrome browser instead of katana installed
-   -sb, -show-browser                show the browser on the screen wit
+   -
 
 ## configuration
 

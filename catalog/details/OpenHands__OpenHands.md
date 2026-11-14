@@ -36,53 +36,65 @@ agent-canvas --backend-only   # agent server + automation backend + ingress only
 
 ### Option 2: With a Docker Sandbox
 
-**Prerequisites**:
+Install Docker Desktop on macOS/Windows, or Docker Engine/Docker Desktop on Linux.
+Windows users can follow the [PowerShell quickstart](./README.windows.md).
 
-- Docker: Docker Desktop on macOS/Windows, or Docker Engine/Docker Desktop on Linux.
-- A host directory for `PROJECTS_PATH` containing the project folders you want the agent to access. Create it before starting the container.
+The steps below are for macOS and Linux. A named Docker volume stores settings,
+secrets, and conversations; projects are mounted at `/projects`.
 
-**macOS / Linux:**
+**1. Prepare a workspace**
 
 ```sh
 export PROJECTS_PATH="$HOME/projects"  # directory containing your project folders
-mkdir -p "$PROJECTS_PATH" "$HOME/.openhands"
+mkdir -p "$PROJECTS_PATH"
+```
 
+On **Linux Docker Engine**, uid 10001 inside the container must be able to read
+and write the workspace and its existing files. Grant that user access using
+appropriate ownership or ACLs for your system. For a dedicated workspace you are
+comfortable sharing with all local users, the following is another option:
+
+```sh
+find "$PROJECTS_PATH" -type d -exec chmod a+rwX {} +
+find "$PROJECTS_PATH" -type f -exec chmod a+rw {} +
+```
+
+These commands grant all host users access to the workspace. Keep it separate
+from `~/.openhands` and other sensitive data. Docker Desktop on macOS/Windows
+handles bind-mount permissions, so those commands are normally unnecessary.
+
+**2. Start Agent Canvas**
+
+```sh
 docker run -it --rm \
   -p 127.0.0.1:8000:8000 \
   -e AGENT_CANVAS_ALLOW_LAN_SESSION_KEY=true \
-  -v "$HOME/.openhands:/home/openhands/.openhands" \
+  -v openhands-state:/home/openhands/.openhands \
   -v "${PROJECTS_PATH}:/projects" \
-  ghcr.io/openhands/agent-canvas:1.34.0 # x-release-please-version
+  ghcr.io/openhands/agent-canvas:1.40.0 # x-release-please-version
 ```
 
-**Windows (PowerShell / Windows Terminal):** See [README.windows.md](./README.windows.md) for the equivalent commands.
+Open [http://localhost:8000/canvas](http://localhost:8000/canvas). Reuse
+`openhands-state` to retain state across container removals. A fresh volume does
+not contain existing `~/.openhands` data; inspect or back it up with
+`docker volume inspect openhands-state`.
 
-The agent will be able to access any project under `PROJECTS_PATH`.
+<details>
+<summary>Linux permission troubleshooting and existing state</summary>
 
-### Option 3: With Multiple Docker Sandboxes
+If startup reports `Permission denied`, check access to the path named in the
+error. On SELinux hosts, check whether the bind mount needs a `:z` or `:Z` label.
+If you bind-mount existing `~/.openhands` state instead of the named volume,
+uid 10001 needs access to its directories, existing key files and automation
+database. Grant access using ownership or ACLs while keeping keys private.
+Making state directories writable by all users can let another local user
+replace the session key; do not use recursive world-writable permissions there.
 
-Run each new conversation in its own Docker container, with its own Agent Server and tools. This is useful for running several agents concurrently. Canvas and the outer Agent Server run on your host and route conversation requests to the containers.
+Keep the default container user. An override can make the browser configuration
+directory inaccessible. If you override the user, configure a writable
+`XDG_CONFIG_HOME` and ensure state and workspace mounts are accessible.
 
-**Prerequisites**: Node.js 24 or later, `uv`, and a running Docker Desktop (macOS) or Docker Engine/Desktop (Linux). The user starting Canvas must be able to run `docker` commands.
+</details>
 
-**macOS / Linux:**
-
-```sh
-npm install -g @openhands/agent-canvas
-OH_CONVERSATION_RUNTIME=docker agent-canvas
-```
-
-Open [http://localhost:8000](http://localhost:8000) and start a new conversation. Existing local conversations are not converted. Each container mounts its conversation's workspace and persisted state, so workspace files and conversation history survive container replacement. Conversations using the same host workspace still share those files; choose separate directories or worktrees to avoid conflicting edits.
-
-This setting isolates conversation execution; it does not move the entire Canvas or automation service into a sandbox. For Windows, see [README.windows.md](./README.windows.md#option-3-with-multiple-docker-sandboxes-wsl-2).
-
-### Option 4: From Source
-
-> [!WARNING]
-> This runs the agent-server directly on the machine you're installing on — the agent will have full access to your filesystem!
-
-**Prerequisites**: [Node.js](https://nodejs.org/) 24 or later, npm 11.12.1 (the repository pin), `uv` (for running the agent server via `uvx`)
-
-Check `npm --version` before resolving dependencies. The seven-day release-age
-filter (`npm install --min-release-age=7`) requires npm >=11.10; older versions
-do not enforce it. Use `npm ci
+> [!NOTE]
+> The entrypoint stops the container with ex

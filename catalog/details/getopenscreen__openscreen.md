@@ -18,7 +18,7 @@ Record your screen, ship a demo. Free and open-source, GPU-accelerated, no water
 - Timeline snapping guides and an audio waveform to make trimming easier.
 - Customizable keyboard shortcuts.
 - Export to MP4 or GIF in multiple aspect ratios and resolutions, rendered and encoded on the GPU (Metal on macOS, D3D11 on Windows, Vulkan on Linux) with an automatic CPU fallback.
-- Languages supported: Arabic, Czech, English, Spanish, French, German, Italian, Japanese, Korean, Portuguese (Brazil), Russian, Turkish, Vietnamese, Simplified Chinese, and Traditional Chinese.
+- Languages supported: Arabic, Czech, English, Spanish, French, German, Italian, Japanese, Korean, Dutch, Portuguese (Brazil), Russian, Turkish, Vietnamese, Simplified Chinese, and Traditional Chinese.
 
 ## Command-line interface (headless)
 

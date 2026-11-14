@@ -4,7 +4,13 @@ Fully autonomous AI Agents system capable of performing complex penetration test
 
 ## features
 
-PentAGI is an innovative tool for automated security testing that leverages cutting-edge artificial intelligence technologies. The project is designed for information security professionals, researchers, and enthusiasts who need a powerful and flexible solution for conducting penetration tests.
+PentAGI is an open-source, self-hosted multi-agent system for autonomous penetration testing. You describe a target and a goal in plain language; a team of specialized AI agents plans the work, runs 20+ professional tools such as nmap, Metasploit and sqlmap inside an isolated Docker sandbox, remembers what it learned and hands you a report.
+
+- **Who it is for.** Security engineers, penetration testers, researchers and red teams who want an autonomous assistant on their own infrastructure, for authorized testing only.
+- **What sets it apart.** It runs on your own servers with the model of your choice: 10+ cloud LLM providers, your own OpenAI-compatible gateway, or local models through Ollama or vLLM. Results and successful approaches are kept in PostgreSQL with pgvector for later flows, an optional Neo4j knowledge graph tracks hosts, services and findings, execution monitoring and task planning help smaller open models, and REST and GraphQL APIs automate it. PentAGI Enterprise adds agent profiles, plugins and MCP servers, customer-ready reports and a real-time attack-chain view.
+- **How to install.** An interactive installer for Linux, macOS and Windows sets PentAGI up with Docker Compose — see [Quick Start](#quick-start).
+
+PentAGI is developed by [VXControl](https://vxcontrol.com), a security engineering company based in Dubai.
 
 You can watch the video **PentAGI overview**:
 [![PentAGI Overview Video](https://github.com/user-attachments/assets/0828dc3e-15f1-4a1d-858e-9696a146e478)](https://youtu.be/R70x5Ddzs1o)
@@ -17,7 +23,7 @@ You can watch the video **PentAGI overview**:
 - Smart Memory System. Long-term storage of research results and successful approaches for future use.
 - Optional Knowledge Graph Integration. Graphiti-powered knowledge graph using Neo4j for semantic relationship tracking and advanced context understanding.
 - Web Intelligence. Built-in browser via [scraper](https://hub.docker.com/r/vxcontrol/scraper) for gathering latest information from web sources.
-- External Search Systems. Integration with advanced search APIs including [Tavily](https://tavily.com), [Firecrawl](https://www.firecrawl.dev), [Traversaal](https://traversaal.ai), [Perplexity](https://www.perplexity.ai), [DuckDuckGo](https://duckduckgo.com/), [Google Custom Search](https://programmablesearchengine.google.com/), [Sploitus Search](https://sploitus.com) and [Searxng](https://searxng.org) for comprehensive information gathering.
+- External Search Systems. Integration with advanced search APIs including [Tavily](https://tavily.com), [Firecrawl](https://www.firecrawl.dev), [Traversaal](https://traversaal.ai), [Perplexity](https://www.perplexity.ai), [DuckDuckGo](https://duckduckgo.com/), [Google Custom Search](https://programmablesearchengine.google.com/), [Sploitus Search](https://sploitus.com) and [SearXNG](https://searxng.org) for comprehensive information gathering.
 - Team of Specialists. Delegation system with specialized AI agents for research, development, and infrastructure tasks, enhanced with optional execution monitoring and intelligent task planning for optimal performance with smaller models.
 - Comprehensive Monitoring. Detailed logging and integration with Grafana/Prometheus for real-time system observation.
 - Detailed Reporting. Generation of thorough vulnerability reports with exploitation guides.
@@ -27,13 +33,7 @@ You can watch the video **PentAGI overview**:
 - Persistent Storage. All commands and outputs are stored in PostgreSQL with [pgvector](https://hub.docker.com/r/vxcontrol/pgvector) extension.
 - Scalable Architecture. Microservices-based design supporting horizontal scaling.
 - Self-Hosted Solution. Complete control over your deployment and data.
-- Flexible Authentication. Support for 10+ LLM providers ([OpenAI](https://platform.openai.com/), [Anthropic](https://www.anthropic.com/), [Google AI/Gemini](https://ai.google.dev/), [AWS Bedrock](https://aws.amazon.com/bedrock/), [Ollama](https://ollama.com/), [DeepSeek](https://www.deepseek.com/en/), [GLM](https://z.ai/), [Kimi](https://platform.moonshot.ai/), [Qwen](https://www.alibabacloud.com/en/), [MiniMax](https://www.minimax.io/), Custom) plus aggregators ([OpenRouter](https://openrouter.ai/), [DeepInfra](https://deepinfra.com/), [Atlas Cloud](https://www.atlascloud.ai/), [OpenCode Go plan](https://opencode.ai/en/go)). For production local deployments, see our [vLLM + Qwen3.5-27B-FP8 guide](examples/guides/vllm-qwen35-27b-fp8.md).
-- API Token Authentication. Secure Bearer token system for programmatic access to REST and GraphQL APIs.
-- Quick Deployment. Easy setup through [Docker Compose](https://docs.docker.com/compose/) with comprehensive environment configuration.
-
-### Current Capability Boundaries
-
-- PentAGI today is an autonomous and assistant-guided penetration testing platform, not a CALDERA-style Breach and Attack Simulatio
+- Flexible Authentication. Support for 10+ LLM providers ([OpenAI](https://platform.openai.com/), [Anth
 
 ## configuration
 
@@ -118,6 +118,10 @@ For a step-by-step walkthrough that connects installation, configuration, LLM an
 # QWEN_API_KEY=your_qwen_key                     # Qwen (Alibaba Cloud, multimodal)
 # MINIMAX_API_KEY=your_minimax_key               # MiniMax
 
+# Optional: European and US providers
+# MISTRAL_API_KEY=your_mistral_key               # Mistral
+# XAI_API_KEY=your_xai_key                       # xAI (Grok)
+
 # Optional: Local LLM provider (zero-cost inference)
 OLLAMA_SERVER_URL=http://localhost:11434
 OLLAMA_SERVER_MODEL=your_model_name
@@ -128,10 +132,10 @@ Each provider has specific limitations and supported features:
 
 - **OpenAI**: Supports all configuration options
 - **Ollama**: Does not support `EMBEDDING_KEY` as it uses local models
-- **Mistral**: Does not support `EMBEDDING_MODEL` or custom HTTP client
-- **Jina**: Does not support custom HTTP client
+- **Mistral**: Supports all configuration options
+- **Jina**: Supports all configuration options
 - **HuggingFace**: Requires `EMBEDDING_KEY` and supports all other options
 - **GoogleAI**: Does not support `EMBEDDING_URL`, requires `EMBEDDING_KEY`
 - **VoyageAI**: Supports all configuration options
 
-If `EMBEDDING_URL` and `EMBEDDING_KEY` are not specified, the system will attempt to use the corresponding LLM provider settings (e.g., `OPEN_AI_KEY` when `EMBEDDING_PROVIDER=openai`).
+If `EMBEDDING_URL` and `EMBEDDING_KEY` are both left empty, the system uses the corresponding LLM provider's server and key together (e.g., `OPEN_AI_SERVER_URL` and `OPEN_AI_KEY` when `EMBEDDING_PROVIDER=openai`). A key set in `EMBEDDING_KEY` without `EMBEDDING_URL` goes to the provider's public endpoint, and an `EMBEDDING_URL` set without a key receives the LLM provider's key only when it is that provider's own server. So an OpenAI-compatible endpoint of another vendor needs its key in `EMBEDDING_KEY`, and a keyless local server (LocalAI, vLLM, TEI) takes any non-empty value there. Whenever the Mistral embedder uses `MISTRAL_SERVER_URL`, it also names the model the way that server expects: `MISTRAL_PROVIDER=mistral` turns `mistral-embed` into `mistral/mistral-embed`, and a model that already starts with `mistral/` is sent as is.
