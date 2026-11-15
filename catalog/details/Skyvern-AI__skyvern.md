@@ -27,8 +27,10 @@ Additionally, for Windows:
 #### 1. Install Skyvern
 
 ```bash
-pip install "skyvern[all]"
+pip install "skyvern[server]"
 ```
+
+The `server` extra installs the local API server. `pip install skyvern` without it installs only the client SDK. The pip package does not include the web UI; for the UI, use [Docker Compose](#option-b-docker-compose) or a source checkout.
 
 #### 2. Run Skyvern
 
@@ -82,9 +84,10 @@ uv pip install skyvern
 
 **Installation:**
 - Python SDK / cloud API: `pip install skyvern`
-- Local server + packaged UI: `pip install "skyvern[all]"` then run `skyvern quickstart`
-- Local server + packaged UI with Postgres: `pip install "skyvern[all]"` then run `skyvern quickstart --database-string=postgresql+psycopg://user:pass@host:5432/dbname`
-- Packaged UI for an existing API: `pip install "skyvern[ui]"` then set `VITE_API_BASE_URL` (and `VITE_SKYVERN_API_KEY` if your API requires a key) and run `skyvern run ui`
+- Python SDK with browser and page commands, including `Skyvern.local()`: `pip install "skyvern[local]"`
+- Local API server: `pip install "skyvern[server]"` then run `skyvern quickstart`
+- Local API server with your own Postgres: `pip install "skyvern[server]"` then run `skyvern quickstart --database-string=postgresql+psycopg://user:pass@host:5432/dbname`
+- Web UI: not included in the pip package. Use [Docker Compose](#option-b-docker-compose), or run `skyvern run ui` from a source checkout.
 - TypeScript: `npm install @skyvern/client`
 
 ## tools
@@ -158,7 +161,7 @@ Tasks are the fundamental building block inside Skyvern. Each task is a single r
 Tasks require you to specify a `url`, `prompt`, and can optionally include a `data schema` (if you want the output to conform to a specific schema) and `error codes` (if you want Skyvern to stop running in specific situations).
 
 <p align="center">
-  <img src="fern/images/skyvern_2_0_screenshot.png"/>
+  <img src=".github/assets/readme/skyvern_2_0_screenshot.png"/>
 </p>
 
 
@@ -184,7 +187,7 @@ Supported workflow features include:
 1. (Coming soon) Conditionals
 
 <p align="center">
-  <img src="fern/images/block_example_v2.png"/>
+  <img src=".github/assets/readme/block_example_v2.png"/>
 </p>
 
 ## Livestreaming
@@ -205,7 +208,7 @@ Skyvern is also capable of downloading files from a website. All downloaded file
 Skyvern supports a number of different authentication methods to make it easier to automate tasks behind a login. If you'd like to try it out, please reach out to us [via email](mailto:founders@skyvern.com) or [discord](https://discord.gg/fG2XXEuQX3).
 
 <p align="center">
-  <img src="fern/images/secure_password_task_example.png"/>
+  <img src=".github/assets/readme/secure_password_task_example.png"/>
 </p>
 
 

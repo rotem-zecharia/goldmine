@@ -21,6 +21,8 @@ Restart Claude Code and run `/obsidian-second-brain:obsidian-init` inside your v
 
 No vault yet, another AI tool, or bare command names? See the [full install guide](#install).
 
+**On Grok Bot?** Start with one prompt and no install: [GROK-BOT.md](GROK-BOT.md).
+
 <p align="center">
   <em>If this helps you, a <a href="https://github.com/eugeniughelbur/obsidian-second-brain">star</a> helps other people find it.</em>
 </p>
@@ -75,7 +77,7 @@ If Karpathy's wiki is a knowledge base you maintain with an LLM, this is a knowl
 Claude pulls out every decision, person, task, and idea and saves each one to the right note. You do nothing.
 
 **You recorded a voice memo:** `/obsidian-ingest meeting.m4a`
-Claude transcribes it with a local Whisper install, attributes speakers where the transcript makes them identifiable, extracts every promise and action item, and distributes across entity pages, tas
+Claude transcribes it with a local Whisper install, attributes speakers where the transcript makes them identifiab
 
 ## tools
 

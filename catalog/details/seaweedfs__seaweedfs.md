@@ -12,6 +12,8 @@ Download the latest binary from the [releases](https://github.com/seaweedfs/seaw
 curl -fsSL https://raw.githubusercontent.com/seaweedfs/seaweedfs/master/install.sh | bash
 ```
 
+For SeaweedFS Enterprise binaries, pass `--enterprise` to the script: `... | bash -s -- --enterprise`.
+
 Then start a ready-to-use S3 object store:
 
 ```bash
@@ -107,7 +109,7 @@ s3:
     - name: app-storage
 ```
 
-The S3 endpoint is the `seaweedfs-s3` service on port 8333. [Helm Chart Recipes][HelmRecipes] has values for a development cluster, a lakehouse with the Iceberg catalog exposed, filer metadata on PostgreSQL, and node-local disks. The [SeaweedFS Operator][Operator] and the [CSI driver][SeaweedFsCsiDriver] are
+The S3 endpoint is the `seaweedfs-s3` service on port 8333. [Helm Chart Recipes][HelmRecipes] has values for a development cluster, a lakehouse with the Iceberg catalog exposed, filer metadata on PostgreSQ
 
 ## features
 
