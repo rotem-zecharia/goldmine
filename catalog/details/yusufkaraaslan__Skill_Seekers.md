@@ -11,6 +11,9 @@ pip install skill-seekers
 # 2. Create a skill from any source
 skill-seekers create https://docs.djangoproject.com/
 
+# Optional: preview how a source will be detected without creating anything
+skill-seekers detect https://docs.djangoproject.com/ --json
+
 # 3. Package it for your AI platform
 skill-seekers package output/django --target claude
 ```
@@ -96,11 +99,7 @@ pip install skill-seekers[all]         # Everything
 | `skill-seekers[asciidoc]` | AsciiDoc support |
 | `skill-seekers[all]` | Everything |
 
-> **Video visual deps (GPU-aware):** after installing `skill-seekers[video-full]`, run `skill-seekers create --setup` to auto-detect your GPU and install the matching PyTorch variant + easyocr.
-
-</details>
-
-**Prerequisites:** Python 3.10+, Git. New here?
+> **Video visual deps (GPU-aware):** after installing `skill-seekers[video-full]`, run `skill-seekers create --setup`
 
 ## features
 
@@ -154,6 +153,14 @@ One config can pull documentation, GitHub, PDFs, videos, and more into a single 
 </details>
 
 <details>
+<summary><b>Search index inside the skill</b> — query before you read (opt-in)</summary>
+
+`skill-seekers create <source> --index` adds a stdlib-only `scripts/search.py` and a SQLite FTS5 index over the generated references, so an agent can find the right `file#anchor` before reading a large Markdown file wholesale. Off by default; the Markdown is untouched.
+
+→ [Skill Search Index](docs/features/SKILL_SEARCH_INDEX.md)
+</details>
+
+<details>
 <summary><b>Video extraction</b> — transcripts, frames, on-screen code</summary>
 
 YouTube, Vimeo, and local files. Three-tier transcript fallback (subtitles → YouTube transcript API → local Whisper), plus optional visual extraction that OCRs on-screen code from sampled frames.
@@ -164,12 +171,9 @@ YouTube, Vimeo, and local files. Three-tier transcript fallback (subtitles → Y
 <details>
 <summary><b>Quality, sync & scale</b></summary>
 
-Quality scoring with a gate (`skill-seekers quality output/react/ --threshold 7`), provisional English readability metrics (informational — they never affect the score), doc-change detection with scheduled re-scrapes and notifications, streaming ingestion for very large doc sets, and incremental updates.
+Quality scoring with a gate (`skill-seekers quality output/react/ --threshold 7`) or JSON stdout (`skill-seekers quality output/react/ --json`), provisional English readability metrics (informational — they never affect the score), doc-change detection with scheduled re-scrapes and notifications, streaming ingestion for very large doc sets, and incremental updates.
 
-→ [Large Documentation](docs/reference/LARGE_DOCUMENTATION.md) · [Code Quality](docs/reference/CODE_QUALITY.md)
-</details>
-
----
+→ [Large Docu
 
 ## tools
 

@@ -1,25 +1,25 @@
 # wiltodelta/remove-ai-watermarks
 
-Remove visible and invisible AI watermarks and provenance metadata from images and video. Python library and CLI for SynthID, C2PA, EXIF, IPTC, XMP, and common generative-AI marks.
+Remove visible and invisible AI watermarks from images and video, and AI provenance metadata from images, video, and audio. Python library, CLI, and agent skill for SynthID, C2PA, EXIF, IPTC, XMP, and
 
 ## installation
 
 | Need | Install |
 | --- | --- |
 | Metadata inspection and stripping | `remove-ai-watermarks` |
-| Photograph AI-versus-camera classification | `remove-ai-watermarks[classify]` |
-| OpenAI/Google/unknown source-export classification | `remove-ai-watermarks[source-classify]` |
+| 10-provider source-export & model-version classification | `remove-ai-watermarks[source-classify]` |
 | Visible detection and removal | `remove-ai-watermarks[visible]` |
 | Visible video processing | `remove-ai-watermarks[video]` |
 | Video SynthID removal | `remove-ai-watermarks[video,diffusion]` |
 | Torch-free DWT-DCT detection | `remove-ai-watermarks[detect]` |
 | Direct local Paint InvisMark disruption | `remove-ai-watermarks[pixels]` |
 | Invisible image removal (needs CUDA) | `remove-ai-watermarks[qwen-zimage]` |
-| Every production feature available on the active Python | `remove-ai-watermarks[all]` |
+| Production removal and default classifier backends | `remove-ai-watermarks[all]` |
+| Optional OCR proposals for operator verification | `remove-ai-watermarks[text-draft]` |
 
 Lower-level and specialized extras include `pixels`, `heif`, `trustmark`,
-`migan`, `lama`, `diffusion`, `classify-onnx`, and `source-classify`. The
-[installation guide](docs/installation.md#feature-extras) documents their exact
+`migan`, `lama`, `diffusion`, and `source-classify`. The
+[installation guide](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/installation.md#feature-extras) documents their exact
 dependency composition, Python compatibility, and model requirements.
 
 ## Quick start
@@ -36,33 +36,29 @@ Inspect an image:
 remove-ai-watermarks identify image.png
 ```
 
-To classify a photograph from pixels (AI versus camera, optional provider),
-install the extra and call `classify`. `identify` never starts it:
+For an abstaining, CPU-only 10-provider source-export and model-version
+classifier from pixels after metadata removal (`classify_source` and CLI
+`classify-source`), install `source-classify`. `identify` never runs it, and it
+is not a SynthID detector:
 
 ```bash
-uv tool install --force "remove-ai-watermarks[classify]"
-remove-ai-watermarks classify image.png
+uv tool install --force "remove-ai-watermarks[source-classify]"
+remove-ai-watermarks classify-source image.png
 ```
-
-Guide: [photo pixel classification](docs/photo-classify.md).
-
-For a lightweight, abstaining OpenAI/Google/unknown source-export signal after
-metadata removal, use the separate Python API. It is not a SynthID detector:
 
 ```python
 import remove_ai_watermarks as raiw
 
 result = raiw.classify_source("image.png")
-print(result.label, result.reason)
+print(result.label, result.version_subfamily, result.confidence)
 ```
 
-Install `remove-ai-watermarks[source-classify]`. Guide:
-[source-pipeline classification](docs/source-classify.md).
+Guide: [source-pipeline classification](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/source-classify.md). Model card: [`wiltodelta/raiw-source-classify`](https://huggingface.co/wiltodelta/raiw-source-classify).
 
 Signed provenance is the supported route for SynthID and `identify` reads it.
 There is no local SynthID pixel detector in the package. Research on a
 periodic lattice expert is in `scripts/synthid_runtime/` and
-[synthid-detector-research.md](docs/synthid-detector-research.md).
+[synthid-detector-research.md](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/synthid-detector-research.md).
 
 For visible watermark removal, install the pixel dependencies:
 
@@ -109,22 +105,14 @@ copy for removal.
 Use the product-oriented video path to identify or clean a file:
 
 ```bash
-uv tool install --force "remove-ai-watermarks[video]"
-remove-ai-watermarks video identify input.mp4
-remove-ai-watermarks video all input.mp4 -o clean.mp4
-```
-
-`video all` 
+uv too
 
 ## tools
 
 ### Visible Gemini mark
 
-| Before | After |
-| --- | --- |
-| ![Image with a visible Gemini watermark](demo_banana_before.png) | ![Image after visible watermark removal](demo_banana_after.png) |
-
-The `after` raster is generated from the tracked `before` raster by the public path:
+The `after` raster at the top of this page is generated from the tracked `before`
+raster by the public path:
 
 ```bash
 uv run remove-ai-watermarks visible demo_banana_before.png \
@@ -136,10 +124,21 @@ uv run remove-ai-watermarks visible demo_banana_before.png \
 `qwen-zimage` is the default profile: a Qwen-Image-2512 Lightning pass under Canny
 ControlNet, followed by SAM-masked Z-Image repair of any detected face. The
 alternative, `sdxl-zimage`, swaps the global stage for SDXL and keeps the same face
-stage. A third profile, `chroma-zimage`, uses the Apache-2.0 Chroma1 global pass
-with its own flat vendor floors; see `docs/chroma1-engine-research.md` for the
-calibration. `--pipeline auto` picks sdxl-zimage for Google, chroma-zimage for
-Microsoft, and qwen-zimage otherwise. All are CUDA only.
+stage. `chroma-zimage` uses the Apache-2.0 Chroma1 global pass with its own flat
+vendor floors; see `docs/chroma1-engine-research.md` for the calibration. An opt-in
+profile, `qwen21-zimage`, swaps the global stage for Qwen-Image-2.1 (with
+`madebyollin/texture-fix-vae-for-qwen-image-2.1` and `Qwen-Image-2.1-Fun-Controlnet-Union`
+Canny); because `Qwen/Qwen-Image-2.1` is released under the Qwen Research License,
+`qwen21-zimage` is for non-commercial research, evaluation, and personal use only
+(not for commercial use). `--pipeline auto` picks sdxl-zimage for Google,
+chroma-zimage for Microsoft, and qwen-zimage otherwise, keeping `auto` commercial-safe.
+All are CUDA only.
+
+Since 0.57.0, `qwen21-zimage` includes bounded geometric alignment by default after the shared
+Qwen-2.1 global and face stages, accepting a result only when both source MSE and local LPIPS improve.
+It retains the Qwen Research License restrictions. Qualified text geometry can
+be supplied through the Python API; the CLI does not run automatic OCR. See
+[the fidelity profile](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/cli.md#fidelity-profile) for limits and fallback behavior.
 
 ```bash
 uv tool install --force "remove-ai-watermarks[qwen-zimage]"
@@ -148,11 +147,11 @@ remove-ai-watermarks invisible image.png -o clean.png --force
 
 | OpenAI example before | OpenAI example after |
 | --- | --- |
-| [![OpenAI portrait grid before qwen-zimage](data/synthid/originals/ChatGPT%20Image%20May%2030,%202026,%2010_31_08%20AM.png)](data/synthid/originals/ChatGPT%20Image%20May%2030,%202026,%2010_31_08%20AM.png) | [![OpenAI portrait grid after qwen-zimage](docs/images/qwen-zimage/ChatGPT/ChatGPT%20Image%20May%2030,%202026,%2010_31_08%20AM_full_clean.png)](docs/images/qwen-zimage/ChatGPT/ChatGPT%20Image%20May%2030,%202026,%2010_31_08%20AM_full_clean.png) |
+| [![OpenAI portrait grid before qwen-zimage](https://raw.githubusercontent.com/wiltodelta/remove-ai-watermarks/main/data/synthid/originals/ChatGPT%20Image%20May%2030,%202026,%2010_31_08%20AM.png)](https://raw.githubusercontent.com/wiltodelta/remove-ai-watermarks/main/data/synthid/originals/ChatGPT%20Image%20May%2030,%202026,%2010_31_08%20AM.png) | [![OpenAI portrait grid after qwen-zimage](https://raw.githubusercontent.com/wiltodelta/remove-ai-watermarks/main/docs/images/qwen-zimage/ChatGPT/ChatGPT%20Image%20May%2030,%202026,%2010_31_08%20AM_full_clean.png)](https://raw.githubusercontent.com/wiltodelta/remove-ai-watermarks/main/docs/images/qwen-zimage/ChatGPT/ChatGPT%20Image%20May%2030,%202026,%2010_31_08%20AM_full_clean.png) |
 
 | Gemini example before | Gemini example after |
 | --- | --- |
-| [![Gemini sign before qwen-zimage](data/synthid/originals/Gemini_Generated_Image_633uuy633uuy633u.png)](data/synthid/originals/Gemini_Generated_Image_633uuy633uuy633u.png) | [![Gemini sign after qwen-zimage](docs/images/qwen-zimage/Gemini/Gemini_Generated_Image_633uuy633uuy633u_full_clean.png)](docs/images/qwen-zimage/Gemini/Gemini_Generated_Image_633uuy633uuy633u_full_clean.png) |
+| [![Gemini sign before qwen-zimage](https://raw.githubusercontent.com/wiltodelta/remove-ai-watermarks/main/data/synthid/originals/Gemini_Generated_Image_633uuy633uuy633u.png)](https://raw.githubusercontent.com/wiltodelta/remove-ai-watermarks/main/data/synthid/originals/Gemini_Generated_Image_633uuy633uuy633u.png) | [![Gemini sign after qwen-zimage](https://raw.githubusercontent.com/wiltodelta/remove-ai-watermarks/main/docs/images/qwen-zimage/Gemini/Gemini_Generated_Image_633uuy633uuy633u_full_clean.png)](https://raw.githubusercontent.com/wiltodelta/remove-ai-watermarks/main/docs/images/qwen-zimage/Gemini/Gemini_Generated_Image_633uuy633uuy633u_full_clean.png) |
 
 These exact output files were checked with the matching provider verifiers. That
 result applies to these files, not to every seed, image, or future watermark
@@ -176,56 +175,14 @@ remove-ai-watermarks erase image.png \
   -o clean.png
 ```
 
-`--region` uses `x,y,width,height` and may be repeated.
-
-### Use a learned fill backend
-
-The `visible` extra uses OpenCV inpainting when no learned backend is installed.
-For more difficult backgrounds, the learned-backend extras include the same
-pixel dependencies automatically:
-
-```bash
-uv tool install --force "remove-ai-watermarks[migan]"
-remove-ai-watermarks visible image.png -o clean.png --backend migan
-```
-
-```bash
-uv tool install --force "remove-ai-watermarks[lama]"
-remove-ai-watermarks visible image.png -o clean.png --backend lama
-```
-
-### Reduce CUDA memory use
-
-```bash
-remove-ai-watermarks invisible image.png -o clean.png \
-  --cpu-offload --force
-```
-
-CPU offload lowers CUDA memory pressure by moving model components between CPU
-and GPU, at the cost of speed.
-
-### Process a directory
-
-```bash
-remove-ai-watermarks batch ./images --mode visible
-remove-ai-watermarks batch ./images --mode all
-```
-
-## What the tool can recognize
-
-Visible mark support includes:
-
-- Google Gemini and Nano Banana visible sparkle watermark;
-- Doubao, the Jimeng wordmark and top-left `AI生成` layouts, Qwen, Kling AI,
-  Yuanbao, Dola, WorkBuddy, Baidu, LiblibAI's bottom-center wordmark and compact
-  top-left pill, and RunningHub labels;
-- calibrated Microsoft top-right white and beige AI-badge layouts;
-- calibrated Italian and Korean Samsung Galaxy AI discl
+`--region` uses `x,y,width,height` and may be repeate
 
 ## limitations
 
 - A missing local signal means unknown, not clean. Proprietary pixel
   watermarks may remain after metadata has been stripped.
+  [What each path leaves behind](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/known-limitations.md#what-each-path-leaves-behind)
+  lists, per command, what may remain and how to check it.
 - Visible removal reconstructs a small region. Results depend on the background
   and selected fill backend.
 - Invisible removal changes the whole image and may alter faces, text, or fine
@@ -281,30 +238,11 @@ rows.
 
 ## Documentation
 
-Start with the [documentation index](docs/index.md).
+Start with the [documentation index](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/index.md).
 
-- [Installation](docs/installation.md)
-- [CLI guide](docs/cli.md)
-- [Python API](docs/python-api.md)
-- [Supported signals](docs/supported-signals.md)
-- [Known limitations](docs/known-limitations.md)
-- [Scope, safety, and legal notes](docs/legal-and-safety.md)
-- [Module internals](docs/module-internals.md)
-- [Release and distribution](docs/release-and-distribution.md)
-- [Agent skill](docs/agent-skill.md)
-
-Research notes and historical experiments are listed separately in the
-[documentation index](docs/index.md). They explain past decisions but do not
-define the current public API.
-
-## Contributing
-
-Install the development environment and run the project gate:
-
-```bash
-uv sync --frozen --extra dev
-bash maintain.sh
-```
-
-See [module internals](docs/module-internals.md) before changing a subsystem
-with document
+- [Installation](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/installation.md)
+- [CLI guide](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/cli.md)
+- [Python API](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/python-api.md)
+- [Supported signals](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/supported-signals.md)
+- [Known limitations](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/known-limitations.md)
+- [Scope, safety, and legal notes](https://

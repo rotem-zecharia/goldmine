@@ -19,7 +19,7 @@ New Google, GitHub, or Microsoft signups get **$1 cloud credit**.
 Paste this prompt into Claude Code, Codex, Hermes, OpenClaw, or your favorite agent.
 
 ```text
-Install browser-use with `uv tool install browser-use==1.0.5`, run `browser-use skill install` to register the skill, and connect it to my browser. If setup or connection fails, run `browser-use --doctor` and follow its output and the error message.
+Install browser-use with `uv tool install browser-use==1.0.6`, run `browser-use skill install` to register the skill, and connect it to my browser. If setup or connection fails, run `browser-use --doctor` and follow its output and the error message.
 ```
 
 <br/>
@@ -32,13 +32,13 @@ Python 3.11 or newer. With uv, or pip in a venv:
 
 ```bash
 uv init --python 3.12 my-agent && cd my-agent
-uv add 'browser-use==1.0.5'
+uv add 'browser-use==1.0.6'
 export BROWSER_USE_API_KEY=bu_...    # get one at https://cloud.browser-use.com/new-api-key
 ```
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install 'browser-use==1.0.5'
+pip install 'browser-use==1.0.6'
 export BROWSER_USE_API_KEY=bu_...
 ```
 
@@ -51,7 +51,21 @@ result = Agent('Find the number of stars of the browser-use repo').run_sync()
 print(result.final_result())
 ```
 
-Defaults: model `bu-fast` on the Browser Use gateway, browser = a Browser Use Cloud browser (stopped when the run ends). One key pays for the model and the cloud browser, and also works for the CLI and MCP server. A `.env` file works too.
+Defaults: model `bu-4.0` (BU 4.0) on the Browser Use gateway, browser = a Browser Use Cloud browser (stopped when the run ends). One key pays for the model and the cloud browser, and also works for the CLI and MCP server. A `.env` file works too.
+
+Without a key, an interactive desktop run opens Browser Use login and continues after approval.
+Login creates and saves the key automatically; no copying is needed.
+Set `BROWSER_USE_AUTO_LOGIN=false` to disable automatic login.
+Servers, CI, and piped input keep the missing-key error and the `browser-use login` instructions.
+
+Cloud browsers print their interactive live-view link to stderr by default.
+Use `Browser(live_view=True)` to open it automatically, or `Browser(live_view=False)` to hide it.
+Anyone with the link can control the browser.
+
+With telemetry enabled, anonymous `library_auth` events record missing keys, login outcomes, available keys, and browser starts.
+These events use the existing installation ID and contain no API keys, login URLs, or account identifiers.
+Key availability does not prove that the server accepts the key.
+Cloud browser startup confirms that authentication worked.
 
 **Local browser, your model:**
 
@@ -73,12 +87,7 @@ print(agent.run_sync().final_result())  # in async code: result = await agent.ru
 | `Browser('chrome')` | the Chrome you have open, with your logins (turn on chrome://inspect/#remote-debugging once) |
 | `Browser('chrome', profile='Work')` | a new Chrome on a temporary copy of your Chrome profile `Work` (sync off); your Chrome can stay open, except on Windows |
 
-Other models: `ChatAnthropic`, `ChatGoogle` (both built in), or any Pydantic AI model string such as `llm='groq:llama-3.3-70b-versatile'` (after `pip install 'pydantic-ai-slim[groq]'`).
-
-- **Typed results:** `Agent(task, output_model_schema=MyModel)` then `result.structured_output`.
-- **Uploads:** put files in `Agent(task, workspace=...)` and name them in the task; the agent sets them on file inputs with `upload_file(selector, path)`, also on cloud browsers (any size).
-- **Downloads:** files the browser downloads land in `agent.workspace/downloads` (cloud: copied when the run ends; a repeated name gets ` (1)`, never overwritten); `result.downloads` lists the run's files.
-- **Secrets:** `Agent(task, sensitive_data={'password': '...'})`, or `{'https://*.example.com': {'password': '...'}}` to type it only on that domain. The model types it with `type_secret('password')`; the value is replaced with `<secret:password>` in cell ou
+Other models: `ChatAn
 
 ## tools
 
@@ -101,7 +110,7 @@ The CLI and Python library can each connect to a local or cloud browser. A cloud
 <details>
 <summary><b>What's the best model to use?</b></summary>
 
-The default, `bu-fast` on the Browser Use gateway, is `gpt-6-luna` at medium reasoning. `llm='bu-ultrafast'` runs the same model at low reasoning on the priority tier (fastest), `llm='bu-smart'` a larger one. `ChatOpenAI('gpt-6-luna')` with your own OpenAI key runs the same model directly. See the [benchmark](https://github.com/browser-use/benchmark).
+The default is `bu-4.0` (BU 4.0) on the Browser Use gateway. `llm='bu-4.0-mini'` is the cost-efficient choice for simple tasks, and `llm='bu-4.0-pro'` is the most capable. The earlier models still work: `bu-fast` is `gpt-6-luna` at medium reasoning, `bu-ultrafast` the same model at low reasoning on the priority tier (fastest), and `bu-smart` a larger one. `ChatOpenAI('gpt-6-luna')` with your own OpenAI key runs that model directly. Models and prices: [docs](https://docs.browser-use.com/cloud/agent/models). See the [benchmark](https://github.com/browser-use/benchmark).
 </details>
 
 <details>
@@ -137,4 +146,4 @@ Results depend on the site and challenge; no browser configuration guarantees th
 <details>
 <summary><b>Can I limit which sites the agent visits?</b></summary>
 
-`Browser(allowed_domains=['example.com', '*.example.org'])`, `Browser(prohibited_domains=['evil.com'])` or `Browser(block_ip_addresses=True)`, with the 0.x patterns, on any browser. The browser helpers refuse a disallowed URL, the browser itself blocks main-frame navigations to it (link clicks, redirects, popups, JavaScript; all mod
+`Browser(allowed_domains=['example.com', '*.example.org'])`, `Browser(prohibited_domains=['evil.com'])` or `Brows

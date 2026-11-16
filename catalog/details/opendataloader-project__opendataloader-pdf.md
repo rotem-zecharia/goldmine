@@ -130,7 +130,7 @@ Select the engine with `--ocr-engine`. Each engine uses its own language code sy
 
 ### Tagged PDF Support
 
-When a PDF has structure tags, OpenDataLoader extracts the **exact layout** the author intended — no guessing, no heuristics. Headings, lists, tables, and reading order are preserved from the source.
+When a PDF has structure tags, OpenDataLoader extracts the **exact layout** the author intended — no guessing, no heuristics. Headings, lists, tables, and reading order are preserved from the source. Printed check boxes and radio buttons (`Form` elements with `PrintField` attributes) become `form field` elements in JSON and task list items (`- [x]`, `- [ ]`) in Markdown.
 
 > **Output quality depends on tag quality.** Not all tagged PDFs are well-tagged. For PDFs with sparse or incorrect tags, the default heuristic mode or `--hybrid docling-fast` often produces better results.
 
@@ -204,7 +204,7 @@ How the rules work:
 - If two matches overlap, the match that starts first is kept. If they start at the same position, the longer match is kept. If they also have the same length, the match of the earlier rule in the file is kept.
 - Rules apply to the extracted text. They do not apply to image descriptions, formulas, or document metadata such as the title.
 
-> **Warning:** A pattern runs on every text line, with no time limit. Some patterns are very slow, also on a short line. For example, nested repetition with limits such as `(a{1,20}){1,20}$` can take tens of seconds on a line of 31 characters, and the time grows fast with 
+> **Warning:** A pattern runs on every text line, with no time limit. Some patterns are very slow, 
 
 ## configuration
 
@@ -221,6 +221,27 @@ opendataloader_pdf.convert(
 ```
 
 [Full CLI Options Reference](https://opendataloader.org/docs/reference/cli-options)
+
+### PDF Bytes In, String Out
+
+Convert a PDF that you have in memory, and get the output as a string:
+
+```python
+markdown = opendataloader_pdf.convert_bytes(pdf_bytes)                   # format="markdown" (default)
+json_text = opendataloader_pdf.convert_bytes(pdf_bytes, format="json", password="...")
+```
+
+```typescript
+import { convertBytes } from '@opendataloader/pdf';
+
+const markdown = await convertBytes(pdfBuffer);                     // format: 'markdown' (default)
+const jsonText = await convertBytes(pdfBuffer, { format: 'json', pages: '1-3' });
+```
+
+- One format for each call: `markdown`, `text`, `json`, or `html`. The other options of `convert()` apply, except the output folder, `to_stdout`, and the image folder.
+- Images are off by default. Use `image_output="embedded"` (`imageOutput: 'embedded'`) for Base64 images.
+- The bytes go to a private temporary file, which is removed after the call. Each call starts one Java process: for many files, `convert()` with a list of paths is faster.
+- For a file, `convert(..., format="markdown", to_stdout=True)` (`toStdout: true`) also returns the output as a string.
 
 ## PDF Accessibility & PDF/UA Conversion
 
@@ -251,42 +272,6 @@ opendataloader_pdf.convert(
 | 2. **Auto-tag → Tagged PDF** | Generate structure tags for untagged PDFs | Shipped | Free (Apache 2.0) |
 | 3. **Export PDF/UA** | Convert to PDF/UA-1 or PDF/UA-2 compliant files | 💼 Available | Enterprise |
 | 4. **Visual editing** | Accessibility studio — review and fix tags | 💼 Available | Enterprise |
-
-> **💼 Enterprise features** are available on request. [Contact us](https://opendataloader.org/contact) to get started.
-
-### Auto-Tagging
-
-Generate Tagged PDFs from untagged PDFs — output is a screen-reader-ready PDF with structure tags (headings, paragraphs, lists, tables, reading order).
-
-```python
-import opendataloader_pdf
-
-# Untagged PDF in → Tagged PDF out
-opendataloader_pdf.convert(
-    input_path=["file1.pdf", "file2.pdf", "folder/"],
-    output_dir="output/",
-    format="tagged-pdf"
-)
-```
-
-```bash
-# CLI
-opendataloader-pdf --format tagged-pdf file1.pdf file2.pdf folder/
-```
-
-Combine with other formats: `format="json,tagged-pdf"`.
-
-### End-to-End Compliance Workflow
-
-```
-Existing PDFs (untagged)
-    │
-    ▼
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐    ┌──────────────────┐
-│  1. Audit       │───>│  2. Auto-Tag     │───>│  3. Export      │───>│  4. Studio       │
-│  (check tags)   │    │  (→ Tagged PDF)  │    │  (PDF/UA)       │    │  (visual editor) │
-└─────────────────┘    └──────────────────┘    └─────────────────┘    └──────────────────┘
-        │                       │       
 
 ## limitations
 
