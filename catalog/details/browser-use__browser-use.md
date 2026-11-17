@@ -95,6 +95,23 @@ Something broken? `browser-use feedback 'what happened'` (or `browser_use.feedba
 
 <br/>
 
+# Browser Use for enterprises
+
+Talk to us about:
+
+- **Security and compliance:** SOC 2, HIPAA with a BAA, GDPR, zero data retention and EU data residency.
+- **Network control:** domain allow and block lists, network policies, egress control, your own proxies, IP allowlists and private networking.
+- **Agent controls:** tool and action restrictions, blocked downloads and uploads, and human approval for sensitive steps.
+- **Identity and access:** SSO with SAML, SCIM provisioning and role-based access.
+- **Secrets:** vault integrations and domain-scoped credentials, kept out of prompts and task text.
+- **Audit logging:** a record of every navigation and action, exported to your SIEM.
+- **Deployment:** a fully on-prem browser, in your VPC or self-hosted.
+- **Support:** SLAs, dedicated support and onboarding.
+
+[Reach out to us](https://browser-use.com/enterprise#talk-to-sales) to tell us what your team needs.
+
+<br/>
+
 # FAQ
 
 <details>
@@ -130,20 +147,4 @@ This open-source library is licensed under the MIT License. For Browser Use serv
 
 - **Local browser:** `Browser('chrome')` drives the Chrome you have open, with your logins; `Browser('chrome', profile='Work')` uses a copy of that profile; `Browser('chromium', user_data_dir='~/bu-profile')` keeps its own logins between runs.
 - **Cloud browser:** `Browser(cloud_profile_id='work')` keeps logins in a cloud profile; see the [profile sync guide](https://github.com/browser-use/browser-harness/blob/main/interaction-skills/profile-sync.md).
-- **Passwords:** pass them as `sensitive_data`; the model types them with `type_secret(name)` and their values are redacted from cell output, checkpoints, tool results, the task and the result. Not a sandbox: model-written Python can read them, and screenshots, page JavaScript and a cloud live view can reveal a typed value.
-</details>
-
-<details>
-<summary><b>How do I solve CAPTCHAs?</b></summary>
-
-[Browser Use Cloud](https://docs.browser-use.com/cloud/browser/quickstart) provides stealth browsers and proxies designed to reduce bot detection and CAPTCHA challenges. With the Python library, `Browser()` is a cloud browser by default.
-
-Cloud browsers also solve CAPTCHAs automatically, and the agent waits for the solver with `solve_captcha()` instead of clicking the challenge. `Browser(captcha_solver=False)` turns the solver off.
-
-Results depend on the site and challenge; no browser configuration guarantees that every CAPTCHA can be avoided or solved.
-</details>
-
-<details>
-<summary><b>Can I limit which sites the agent visits?</b></summary>
-
-`Browser(allowed_domains=['example.com', '*.example.org'])`, `Browser(prohibited_domains=['evil.com'])` or `Brows
+- **Passwords:** pass them as `sensitive_data`; the model types them with `type_secret(name)` and their values are redacted from cell output, checkpoints, tool results, the task and the result. Not a sandbox: model-written Python can read 

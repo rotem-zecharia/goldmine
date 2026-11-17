@@ -10,7 +10,11 @@ Remove visible and invisible AI watermarks from images and video, and AI provena
 | 10-provider source-export & model-version classification | `remove-ai-watermarks[source-classify]` |
 | Visible detection and removal | `remove-ai-watermarks[visible]` |
 | Visible video processing | `remove-ai-watermarks[video]` |
+| Public known-message VideoSeal/PixelSeal checks | `remove-ai-watermarks[video-detect]`, add `diffusion` for VAE |
 | Video SynthID removal | `remove-ai-watermarks[video,diffusion]` |
+| Audio sample processing and spectral disruption | `remove-ai-watermarks[audio]` |
+| Compatible public audio watermark detection (AudioSeal) | `remove-ai-watermarks[audio-detect]` |
+| Neural audio codec resynthesis (EnCodec / FocalCodec / DAC) | `remove-ai-watermarks[audio-codec]` |
 | Torch-free DWT-DCT detection | `remove-ai-watermarks[detect]` |
 | Direct local Paint InvisMark disruption | `remove-ai-watermarks[pixels]` |
 | Invisible image removal (needs CUDA) | `remove-ai-watermarks[qwen-zimage]` |
@@ -18,7 +22,8 @@ Remove visible and invisible AI watermarks from images and video, and AI provena
 | Optional OCR proposals for operator verification | `remove-ai-watermarks[text-draft]` |
 
 Lower-level and specialized extras include `pixels`, `heif`, `trustmark`,
-`migan`, `lama`, `diffusion`, and `source-classify`. The
+`migan`, `lama`, `diffusion`, `source-classify`, `audio-vocoder`,
+`audio-wavmark`, `audio-perth`, and `audio-silentcipher`. The
 [installation guide](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/installation.md#feature-extras) documents their exact
 dependency composition, Python compatibility, and model requirements.
 
@@ -50,7 +55,7 @@ remove-ai-watermarks classify-source image.png
 import remove_ai_watermarks as raiw
 
 result = raiw.classify_source("image.png")
-print(result.label, result.version_subfamily, result.confidence)
+print(result.label, result.version_subfamily, result.synthetic_detected, result.confidence)
 ```
 
 Guide: [source-pipeline classification](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/source-classify.md). Model card: [`wiltodelta/raiw-source-classify`](https://huggingface.co/wiltodelta/raiw-source-classify).
@@ -94,18 +99,7 @@ preserves the original. MP4 and MOV
 inspection includes the native TC260 `AIGC` tag in
 `moov.udta.meta.keys/ilst`, including a `moov` placed after the media payload,
 plus the QuickTime-form `meta` variants Doubao's iOS export writes (a bare
-`meta` box as a direct `moov` child, and a keyless `hdlr=mdir` metadata list).
-Keyed `workflow` and `prompt` entries in the same metadata-list structure are
-also detected and removed, including ComfyUI exports.
-MKV and WebM inspection reads the normative
-`Segment.Tags.Tag.SimpleTag` placement. AVI uses `LIST/INFO/AIGC`, while FLV
-uses `script.onMetaData.AIGC`. The non-ISOBMFF formats are remuxed with stream
-copy for removal.
-
-Use the product-oriented video path to identify or clean a file:
-
-```bash
-uv too
+`meta` box 
 
 ## tools
 

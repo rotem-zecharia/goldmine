@@ -18,6 +18,11 @@ SkillSpector is part of the [NVIDIA Verified Skills pipeline](https://docs.nvidi
 - **[Analysis resource bounds](docs/ANALYSIS_RESOURCE_BOUNDS.md)** — Fail-closed bundle, parser, nested-artifact, ledger, and finding ceilings.
 - **[Pi extension](docs/PI_EXTENSION.md)** — Install SkillSpector as a Pi tool for scanning skills from inside agent sessions.
 - **[OpenCode extension](docs/OPENCODE_EXTENSION.md)** — Install SkillSpector as an OpenCode tool and `/skillspector` command for scanning skills from inside agent sessions.
+- **[LLM analyzer base guide](docs/LLM_ANALYZER_BASE_GUIDE.md)** — How to build LLM-powered analyzer nodes on top of `LLMAnalyzerBase`.
+- **[Dependency source redirection](docs/DEPENDENCY_SOURCE_REDIRECTION.md)** — How SC10 findings flag a skill that changes where its packages are fetched from.
+- **[Live vulnerability lookups (SC4)](docs/SC4-osv-live-vulnerability-lookups.md)** — How SC4 checks dependencies against OSV.dev.
+- **[Eval dataset scanning](docs/EVAL_DATASETS.md)** — Which eval dataset files the static pattern analyzers skip.
+- **[MCP least-privilege analysis (LP1–LP4)](docs/B.3.1-mcp-least-privilege.md)** and **[MCP tool-poisoning detection (TP1–TP4)](docs/B.3.2-mcp-tool-poisoning.md)** — Design notes for the MCP analyzers.
 
 ## Features
 
@@ -35,19 +40,24 @@ SkillSpector is part of the [NVIDIA Verified Skills pipeline](https://docs.nvidi
 
 > **Open-source software notice:** This project will download and install additional third-party open source software projects. Review the license terms of these open source projects before use.
 
-Create and activate a virtual environment first (all `make` targets assume the venv is active). Use **uv** or **pip**; the Makefile uses `uv` if available, otherwise `pip`.
+Use **Python 3.12 or 3.13** for installation with prebuilt YARA wheels on supported
+platforms. The examples below select 3.13 explicitly; see the
+[Python installation notes](#python-installation-notes) for newer interpreters.
+For source installs, create and activate a virtual environment first (all `make`
+targets assume the venv is active). Use **uv** or **pip**; the Makefile uses `uv`
+if available, otherwise `pip`.
 
 **Quick install with uv (CLI-only):**
 
 ```bash
-uv tool install git+https://github.com/NVIDIA/skillspector.git
+uv tool install --python 3.13 git+https://github.com/NVIDIA/skillspector.git
 # Update later: uv tool update skillspector
 ```
 
 If you plan to run `skillspector mcp`, install the MCP extra at install time:
 
 ```bash
-uv tool install 'skillspector[mcp] @ git+https://github.com/NVIDIA/skillspector.git'
+uv tool install --python 3.13 'skillspector[mcp] @ git+https://github.com/NVIDIA/skillspector.git'
 ```
 
 **From source:**
@@ -59,8 +69,8 @@ cd skillspector
 
 ## configuration
 
-uv venv .venv && source .venv/bin/activate
-# or: python3 -m venv .venv && source .venv/bin/activate
+uv venv --python 3.13 .venv && source .venv/bin/activate
+# or: python3.13 -m venv .venv && source .venv/bin/activate
 
 ## tools
 
