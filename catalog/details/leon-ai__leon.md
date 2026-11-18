@@ -16,6 +16,7 @@ pnpm start
 - Follow the setup prompts during `pnpm install`.
 - Open **[http://localhost:5366/web-app/](http://localhost:5366/web-app/)** for the new web app. The legacy interface is still at `/`.
 - Run `pnpm run check` to check your setup.
+- Downloads select supported Chinese mirrors when the downloading machine is in China. See [download sources and overrides](docs/reference/DOWNLOADS.md).
 - Use the [`master` branch](https://github.com/leon-ai/leon/tree/master) for the previous, pre-agentic version.
 
 ## A little look inside
@@ -42,4 +43,4 @@ A few previews from the work in progress, using sample conversations and setup s
 
 | Connecting your tools | A little help with coding |
 | --- | --- |
-| <a href="./.github/assets/previews/tool-connection-light.png#gh-light-mode-only"><img src="./.github/assets/previews/tool-connection-light.png#gh-light-mode-only" width="400" alt="Full Leon web app showing Spotify connection setup"></a><a href="./.github/assets/previews/tool-connection-dark.png#gh-dark-mode-only"><img src="./.github/assets/previews/tool-connection-dark.png#gh-dark-mode-only" width="400" alt="Full Leon web app showing Spotify connection setup"></a> | <a href="./.github/assets/previews/coding-light.png#gh-light-mode-only"><img src="./.github/assets/previews/coding-light.png#gh-light-mode-only" width="400" alt="Full Leon web app sho
+| <a href="./.github/assets/previews/tool-connection-light.png#gh-light-mode-only"><img src="./.github/assets/previews/tool-connection-light.png#gh-light-mode-only" width="400" alt="Full Leon web app showing Spotify connection setup"></a><a href="./.github/assets/previews/tool-connection-dark.png#gh-dark-mode-only"><img src="./.github/assets/previews/tool-connection-dark.png#gh-dark-mode-only" width="400" alt="Full Leon web app showing Spotify connection setup"></a> | <a href="./.github/assets/pre

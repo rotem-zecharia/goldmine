@@ -1,6 +1,6 @@
 # firecrawl/firecrawl
 
-Supercharge your AI agents with data from the web and beyond. Building the library for superintelligence. 🔥
+Knowledge infrastructure to make your agents smarter. Search, scrape and 550+ data providers through one API.
 
 ## features
 
@@ -35,7 +35,7 @@ Supercharge your AI agents with data from the web and beyond. Building the libra
 | [**Map**](#map) | Discover all URLs on a website instantly |
 | [**Batch Scrape**](#batch-scrape) | Scrape thousands of URLs asynchronously |
 | [**Monitor**](https://docs.firecrawl.dev/features/monitoring) | Get notified when content on a website changes |
-| [**Alexandria**](#alexandria) | Give your agent 400+ data providers and specialized indexes (via Firecrawl Cloud) |
+| [**Firecrawl Alexandria**](#alexandria) | Give your agent 550+ data providers and specialized indexes (via Firecrawl Cloud) |
 
 ---
 

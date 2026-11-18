@@ -25,8 +25,6 @@ Click the Star and Watch buttons in the top-right corner of the repository to ge
 
 ## installation
 
-Official plugin source index: [plugins/README.md](plugins/README.md) · [machine-readable catalog](plugins/catalog.json) · [independent plugin releases](plugins/RELEASING.md). Plugins are installed separately and are not bundled in Core releases.
-
 ### ☁️ LangBot Cloud (Recommended)
 
 [![Deploy on LangBot Cloud](res/langbot-cloud.svg)](https://space.langbot.app/cloud)
@@ -103,4 +101,5 @@ docker compose --profile all up -d
 | [Ollama](https://ollama.com/)                                                                                     | Local LLM    | ✅     |
 | [LM Studio](https://lmstudio.ai/)                                                                                 | Local LLM    | ✅     |
 | [Dify](https://dify.ai)                                                                                           | LLMOps       | ✅     |
-| [MCP](https://modelconte
+| [MCP](https://modelcontextprotocol.io/)                                                                           | Protocol     | ✅     |
+| [SiliconFlow](https://siliconflow.cn/)                                                                            | Gateway      |

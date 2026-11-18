@@ -28,7 +28,7 @@ Install browser-use with `uv tool install browser-use==1.0.6`, run `browser-use 
 
 > **browser-use 1.0.** The agent writes Python against raw CDP in a persistent REPL, on [Pydantic AI](https://ai.pydantic.dev). Coming from 0.x? Read [MIGRATING.md](https://github.com/browser-use/browser-use/blob/main/MIGRATING.md).
 
-Python 3.11 or newer. With uv, or pip in a venv:
+Python 3.11 or newer. Get an API key at [Browser Use Cloud](https://cloud.browser-use.com/new-api-key?utm_source=github&utm_medium=readme-quickstart-api-key), then install with uv, or pip in a venv:
 
 ```bash
 uv init --python 3.12 my-agent && cd my-agent
@@ -85,13 +85,11 @@ print(agent.run_sync().final_result())  # in async code: result = await agent.ru
 | `Browser()` | a Browser Use Cloud browser (default) |
 | `Browser('chromium')` | a fresh local Chrome/Chromium/Edge with its own temp profile, deleted afterwards. Headless when there is no display (Docker, CI); `headless=`, `executable_path=`, `user_data_dir=` (a profile dir kept between runs) |
 | `Browser('chrome')` | the Chrome you have open, with your logins (turn on chrome://inspect/#remote-debugging once) |
-| `Browser('chrome', profile='Work')` | a new Chrome on a temporary copy of your Chrome profile `Work` (sync off); your Chrome can stay open, except on Windows |
-
-Other models: `ChatAn
+| `Browser('chrome', profile='Work
 
 ## tools
 
-Something broken? `browser-use feedback 'what happened'` (or `browser_use.feedback(...)`) sends it straight to the Browser Use team.
+Integrated Browser Use, or hit a bug? Tell us how it went: `browser-use feedback 'kind: integration_report ...'` (or `browser_use.feedback(...)`) sends it straight to the Browser Use team.
 
 <br/>
 
@@ -147,4 +145,4 @@ This open-source library is licensed under the MIT License. For Browser Use serv
 
 - **Local browser:** `Browser('chrome')` drives the Chrome you have open, with your logins; `Browser('chrome', profile='Work')` uses a copy of that profile; `Browser('chromium', user_data_dir='~/bu-profile')` keeps its own logins between runs.
 - **Cloud browser:** `Browser(cloud_profile_id='work')` keeps logins in a cloud profile; see the [profile sync guide](https://github.com/browser-use/browser-harness/blob/main/interaction-skills/profile-sync.md).
-- **Passwords:** pass them as `sensitive_data`; the model types them with `type_secret(name)` and their values are redacted from cell output, checkpoints, tool results, the task and the result. Not a sandbox: model-written Python can read 
+- **Passwords:** pass them as `sensitive_data`; the model types them with `type_secret(name)` and their values are redacted from cell output, checkpoints, tool results, the task and t

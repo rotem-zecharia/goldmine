@@ -1,6 +1,6 @@
 # screenpipe/screenpipe
 
-YC (S26) / Open Computer History / Continuously record your company computer work, map your workflows, help you find work worth automating, and power your agents' context
+YC (S26) / Screenpipe finds the work worth automating / Continuously record computer work locally, discover recurring workflows, and hand the result to any agent you already use.
 
 ## installation
 
@@ -20,7 +20,9 @@ npx screenpipe setup
 claude mcp add screenpipe -- npx -y screenpipe-mcp@latest
 ```
 
-then ask claude `what did i see in the last 5 mins?` or `summarize today conversations` or `create a pipe that updates linear every time i work on task X`
+then ask claude `what did i see in the last 5 mins?`, `summarize today conversations`, or `create a pipe that updates linear every time i work on task X`
+
+For workflow discovery, ask for a bounded report instead: `list the workflows i repeated this week, with steps, repetitions, exceptions and evidence`. See [workflow discovery](https://docs.screenpi.pe/workflow-discovery) and [workflow handoff](https://docs.screenpi.pe/workflow-handoff).
 
 <details>
 <summary>🤖 CLI-only setup for coding agents</summary>
@@ -87,11 +89,7 @@ points to the same instructions.
 - [Native builds](docs/macos-dev-builds.md): supported build and test commands.
 - [App publication](docs/human-only-app-publication.md): release and publication boundaries.
 
-The root [package.json](package.json) exposes `@screenpipe/workflows-ui` for projects
-that install this repository as a Git dependency. It forwards exports to
-[`packages/workflows-ui`](packages/workflows-ui), where the implementation lives;
-it is not a root JavaScript workspace or app. In-repo apps depend on that package
-directly. Keep the t
+The root [package.json](package.json) exposes `@screenp
 
 ## features
 

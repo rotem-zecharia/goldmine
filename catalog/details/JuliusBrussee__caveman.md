@@ -1,6 +1,6 @@
 # JuliusBrussee/caveman
 
-🪨 why use many token when few token do trick. Viral skill + proxy for coding agents that cuts 65% of tokens by talking like a caveman.
+why use many token when few token do trick. Skill + local proxy for coding agents: shorter answers, smaller tool output, every original recoverable.
 
 ## features
 
@@ -13,8 +13,8 @@
 
 <table>
 <tr>
-<td align="center" width="25%"><h3>33.2% fewer</h3>input tokens, whole sessions<br><sub><a href="#read-less-332-fewer-input-tokens">54 Claude Code runs</a>, 18 of 18 answers right</sub></td>
-<td align="center" width="25%"><h3>54% cheaper</h3>with Auto, same score<br><sub><a href="#auto-54-cheaper-same-score">85 coding tasks</a> vs Opus 5.5 at xhigh, interim</sub></td>
+<td align="center" width="25%"><h3>33.2% fewer</h3>input tokens, whole sessions<br><sub><a href="#read-less-332-fewer-input-tokens">6 synthetic large-tool-output tasks, 18 pairs</a>, Aug 2026 engine, 18 of 18 answers right</sub></td>
+<td align="center" width="25%"><h3>0.46×</h3>the cost of Opus at xhigh, with Auto<br><sub><a href="#auto-046x-the-cost-of-opus-at-xhigh-interim">85 coding tasks</a>, interim, score gap ±7 points, unresolved</sub></td>
 <td align="center" width="25%"><h3>397 → 76</h3>tokens for one test run<br><sub><a href="#blocks-code-mode-script-written-once">Blocks</a> vs <code>| tail -20</code></sub></td>
 <td align="center" width="25%"><h3>1.4 to 2.4× cheaper</h3>with caveman-style output<br><sub><a href="https://arxiv.org/abs/2606.24083">Adobe Research</a>, eight models</sub></td>
 </tr>
@@ -23,7 +23,7 @@
 Cited by **[Adobe Research](https://arxiv.org/abs/2606.24083)** · A/B tested by **[JetBrains](https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/)** · Remade for Elasticsearch on **[Elasticsearch Labs](https://www.elastic.co/search-labs/blog/elastic-caveman-ai-token-reduction)**<br>
 **#1** on [Hacker News](https://news.ycombinator.com/item?id=47647455) · **#1** on GitHub Trending · *"No way this actually works."* [ThePrimeagen](https://www.youtube.com/watch?v=L29q2LRiMRc)
 
-**[Install](#install) · [Six rocks](#six-rocks-one-install) · [Proof](#proof) · [Say less](#say-less-the-caveman-voice) · [Read less](#read-less-332-fewer-input-tokens) · [Auto](#auto-54-cheaper-same-score) · [Blocks](#blocks-code-mode-script-written-once) · [Commands](#commands) · [Caveman Cloud](#caveman-cloud)**
+**[Install](#install) · [Six rocks](#six-rocks-one-install) · [Proof](#proof) · [Say less](#say-less-the-caveman-voice) · [Read less](#read-less-332-fewer-input-tokens) · [Auto](#auto-046x-the-cost-of-opus-at-xhigh-interim) · [Blocks](#blocks-code-mode-script-written-once) · [Commands](#commands) · [Caveman Cloud](#caveman-cloud)**
 
 </div>
 
@@ -56,7 +56,7 @@ Pick your club:
 |---|---|---:|
 | `/caveman` | New object ref each render, so React re-renders. Wrap the prop in `useMemo`. | 20 |
 | `/ultracave` | Inline object prop, new ref, re-render. `useMemo`. | 14 |
-| `/megacave` | 新參照致重繪。`useMemo`。 | **13** |
+| `/megacave` | 新參照致重繪。`useMemo`。 | 13 |
 
 <sub>Token counts: tiktoken o200k.</sub>
 
@@ -78,12 +78,12 @@ New in 4.0: caveman is six parts. All on after install. Each has its own switch.
 
 | Rock | What it does | Measured |
 |---|---|---|
-| **[Say less](#say-less-the-caveman-voice)** | Agent answers short. Code stays exact | 63 → 20 tokens, same fix |
-| **[Read less](#read-less-332-fewer-input-tokens)** | Logs, JSON, CSV, test output shrink before the model reads them | **33.2%** fewer input tokens per session |
-| **[Auto](#auto-54-cheaper-same-score)** · new | Picks the model and the effort for each ask | **54%** cheaper than Opus at xhigh, same score |
+| **[Say less](#say-less-the-caveman-voice)** | Agent answers short. Code stays exact | 3% shorter than "Answer concisely." (ultracave 35%), n=10 |
+| **[Read less](#read-less-332-fewer-input-tokens)** | Logs, JSON, CSV, test output shrink before the model reads them | **33.2%** fewer input tokens per session (6 synthetic large-tool-output tasks, 18 pairs, Aug 2026 engine) |
+| **[Auto](#auto-046x-the-cost-of-opus-at-xhigh-interim)** · new | Picks the model and the effort for each ask | 0.46× the cost of Opus at xhigh in an interim run (85 tasks); quality gap unresolved |
 | **[Blocks](#blocks-code-mode-script-written-once)** · new | Code mode: agent keeps the scripts it writes and runs them again | **397 → 76** tokens for one test run |
 | **[Waste fixes](#smaller-rocks)** | Finds where your tokens go and fixes it. New: keeps the prompt cache warm while you pause | Not measured yet |
-| **[Browse](#smaller-rocks)** | Web pages come back compressed | **129.8×** smaller page |
+| **[Browse](#smaller-rocks)** | Web pages come back compressed | 14.9% smaller full page than Playwright; 121 vs 15,704 tokens with a query, on one 200-row table |
 
 `caveman status` shows what is on. `caveman off browse` turns one off. Only Auto needs an account, and it is free. [4.0.0 release notes](https://github.com/JuliusBrussee/caveman/releases/tag/v4.0.0)
 
@@ -110,15 +110,7 @@ Two findings shaped caveman. Adobe: cavemanning *your* prompt makes answers wors
 | **Meaning never dropped** | Articles can go. *not*, *never*, *no*, *only* never go. Numbers and units stay exact |
 | **Payload verbatim** | Code, commands, paths, and error messages untouched, character for character |
 | **No theater** | No "me think". No chatter between tool calls. If caveman phrasing isn't shorter, plain wins |
-| **Knows when to stop** | Security warnings, irreversible actions, and confused users get full sentences. Then grunt resumes |
-| **Your prompts stay yours** | Never rewritten. [Research say that backfire](#proof) |
-
-Ten dev questions on claude-opus-5-5:
-
-| Instruction | Output tokens |
-|---|---:|
-| None | 6,983 |
-| `Answer concise
+| **Knows when to stop** | Security warnings, irreversible actions, and confused users get full sentences. 
 
 ## tools
 

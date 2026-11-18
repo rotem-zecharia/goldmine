@@ -1,6 +1,6 @@
 # heygen-com/hyperframes
 
-Write HTML. Render video. Built for agents.
+AI video you can actually edit. HyperFrames is a free, open-source AI video editor. Describe any video and get a real project you can change down to the frame.
 
 ## installation
 
