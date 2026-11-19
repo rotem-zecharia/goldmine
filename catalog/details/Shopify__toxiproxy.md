@@ -138,8 +138,8 @@ binaries and system packages for your architecture.
 **Ubuntu**
 
 ```bash
-$ wget -O toxiproxy-2.1.4.deb https://github.com/Shopify/toxiproxy/releases/download/v2.1.4/toxiproxy_2.1.4_amd64.deb
-$ sudo dpkg -i toxiproxy-2.1.4.deb
+$ wget -O toxiproxy-2.13.0.deb https://github.com/Shopify/toxiproxy/releases/download/v2.13.0/toxiproxy_2.13.0_linux_amd64.deb
+$ sudo dpkg -i toxiproxy-2.13.0.deb
 $ sudo service toxiproxy start
 ```
 
@@ -160,7 +160,8 @@ $ port install toxiproxy
 
 **Windows**
 
-Toxiproxy for Windows is available for download at https://github.com/Shopify/toxiproxy/releases/download/v2.1.4/toxiproxy-server-windows-amd64.exe
+Toxiproxy for Windows is available for download at https://github.com/Shopify/toxiproxy/releases/latest/download/toxiproxy-server-windows-amd64.exe,
+with the matching CLI at https://github.com/Shopify/toxiproxy/releases/latest/download/toxiproxy-cli-windows-amd64.exe
 
 **Docker**
 
@@ -173,6 +174,8 @@ $ docker run --rm -it ghcr.io/shopify/toxiproxy
 ```
 
 If using Toxiproxy from the host rather than other containers, enable host networking with `--net=host`.
+The image binds the API to `0.0.0.0`, so with host networking it is reachable on every host interface;
+pass `-e TOXIPROXY_AUTH_TOKEN=<token>` if other machines can reach the host (see [HTTP API](#http-api)).
 
 ```shell
 $ docker run --rm --entrypoint="/toxiproxy-cli" -it ghcr.io/shopify/toxiproxy list
@@ -183,7 +186,7 @@ $ docker run --rm --entrypoint="/toxiproxy-cli" -it ghcr.io/shopify/toxiproxy li
 If you have Go installed, you can build Toxiproxy from source using the make file:
 ```bash
 $ make build
-$ ./toxiproxy-server
+$ ./dist/toxiproxy-server
 ```
 
 #### Upgrading from Toxiproxy 1.x
@@ -253,17 +256,4 @@ An example `config/toxiproxy.json`:
   },
   {
     "name": "web_dev_mysql_1",
-    "listen": "[::]:13306",
-    "upstream": "database.domain:3306",
-    "enabled": true
-  }
-]
-```
-
-Use ports outside the ephemeral port range to avoid random port conflicts.
-It's `32,768` to `61,000` on Linux by default, see
-`/proc/sys/net/ipv4/ip_local_port_range`.
-
-### 3. Using Toxiproxy
-
-To use Toxiproxy, you now need to configure your application t
+    "listen

@@ -20,9 +20,9 @@ The script installs the program and does not start it; `local-ai` starts the ser
 docker run -ti --name local-ai -p 8080:8080 localai/localai:latest
 ```
 
-**Desktop app**: it installs, updates, starts and stops the server for you and shows the web interface in its own window, on macOS and Linux. It comes with the next release. Test builds are on the [dev-master pre-release](https://github.com/mudler/LocalAI/releases/tag/dev-master). See the [desktop app guide](https://localai.io/docs/start/install/desktop/).
+**Desktop app**: it installs, updates, starts and stops the server for you and shows the web interface in its own window, on macOS and Linux. It is in the 5.0 release. Download it from the [latest release](https://github.com/mudler/LocalAI/releases/latest). See the [desktop app guide](https://localai.io/docs/start/install/desktop/).
 
-The install script and the `latest` image give 4.12.1 today. Projects, the new desktop app, the add-ons, Office, Sandbox and team features described below need a development build or a newer release.
+The install script and the `latest` image give 5.0.0.
 
 Then open `http://localhost:8080`. To restart an existing container, use `docker start -i local-ai`. More ways to install: [Install LocalAI](https://localai.io/docs/start/install/).
 
@@ -83,7 +83,7 @@ More in the [Quickstart](https://localai.io/docs/start/quickstart/).
 | Area | What it gives you |
 |---|---|
 | [Chats](https://localai.io/docs/features/chats/) | Conversations the server keeps, with saved agents that use tools, [MCP](https://localai.io/docs/features/mcp/), skills and files, triggers, and chat apps |
-| [Add-ons](https://localai.io/docs/addons/) | Office, Sandbox, Tables, chat apps, mail, calendar and more install from a library and run beside the server (development builds) |
+| [Add-ons](https://localai.io/docs/addons/) | Office, Sandbox, Tables, chat apps, mail, calendar and more install from a library and run beside the server |
 | [Text generation](https://localai.io/docs/models/capabilities/text/text-generation/) | `llama.cpp`, `transformers`, `vllm` ... [and more](https://localai.io/docs/models/compatibility-table/), with an [OpenAI-compatible tools API](https://localai.io/docs/api/openai-functions/) and [constrained grammars](https://localai.io/docs/models/capabilities/text/constrained_grammars/) |
 | Music and sound | Make music and sound effects from a text prompt with `/v1/sound-generation`. See [text to audio](https://localai.io/docs/models/capabilities/audio/text-to-audio/) |
 | Speech | [Text to audio](https://localai.io/docs/models/capabilities/audio/text-to-audio/), [audio to text](https://localai.io/docs/models/capabilities/audio/audio-to-text/), voice activity detection (Silero-VAD) and the [Realtime API](https://localai.io/docs/api/openai-realtime/) for speech-to-speech |
@@ -100,4 +100,4 @@ Most backends wrap an upstream engine such as llama.cpp or vLLM. We wrote 18 of 
 
 | Backend | What it does |
 |---------|-------------|
-| [vllm.cpp](https://github.co
+| [vllm.cpp](https://github.com/mudler/vllm.cpp) | 

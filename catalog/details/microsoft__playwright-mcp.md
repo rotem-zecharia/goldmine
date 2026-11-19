@@ -249,7 +249,7 @@ Playwright MCP server supports following arguments. They can be provided in the 
 
 - **browser_close**
   - Title: Close browser
-  - Description: Close the page
+  - Description: Close the browser and all open tabs.
   - Parameters: None
   - Read-only: **false**
 
@@ -305,4 +305,4 @@ Playwright MCP server supports following arguments. They can be provided in the 
 
 - **browser_evaluate**
   - Title: Evaluate JavaScript
-  - Description: Evaluate 
+  - 
