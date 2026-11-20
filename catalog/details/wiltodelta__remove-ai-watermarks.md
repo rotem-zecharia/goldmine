@@ -10,7 +10,7 @@ Remove visible and invisible AI watermarks from images and video, and AI provena
 | 10-provider source-export & model-version classification | `remove-ai-watermarks[source-classify]` |
 | Visible detection and removal | `remove-ai-watermarks[visible]` |
 | Visible video processing | `remove-ai-watermarks[video]` |
-| Public known-message VideoSeal/PixelSeal checks | `remove-ai-watermarks[video-detect]`, add `diffusion` for VAE |
+| Public VideoSeal/PixelSeal/ChunkySeal checks | `remove-ai-watermarks[video-detect]`, add `diffusion` for VAE |
 | Video SynthID removal | `remove-ai-watermarks[video,diffusion]` |
 | Audio sample processing and spectral disruption | `remove-ai-watermarks[audio]` |
 | Compatible public audio watermark detection (AudioSeal) | `remove-ai-watermarks[audio-detect]` |
@@ -99,7 +99,7 @@ preserves the original. MP4 and MOV
 inspection includes the native TC260 `AIGC` tag in
 `moov.udta.meta.keys/ilst`, including a `moov` placed after the media payload,
 plus the QuickTime-form `meta` variants Doubao's iOS export writes (a bare
-`meta` box 
+`meta` box as 
 
 ## tools
 

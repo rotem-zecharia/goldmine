@@ -4,34 +4,70 @@ Storybook is the industry standard workshop for building, documenting, and testi
 
 ## installation
 
-Visit [Storybook's website](https://storybook.js.org/?ref=readme) to learn more about Storybook and to get started.
+Run this command at the root of an existing project to install and configure Storybook:
+
+```sh
+npm create storybook@latest
+```
+
+Or paste this prompt into your agent:
+
+```text
+Set up Storybook for me with npm create storybook@latest and follow its instructions precisely
+```
+
+Visit [Storybook's website](https://storybook.js.org/?ref=readme) to learn more about Storybook, or follow the [installation guide](https://storybook.js.org/docs/get-started/install?ref=readme) for other package managers and manual setup.
 
 ### Documentation
 
-Documentation can be found on [Storybook's docs site](https://storybook.js.org/docs?ref=readme).
+Documentation can be found on [Storybook's docs site](https://storybook.js.org/docs?ref=readme). To learn Storybook step by step, follow the [tutorials](https://storybook.js.org/tutorials/?ref=readme).
 
 ## tools
 
-View [Component Encyclopedia](https://storybook.js.org/showcase?ref=readme) to see how leading teams use Storybook.
+View the [Storybook Showcase](https://storybook.js.org/showcase?ref=readme) to see how leading teams use Storybook.
 
 Use [storybook.new](https://storybook.new) to quickly create an example project in Stackblitz.
 
-Storybook comes with a lot of [addons](https://storybook.js.org/docs/configure/user-interface/storybook-addons?ref=readme) for component design, documentation, testing, interactivity, and so on. Storybook's API makes it possible to configure and extend in various ways. It has even been extended to support React Native, Android, iOS, and Flutter development for mobile.
+## AI
 
-### Community
+Storybook makes building UI with agents faster, better and cheaper. Your agent reuses the components you already have, writes stories for what it builds, tests its work by running stories, and gives you a visual review to check the result.
 
-For additional help, share your issue in [the repo's GitHub Discussions](https://github.com/storybookjs/storybook/discussions/new?category=help).
+### Skills and the CLI
+
+Run this command in the root of your project to install Storybook's skills:
+
+```sh
+npx storybook automigrate skills
+```
+
+Skills are short instruction files in your repository that tell your agent what to do at each step of a UI change. Most AI agents support skills. Your agent learns how to interact with Storybook by reading skill files, and then calls the `storybook tools` command to get work done:
+
+| Command                           |                                                                             |
+| --------------------------------- | --------------------------------------------------------------------------- |
+| `storybook tools docs list`       | List all components and docs entries                                        |
+| `storybook tools docs show`       | Show the props and usage examples of a component                            |
+| `storybook tools stories changed` | List the stories that are new, modified, or affected by uncommitted changes |
+| `storybook tools test run`        | Run story tests, with accessibility checks if set up                        |
+| `storybook tools review create`   | Publish a review of the stories that a change affects                       |
+
+See [Connect your agent](https://storybook.js.org/docs/ai/connect?ref=readme) to get started, and the [CLI options](https://storybook.js.org/docs/api/cli-options?ref=readme#tools) for all the tools. If you want your agent to call Storybook through MCP tools instead of CLI commands, the [MCP addon](code/addons/mcp/) serves the same tools from your dev server.
+
+These features are available for React, Next, TanStack, Vue, Angular, Svelte, Web Components and multiple community frameworks. Check the [supported frameworks](https://storybook.js.org/docs/ai/connect?ref=readme#supported-frameworks) for more details.
+
+### Published Storybooks
+
+When you [publish your Storybook with Chromatic](https://storybook.js.org/docs/sharing/publish-storybook?ref=readme#publish-storybook-with-chromatic), Chromatic also publishes its MCP server, at your published Storybook's URL followed by `/mcp`:
+
+```
+https://<branch>--<app-id>.chromatic.com/mcp
+```
+
+Agents that connect to the MCP server can look up your components, with their props and usage examples, without running Storybook. This lets the teams that build with your design system reuse its components from their own repositories. Chromatic MCP hosting is entirely free. See [Use a published Storybook](https://storybook.js.org/docs/ai/published-storybook?ref=readme) and [Chromatic's setup guide](https://chromatic.com/docs/storybook-mcp/) for more details.
 
 ## Projects
 
 ### Supported Frameworks
 
-| Renderer                                                       | Demo                                                                                                                                                                         |                                                                                                                                                       |
-| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [React](code/renderers/react)                                  | [![Storybook demo](https://img.shields.io/npm/v/@storybook/react/latest?style=flat-square&color=blue&label)](https://next--630511d655df72125520f051.chromatic.com/)          | [![React](https://img.shields.io/npm/dm/@storybook/react?style=flat-square&color=eee)](code/renderers/react)                                          |
-| [Angular](code/frameworks/angular/)                            | [![Storybook demo](https://img.shields.io/npm/v/@storybook/angular/latest?style=flat-square&color=blue&label)](https://next--6322ce6af69825592bbb28fc.chromatic.com/)        | [![Angular](https://img.shields.io/npm/dm/@storybook/angular?style=flat-square&color=eee)](code/frameworks/angular/)                                  |
-| [Vue 3](code/renderers/vue3)                                   | [![Storybook demo](https://img.shields.io/npm/v/@storybook/vue3/latest?style=flat-square&color=blue&label)](https://next--630513346a8e284ae244d415.chromatic.com/)           | [![Vue 3](https://img.shields.io/npm/dm/@storybook/vue3?style=flat-square&color=eee)](code/renderers/vue3/)                                           |
-| [Web components](code/renderers/web-components)                | [![Storybook demo](https://img.shields.io/npm/v/@storybook/web-components/latest?style=flat-square&color=blue&label)](https://next--638db5bf49adfdfe8cf545e0.chromatic.com/) | [![Svelte](https://img.shields.io/npm/dm/@storybook/web-components?style=flat-square&color=eee)](code/renderers/web-components)                       |
-| [React Native](https://github.com/storybookjs/react-native)    | [![](https://img.shields.io/npm/v/@storybook/react-native/latest?style=flat-square&color=blue&label)](/)                                                                     | [![React Native](https://img.shields.io/npm/dm/@storybook/react-native?style=flat-square&color=eee)](https://github.com/storybookjs/react-native)     |
-| [HTML](code/renderers/html)                                    | [![Storybook demo](https://img.shields.io/npm/v/@storybook/html/latest?style=flat-square&color=blue&label)](https://next--63dd39a158cf6fc05199b4bb.chromatic.com/)           | [![HTML](https://img.shields.io/npm/dm/@storybook/html?style=flat-square&color=eee)](code/renderers/html)                                             |
-| [Ember](code/frameworks/ember/)                             
+| Framework                                                   | Version                                                                                                                                                                        | Downloads                                                                                                                                                |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [React](code/frameworks/react-vite)                      
