@@ -1,6 +1,6 @@
 # firecrawl/firecrawl
 
-Knowledge infrastructure to make your agents smarter. Search, scrape and 550+ data providers through one API.
+Knowledge infrastructure to make your agents smarter. Search, scrape and access 550+ data providers through one API.
 
 ## tools
 

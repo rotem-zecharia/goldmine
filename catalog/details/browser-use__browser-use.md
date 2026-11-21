@@ -19,7 +19,7 @@ New Google, GitHub, or Microsoft signups get **$1 cloud credit**.
 Paste this prompt into Claude Code, Codex, Hermes, OpenClaw, or your favorite agent.
 
 ```text
-Install browser-use with `uv tool install browser-use==1.0.6`, run `browser-use skill install` to register the skill, and connect it to my browser. If setup or connection fails, run `browser-use --doctor` and follow its output and the error message.
+Install browser-use with `uv tool install browser-use==1.0.8rc1`, run `browser-use skill install` to register the skill, and connect it to my browser. If setup or connection fails, run `browser-use --doctor` and follow its output and the error message.
 ```
 
 <br/>
@@ -32,15 +32,17 @@ Python 3.11 or newer. Get an API key at [Browser Use Cloud](https://cloud.browse
 
 ```bash
 uv init --python 3.12 my-agent && cd my-agent
-uv add 'browser-use==1.0.6'
-export BROWSER_USE_API_KEY=bu_...    # get one at https://cloud.browser-use.com/new-api-key
+uv add 'browser-use==1.0.8rc1'
+uv run browser-use login             # sign in once; the key is saved (over SSH: --device-code)
 ```
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install 'browser-use==1.0.6'
-export BROWSER_USE_API_KEY=bu_...
+pip install 'browser-use==1.0.8rc1'
+browser-use login
 ```
+
+Or set `BROWSER_USE_API_KEY=bu_...` (a key from https://cloud.browser-use.com/new-api-key). In a notebook: `browser_use.login()`.
 
 **Pin the exact version** (`==`, never `>=`). browser-use moves fast and releases can break things. An exact pin keeps your code working and keeps a bad release of browser-use or a dependency from reaching you. Upgrade on purpose, after reading the release notes.
 
@@ -51,19 +53,20 @@ result = Agent('Find the number of stars of the browser-use repo').run_sync()
 print(result.final_result())
 ```
 
-Defaults: model `bu-4.0` (BU 4.0) on the Browser Use gateway, browser = a Browser Use Cloud browser (stopped when the run ends). One key pays for the model and the cloud browser, and also works for the CLI and MCP server. A `.env` file works too.
+Defaults: model `bu-4.0` (BU 4.0) on the Browser Use gateway, browser = a Browser Use Cloud browser (stopped when the run ends). One key pays for the model and the cloud browser (also `ChatBrowserUse(api_key=...)`'s), and also works for the CLI and MCP server. A `.env` file works too.
 
 Without a key, an interactive desktop run opens Browser Use login and continues after approval.
-Login creates and saves the key automatically; no copying is needed.
-Set `BROWSER_USE_AUTO_LOGIN=false` to disable automatic login.
-Servers, CI, and piped input keep the missing-key error and the `browser-use login` instructions.
+Over SSH or on Linux without a desktop it prints a link and a code to approve on any device, then continues.
+Login creates and saves the key automatically; no copying is needed. Ctrl-C stops it with the missing-key error.
+Set `BROWSER_USE_AUTO_LOGIN=false` to disable automatic login (`=true` allows the device code in a container).
+Servers, CI, notebooks, containers and piped input keep the missing-key error and the `browser-use login` instructions.
 
 Cloud browsers print their interactive live-view link to stderr by default.
 Use `Browser(live_view=True)` to open it automatically, or `Browser(live_view=False)` to hide it.
 Anyone with the link can control the browser.
 
 With telemetry enabled, anonymous `library_auth` events record missing keys, login outcomes, available keys, and browser starts.
-These events use the existing installation ID and contain no API keys, login URLs, or account identifiers.
+These events use the existing installation ID and contain no API keys, login URLs, or account identifiers (fields: **Telemetry** below).
 Key availability does not prove that the server accepts the key.
 Cloud browser startup confirms that authentication worked.
 
@@ -82,10 +85,7 @@ print(agent.run_sync().final_result())  # in async code: result = await agent.ru
 
 | Browser | What the agent drives |
 |---|---|
-| `Browser()` | a Browser Use Cloud browser (default) |
-| `Browser('chromium')` | a fresh local Chrome/Chromium/Edge with its own temp profile, deleted afterwards. Headless when there is no display (Docker, CI); `headless=`, `executable_path=`, `user_data_dir=` (a profile dir kept between runs) |
-| `Browser('chrome')` | the Chrome you have open, with your logins (turn on chrome://inspect/#remote-debugging once) |
-| `Browser('chrome', profile='Work
+| `Browser()` | a Browser Use C
 
 ## tools
 

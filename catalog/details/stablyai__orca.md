@@ -1,10 +1,24 @@
 # stablyai/orca
 
-Orca lets you run a fleet of coding agents (e.g. Claude Code, Codex) with your own subscription. Available on desktop, mobile and remote runtime.
+Orca lets you run a fleet of bots with your own subscription (e.g. Claude Code, Grok, Agy, Codex). Available on desktop, mobile and remote runtime.
 
 ## features
 
 <table>
+<tr>
+<td width="50%" valign="middle">
+
+### Orca Bots
+
+Ask a bot in Slack, Linear, or GitHub to fix a bug, then come back to a tested pull request. Bots run on your own Claude Code or Codex, and any bot's work opens in Orca to review or jump in.
+
+[Overview](https://orca.dev/bots) · [Security](https://orca.dev/docs/bots/security) · [Docs →](https://orca.dev/docs/bots)
+
+</td>
+<td width="50%">
+  <a href="https://orca.dev/bots"><picture><source srcset="docs/assets/readme-features/bots.webp" type="image/webp"><img src="docs/assets/readme-features/bots.poster.jpg" alt="A bot in Orca that fixed a checkout bug with two workers, linked the pull request, and is waiting on a question under Needs you" width="100%" /></picture></a>
+</td>
+</tr>
 <tr>
 <td width="50%" valign="middle">
 
@@ -76,25 +90,7 @@ Review diffs, leave notes on exact changed lines, and send focused feedback back
 </td>
 </tr>
 <tr>
-<td width="50%" valign="middle">
-
-### Git Integration
-
-Draft commit messages and pull requests from the diff, then send failing checks or PR review comments back to an agent to fix.
-
-[Docs →](https://orca.dev/docs/review/commit-push)
-
-</td>
-<td width="50%">
-  <a href="https://orca.dev/docs/review/commit-push"><picture><source srcset="docs/assets/readme-features/git-integration.webp" type="image/webp"><img src="docs/assets/readme-features/git-integration.poster.jpg" alt="Drafting a commit and pull request, then sending a review comment back to the agent" width="100%" /></picture></a>
-</td>
-</tr>
-<tr>
-<td width="50%" valign="middle">
-
-### Parallel Worktrees
-
-Quickly split tasks into isolated environments, so multiple agents can work side by side without in
+<td width="50%" valign="
 
 ## installation
 

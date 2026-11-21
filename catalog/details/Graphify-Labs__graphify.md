@@ -8,8 +8,8 @@ What you get out of the box:
 
 | Capability | What you get |
 |---|---|
-| **God nodes** | The most-connected concepts, so you see what everything flows through |
-| **Communities** | The graph split into subsystems (Leiden), with LLM-free labels |
+| **Most-connected components** | The concepts everything flows through, the hubs of the graph (also called *god nodes*) |
+| **Subsystems** | The graph split into cohesive groups (Leiden *communities*), each with an LLM-free label |
 | **Cross-file links** | `calls` / `imports` / `inherits` / `mixes_in` resolved across ~40 languages via tree-sitter AST |
 | **Query, path, explain** | Ask a question, trace the path between two things, or explain one concept, all against `graph.json` |
 | **Rationale + doc refs** | `# NOTE:` / `# WHY:` comments and ADR/RFC citations become first-class nodes linked to the code |
@@ -18,6 +18,19 @@ What you get out of the box:
 
 > [!TIP]
 > Running this across many repos or a monorepo? [Graphify Cloud](https://app.graphify.com/signup?utm_source=github&utm_medium=readme&utm_campaign=oss) does it continuously, with cross-repo links, SDLC-wide code review, formal verification, and Sentry/Jira connectors. [Start free, no card required &rarr;](https://app.graphify.com/signup?utm_source=github&utm_medium=readme&utm_campaign=oss)
+
+---
+
+## When to reach for Graphify
+
+Reach for the graph when you need to understand a codebase, not just read through it:
+
+| Situation | What to ask Graphify |
+|---|---|
+| Joining an unfamiliar project | "Explain how the main components connect." |
+| Changing a shared component | "Trace its callers and dependencies." |
+| Investigating a bug | "Show the path between this endpoint and storage." |
+| Revisiting previous work | "Find the relevant design decisions and notes." |
 
 ---
 
@@ -53,7 +66,7 @@ Full guides and reference live at **[docs.graphify.com](https://docs.graphify.co
 
 | Requirement | Minimum | Check | Install |
 |---|---|---|---|
-| Python | 3.11+ | `python --version` | [python.org](https://www.python.org/downloads/) |
+| Python | 3.11.5–3.14 | `python --version` | [python.org](https://www.python.org/downloads/) |
 | uv *(recommended)* | any | `uv --version` | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
 | pipx *(alternative)* | any | `pipx --version` | `pip install pipx` |
 
@@ -122,7 +135,7 @@ for example `graphify claude install --project` or `graphify codex install --pro
 | Claude Code (Linux/Mac) | `graphify install` |
 | Claude Code (Windows) | `graphify install` (auto-detected) or `graphify install --platform windows` |
 | CodeBuddy | `graphify install --platform codebuddy` |
-| Codex | `graphify install --platform codex` |
+| Codex | `graphify install --platform codex` (invoke with `$graphify`) |
 | OpenCode | `graphify install --platform opencode` |
 | Kilo Code | `graphify install --platform kilo` |
 | GitHub Copilot CLI | `graphify install --platform copilot` |
@@ -146,7 +159,7 @@ for example `graphify claude install --project` or `graphify codex install --pro
 
 Codex users also need `multi_agent = true` under `[features]` in `~/.codex/config.toml` for parallel extraction. CodeBuddy uses the same Agent tool and PreToolUse hook mechanism as Claude Code. Factory Droid uses the `Task` tool for parallel subagent dispatch. OpenClaw and Aider use sequential extraction (parallel agent support is still early on those platforms). Trae uses the Agent tool for parallel subagent dispatch and does **not** support `PreToolUse` hooks, so AGENTS.md is the always-on mechanism.
 
-`--platform agents` (alias `--platform skills`) targets the generic cross-framework [Agent-Skills](https://github.com/anthropics/skills) locations:
+`--platform agents` (alias `--platform skills`) targets the generic cross-framework [Agent-Skills](https://github.com/ant
 
 ## tools
 
@@ -154,8 +167,8 @@ Codex users also need `multi_agent = true` under `[features]` in `~/.codex/confi
 /graphify .                        # build graph for current folder
 /graphify ./docs --update          # re-extract only changed files
 /graphify . --cluster-only         # rerun clustering without re-extracting
-/graphify . --cluster-only --resolution 1.5      # more granular communities
-/graphify . --cluster-only --exclude-hubs 99     # suppress utility super-hubs from god-node rankings
+/graphify . --cluster-only --resolution 1.5      # more granular subsystems
+/graphify . --cluster-only --exclude-hubs 99     # suppress utility super-hubs from most-connected-component rankings
 /graphify . --no-viz               # skip the HTML, just the report + JSON
 /graphify . --wiki                 # build a markdown wiki from the graph
 graphify export callflow-html      # Mermaid architecture/call-flow HTML (auto-regenerates on every git commit if hook is installed)
@@ -173,7 +186,7 @@ graphify merge-graphs a.json b.json              # combine two graphs
 graphify prs                       # PR dashboard: CI state, review status, worktree mapping
 graphify prs 42                    # deep dive on PR #42 with graph impact
 graphify prs --triage              # AI ranks your review queue (uses whatever backend is configured)
-graphify prs --conflicts           # PRs sharing graph communities: merge-order risk
+graphify prs --conflicts           # PRs sharing graph subsystems: merge-order risk
 ```
 
 See the [full command reference](#full-command-reference) below.
