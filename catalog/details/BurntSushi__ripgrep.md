@@ -157,28 +157,28 @@ If you're a **macOS Homebrew** or a **Linuxbrew** user, then you can install
 ripgrep from homebrew-core:
 
 ```
-$ brew install ripgrep
+brew install ripgrep
 ```
 
 If you're a **MacPorts** user, then you can install ripgrep from the
 [official ports](https://www.macports.org/ports.php?by=name&substr=ripgrep):
 
 ```
-$ sudo port install ripgrep
+sudo port install ripgrep
 ```
 
 If you're a **Windows Chocolatey** user, then you can install ripgrep from the
 [official repo](https://chocolatey.org/packages/ripgrep):
 
 ```
-$ choco install ripgrep
+choco install ripgrep
 ```
 
 If you're a **Windows Scoop** user, then you can install ripgrep from the
 [official bucket](https://github.com/ScoopInstaller/Main/blob/master/bucket/ripgrep.json):
 
 ```
-$ scoop install ripgrep
+scoop install ripgrep
 ```
 
 If you're a **Windows Winget** user, then you can install ripgrep from the
@@ -186,80 +186,80 @@ If you're a **Windows Winget** user, then you can install ripgrep from the
 repository:
 
 ```
-$ winget install BurntSushi.ripgrep.MSVC
+winget install BurntSushi.ripgrep.MSVC
 ```
 
 If you're an **Arch Linux** user, then you can install ripgrep from the official repos:
 
 ```
-$ sudo pacman -S ripgrep
+sudo pacman -S ripgrep
 ```
 
 If you're a **Gentoo** user, you can install ripgrep from the
 [official repo](https://packages.gentoo.org/packages/sys-apps/ripgrep):
 
 ```
-$ sudo emerge sys-apps/ripgrep
+sudo emerge sys-apps/ripgrep
 ```
 
 If you're a **Fedora** user, you can install ripgrep from official
 repositories.
 
 ```
-$ sudo dnf install ripgrep
+sudo dnf install ripgrep
 ```
 
 If you're an **openSUSE** user, ripgrep is included in **openSUSE Tumbleweed**
 and **openSUSE Leap** since 15.1.
 
 ```
-$ sudo zypper install ripgrep
+sudo zypper install ripgrep
 ```
 
 If you're a **CentOS Stream 10** user, you can install ripgrep from the
 [EPEL](https://docs.fedoraproject.org/en-US/epel/getting-started/) repository:
 
 ```
-$ sudo dnf config-manager --set-enabled crb
-$ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
-$ sudo dnf install ripgrep
+sudo dnf config-manager --set-enabled crb
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+sudo dnf install ripgrep
 ```
 
 If you're a **Red Hat 10** user, you can install ripgrep from the
 [EPEL](https://docs.fedoraproject.org/en-US/epel/getting-started/) repository:
 
 ```
-$ sudo subscription-manager repos --enable codeready-builder-for-rhel-10-$(arch)-rpms
-$ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
-$ sudo dnf install ripgrep
+sudo subscription-manager repos --enable codeready-builder-for-rhel-10-$(arch)-rpms
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+sudo dnf install ripgrep
 ```
 
 If you're a **Rocky Linux 10** user, you can install ripgrep from the
 [EPEL](https://docs.fedoraproject.org/en-US/epel/getting-started/) repository:
 
 ```
-$ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
-$ sudo dnf install ripgrep
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+sudo dnf install ripgrep
 ```
 
 If you're a **Nix** user, you can install ripgrep from
 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/ri/ripgrep/package.nix):
 
 ```
-$ nix-env --install ripgrep
+nix-env --install ripgrep
 ```
 
 If you're a **Flox** user, you can install ripgrep as follows:
 
 ```
-$ flox install ripgrep
+flox install ripgrep
 ```
 
 If you're a **Guix** user, you can install ripgrep from the official
 package collection:
 
 ```
-$ guix install ripgrep
+guix install ripgrep
 ```
 
 If you're a **Debian** user (or a user of a Debian derivative like **Ubuntu**),
@@ -267,8 +267,8 @@ then ripgrep can be installed using a binary `.deb` file provided in each
 [ripgrep release](https://github.com/BurntSushi/ripgrep/releases).
 
 ```
-$ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb
-$ sudo dpkg -i ripgrep_14.1.1-1_amd64.deb
+curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb
+sudo dpkg -i ripgrep_14.1.1-1_amd64.deb
 ```
 
 If you run Debian stable, ripgrep is [officially maintained by
@@ -276,7 +276,7 @@ Debian](https://tracker.debian.org/pkg/rust-ripgrep), although its version may
 be older than the `deb` package available in the previous step.
 
 ```
-$ sudo apt-get install ripgrep
+sudo apt-get install ripgrep
 ```
 
 If you're an **Ubuntu Cosmic (18.10)** (or newer) user, ripgrep is
@@ -284,4 +284,7 @@ If you're an **Ubuntu Cosmic (18.10)** (or newer) user, ripgrep is
 packaging as Debian:
 
 ```
-$ sudo apt-get in
+sudo apt-get install ripgrep
+```
+
+(N.B. Various snaps for ripgr

@@ -9,7 +9,7 @@ An AI skill that provides design intelligence for building professional UI/UX ac
 - **74 Font Pairings** - Curated typography combinations with Google Fonts imports
 - **25 Chart Types** - Recommendations for dashboards and analytics
 - **22 Tech Stacks** - React, Next.js, Astro, Vue, Nuxt.js, Nuxt UI, Svelte, SwiftUI, React Native, Flutter, HTML+Tailwind, shadcn/ui, Jetpack Compose, Angular, Laravel, Three.js, JavaFX, WPF, WinUI 3, UWP, Avalonia, Uno Platform
-- **130 UX Guidelines** - Best practices, anti-patterns, accessibility rules, resilient text layout, compact labels, cancellable interactions, and web maps (attribution, map accessibility, choropleths, popups, clustering). See [IME-safe Enter shortcuts](docs/ime-composition.md).
+- **141 UX Guidelines** - Best practices, anti-patterns, accessibility rules, resilient text layout, compact labels, cancellable interactions, web maps (attribution, map accessibility, choropleths, popups, clustering), and form error handling (clearing fixed errors, keeping input, unsaved-change warnings, undo, dialog focus). See [IME-safe Enter shortcuts](docs/ime-composition.md).
 - **194 Reasoning Rules** - Industry-specific design system generation (NEW in v2.0)
 
 ### Resilient Text and Compact UI
@@ -53,7 +53,7 @@ Many users ask about the differences between the open-source and premium version
 * **Fully Open Source:** Perfect for individual developers, hobbyists, and standard projects.
 * **Core UI/UX Intelligence:** Full access to 80 searchable UI styles (51 active), 194 product types, color palettes, and curated font pairings.
 * **Smart Recommendations:** Built-in BM25 search engine for highly accurate design matching.
-* **Cross-Platform Support:** Stack-specific guidelines supporting 22 major frameworks (React, Vue, Tailwind, iOS, Android, etc.).
+* **Cross-Platform Suppor
 
 ## installation
 

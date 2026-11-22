@@ -58,9 +58,9 @@ page.goto("https://example.com")
 
 ---
 
-## Latest: v0.7.3 — 87 source-level stealth patches (Chromium 156.0.8078.47.1)
+## Latest: v0.7.3 — 87 source-level stealth patches (Chromium 156.0.8078.47.8)
 
-- **CloakBrowser Pro Stable** — Chromium `156.0.8078.47.1` on Linux x64, Linux ARM64, Windows x64, and macOS (Apple Silicon and Intel). Set a `license_key` (`licenseKey` in JS) or the `CLOAKBROWSER_LICENSE_KEY` env var and the wrapper fetches the latest Stable build for your platform automatically. See [CloakBrowser Pro](#cloakbrowser-pro)
+- **CloakBrowser Pro Stable** — Chromium `156.0.8078.47.8` on Linux x64 and Linux ARM64, `156.0.8078.47.7` on Windows x64, and `156.0.8078.47.1` on macOS (Apple Silicon and Intel). Set a `license_key` (`licenseKey` in JS) or the `CLOAKBROWSER_LICENSE_KEY` env var and the wrapper fetches the latest Stable build for your platform automatically. See [CloakBrowser Pro](#cloakbrowser-pro)
 - **.NET 8 / C# client** — CloakBrowser now ships as a NuGet package (`CloakBrowser`), mirroring the Python and JS wrappers.
 - **Chromium 156 upgrade** — rebased the full patch set onto Chromium 156 on every platform
 - **87 fingerprint patches** — rendering consistency improvements across Linux and Windows, corrected GPU/display/graphics parameters to match stock Chrome profiles

@@ -1,6 +1,6 @@
 # semantica-agi/semantica
 
-Graph-Native Infrastructure for Context and Accountable AI Systems
+Graph-Native Semantic Layer for Trustworthy Enterprise AI
 
 ## features
 

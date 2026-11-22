@@ -148,10 +148,6 @@ To label the transcript with speaker ID's (set number of speakers if known e.g. 
 
     whisperx path/to/audio.wav --model large-v2 --diarize --highlight_words True
 
-To maintain continuous context (ideal for technical language / punctuation), set interleaved_context=True:
-
-    whisperx path/to/audio.wav --model large-v2 --interleaved_context
-
 To run on CPU instead of GPU (and for running on Mac OS X):
 
     whisperx path/to/audio.wav --compute_type int8 --device cpu
@@ -163,4 +159,4 @@ For conditioning on previous context (This allows context to be passed from the 
 
 ### Other languages
 
-The phoneme ASR alignment model is _language-specific_, for tested languages these models 
+The phoneme ASR alignment model is _language-specific_, for tested languages these models are [automatically picked from torchaudio pipelines or huggingface](https://github.com/m-bain/whisperX/blob/f2da2f858e99e4211fe4f64b5f2938b007827e17/whisperx/alignment.py#L24-L58)

@@ -4,14 +4,44 @@ AI video you can actually edit. HyperFrames is a free, open-source AI video edit
 
 ## installation
 
-### With an AI coding agent
+Using Claude Code, Codex, Cursor, or another coding agent? Install the skills once, then ask your agent to make a video.
 
-For Claude Code, install the versioned plugin:
+### Give your coding agent the skills (recommended)
+
+```bash
+npx skills add heygen-com/hyperframes     # pick "Core Skills" in the picker
+# or, with no picker (scripts, CI):
+npx hyperframes skills update
+```
+
+Then try: _Using `/hyperframes`, create a 10-second product intro with a fade-in title, a background video, and subtle background music._
+
+### Claude Code plugin
 
 ```bash
 claude plugin marketplace add heygen-com/hyperframes
 claude plugin install hyperframes@hyperframes
 ```
+
+### Codex, Cursor, Gemini CLI, Copilot
+
+See the [plugin guide](https://hyperframes.heygen.com/guides/plugins?utm_source=github&utm_medium=readme).
+
+### By hand, with the CLI
+
+```bash
+npx hyperframes init my-video
+cd my-video
+npx hyperframes preview      # live preview in the browser
+npx hyperframes render       # render to MP4
+```
+
+Requirements: Node.js 22+ and FFmpeg. Render in the cloud with `hyperframes cloud render`, or on your own [AWS Lambda](https://hyperframes.heygen.com/deploy/aws-lambda?utm_source=github&utm_medium=readme).
+
+<details>
+<summary>Skill install options, updates and the core set (full details)</summary>
+
+### Claude Code plugin updates
 
 To enable auto-update for the **hyperframes** marketplace, run `claude` in a
 terminal in your project. In Claude Code's terminal UI, run `/plugin`, then select
@@ -19,11 +49,7 @@ terminal in your project. In Claude Code's terminal UI, run `/plugin`, then sele
 `/hyperframes:hyperframes`. See the [plugin guide](docs/guides/plugins.mdx)
 for Copilot, VS Code, Cursor, Gemini CLI, updates, and migration.
 
-For standalone skills (including OpenCode), use:
-
-```bash
-npx skills add heygen-com/hyperframes
-```
+### Standalone skills (including OpenCode)
 
 > The picker opens with nothing pre-selected — the **Core Skills** group is all you need; `/slideshow`, `/remotion-to-hyperframes` and `/figma` install on demand. Without the picker (a script or a CI job), `npx hyperframes skills update` installs exactly the core set, whereas `skills add --all` installs all 9 published skills. The six repo-internal skills under `.claude/skills` / `.agents/skills` are excluded by default. For the full published set use `npx hyperframes skills`.
 >
@@ -34,41 +60,27 @@ checkout, use `npx hyperframes skills update` for a global install instead: a
 project-local installer target can overlap the tracked `skills/` source and
 overwrite uncommitted edits. See [contributor setup](CONTRIBUTING.md#getting-started).
 
-Try a prompt like:
-
-> Using `/hyperframes`, create a 10-second product intro with a fade-in title, a background video, and subtle background music.
+</details>
 
 The skills teach agents the HyperFrames production loop: plan the video, write valid HTML, wire seekable animations, add media, lint, preview, and render. They work with Claude Code, Codex, Cursor, Gemini CLI, IBM Bob, and other coding agents that support skills.
+
+### Share a video for review
+
+Sign in with `npx hyperframes auth login`, then run `npx hyperframes share` to
+choose who can open the rendered review. Use `share --update` when edits should
+become a new version and `share --manage` for web settings. CLI and Desktop use
+the same sharing system and five free projects per workspace. Existing legacy
+published links remain reachable.
 
 ## Skills
 
 HyperFrames ships 9 skills. Make any video by asking for it; the `/hyperframes` skill carries the contract and the references (film, captions, overlays, motion, look). Read it first.
 
-For standalone installation, default to the **core set** (`/hyperframes`, `/hyperframes-cli`, `/hyperframes-registry`, `/media-use`, `/reverse-any-video`, `/style-sampling`). `npx hyperframes skills update` installs exactly that from anywhere; the interactive picker (`npx skills add heygen-com/hyperframes`) lists it as the "Core Skills" group, nothing pre-selected. The picker is interactive-only — a non-interactive or agent run without `--skill` installs all 9. Use `npx skills add heygen-com/hyperframes --all` to install the complete published set deliberately (skips the picker), or `npx skills add heygen-com/hyperframes --skill <name>` for just one (bare name, no leading `/`).
-
-Standalone installs stay lean after that: `npx hyperframes init` installs the **core set** only when it is missing and never touches a skill you already have (`npx hyperframes skills update` refreshes them, and never removes one); `/figma`, `/slideshow` and `/remotion-to-hyperframes` install **on demand** with `npx hyperframes skills update <name>`. Nothing re-pulls the full set behind your back.
-
-### Plugin packages
-
-Plugins bundle the full skill catalog and use their agent's update manager.
-`bun run package:agent-plugin` builds the committed portable ZIP, source metadata,
-and SHA-256 checksum. See the [maintainer checklist](docs/contributing/agent-plugins.mdx).
-
-### Upload to Codex
-
-Build the upload-ready Codex plugin archive from the committed `HEAD` version of the manifest, brand assets, and skills:
-
-```bash
-bun run package:codex-plugin
-```
-
-This writes `dist/hyperframes-plugin.zip` with a `hyperframes/` root folder and fails if the archive exceeds Codex's 100 MB upload limit.
-
-#
+The **core set** below is what `npx hyperframes skills update` installs and what the picker lists as "Core Skills". Install one skill with `npx skills add heygen-com/hyperframes --skill <name>`, or all 9 with `--all`. A non-interactive or agent run of `npx skills add` without `--skill` installs all 9. `npx hyperframes init` adds the core set only when it is missing and never touches a skill you already have; on-
 
 ## features
 
-- **HTML-native:** compositions are HTML files with data attributes. No React requirement, no proprietary timeline format.
+- **HTML-native:** make videos programmatically with HTML, CSS and JavaScript; compositions are HTML files with data attributes. No React requirement, no proprietary timeline format.
 - **Agent-friendly:** agents already write HTML, and the CLI is non-interactive by default.
 - **Deterministic:** same input, same frames, same output. Built for CI, regression tests, and automated rendering.
 - **No build step:** an `index.html` composition plays as-is and can be previewed directly in the browser.
@@ -88,28 +100,28 @@ HyperFrames is inspired by [Remotion](https://www.remotion.dev). Both tools rend
 | Distributed rendering    | Local and AWS Lambda render paths     | Remotion Lambda, mature cloud renderer  |
 | License                  | Apache 2.0                            | Source-available Remotion License       |
 
-Read the full comparison in the [HyperFrames vs Remotion guide](https://hyperframes.heygen.com/guides/hyperframes-vs-remotion?utm_source=github&utm_medium=readme).
+Read the full comparison in the [HyperFrames vs Remotion guide](https://hyperframes.heygen.com/guides/hyperframes-vs-remotion?utm_source=github&utm_medium=readme), or the [side-by-side comparison page](https://hyperframes.heygen.com/vs/remotion?utm_source=github&utm_medium=readme).
 
-## Documentation
+## Catalog
 
-Full documentation: [hyperframes.heygen.com/introduction](https://hyperframes.heygen.com/introduction?utm_source=github&utm_medium=readme)
+Install ready-to-use blocks and components:
 
-- [Quickstart](https://hyperframes.heygen.com/quickstart?utm_source=github&utm_medium=readme)
-- [Showcase](https://hyperframes.heygen.com/examples?utm_source=github&utm_medium=readme)
-- [Guides](https://hyperframes.heygen.com/guides/gsap-animation?utm_source=github&utm_medium=readme)
-- [API Reference](https://hyperframes.heygen.com/packages/core?utm_source=github&utm_medium=readme)
-- [Catalog](https://hyperframes.heygen.com/catalog/blocks/data-chart?utm_source=github&utm_medium=readme)
-- [Examples](https://hyperframes.heygen.com/examples?utm_source=github&utm_medium=readme)
-- [AWS Lambda rendering](https://hyperframes.heygen.com/deploy/aws-lambda?utm_source=github&utm_medium=readme)
+```bash
+npx hyperframes add flash-through-white   # shader transition
+npx hyperframes add instagram-follow      # social overlay
+npx hyperframes add data-chart            # animated chart
+```
 
-## Packages
+Browse the catalog at [hyperframes.heygen.com/catalog](https://hyperframes.heygen.com/catalog/blocks/data-chart?utm_source=github&utm_medium=readme).
 
-| Package                                                          | Description                                                       |
-| ---------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [`hyperframes`](packages/cli)                                    | CLI for creating, previewing, linting, and rendering compositions |
-| [`@hyperframes/core`](packages/core)                             | Types, parsers, generators, linter, runtime, and frame adapters   |
-| [`@hyperframes/engine`](packages/engine)                         | Seekable page-to-video capture engine using Puppeteer and FFmpeg  |
-| [`@hyperframes/producer`](packages/producer)                     | Full rendering pipeline for capture, encode, and audio mix        |
-| [`@hyperframes/studio`](packages/studio)                         | Browser-based composition editor UI                               |
-| [`@hyperframes/player`](packages/player)                         | Embeddable `<hyperframes-player>` web component                   |
-| [`@hyperframes/shader-transit
+## HyperFrames Stack
+
+HyperFrames is the open-source rendering engine, plus a growing set of tools around HTML-native video creation.
+
+| Piece                                                                                 | Status              | What it does                                                                                    |
+| ------------------------------------------------------------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------- |
+| CLI                                                                                   | Available           | Scaffold, preview, lint, inspect, and render local video projects                               |
+| Core / Engine / Producer                                                              | Available           | Parse compositions, drive headless Chrome, encode video, and mix audio                          |
+| Catalog                                                                               | Available           | Reusable blocks and components for transitions, overlays, captions, charts, maps, and effects   |
+| Agent skills                                                                          | Available           | Teach coding agents the video-production patterns that generic web docs miss                    |
+| Browser editor

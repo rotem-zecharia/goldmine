@@ -249,8 +249,8 @@ and Web display a **Data Security Upgrade** wizard before ope
 
 ## requirements
 
-- [Node.js](https://nodejs.org/) >= 18
-- [pnpm](https://pnpm.io/)
+- [Node.js](https://nodejs.org/) >= 22.13.0
+- [pnpm](https://pnpm.io/) 10.34.7
 - [Rust](https://www.rust-lang.org/tools/install) >= 1.88
 
 #### System Dependencies
@@ -350,4 +350,4 @@ The installer will be in `src-tauri/target/release/bundle/`.
 | Frontend  | [Vue 3](https://vuejs.org/) + TypeScript                                                                                                                                                                         |
 | UI        | [shadcn-vue](https://www.shadcn-vue.com/) + Tailwind CSS                                                                                                                                                         |
 | Editor    | [CodeMirror 6](https://codemirror.net/)                                                                                                                                                                          |
-| Backend   | Rust + [sqlx](https://github.com/launchbadge/sqlx) / [tiberius](https://github.com/prisma/
+| Backend   | Rust + [sqlx](https://github.com/launchbadge/sqlx) / [tiberius](https://githu

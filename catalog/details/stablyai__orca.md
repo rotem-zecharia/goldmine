@@ -10,7 +10,7 @@ Orca lets you run a fleet of bots with your own subscription (e.g. Claude Code, 
 
 ### Orca Bots
 
-Ask a bot in Slack, Linear, or GitHub to fix a bug, then come back to a tested pull request. Bots run on your own Claude Code or Codex, and any bot's work opens in Orca to review or jump in.
+Ask a bot in Slack, Linear, or GitHub to fix a bug, and come back to a tested pull request. It runs on your own Claude Code or Codex. Open its work in Orca to review it or step in.
 
 [Overview](https://orca.dev/bots) · [Security](https://orca.dev/docs/bots/security) · [Docs →](https://orca.dev/docs/bots)
 
@@ -90,7 +90,9 @@ Review diffs, leave notes on exact changed lines, and send focused feedback back
 </td>
 </tr>
 <tr>
-<td width="50%" valign="
+<td width="50%" valign="middle">
+
+
 
 ## installation
 

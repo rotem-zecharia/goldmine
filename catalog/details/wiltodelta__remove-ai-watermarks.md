@@ -1,6 +1,6 @@
 # wiltodelta/remove-ai-watermarks
 
-Remove visible and invisible AI watermarks from images and video, and AI provenance metadata from images, video, and audio. Python library, CLI, and agent skill for SynthID, C2PA, EXIF, IPTC, XMP, and
+Remove visible and invisible AI watermarks from images and video, clean supported audio watermarks, and strip AI provenance metadata. Python library, CLI, and agent skill for SynthID, C2PA, and other 
 
 ## installation
 
@@ -58,7 +58,7 @@ result = raiw.classify_source("image.png")
 print(result.label, result.version_subfamily, result.synthetic_detected, result.confidence)
 ```
 
-Guide: [source-pipeline classification](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/source-classify.md). Model card: [`wiltodelta/raiw-source-classify`](https://huggingface.co/wiltodelta/raiw-source-classify).
+Guide: [source-pipeline classification](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/source-classify.md). Model card and weights: [`wiltodelta/raiw-source-classify` on Hugging Face](https://huggingface.co/wiltodelta/raiw-source-classify) and [GitHub](https://github.com/wiltodelta/raiw-source-classify).
 
 Signed provenance is the supported route for SynthID and `identify` reads it.
 There is no local SynthID pixel detector in the package. Research on a
@@ -97,9 +97,7 @@ The `video metadata` command does not transcode video or audio streams. Unlike
 the image command above, when `-o` is omitted it writes `<source>_clean` and
 preserves the original. MP4 and MOV
 inspection includes the native TC260 `AIGC` tag in
-`moov.udta.meta.keys/ilst`, including a `moov` placed after the media payload,
-plus the QuickTime-form `meta` variants Doubao's iOS export writes (a bare
-`meta` box as 
+`moov.udta.meta.keys/ilst`, including a `moov` placed after the media paylo
 
 ## tools
 
