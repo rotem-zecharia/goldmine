@@ -55,7 +55,7 @@ Unsloth can be used in three ways: **[Unsloth Desktop](https://unsloth.ai/downlo
     <td><b>Link</b></td>
   </tr>
   <tr>
-    <td><b>Windows</b></td>
+    <td><b>Windows (x64 and ARM64)</b></td>
     <td><a href='https://github.com/unslothai/unsloth/releases/latest/download/Unsloth-Desktop-Windows.exe'>Download</a></td>
   </tr>
   <tr>
@@ -73,10 +73,6 @@ Unsloth can be used in three ways: **[Unsloth Desktop](https://unsloth.ai/downlo
   <tr>
     <td><b>Linux (AppImage)</b></td>
     <td><a href='https://github.com/unslothai/unsloth/releases/latest/download/Unsloth-Desktop-Linux.AppImage'>Download</a></td>
-  </tr>
-  <tr>
-    <td><b>Windows (ARM64)</b></td>
-    <td><a href='https://github.com/unslothai/unsloth/releases/latest/download/Unsloth-Desktop-Windows-ARM64.exe'>Download</a></td>
   </tr>
 </table>
 
@@ -145,4 +141,6 @@ unsloth studio -H 0.0.0.0 -p 8888
 ```
 **LAN Access (home network)**: `Settings > API keys > LAN access`
 
-For a **reverse proxy or custom domain**, run the proxy on the same machine as Desktop (e.g.,
+For a **reverse proxy or custom domain**, run the proxy on the same machine as Desktop (e.g., Cloudflare Named Tunnel, nginx, or Caddy). Set a comma-separated list of allowed hostnames, then quit and reopen Desktop.
+```bash
+export UNSLOTH_STUDIO_PROXY_HOSTS=st

@@ -167,7 +167,7 @@ all matching versions are assessed. The server name remains the report source:
 skillspector scan 'ac.inference.sh/mcp' --mcp-registry --format json --output current.json
 ```
 
-Use `https://registry.modelcontextprotocol.io/v0/servers` as the input t
+Use `https://registry.modelcontextprotocol.io/v0.1/servers` as the input
 
 ## requirements
 

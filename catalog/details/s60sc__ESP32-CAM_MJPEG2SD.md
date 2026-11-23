@@ -23,7 +23,7 @@ using [Boards Manager](https://github.com/s60sc/ESP32-CAM_MJPEG2SD/issues/61#iss
 * **If you get warning: `Crash loop detected, check log`, it is usually an inadequate power supply.**
 
 
-On first installation, the application will start in wifi AP mode - connect to SSID: **ESP-CAM_MJPEG_...**, to allow router to be selected and router password entered via the web page on `192.168.4.1`. The configuration data file (except passwords) is automatically created, and the application web pages automatically downloaded from GitHub to the SD card **/data** folder when an internet connection is available.
+On first installation, the application will start in wifi AP mode - connect to SSID: **ESP-CAM_MJPEG_...**, to allow router to be selected and router password entered via the web page on `192.168.4.1`. The configuration data file (except passwords) is automatically created, and the application web pages automatically downloaded from GitHub to the SD card **/data** folder when an internet connection is available. If ESP32 fails to download due to insufficient memory instal the files manually.
 
 Subsequent updates to the application, or to the **/data** folder files, can be made using the **OTA Upload** tab. The **/data** folder can also be reloaded from GitHub using the **Reload /data** button on the **Edit Config** tab, or by using a WebDAV client.
 
@@ -51,7 +51,7 @@ Select **Time Lapse** button under **Motion Detect & Recording** sidebar button.
 Time lapse files have the format **20200130_201015_VGA_15_60_T.avi**.
 
 A continuous recording feature generates a sequence of files from power up, similar to dashcam recording style. Use **DashCam** slider in **Motion Detect & Recording** sidebar button to select a value representing the length in minutes of each file. Need to press **Save Settings** button then **Reboot ESP** to commence recording.
-Select slider value 0 to switch off feature. Creates file names with format **20200130_201015_VGA_15_60_
+Select slider value 0 
 
 ## configuration
 

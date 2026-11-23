@@ -14,7 +14,7 @@ Remove visible and invisible AI watermarks from images and video, clean supporte
 | Video SynthID removal | `remove-ai-watermarks[video,diffusion]` |
 | Audio sample processing and spectral disruption | `remove-ai-watermarks[audio]` |
 | Compatible public audio watermark detection (AudioSeal) | `remove-ai-watermarks[audio-detect]` |
-| Neural audio codec resynthesis (EnCodec / FocalCodec / DAC) | `remove-ai-watermarks[audio-codec]` |
+| Neural audio codec resynthesis (EnCodec / DAC / SNAC) | `remove-ai-watermarks[audio-codec]` |
 | Torch-free DWT-DCT detection | `remove-ai-watermarks[detect]` |
 | Direct local Paint InvisMark disruption | `remove-ai-watermarks[pixels]` |
 | Invisible image removal (needs CUDA) | `remove-ai-watermarks[qwen-zimage]` |
@@ -22,7 +22,7 @@ Remove visible and invisible AI watermarks from images and video, clean supporte
 | Optional OCR proposals for operator verification | `remove-ai-watermarks[text-draft]` |
 
 Lower-level and specialized extras include `pixels`, `heif`, `trustmark`,
-`migan`, `lama`, `diffusion`, `source-classify`, `audio-vocoder`,
+`migan`, `lama`, `diffusion`, `source-classify`,
 `audio-wavmark`, `audio-perth`, and `audio-silentcipher`. The
 [installation guide](https://github.com/wiltodelta/remove-ai-watermarks/blob/main/docs/installation.md#feature-extras) documents their exact
 dependency composition, Python compatibility, and model requirements.
@@ -97,7 +97,8 @@ The `video metadata` command does not transcode video or audio streams. Unlike
 the image command above, when `-o` is omitted it writes `<source>_clean` and
 preserves the original. MP4 and MOV
 inspection includes the native TC260 `AIGC` tag in
-`moov.udta.meta.keys/ilst`, including a `moov` placed after the media paylo
+`moov.udta.meta.keys/ilst`, including a `moov` placed after the media payload,
+plus the QuickTime-
 
 ## tools
 
@@ -149,25 +150,13 @@ These exact output files were checked with the matching provider verifiers. That
 result applies to these files, not to every seed, image, or future watermark
 version.
 
-## Common recipes
+### Popular formats and invisible watermarks (images, video, audio, text)
 
-### Remove every detected visible mark
-
-```bash
-remove-ai-watermarks visible image.png -o clean.png
-```
-
-The default `--mark auto` checks all registered visible marks and removes every
-match. If the mark is visible to you but the detector misses it, select its
-region explicitly:
-
-```bash
-remove-ai-watermarks erase image.png \
-  --region 1640,1930,400,100 \
-  -o clean.png
-```
-
-`--region` uses `x,y,width,height` and may be repeate
+One command (`remove-ai-watermarks all <file> -o <clean>`) handles visible marks,
+provenance-triggered invisible removal, and metadata stripping across images
+(`PNG`, `JPG`, `WebP`, `HEIC`, `TIFF`), video (`MP4`, `MOV`, `M4V`, `WebM`, `MKV`, `AVI`, `FLV`,
+including 10-bit HEVC/HDR), audio (`WAV`, `FLAC`, `MP3`, `M4A`, `OGG`, `OGA`, `Opus`, `AAC`, `MKA`),
+and text (`MD`, `HT
 
 ## limitations
 
