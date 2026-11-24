@@ -47,6 +47,18 @@ For source installs, create and activate a virtual environment first (all `make`
 targets assume the venv is active). Use **uv** or **pip**; the Makefile uses `uv`
 if available, otherwise `pip`.
 
+Once a release is available on [PyPI](https://pypi.org/project/skillspector/),
+install or upgrade SkillSpector from a Python virtual environment:
+
+```bash
+python -m pip install --upgrade skillspector
+# To include the optional MCP server:
+python -m pip install --upgrade 'skillspector[mcp]'
+```
+
+Verify the installation with `skillspector --version`. The GitHub installation
+below works ahead of the first PyPI release and for users following development.
+
 **Quick install with uv (CLI-only):**
 
 ```bash
@@ -115,8 +127,16 @@ skillspector scan ./my-skill/ --format sarif --output report.sarif
 
 ### Recursive Collection Scanning
 
-`--recursive` scans immediate subdirectories containing `SKILL.md` as independent
-skills, with a default aggregate limit of **32 skills**. To raise or lower it:
+Use `--recursive` to scan a local collection's immediate child directories as
+independent skills. A child can contain `SKILL.md`, `skill.md`, or a supported
+AISOP/AISP bundle, such as `.aisop/workflow.aisop.json`.
+
+If the scan root itself contains `SKILL.md` or `skill.md`, SkillSpector scans
+that root as one skill. To scan children independently, point the command at a
+collection root without a Markdown skill manifest. Recursive output combines
+the child results in one report.
+
+The default aggregate limit is **32 skills**. To raise or lower it:
 
 ```bash
 skillspector scan ./my-skills/ --recursive --max-skills 100 --no-llm --format json
@@ -126,9 +146,9 @@ skillspector scan ./my-skills/ --recursive --max-skills 100 --no-llm --format js
 does not mean unlimited. Discovery, byte, finding-record, time and report-size
 budgets still apply, so increasing the count does not guarantee complete coverage.
 When the count limit is reached, the CLI names the limit and suggests adjusting it
-or scanning sub-skills separately. Omitted skills remain visible in the aggregate
-report and coverage stays incomplete. Use `--fail-on-incomplete` in CI to fail on
-incomplete coverage; the default exit policy is unchanged.
+or scanning sub-skills separately. The aggregate report records the omission
+count and reason, and coverage stays incomplete. Use `--fail-on-incomplete` in
+CI to fail on incomplete coverage.
 
 ### Batch Scanning
 
@@ -159,15 +179,7 @@ See the [contrib guide](contrib/batch_scan/docs/) for details.
 
 ### Comparing MCP Registry snapshots
 
-A named scan fetches only that server's published versions from the official
-registry, then selects entries marked as latest. If none are marked as latest,
-all matching versions are assessed. The server name remains the report source:
-
-```bash
-skillspector scan 'ac.inference.sh/mcp' --mcp-registry --format json --output current.json
-```
-
-Use `https://registry.modelcontextprotocol.io/v0.1/servers` as the input
+A named scan fetches only that server's published vers
 
 ## requirements
 

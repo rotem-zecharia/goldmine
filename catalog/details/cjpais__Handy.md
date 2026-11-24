@@ -89,7 +89,7 @@ Handy includes an advanced debug mode for development and troubleshooting. Acces
 
 Handy supports command-line flags for controlling a running instance and customizing startup behavior. These work on all platforms (macOS, Windows, Linux). Largely this is a beta feature.
 
-**Remote control flags** (sent to an already-running instance via the single-instance plugin):
+**Remote control flags** (sent to an already-running instance via the single-instance plugin; if Handy isn't running, the toggle flags start it and begin recording):
 
 ```bash
 handy --toggle-transcription    # Toggle recording on/off
@@ -120,7 +120,7 @@ handy --start-hidden --no-tray
 
 ### Transcription hook
 
-Advanced users on macOS and Linux can rewrite text right before Handy pastes it. Put an executable at `hooks/transcription` in Handy's app data folder (`~/Library/Application Support/com.pais.handy/` on macOS, `~/.local/share/com.pais.han
+Advanced users on macOS and Linux can rewrite text right before Handy pastes it. Put an executable at `hooks/transcription` in Handy's app data folder (`~/Library/Appl
 
 ## limitations
 

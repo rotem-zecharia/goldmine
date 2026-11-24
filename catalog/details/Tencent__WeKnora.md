@@ -24,7 +24,7 @@ Beyond the three modes:
 - **Memory and curation**: cross-session long-term memory keeps the profile, preferences and facts a user has confirmed. Folder uploads keep their directory tree, and retrieval chunks can be edited, diffed and rolled back.
 - **Data sources and formats**: auto-sync from Feishu wiki / Feishu Drive / Confluence / GitLab / Tencent IMA / Notion / Yuque / DingTalk Docs / Seafile / RSS, with more on the way. 10+ document formats including PDF, Word, images, Excel and XMind; Office files are parsed in-process by anydoc.
 - **Channels and integrations**: Q&A in WeCom, Feishu, Slack, Telegram and other IM apps; an embed widget for external websites; a built-in MCP Server for Cursor, Claude and other AI tools; scoped API keys with a principal model for programmatic access.
-- **Models**: 30 built-in vendors with a generated model catalog, including OpenAI, DeepSeek, Qwen (Alibaba Cloud), Zhipu, Hunyuan, Gemini, MiniMax, NVIDIA, LiteLLM and Ollama.
+- **Models**: 31 built-in vendors with a generated model catalog, including OpenAI, DeepSeek, Qwen (Alibaba Cloud), Zhipu, Hunyuan, Gemini, MiniMax, NVIDIA, LiteLLM and Ollama.
 - **Permissions and operations**: multi-workspace RBAC (four roles, per-resource ownership, per-workspace audit log), several storage instances per workspace, a runtime task-queue dashboard with worker-pool governance, and Langfuse tracing for agent steps, token usage and pipelines.
 - **Deployment**: LLMs, vector databases and storage backends are all swappable. Deploy locally or on a private cloud and keep the data in your own environment.
 
@@ -102,13 +102,13 @@ docker compose down     # Stop services
 If you already have WeKnora running and downloaded a newer release:
 
 ```bash
-# Set WEKNORA_VERSION in .env to the target release (e.g. 0.9.0), or keep latest
+# Set WEKNORA_VERSION in .env to the target release (e.g. v0.9.1), or keep latest
 docker compose pull     # Pull images matching WEKNORA_VERSION
 docker compose up -d    # Recreate containers with new images
 ```
 
 > [!NOTE]
-> `docker compose up -d` alone reuses locally cached images and may leave the UI version out of sync with the release you downloaded. Read the [upgrade notes](https://weknora.weixin.qq.com/docs/07-releases/v0.9.0#upgrade-notes) before upgrading. Deployments older than v0.8.2 should also read the [v0.8.2 notes](https://weknora.weixin.qq.com/docs/07-releases/v0.8.2#upgrade-notes).
+> `docker compose up -d` alone reuses locally cached images and may leave the UI version out of sync with the release you downloaded. Read the [upgrade notes](https://weknora.weixin.qq.com/docs/07-releases/v0.9.1#upgrade-notes) before upgrading. Deployments older than v0.8.2 should also read the [v0.8.2 notes](https://weknora.weixin.qq.com/docs/07-releases/v0.8.2#upgrade-notes).
 
 ### Other ways to deploy
 
@@ -119,4 +119,4 @@ docker compose up -d    # Recreate containers with new images
 | **Lite single binary** | Local or low-resource use with no external dependencies (SQLite + in-memory queue); see [Lite vs. standard](./docs/LITE.md) |
 | **Desktop app** | The Lite runtime with a GUI, login-free start and a macOS host sandbox; no installer is published yet, so build it from source |
 
-All op
+All o

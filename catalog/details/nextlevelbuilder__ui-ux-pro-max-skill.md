@@ -68,6 +68,14 @@ Install directly in Claude Code with two commands:
 
 Agent-agnostic clients can use the same repo via `.agents/plugins/marketplace.json` (same `ui-ux-pro-max` plugin and source as the Claude marketplace).
 
+### Using GitHub CLI
+
+Install the skill with the [GitHub CLI](https://cli.github.com/):
+
+```bash
+gh skill install nextlevelbuilder/ui-ux-pro-max-skill .claude/skills/ui-ux-pro-max
+```
+
 ### Using CLI (Recommended)
 
 ```bash
@@ -113,6 +121,7 @@ The npm package is `ui-ux-pro-max-cli`; it still installs the `uipro` command. O
 ```bash
 uipro init --ai claude --global   # Install to ~/.claude/skills/
 uipro init --ai cursor --global   # Install to ~/.cursor/skills/
+uipro init --ai copilot --global  # Install to ~/.copilot/skills/
 uipro init --ai zcode --global    # Install to ~/.zcode/skills/
 uipro init --ai kimi --global     # Install to ~/.kimi-code/skills/
 uipro init --ai universal --global # Install to ~/.agents/skills/
