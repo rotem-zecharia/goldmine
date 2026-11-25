@@ -17,20 +17,25 @@
 
 For the complete feature list, see the [features documentation](https://maigret.readthedocs.io/en/latest/features.html).
 
-### Used by
+### Trusted by
 
-Professional OSINT and social-media analysis tools built on Maigret:
+Maigret is a command-line tool you can run by hand, and also a building block inside many other open-source and commercial OSINT tools:
 
-<a href="https://github.com/SocialLinks-IO/sociallinks-api"><img height="60" alt="Social Links API" src="https://github.com/user-attachments/assets/789747b2-d7a0-4d4e-8868-ffc4427df660"></a>
-<a href="https://sociallinks.io/products/sl-crimewall"><img height="60" alt="Social Links Crimewall" src="https://github.com/user-attachments/assets/0b18f06c-2f38-477b-b946-1be1a632a9d1"></a>
-<a href="https://usersearch.ai/"><img height="60" alt="UserSearch" src="https://github.com/user-attachments/assets/66daa213-cf7d-40cf-9267-42f97cf77580"></a>
+- **75,000+ installs a month** of the Python library from PyPI, by CLI users and developers
+- **100+ public open-source projects** on GitHub depend on Maigret, among them [Flowsint](https://github.com/reconurge/flowsint), [Emploleaks](https://github.com/infobyte/emploleaks) by Infobyte and [InfoHound](https://github.com/Fundacio-i2CAT/InfoHound) by Fundació i2CAT
+- **15+ OSINT services and tools** run on Maigret's site database and checking engine, such as [Social Links](https://sociallinks.io/), [Noimosiny](https://noimosiny.com/), [WhatsMyName.io](https://whatsmyname.io/), [FreeUsername](https://freeusername.com/) and others:
+  - online APIs on Apify and other platforms
+  - Telegram and Discord bots
+  - mobile applications
+
+*Maigret is MIT-licensed. We don't maintain or vouch for third-party tools built on it.*
 
 ## Demo
 
 ### Video
 
 <a href="https://asciinema.org/a/Ao0y7N0TTxpS0pisoprQJdylZ">
-  <img src="https://asciinema.org/a/Ao0y7N0TTxpS0pisoprQJdylZ.svg" alt="asciicast" width="600">
+  <img src="https://raw.githubusercontent.com/soxoj/maigret/main/static/demo_asciicast.svg" alt="asciicast" width="600">
 </a>
 
 ### Reports

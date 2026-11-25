@@ -122,6 +122,7 @@ The npm package is `ui-ux-pro-max-cli`; it still installs the `uipro` command. O
 uipro init --ai claude --global   # Install to ~/.claude/skills/
 uipro init --ai cursor --global   # Install to ~/.cursor/skills/
 uipro init --ai copilot --global  # Install to ~/.copilot/skills/
+uipro init --ai antigravity --global # Install to ~/.agents/skills/
 uipro init --ai zcode --global    # Install to ~/.zcode/skills/
 uipro init --ai kimi --global     # Install to ~/.kimi-code/skills/
 uipro init --ai universal --global # Install to ~/.agents/skills/
