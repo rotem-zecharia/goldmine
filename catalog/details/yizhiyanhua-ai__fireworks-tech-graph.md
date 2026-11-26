@@ -18,17 +18,6 @@ User: "Generate a Mem0 memory architecture diagram, dark style"
 
 ## Sponsors
 
-<table>
-  <tr>
-    <td width="200" align="center"><a href="https://aigocode.app/invite/yizhiyanhua"><img src="assets/sponsors/aigocode.png" alt="AIGoCode" width="160" /></a></td>
-    <td>Thanks to <strong>AIGoCode</strong> for sponsoring this project! AIGoCode is an all-in-one platform that integrates Claude Code, Codex, and the latest Gemini models, providing you with stable, efficient, and highly cost-effective AI coding services. The sponsor advertises flexible subscriptions and direct access without a VPN; availability and account conditions follow its own service terms. AIGoCode has prepared a special benefit for <strong>fireworks-tech-graph</strong> users: if you register via <a href="https://aigocode.app/invite/yizhiyanhua">this link</a>, you'll receive an extra <strong>10% bonus credit</strong> on your first top-up!</td>
-  </tr>
-  <tr>
-    <td width="200" align="center"><a href="https://go.apimart.ai/gh-fireworks-tech-graph"><img src="assets/sponsors/apimart.png" alt="APIMart" width="160" /></a></td>
-    <td>Thanks to <strong>APIMart</strong> for sponsoring this project! APIMart is a low-cost API platform for AI image &amp; video generation — GPT-Image-2 from <strong>$0.006/image</strong>, 160+ images per dollar. One async API covers both image and video: submit a task, get an ID, fetch results via polling or callback. Batch tens of thousands of images without timeouts, switch models without changing code. Pay-as-you-go with no monthly fee — <a href="https://go.apimart.ai/gh-fireworks-tech-graph">sign up here</a> to get started.</td>
-  </tr>
-</table>
-
 Interested in becoming a sponsor? Contact: <a href="mailto:ccc7574@gmail.com">ccc7574@gmail.com</a>
 
 ---
@@ -51,7 +40,39 @@ If you are building agent infrastructure, AI IDEs, internal copilots, developer 
 
 ![Animated 12-style showcase — one distinct engineering scenario per style](assets/samples/showcase-12-styles.gif)
 
-The v1.2.0 overview above and every full-size animated sample below come from the approved regression set. Each style keeps a distinct scenario while sharing the same geometry, text-fit, 
+The v1.2.0 overview above and every full-size animated sample below come from the approved regression set. Each style keeps a distinct scenario while sharing the same geometry, text-fit, wire-routing, and semantic-motion quality gates.
+
+### Style 1 — Flat Icon (default)
+*Mem0 Memory Architecture — personal-memory extraction, conflict resolution, storage, and retrieval*
+![Style 1 — Flat Icon](assets/samples/sample-style1-flat.gif)
+
+### Style 2 — Dark Terminal
+*Tool Call Flow — dark terminal execution, source grounding, retrieval, and answer synthesis*
+![Style 2 — Dark Terminal](assets/samples/sample-style2-dark.gif)
+
+### Style 3 — Blueprint
+*Microservices Architecture — engineering grid, domain services, data stores, events, and telemetry*
+![Style 3 — Blueprint](assets/samples/sample-style3-blueprint.gif)
+
+### Style 4 — Notion Clean
+*Agent Memory Types — minimal hierarchy from sensory and working context to durable memory*
+![Style 4 — Notion Clean](assets/samples/sample-style4-notion.gif)
+
+### Style 5 — Glassmorphism
+*Multi-Agent Collaboration — coordinator, specialists, shared state, review, and synthesis*
+![Style 5 — Glassmorphism](assets/samples/sample-style5-glass.gif)
+
+### Style 6 — Claude Official
+*System Architecture — warm interface, runtime, safety, memory, tools, and operations layers*
+![Style 6 — Claude Official](assets/samples/sample-style6-claude.gif)
+
+### Style 7 — OpenAI Official
+*API Integration Flow — clean SDK, prompt, model, tool, delivery, and release stages*
+![Style 7 — OpenAI Official](assets/samples/sample-style7-openai.gif)
+
+### Style 8 — Dark Luxury *(AI-authored)*
+*Agent Runtime Architecture — control plane, execution and state layers, champagne-gold structure, semantic color buckets*
+![Style 8 — Dark Luxury](assets/sa
 
 ## installation
 
@@ -66,6 +87,29 @@ npx -y skills@1.5.17 add \
 ```
 
 This creates complete copies at `~/.agents/skills/fireworks-tech-graph` for Codex and `~/.claude/skills/fireworks-tech-graph` for Claude Code, including scripts, schemas, fixtures, templates, tests, references, and metadata.
+
+### Qoder IDE, Qoder CLI, and QoderWork
+
+Install the complete bundle for Qoder IDE or Qoder CLI:
+
+```bash
+npx -y skills@1.5.17 add \
+  yizhiyanhua-ai/fireworks-tech-graph/skills/fireworks-tech-graph \
+  --agent qoder -g -y --copy
+```
+
+Qoder discovers the user-level bundle under `~/.qoder/skills/fireworks-tech-graph`.
+Restart Qoder IDE or use `/skills reload` in an existing Qoder CLI session.
+
+For **QoderWork**, clone or download this repository and copy the complete
+`skills/fireworks-tech-graph` directory into `~/.qoderwork/skills/`. Keep the scripts,
+fixtures, and templates alongside `SKILL.md`. Verify the installed bundle with
+`python3 ~/.qoderwork/skills/fireworks-tech-graph/scripts/fireworks.py version`,
+then request a small SVG in a new conversation.
+
+Sources: [Qoder IDE Skills](https://docs.qoder.com/extensions/skills),
+[Qoder CLI Skills](https://docs.qoder.com/cli/Skills), and
+[QoderWork Skills](https://docs.qoder.com/qoderwork/skills).
 
 ### Editable Git checkout for Codex
 
@@ -116,26 +160,7 @@ git -C ~/.local/share/agent-skills/fireworks-tech-graph pull
 
 After the first install, restart Codex and Claude Code so both discover the skill. Later `SKILL.md` edits are detected automatically; restart the runtime after changing bundled scripts or references if the update is not visible.
 
-The shell commands above target macOS, Linux, WSL, and Git Bash. On native Windows, use the equivalent `%USERPROFILE%\.agents\skills` and `%USERPROFILE%\.claude\skills` paths. Python 3.9+ is required; the optional Puppeteer path requires Node.js 22.12+.
-
----
-
-## Unified CLI
-
-```bash
-SKILL_ROOT="${CLAUDE_SKILL_DIR:-$HOME/.agents/skills/fireworks-tech-graph}"
-
-python3 "$SKILL_ROOT/scripts/fireworks.py" doctor
-python3 "$SKILL_ROOT/scripts/fireworks.py" validate architecture "$SKILL_ROOT/fixtures/api-flow-style7.json"
-python3 "$SKILL_ROOT/scripts/fireworks.py" render architecture "$SKILL_ROOT/fixtures/api-flow-style7.json" diagram.svg --report layout.json
-python3 "$SKILL_ROOT/scripts/fireworks.py" check diagram.svg
-python3 "$SKILL_ROOT/scripts/fireworks.py" export-html diagram.svg diagram.html --title "Agent Runtime Architecture"
-python3 "$SKILL_ROOT/scripts/fireworks.py" animate diagram.svg diagram.gif
-```
-
-The HTML export is one offline file. It sanitizes the SVG, adds pan/zoom/reset, light and dark themes, SVG source copy, and SVG/PNG/JPEG/WebP downloads at 1×–4×.
-
-For motion, say **“Generate a GIF”**, **“Animate this diagram”**, `生成 GIF`, `制作 G
+The shell commands above target macOS, Linux, WSL, and Git Bash. On native Windows, use the equivalent `%USERPROFILE%\.agents\skills` and `%USERPROFILE%\.claude\skills` paths. Python 3.9+ is required; th
 
 ## requirements
 

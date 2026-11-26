@@ -29,7 +29,7 @@ SkillSpector is part of the [NVIDIA Verified Skills pipeline](https://docs.nvidi
 - **Multi-format input**: Scan Git repos, URLs, zip files, directories, or single files
 - **71 vulnerability patterns** across 17 categories: prompt injection, data exfiltration, privilege escalation, supply chain, excessive agency, output handling, system prompt leakage, memory poisoning, tool misuse, rogue agent, anti-refusal, trigger abuse, dangerous code (AST), taint tracking, YARA signatures, MCP least privilege, and MCP tool poisoning
 - **Two-stage analysis**: Fast static analysis + optional LLM semantic evaluation
-- **Live vulnerability lookups**: SC4 queries [OSV.dev](https://osv.dev) for real-time CVE data with automatic offline fallback
+- **Live vulnerability lookups**: SC4 queries [OSV.dev](https://osv.dev) for real-time CVE data with optional local snapshots and a built-in fallback
 - **Multiple output formats**: Terminal, JSON, Markdown, and SARIF reports
 - **Risk scoring**: 0-100 score with severity labels and clear recommendations
 - **Baseline / false-positive suppression**: Accept known findings via a glob-rule or fingerprint baseline so re-scans surface only *new* issues ([docs](docs/SUPPRESSION.md))
