@@ -17,7 +17,7 @@ What you get out of the box:
 | **Local-first** | Code is parsed locally with tree-sitter (no LLM, nothing leaves your machine); only the semantic pass over docs/media calls a backend, and only if you configure one |
 
 > [!TIP]
-> Running this across many repos or a monorepo? [Graphify Cloud](https://app.graphify.com/signup?utm_source=github&utm_medium=readme&utm_campaign=oss) does it continuously, with cross-repo links, SDLC-wide code review, formal verification, and Sentry/Jira connectors. [Start free, no card required &rarr;](https://app.graphify.com/signup?utm_source=github&utm_medium=readme&utm_campaign=oss)
+> Running this across many repos or a monorepo? [Graphify](https://app.graphify.com/signup?utm_source=github&utm_medium=readme&utm_campaign=oss) does it continuously, with cross-repo links, SDLC-wide code review, formal verification, and Sentry/Jira connectors. [Start free, no card required &rarr;](https://app.graphify.com/signup?utm_source=github&utm_medium=readme&utm_campaign=oss)
 
 ---
 

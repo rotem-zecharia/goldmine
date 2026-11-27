@@ -49,7 +49,7 @@ You take notes in Obsidian. Hundreds of files. They just sit there. You make the
 
 ## Who builds this
 
-I'm Eugeniu Ghelbur, an AI automation engineer. I built this for my own vault, and I still run my work on it every day. I review and merge every change myself, and close to 50 people have shipped fixes so far ([see who](#contributors)).
+I'm Eugeniu Ghelbur, an AI Automation Engineer working on agent memory. I build AI agents and the tools around them, deploy them for clients, teach people to use them, and research how agents remember. I built this for my own vault, and I still run my work on it every day. I review and merge every change myself, and close to 50 people have shipped fixes so far ([see who](#contributors)).
 
 I write up what I learn 3 times a week on [The AI Operator](https://theaioperator.io/subscribe?utm_source=github&utm_medium=readme&utm_campaign=who-builds-this), and post shorter notes on [X](https://x.com/eugeniu_ghelbur) and [LinkedIn](https://www.linkedin.com/in/eugeniu-ghelbur/).
 
@@ -69,14 +69,7 @@ Karpathy's pattern is brilliant. Drop sources, LLM creates wiki pages, ask quest
 | **When it runs** | On demand, when you prompt | 4 scheduled agents: morning brief, nightly consolidation, weekly review, vault-health check |
 | **Note format** | Human-readable wiki pages | AI-first: `## For future agent` preamble + frontmatter for LLM retrieval, not human review |
 
-If Karpathy's wiki is a knowledge base you maintain with an LLM, this is a knowledge base that maintains itself.
-
----
-
-## What Happens When You Install This
-
-**After a meeting:** `/obsidian-save`
-Claude pulls ou
+If Karpathy's wiki is a knowledge base you maintain with 
 
 ## tools
 
